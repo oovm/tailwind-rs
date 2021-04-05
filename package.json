@@ -1,0 +1,11 @@
+{
+    "private": true,
+    "scripts": {
+        "build": "cargo build --release",
+        "test": "cargo test --release",
+        "fmt": "cargo fmt --all",
+        "push": "wee test && git push",
+        "reset": "git reset Head~ --soft",
+        "pub": "cargo-publish-all --yes --allow-dirty",
+    }
+}

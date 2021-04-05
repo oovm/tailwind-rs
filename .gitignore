@@ -1,0 +1,12 @@
+# OS
+.DS_Store/**/*
+
+# IDE
+.vscode/**/*
+.vs/**/*
+.idea/**/*
+*.iml
+
+# Rust
+target/**/*
+Cargo.lock
