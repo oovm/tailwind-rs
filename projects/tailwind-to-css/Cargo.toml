@@ -1,0 +1,17 @@
+[package]
+name = "tailwind-css"
+publish = false
+version = "0.1.0"
+authors = ["Aster <192607617@qq.com>"]
+description = "..."
+repository = "..."
+readme = "Readme.md"
+license = "MPL-2.0"
+edition = "2018"
+
+[dependencies]
+
+[dev-dependencies]
+
+[features]
+default = []
