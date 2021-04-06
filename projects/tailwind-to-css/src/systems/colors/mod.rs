@@ -1,11 +1,12 @@
-use std::collections::HashMap;
+use std::collections::{BTreeMap, HashMap};
 use std::fmt::{Display, Formatter};
+use text_utils::Color;
 
-pub struct BreakPointSystem {
-    inner: HashMap<String, BreakPoint>,
+pub struct ColorMapSystem {
+    inner: HashMap<String, ColorMap>,
 }
 
-impl Default for BreakPointSystem {
+impl Default for ColorMapSystem {
     fn default() -> Self {
         Self {
             inner: Default::default()
@@ -13,7 +14,7 @@ impl Default for BreakPointSystem {
     }
 }
 
-impl BreakPointSystem {
+impl ColorMapSystem {
     pub fn builtin() -> Self {
         let mut new = Self::default();
         new.register("sm".to_string(), 640);
@@ -25,21 +26,21 @@ impl BreakPointSystem {
     }
 
     #[inline]
-    pub fn register(&mut self, name: String, width: usize) -> Option<BreakPoint> {
-        self.inner.insert(name, BreakPoint {
+    pub fn register(&mut self, name: String, width: usize) -> Option<ColorMap> {
+        self.inner.insert(name, ColorMap {
             width
         })
     }
 }
 
 /// sm	640px	@media (min-width: 640px) { ... }
-pub struct BreakPoint {
+pub struct ColorMap {
     /// min-width
     /// unit: px
-    width: usize,
+    inner: BTreeMap<usize, Color>,
 }
 
-impl Display for BreakPoint {
+impl Display for ColorMap {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
