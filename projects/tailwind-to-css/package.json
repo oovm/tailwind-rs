@@ -1,0 +1,8 @@
+{
+    "private": true,
+    "scripts": {
+        "u": "cargo upgrade",
+        "t": "cargo test --all-features",
+        "p": "cargo publish --allow-dirty"
+    }
+}

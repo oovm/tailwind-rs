@@ -1,0 +1,45 @@
+(* ::Package:: *)
+
+getColorMap[color_] := <|
+    "name" -> First@Cases[color, XMLElement["div", {"class" -> "text-sm font-semibold text-slate-900 dark:text-slate-200"}, {name_}] :> name, Infinity],
+    "map" -> Cases[color, {XMLElement["div", {__}, {n_}], XMLElement["div", {__}, {a_}]} :> {n, a}, Infinity]
+|>;
+asMarkdown = StringRiffle[TemplateApply["<span style=\"color:`2`\">`1`</span>", #]& /@ #map, ",\n    ///"]&;
+asRust = StringRiffle[TemplateApply["colors.insert(`1`,Color::from_str(\"`2`\").unwrap())", #]& /@ #map, ";\n        "]&;
+buildFunction = TemplateApply["\
+    /// ## `Name`
+    ///`asMarkdown`
+    pub fn `name`() -> Self {
+        let mut colors = BTreeMap::default();
+		`asRust`;
+        Self { inner: colors }
+    }
+",
+    <|
+        "Name" -> ToUpperCase@#name,
+        "name" -> ToLowerCase@#name,
+        "asMarkdown" -> asMarkdown[#],
+        "asRust" -> asRust[#]
+    |>
+]&;
+
+
+colors = Import["https://tailwindcss.com/docs/customizing-colors", {"XHTML", "XMLObject"}];
+colors = Cases[colors, XMLElement["div", {"class" -> "grid grid-cols-1 gap-8"}, xml___] :> xml, Infinity] // Flatten;
+codegen = StringJoin[Flatten[{
+    "\
+use super::*;
+/// Builtin colors
+/// https://tailwindcss.com/docs/customizing-colors
+impl Palette {
+",
+    buildFunction@*getColorMap /@ colors,
+    "}"
+}], "\n"];
+
+
+SetDirectory@NotebookDirectory[];
+Export["builtin.rs", codegen, "Text"]
+
+
+
