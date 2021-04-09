@@ -1,5 +1,6 @@
 use std::collections::{BTreeMap, HashMap};
 use std::fmt::{Display, Formatter};
+use std::str::FromStr;
 use text_utils::Color;
 
 pub struct PaletteSystem {
@@ -17,19 +18,13 @@ impl Default for PaletteSystem {
 impl PaletteSystem {
     pub fn builtin() -> Self {
         let mut new = Self::default();
-        new.register("sm".to_string(), 640);
-        new.register("md".to_string(), 768);
-        new.register("lg".to_string(), 1024);
-        new.register("xl".to_string(), 1280);
-        new.register("2xl".to_string(), 1536);
-        return new
+        new.register("slate".to_string(), Palette::slate());
+        return new;
     }
 
     #[inline]
-    pub fn register(&mut self, name: String, width: usize) -> Option<Palette> {
-        self.inner.insert(name, Palette {
-            width
-        })
+    pub fn register(&mut self, name: String, colors: Palette) -> Option<Palette> {
+        self.inner.insert(name, colors)
     }
 }
 
@@ -42,11 +37,21 @@ pub struct Palette {
 
 /// Builtin colors
 /// https://tailwindcss.com/docs/customizing-colors
-///
 impl Palette {
+    ///
     pub fn slate() -> Self {
         let mut colors = BTreeMap::default();
-
+        colors.insert(50, Color::from_str("#F8FAFC").unwrap());
+        colors.insert(100, Color::from_str("#f1f5f9").unwrap());
+        colors.insert(200, Color::from_str("#e2e8f0").unwrap());
+        colors.insert(300, Color::from_str("#cbd5e1").unwrap());
+        colors.insert(400, Color::from_str("#94a3b8").unwrap());
+        colors.insert(500, Color::from_str("#64748b").unwrap());
+        colors.insert(600, Color::from_str("#475569").unwrap());
+        colors.insert(700, Color::from_str("#334155").unwrap());
+        colors.insert(800, Color::from_str("#1e293b").unwrap());
+        colors.insert(900, Color::from_str("#0f172a").unwrap());
+        Self { inner: colors }
     }
 }
 
