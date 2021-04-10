@@ -26,6 +26,7 @@ buildFunction = TemplateApply["\
 
 colors = Import["https://tailwindcss.com/docs/customizing-colors", {"XHTML", "XMLObject"}];
 colors = Cases[colors, XMLElement["div", {"class" -> "grid grid-cols-1 gap-8"}, xml___] :> xml, Infinity] // Flatten;
+colors = getColorMap /@ colors;
 codegen = StringJoin[Flatten[{
     "\
 use super::*;
@@ -33,13 +34,14 @@ use super::*;
 /// https://tailwindcss.com/docs/customizing-colors
 impl Palette {
 ",
-    buildFunction@*getColorMap /@ colors,
+    buildFunction /@ colors,
     "}"
 }], "\n"];
 
 
-SetDirectory@NotebookDirectory[];
+TemplateApply["new.register(\"`1`\".to_string(), Palette::`1`());", {ToLowerCase@#name}]& /@ colors;
+StringRiffle[%, "\n"] // CopyToClipboard
+
+
+    SetDirectory@NotebookDirectory[];
 Export["builtin.rs", codegen, "Text"]
-
-
-

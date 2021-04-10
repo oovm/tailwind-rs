@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::fmt::{Display, Formatter};
 
+#[derive(Clone, Debug)]
 pub struct BreakPointSystem {
     inner: HashMap<String, BreakPoint>,
 }
@@ -14,6 +15,8 @@ impl Default for BreakPointSystem {
 }
 
 impl BreakPointSystem {
+    /// Builtin ranges
+    /// https://tailwindcss.com/docs/screens
     pub fn builtin() -> Self {
         let mut new = Self::default();
         new.register("sm".to_string(), 640);
@@ -32,7 +35,7 @@ impl BreakPointSystem {
     }
 }
 
-/// sm	640px	@media (min-width: 640px) { ... }
+#[derive(Clone, Debug)]
 pub struct BreakPoint {
     /// min-width
     /// unit: px
@@ -41,6 +44,7 @@ pub struct BreakPoint {
 
 impl Display for BreakPoint {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        writeln!(f,"@media (min-width: {}px) {{", self.width)?;
+        f.write_str("}")
     }
 }

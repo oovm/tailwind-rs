@@ -1,12 +1,12 @@
 [package]
 name = "tailwind-css"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["Aster <192607617@qq.com>"]
-description = "..."
-repository = "..."
+description = "Compile tailwind short instructions to css"
+repository = "https://docs.rs/tailwind-css"
 readme = "Readme.md"
 license = "MPL-2.0"
-edition = "2018"
+edition = "2021"
 
 [dependencies]
 text-utils = "0.4.3"
