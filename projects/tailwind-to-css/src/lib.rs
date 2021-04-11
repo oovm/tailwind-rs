@@ -2,8 +2,15 @@
 #![forbid(missing_crate_level_docs)]
 #![doc = include_str ! ("../Readme.md")]
 
+mod resolver;
 mod systems;
 
-pub use systems::breakpoints::{BreakPointSystem, BreakPoint};
-pub use systems::colors::{PaletteSystem, Palette};
-pub use systems::preflight::PreflightSystem;
+pub use self::{
+    resolver::TailwindConfig,
+    systems::{
+        breakpoints::{BreakPoint, BreakPointSystem},
+        colors::{Palette, PaletteSystem},
+        fonts::FontSystem,
+        preflight::PreflightSystem,
+    },
+};

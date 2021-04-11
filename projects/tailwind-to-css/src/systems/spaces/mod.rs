@@ -1,5 +1,7 @@
-use std::collections::HashMap;
-use std::fmt::{Display, Formatter};
+use std::{
+    collections::HashMap,
+    fmt::{Display, Formatter},
+};
 
 #[derive(Clone, Debug)]
 pub struct SpacingSystem {
@@ -8,9 +10,7 @@ pub struct SpacingSystem {
 
 impl Default for SpacingSystem {
     fn default() -> Self {
-        Self {
-            inner: Default::default()
-        }
+        Self { inner: Default::default() }
     }
 }
 
@@ -24,14 +24,12 @@ impl SpacingSystem {
         new.register("lg".to_string(), 1024);
         new.register("xl".to_string(), 1280);
         new.register("2xl".to_string(), 1536);
-        return new
+        return new;
     }
 
     #[inline]
     pub fn register(&mut self, name: String, width: usize) -> Option<Spacing> {
-        self.inner.insert(name, Spacing {
-            width
-        })
+        self.inner.insert(name, Spacing { width })
     }
 }
 
@@ -44,7 +42,7 @@ pub struct Spacing {
 
 impl Display for Spacing {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        writeln!(f,"@media (min-width: {}px) {{", self.width)?;
+        writeln!(f, "@media (min-width: {}px) {{", self.width)?;
         f.write_str("}")
     }
 }

@@ -1,5 +1,6 @@
 /// https://tailwindcss.com/docs/preflight
-pub struct PreflightSystem {}
+#[derive(Clone,Debug)]
+pub struct PreflightSystem;
 
 impl PreflightSystem {
     pub fn remove_margins() -> &'static str {

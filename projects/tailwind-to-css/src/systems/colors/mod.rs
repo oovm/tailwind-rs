@@ -1,21 +1,17 @@
 mod builtin;
+mod traits;
 
-use std::collections::{BTreeMap, HashMap};
-use std::fmt::{Display, Formatter};
-use std::str::FromStr;
+use std::{
+    collections::{BTreeMap, HashMap},
+    fmt::{Display, Formatter},
+    str::FromStr,
+};
 use text_utils::Color;
 
 #[derive(Clone, Debug)]
 pub struct PaletteSystem {
+    interpolation: bool,
     inner: HashMap<String, Palette>,
-}
-
-impl Default for PaletteSystem {
-    fn default() -> Self {
-        Self {
-            inner: Default::default()
-        }
-    }
 }
 
 impl PaletteSystem {
@@ -54,17 +50,12 @@ impl PaletteSystem {
     }
 }
 
-/// sm	640px	@media (min-width: 640px) { ... }
+/// In general, it is a look-up table.
+///
+/// When the color is automatically mixed when the interpolation expression is activated.
 #[derive(Clone, Debug)]
 pub struct Palette {
     /// min-width
     /// unit: px
     inner: BTreeMap<usize, Color>,
-}
-
-
-impl Display for Palette {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
 }
