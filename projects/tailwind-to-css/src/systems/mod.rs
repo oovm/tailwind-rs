@@ -6,3 +6,4 @@ pub mod layouts;
 pub mod flexbox;
 pub mod preflight;
 pub mod sizes;
+pub mod typography;

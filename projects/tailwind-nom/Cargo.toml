@@ -1,0 +1,16 @@
+[package]
+name = "tailwind-nom"
+version = "0.1.0"
+authors = ["Aster <192607617@qq.com>"]
+description = "Nom parser for tailwind instructions"
+readme = "Readme.md"
+license = "MPL-2.0"
+edition = "2018"
+
+[dependencies]
+nom = "7.1.0"
+
+[dev-dependencies]
+
+[features]
+default = []
