@@ -1,4 +1,4 @@
-use crate::{BreakPoint, BreakPointSystem, FontSystem, PaletteSystem, PreflightSystem};
+use crate::{BreakPointSystem, FontSystem, PaletteSystem, PreflightSystem};
 
 #[derive(Clone,Debug)]
 pub struct TailwindConfig {

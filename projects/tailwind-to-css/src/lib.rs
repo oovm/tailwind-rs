@@ -4,6 +4,7 @@
 
 mod resolver;
 mod systems;
+mod units;
 
 pub use self::{
     resolver::TailwindConfig,

@@ -10,6 +10,7 @@ edition = "2021"
 
 [dependencies]
 text-utils = "0.4.3"
+css-style = "0.13.1"
 
 [dev-dependencies]
 
