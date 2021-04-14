@@ -13,5 +13,6 @@ pub use self::{
         colors::{Palette, PaletteSystem},
         fonts::FontSystem,
         preflight::PreflightSystem,
+        sizes::{TailwindWidth, TailwindMinWidth, TailwindMaxWidth},
     },
 };
