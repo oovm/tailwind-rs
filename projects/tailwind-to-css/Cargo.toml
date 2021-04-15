@@ -12,6 +12,11 @@ edition = "2021"
 text-utils = "0.4.3"
 css-style = "0.13.1"
 
+[dependencies.tailwind-error]
+version = "1.0.*"
+path = "../tailwind-error"
+features = []
+
 [dev-dependencies]
 
 [features]

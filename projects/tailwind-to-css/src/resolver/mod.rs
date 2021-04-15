@@ -14,7 +14,7 @@ impl Default for TailwindConfig {
             screens: BreakPointSystem::builtin(),
             colors: PaletteSystem::builtin(),
             fonts: FontSystem::builtin(),
-            preflight: PreflightSystem,
+            preflight: PreflightSystem::default(),
         }
     }
 }

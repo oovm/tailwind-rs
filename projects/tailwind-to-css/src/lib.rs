@@ -17,7 +17,7 @@ pub use self::{
         preflight::PreflightSystem,
         sizes::{TailwindMaxWidth, TailwindMinWidth, TailwindWidth},
     },
-    traits::CssAttribute
+    traits::CssDisplay
 };
 
 

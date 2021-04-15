@@ -1,4 +1,4 @@
 #[test]
 fn ready() {
-    println!("it works!")
+    println!("it, works!")
 }
