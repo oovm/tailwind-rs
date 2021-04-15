@@ -4,12 +4,10 @@ use std::{
     fmt::{Display, Formatter},
 };
 
-
 #[derive(Clone, Debug)]
 pub struct BreakPointSystem {
     inner: HashMap<String, BreakPoint>,
 }
-
 
 impl BreakPointSystem {
     /// Builtin ranges
@@ -36,4 +34,3 @@ pub struct BreakPoint {
     /// unit: px
     width: usize,
 }
-

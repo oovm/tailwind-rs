@@ -5,6 +5,8 @@
 mod resolver;
 mod systems;
 mod units;
+mod traits;
+mod builder;
 
 pub use self::{
     resolver::TailwindConfig,
@@ -13,6 +15,9 @@ pub use self::{
         colors::{Palette, PaletteSystem},
         fonts::FontSystem,
         preflight::PreflightSystem,
-        sizes::{TailwindWidth, TailwindMinWidth, TailwindMaxWidth},
+        sizes::{TailwindMaxWidth, TailwindMinWidth, TailwindWidth},
     },
+    traits::CssAttribute
 };
+
+

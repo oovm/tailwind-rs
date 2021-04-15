@@ -1,9 +1,9 @@
 pub mod breakpoints;
 pub mod colors;
-pub mod fonts;
-pub mod spaces;
-pub mod layouts;
 pub mod flexbox;
+pub mod fonts;
+pub mod layouts;
 pub mod preflight;
 pub mod sizes;
+pub mod spaces;
 pub mod typography;

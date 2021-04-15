@@ -1,6 +1,5 @@
 use super::*;
 
-
 impl Default for BreakPointSystem {
     fn default() -> Self {
         Self { inner: Default::default() }

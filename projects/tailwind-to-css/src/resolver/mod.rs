@@ -1,6 +1,6 @@
 use crate::{BreakPointSystem, FontSystem, PaletteSystem, PreflightSystem};
 
-#[derive(Clone,Debug)]
+#[derive(Clone, Debug)]
 pub struct TailwindConfig {
     screens: BreakPointSystem,
     colors: PaletteSystem,

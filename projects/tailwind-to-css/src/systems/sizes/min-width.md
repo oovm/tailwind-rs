@@ -1,5 +1,6 @@
-## Min-Width
 Utilities for setting the minimum width of an element.
+
+## Min-Width
 
 | Class          | Properties                  |
 |:---------------|:----------------------------|

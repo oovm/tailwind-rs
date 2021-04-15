@@ -1,6 +1,6 @@
-## `|`max-width
-
 Utilities for setting the maximum width of an element.
+
+## max-width
 
 | Class              | Properties                |
 |:-------------------|:--------------------------|
@@ -30,5 +30,5 @@ Utilities for setting the maximum width of an element.
 
 ### Reference
 
-- https://tailwindcss.com/docs/`|`max-width
-- https://tailwindcss.cn/docs/`|`max-width
+- https://tailwindcss.com/docs/max-width
+- https://tailwindcss.cn/docs/max-width

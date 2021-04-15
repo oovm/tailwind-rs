@@ -1,5 +1,1 @@
-
-
-pub struct FontWeight {
-
-}
+pub struct FontWeight {}
