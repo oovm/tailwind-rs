@@ -1,17 +1,14 @@
-const fn parse_bool(s: &str) -> bool {
-    match s {
-        "true" => true,
-        "false" => false,
-        other => panic!("`{}` is not a valid bool", other),
-    }
-}
-#[test]
-fn test () {
-    parse_bool("true");
-    parse_bool("false");
-    parse_bool("foo");
-}
+use std::fmt::{Display, Formatter};
 
+pub mod predefined;
+
+use konst::const_eq;
+use konst::{unwrap_ctx, unwrap_opt_or};
+
+#[test]
+fn main() {
+    println!("{}", Color::predefined("aa"))
+}
 
 /// Color in rgba format,
 /// where {red,green,blue} in 0..255,
@@ -30,5 +27,7 @@ pub struct Color {
 }
 
 impl Display for Color {
-
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "rgba({r} {g} {b} / {a})", r = self.r, g = self.g, b = self.b, a = self.a)
+    }
 }

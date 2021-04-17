@@ -1,5 +1,5 @@
 [package]
-name = "const-color"
+name = "const-css-color"
 version = "0.1.0"
 authors = ["Aster <192607617@qq.com>"]
 description = "Nom parser for tailwind instructions"
@@ -8,7 +8,7 @@ license = "MPL-2.0"
 edition = "2018"
 
 [dependencies]
-nom = "7.1.0"
+konst="0.2.13"
 
 [dev-dependencies]
 
