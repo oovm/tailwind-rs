@@ -1,8 +1,8 @@
-use crate::JssError;
+use crate::TailwindError;
 use chrono::ParseError;
 
-impl From<ParseError> for JssError {
+impl From<ParseError> for TailwindError {
     fn from(e: ParseError) -> Self {
-        JssError::syntax_error(e.to_string())
+        TailwindError::syntax_error(e.to_string())
     }
 }

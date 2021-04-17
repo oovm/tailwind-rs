@@ -18,13 +18,13 @@ error_wrap![
     std::fmt::Error => FormatError,
 ];
 
-impl From<Infallible> for JssError {
+impl From<Infallible> for TailwindError {
     fn from(_: Infallible) -> Self {
         Self::unreachable()
     }
 }
 
-impl From<()> for JssError {
+impl From<()> for TailwindError {
     fn from(_: ()) -> Self {
         Self::unreachable()
     }

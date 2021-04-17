@@ -8,15 +8,15 @@ use std::{
 use url::Url;
 use yggdrasil_shared::DiagnosticLevel;
 
-/// All result about notedown
-pub type Result<T> = std::result::Result<T, JssError>;
+/// All result about tailwind
+pub type Result<T> = std::result::Result<T, TailwindError>;
 /// Maybe have ast position
 pub type MaybeRanged = Option<Range<usize>>;
-/// Error type for all Notedown operators
+/// Error type for all tailwind operators
 #[derive(Debug)]
-pub struct JssError {
+pub struct TailwindError {
     /// Actual error kind
-    pub kind: Box<JssErrorKind>,
+    pub kind: Box<TailwindErrorKind>,
     /// Error level for report
     pub level: DiagnosticLevel,
     /// File name where error occurred
@@ -27,7 +27,7 @@ pub struct JssError {
 
 /// Actual error data for the error
 #[derive(Debug)]
-pub enum JssErrorKind {
+pub enum TailwindErrorKind {
     /// The error type for I/O operations
     IOError(std::io::Error),
     /// The error type which is returned from formatting a message into a
@@ -50,7 +50,7 @@ pub enum JssErrorKind {
     // UnknownError(#[from] anyhow::Error),
 }
 
-impl JssError {
+impl TailwindError {
     /// Set a new url for the error
     #[inline]
     pub fn set_url(&mut self, url: Url) {
@@ -71,28 +71,18 @@ impl JssError {
     /// Constructor of [`NoteErrorKind::Unreachable`]
     #[inline]
     pub fn unreachable() -> Self {
-        Self {
-            kind: Box::new(JssErrorKind::Unreachable),
-            level: DiagnosticLevel::None,
-            file: None,
-            range: None,
-        }
+        Self { kind: Box::new(TailwindErrorKind::Unreachable), level: DiagnosticLevel::None, file: None, range: None }
     }
 
     /// Constructor of [`NoteErrorKind::UndefinedVariable`]
     #[inline]
-    pub fn undefined_variable(name: impl Into<String>) -> JssError {
-        let kind = JssErrorKind::UndefinedVariable { name: name.into() };
-        Self {
-            kind: Box::new(kind),
-            level: DiagnosticLevel::None,
-            file: None,
-            range: None,
-        }
+    pub fn undefined_variable(name: impl Into<String>) -> TailwindError {
+        let kind = TailwindErrorKind::UndefinedVariable { name: name.into() };
+        Self { kind: Box::new(kind), level: DiagnosticLevel::None, file: None, range: None }
     }
 }
 
-impl JssError {
+impl TailwindError {
     /// Deprecated or obsolete code.
     /// Clients are allowed to rendered diagnostics with this tag strike
     /// through.
@@ -126,9 +116,9 @@ error_msg![
     runtime_error => RuntimeError,
 ];
 
-impl Error for JssError {}
+impl Error for TailwindError {}
 
-impl Display for JssError {
+impl Display for TailwindError {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         let path = match &self.file {
             Some(s) => s.path(),
@@ -142,7 +132,7 @@ impl Display for JssError {
     }
 }
 
-impl Display for JssErrorKind {
+impl Display for TailwindErrorKind {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         match self {
             Self::IOError(e) => {

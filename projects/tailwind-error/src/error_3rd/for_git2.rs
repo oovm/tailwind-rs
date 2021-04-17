@@ -1,8 +1,8 @@
-use crate::JssError;
+use crate::TailwindError;
 use git2::Error;
 
-impl From<Error> for JssError {
+impl From<Error> for TailwindError {
     fn from(e: Error) -> Self {
-        JssError::runtime_error(e.to_string())
+        TailwindError::runtime_error(e.to_string())
     }
 }

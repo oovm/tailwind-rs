@@ -1,8 +1,8 @@
-use crate::{MaybeRanged, JssError};
+use crate::{MaybeRanged, TailwindError};
 use rsass::{Error, ParseError, SourcePos};
 use url::Url;
 
-impl From<Error> for JssError {
+impl From<Error> for TailwindError {
     fn from(e: Error) -> Self {
         match e {
             Error::Input(path, io) => {
@@ -44,7 +44,7 @@ impl From<Error> for JssError {
     }
 }
 
-impl From<ParseError> for JssError {
+impl From<ParseError> for TailwindError {
     fn from(e: ParseError) -> Self {
         let error = Self::runtime_error(e.to_string());
         error

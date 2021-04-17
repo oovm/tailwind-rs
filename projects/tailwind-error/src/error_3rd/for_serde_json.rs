@@ -1,8 +1,8 @@
-use crate::JssError;
+use crate::TailwindError;
 use serde_json::Error;
 
-impl From<Error> for JssError {
+impl From<Error> for TailwindError {
     fn from(e: Error) -> Self {
-        JssError::syntax_error(e.to_string())
+        TailwindError::syntax_error(e.to_string())
     }
 }

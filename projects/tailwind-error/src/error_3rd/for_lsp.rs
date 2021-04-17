@@ -1,8 +1,8 @@
-use crate::JssError;
+use crate::TailwindError;
 use lsp_types::{Diagnostic, DiagnosticTag, Range};
 use yggdrasil_shared::{LspTextAdaptor, TextIndex};
 
-impl JssError {
+impl TailwindError {
     /// Get the range as [`Range`]
     #[inline]
     pub fn get_lsp_range(&self, text: &TextIndex) -> Option<Range> {

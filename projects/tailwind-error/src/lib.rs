@@ -5,7 +5,7 @@
 mod error;
 mod error_3rd;
 
-pub use self::error::{MaybeRanged, JssError, JssErrorKind, Result};
+pub use self::error::{MaybeRanged, Result, TailwindError, TailwindErrorKind};
 pub use url::Url;
 pub use yggdrasil_shared::DiagnosticLevel;
 

@@ -1,11 +1,11 @@
-use crate::{DiagnosticLevel, JssError, JssErrorKind};
+use crate::{DiagnosticLevel, TailwindError, TailwindErrorKind};
 use html_parser::Error;
 
-impl From<Error> for JssError {
+impl From<Error> for TailwindError {
     fn from(e: Error) -> Self {
         let kind = match e {
-            Error::Parsing(e) => JssErrorKind::SyntaxError(e),
-            Error::IO(e) => JssErrorKind::IOError(e),
+            Error::Parsing(e) => TailwindErrorKind::SyntaxError(e),
+            Error::IO(e) => TailwindErrorKind::IOError(e),
             Error::Cli(_) => {
                 unimplemented!()
             }

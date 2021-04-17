@@ -1,8 +1,8 @@
-use crate::JssError;
+use crate::TailwindError;
 use pest::error::{Error, ErrorVariant};
 use std::fmt::Debug;
 
-impl<R> From<Error<R>> for JssError
+impl<R> From<Error<R>> for TailwindError
 where
     R: Debug,
 {
@@ -12,7 +12,7 @@ where
     }
 }
 
-impl<R> From<ErrorVariant<R>> for JssError
+impl<R> From<ErrorVariant<R>> for TailwindError
 where
     R: Debug,
 {

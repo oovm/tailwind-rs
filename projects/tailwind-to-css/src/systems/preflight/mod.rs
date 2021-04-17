@@ -1,7 +1,9 @@
-use std::fmt::{Display, Formatter};
-use std::io::Write;
+use crate::{traits::CssFormatter, CssDisplay, Result};
 use css_style::font::Style;
-use crate::CssDisplay;
+use std::{
+    fmt::{Display, Formatter},
+    io::Write,
+};
 
 /// https://tailwindcss.com/docs/preflight
 #[derive(Clone, Debug)]
@@ -11,16 +13,12 @@ pub struct PreflightSystem {
     /// This makes it harder to accidentally rely on margin values applied by the user-agent stylesheet that are not part of your spacing scale.
     pub remove_margins: bool,
     pub unstyle_head: bool,
-    pub unstyle_list:bool,
+    pub unstyle_list: bool,
 }
 
 impl Default for PreflightSystem {
     fn default() -> Self {
-        Self {
-            remove_margins: true,
-            unstyle_head: true,
-            unstyle_list: true
-        }
+        Self { remove_margins: true, unstyle_head: true, unstyle_list: true }
     }
 }
 
@@ -45,10 +43,8 @@ ol, ul {
 "#;
 }
 
-
-
 impl CssDisplay for PreflightSystem {
-    fn display(&self) -> Style {
+    fn display(&self, f: &CssFormatter) -> Result<()> {
         if self.remove_margins {
             f.write_str(Self::REMOVE_MARGINS)?;
         }

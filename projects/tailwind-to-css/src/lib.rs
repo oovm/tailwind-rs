@@ -2,11 +2,11 @@
 #![forbid(missing_crate_level_docs)]
 #![doc = include_str ! ("../Readme.md")]
 
+mod builder;
 mod resolver;
 mod systems;
-mod units;
 mod traits;
-mod builder;
+mod units;
 
 pub use self::{
     resolver::TailwindConfig,
@@ -17,7 +17,6 @@ pub use self::{
         preflight::PreflightSystem,
         sizes::{TailwindMaxWidth, TailwindMinWidth, TailwindWidth},
     },
-    traits::CssDisplay
+    traits::CssDisplay,
 };
-
-
+pub use tailwind_error::{Result, TailwindError, TailwindErrorKind};
