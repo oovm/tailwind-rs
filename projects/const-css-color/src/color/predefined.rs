@@ -1,8 +1,7 @@
 use super::*;
 
 impl Color {
-    /// Parse predefined colors at compile time
-    /// https://www.w3.org/wiki/CSS/Properties/color/keywords
+    #[doc = include_str!("predefined.md")]
     #[track_caller]
     pub const fn predefined(name: &str) -> Color {
         match () {

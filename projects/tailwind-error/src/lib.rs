@@ -1,5 +1,5 @@
 #![forbid(missing_docs)]
-#![doc = include_str!("../Readme.md")]
+#![doc = include_str!("../readme.md")]
 #![allow(clippy::needless_return)]
 
 mod error;

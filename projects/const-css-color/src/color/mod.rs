@@ -3,12 +3,6 @@ use std::fmt::{Display, Formatter};
 pub mod predefined;
 
 use konst::const_eq;
-use konst::{unwrap_ctx, unwrap_opt_or};
-
-#[test]
-fn main() {
-    println!("{}", Color::predefined("aa"))
-}
 
 /// Color in rgba format,
 /// where {red,green,blue} in 0..255,
