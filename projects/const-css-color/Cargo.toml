@@ -6,6 +6,7 @@ description = "Nom parser for tailwind instructions"
 readme = "Readme.md"
 license = "MPL-2.0"
 edition = "2021"
+exclude = ["*.json"]
 
 [dependencies]
 konst="0.2.13"

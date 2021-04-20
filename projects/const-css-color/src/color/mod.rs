@@ -1,5 +1,6 @@
 use std::fmt::{Display, Formatter};
 
+pub mod parser;
 pub mod predefined;
 
 use konst::const_eq;

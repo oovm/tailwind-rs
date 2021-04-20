@@ -10,3 +10,4 @@
 # Rust
 target/**/*
 Cargo.lock
+*.nb
