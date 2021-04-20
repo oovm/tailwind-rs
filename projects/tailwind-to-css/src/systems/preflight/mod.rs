@@ -1,9 +1,5 @@
 use crate::{traits::CssFormatter, CssDisplay, Result};
-use css_style::font::Style;
-use std::{
-    fmt::{Display, Formatter},
-    io::Write,
-};
+use std::fmt::Write;
 
 /// https://tailwindcss.com/docs/preflight
 #[derive(Clone, Debug)]
@@ -44,7 +40,7 @@ ol, ul {
 }
 
 impl CssDisplay for PreflightSystem {
-    fn display(&self, f: &CssFormatter) -> Result<()> {
+    fn display(&self, f: &mut CssFormatter) -> Result<()> {
         if self.remove_margins {
             f.write_str(Self::REMOVE_MARGINS)?;
         }

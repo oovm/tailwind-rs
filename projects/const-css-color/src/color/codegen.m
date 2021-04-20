@@ -1,8 +1,5 @@
 (* ::Package:: *)
 
-(* ::Package:: *)
-
-
 SetDirectory[NotebookDirectory[]];
 predefined = Import["css-color-names.json", {"JSON"}];
 match[color_ -> hex_] := match[
@@ -17,8 +14,6 @@ match[color_, r_, g_, b_] := TemplateApply[
 ];
 
 
-
-
 codegen = TemplateApply[
     "use super::*;
 
@@ -27,11 +22,15 @@ impl Color {
     #[track_caller]
     pub const fn predefined(name: &str) -> Color {
         match () {
-            `1`,
+            `1`
             _ => panic!(\"unknown color code\"),
         }
     }
 }
 ", {StringRiffle[match /@ predefined, "\n            "]}
 ];
+Export["predefined.rs", codegen, "Text"]
+
+
+html = TemplateApply["<span >"]
 Export["predefined.rs", codegen, "Text"]

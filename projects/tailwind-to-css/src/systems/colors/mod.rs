@@ -10,7 +10,8 @@ use text_utils::Color;
 
 #[derive(Clone, Debug)]
 pub struct PaletteSystem {
-    interpolation: bool,
+    /// Allow gradients?
+    gradient: bool,
     inner: HashMap<String, Palette>,
 }
 

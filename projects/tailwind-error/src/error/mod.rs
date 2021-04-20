@@ -100,13 +100,13 @@ impl TailwindError {
 macro_rules! error_msg {
     ($name:ident => $t:ident) => {
         /// Constructor of [`NoteErrorKind::$t`]
-        pub fn $name(msg: impl Into<String>) -> JssError {
-            let kind = JssErrorKind::$t(msg.into());
+        pub fn $name(msg: impl Into<String>) -> TailwindError {
+            let kind = TailwindErrorKind::$t(msg.into());
             Self { kind: Box::new(kind), level: DiagnosticLevel::None, file: None, range: None }
         }
     };
     ($($name:ident => $t:ident),+ $(,)?) => (
-        impl JssError { $(error_msg!($name=>$t);)+ }
+        impl TailwindError { $(error_msg!($name=>$t);)+ }
     );
 }
 

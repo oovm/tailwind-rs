@@ -1,7 +1,7 @@
-use std::fmt::{Debug, Display, Formatter};
+use super::*;
 
 #[doc = include_str ! ("font-smoothing.md")]
-#[derive(Clone)]
+#[derive(Debug, Clone)]
 pub enum FontSmoothing {
     Normal,
     Subpixel,
@@ -10,29 +10,25 @@ pub enum FontSmoothing {
 impl Display for FontSmoothing {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::Normal => {
-                write!(
-                    f,
-                    r#"\
+            Self::Normal => write!(
+                f,
+                r#"\
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;"#
-                )
-            }
-            Self::Subpixel => {
-                write!(
-                    f,
-                    r#"\
+            )?,
+            Self::Subpixel => write!(
+                f,
+                r#"\
 -webkit-font-smoothing: auto;
 -moz-osx-font-smoothing: auto;"#
-                )
-            }
+            )?,
         }
         Ok(())
     }
 }
 
-impl Debug for FontSmoothing {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+impl CssDisplay for FontSmoothing {
+    fn display(&self, f: &mut CssFormatter) -> Result<()> {
         todo!()
     }
 }

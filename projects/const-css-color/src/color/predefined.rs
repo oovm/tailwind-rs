@@ -1,11 +1,16 @@
 use super::*;
 
 impl Color {
+    /// ALICE_BLUE: #FFFFFF
+    pub const ALICE_BLUE: Self = Color { r: 240, g: 248, b: 255, a: 0.0 };
+}
+
+impl Color {
     #[doc = include_str!("predefined.md")]
     #[track_caller]
-    pub const fn predefined(name: &str) -> Color {
+    pub const fn predefined(name: &str) -> Self {
         match () {
-            _ if const_eq!(name, "aliceblue") => Color { r: 240, g: 248, b: 255, a: 0.0 },
+            _ if const_eq!(name, "aliceblue") => Self::ALICE_BLUE,
             _ if const_eq!(name, "antiquewhite") => Color { r: 250, g: 235, b: 215, a: 0.0 },
             _ if const_eq!(name, "aqua") => Color { r: 0, g: 255, b: 255, a: 0.0 },
             _ if const_eq!(name, "aquamarine") => Color { r: 127, g: 255, b: 212, a: 0.0 },
@@ -152,7 +157,7 @@ impl Color {
             _ if const_eq!(name, "white") => Color { r: 255, g: 255, b: 255, a: 0.0 },
             _ if const_eq!(name, "whitesmoke") => Color { r: 245, g: 245, b: 245, a: 0.0 },
             _ if const_eq!(name, "yellow") => Color { r: 255, g: 255, b: 0, a: 0.0 },
-            _ if const_eq!(name, "yellowgreen") => Color { r: 154, g: 205, b: 50, a: 0.0 },,
+            _ if const_eq!(name, "yellowgreen") => Color { r: 154, g: 205, b: 50, a: 0.0 },
             _ => panic!("unknown color code"),
         }
     }

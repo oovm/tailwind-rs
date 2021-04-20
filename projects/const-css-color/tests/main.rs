@@ -7,5 +7,6 @@ fn ready() {
 
 #[test]
 fn main() {
+    Color::predefined("blue");
     Color::predefined("aa");
 }

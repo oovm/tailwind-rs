@@ -2,7 +2,7 @@ use super::*;
 
 impl Default for PaletteSystem {
     fn default() -> Self {
-        Self { interpolation: false, inner: Default::default() }
+        Self { gradient: false, inner: Default::default() }
     }
 }
 
