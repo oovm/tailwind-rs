@@ -1,30 +1,21 @@
 use crate::Result;
-use std::fmt::{Arguments, Debug, Formatter, Write};
+use std::fmt::{Debug, Write};
+use text_utils::indent;
 
-pub struct CssFormatter<'a> {
-    buffer: &'a mut (dyn Write + 'a),
-}
-
-pub trait CssDisplay {
-    fn display(&self, f: &mut CssFormatter) -> Result<()>;
-}
-
-impl<'a> Debug for CssFormatter<'a> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.write_str("CssFormatter {}")
+pub trait CssInstance: Debug {
+    fn selectors(&self) -> &'static str {
+        "*"
     }
-}
-
-impl<'a> Write for CssFormatter<'a> {
-    fn write_str(&mut self, s: &str) -> std::fmt::Result {
-        self.buffer.write_str(s)
+    fn attributes(&self) -> Vec<&'static str> {
+        vec![]
     }
 
-    fn write_char(&mut self, c: char) -> std::fmt::Result {
-        self.buffer.write_char(c)
-    }
-
-    fn write_fmt(self: &mut Self, args: Arguments<'_>) -> std::fmt::Result {
-        self.buffer.write_fmt(args)
+    fn write_css(&self, f: &mut (dyn Write)) -> Result<()> {
+        writeln!(f, "{} {{", self.selectors())?;
+        for item in self.attributes() {
+            writeln!(f, "{}", indent(item, 4))?
+        }
+        writeln!(f, "}}")?;
+        Ok(())
     }
 }

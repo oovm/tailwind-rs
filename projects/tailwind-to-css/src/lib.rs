@@ -2,13 +2,13 @@
 #![forbid(missing_crate_level_docs)]
 #![doc = include_str ! ("../readme.md")]
 
-mod resolver;
+mod builder;
 mod systems;
 mod traits;
 mod units;
 
 pub use self::{
-    resolver::TailwindConfig,
+    builder::TailwindBuilder,
     systems::{
         breakpoints::{BreakPoint, BreakPointSystem},
         colors::{Palette, PaletteSystem},
@@ -16,6 +16,6 @@ pub use self::{
         preflight::PreflightSystem,
         sizes::{TailwindMaxWidth, TailwindMinWidth, TailwindWidth},
     },
-    traits::CssDisplay,
+    traits::CssInstance,
 };
 pub use tailwind_error::{Result, TailwindError, TailwindErrorKind};

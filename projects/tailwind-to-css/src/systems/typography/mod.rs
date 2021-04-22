@@ -27,8 +27,21 @@ impl Display for FontSmoothing {
     }
 }
 
-impl CssDisplay for FontSmoothing {
-    fn display(&self, f: &mut CssFormatter) -> Result<()> {
-        todo!()
+impl CssInstance for FontSmoothing {
+    fn selectors(&self) -> &'static str {
+        match self {
+            Self::Normal => "antialiased",
+            Self::Subpixel => "subpixel-antialiased",
+        }
+    }
+    fn attributes(&self) -> Vec<&'static str> {
+        match self {
+            Self::Normal => {
+                vec!["-webkit-font-smoothing: antialiased;", "-moz-osx-font-smoothing: grayscale;"]
+            }
+            Self::Subpixel => {
+                vec!["-webkit-font-smoothing: auto;", "-moz-osx-font-smoothing: auto;"]
+            }
+        }
     }
 }

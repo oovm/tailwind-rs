@@ -1,4 +1,4 @@
-use crate::{traits::CssFormatter, CssDisplay, Result};
+use crate::{CssInstance, Result};
 use std::fmt::Write;
 
 /// https://tailwindcss.com/docs/preflight
@@ -39,8 +39,13 @@ ol, ul {
 "#;
 }
 
-impl CssDisplay for PreflightSystem {
-    fn display(&self, f: &mut CssFormatter) -> Result<()> {
+impl CssInstance for PreflightSystem {
+    #[track_caller]
+    fn selectors(&self) -> &'static str {
+        panic!("can't call selectors on `PreflightSystem`")
+    }
+
+    fn write_css(&self, f: &mut (dyn Write)) -> Result<()> {
         if self.remove_margins {
             f.write_str(Self::REMOVE_MARGINS)?;
         }

@@ -8,5 +8,5 @@ pub mod sizes;
 pub mod spaces;
 pub mod typography;
 
-use crate::{traits::CssFormatter, CssDisplay, Result};
+use crate::CssInstance;
 use std::fmt::{Debug, Display, Formatter};
