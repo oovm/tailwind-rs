@@ -40,6 +40,10 @@ ol, ul {
 }
 
 impl CssInstance for PreflightSystem {
+    fn id(&self) -> &'static str {
+        "PreflightSystem"
+    }
+
     #[track_caller]
     fn selectors(&self) -> &'static str {
         panic!("can't call selectors on `PreflightSystem`")

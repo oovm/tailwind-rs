@@ -28,10 +28,17 @@ impl Display for FontSmoothing {
 }
 
 impl CssInstance for FontSmoothing {
-    fn selectors(&self) -> &'static str {
+    fn id(&self) -> &'static str {
         match self {
             Self::Normal => "antialiased",
             Self::Subpixel => "subpixel-antialiased",
+        }
+    }
+
+    fn selectors(&self) -> &'static str {
+        match self {
+            Self::Normal => ".antialiased",
+            Self::Subpixel => ".subpixel-antialiased",
         }
     }
     fn attributes(&self) -> Vec<&'static str> {

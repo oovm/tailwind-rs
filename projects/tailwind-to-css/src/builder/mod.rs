@@ -1,9 +1,15 @@
+mod parser;
+
 use crate::{BreakPointSystem, CssInstance, FontSystem, PaletteSystem, PreflightSystem, Result};
-use std::{collections::HashSet, fmt::Debug};
+use itertools::Itertools;
+use std::{
+    collections::{BTreeMap, BTreeSet, HashSet},
+    fmt::Debug,
+};
 
 #[derive(Debug)]
 pub struct TailwindBuilder {
-    buffer: HashSet<Box<dyn CssInstance>>,
+    buffer: BTreeSet<Box<dyn CssInstance>>,
     preflight: PreflightSystem,
     screens: BreakPointSystem,
     colors: PaletteSystem,
@@ -28,8 +34,15 @@ impl TailwindBuilder {
         self.buffer.clear()
     }
     #[track_caller]
-    pub fn trace(&mut self, style: &str) -> Result<String> {
-        todo!()
+    pub fn trace(&mut self, style: &str) -> String {
+        let parsed = Self::parse(style);
+        let mut out = parsed.iter().map(|s| s.selectors()).join(" ");
+        // self.buffer.extend(parsed.into_iter());
+        for i in parsed.into_iter() {
+            self.buffer.insert(i);
+        }
+
+        return out;
     }
     pub fn build(&self) -> Result<String> {
         let mut out = String::with_capacity(1024 * 10);
