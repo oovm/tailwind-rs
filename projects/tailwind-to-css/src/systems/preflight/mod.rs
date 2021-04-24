@@ -1,4 +1,4 @@
-use crate::{CssInstance, Result};
+use crate::{Result, TailwindInstance};
 use std::fmt::Write;
 
 /// https://tailwindcss.com/docs/preflight
@@ -39,13 +39,14 @@ ol, ul {
 "#;
 }
 
-impl CssInstance for PreflightSystem {
-    fn id(&self) -> &'static str {
-        "PreflightSystem"
+impl TailwindInstance for PreflightSystem {
+    #[track_caller]
+    fn id(&self) -> String {
+        panic!("can't call id on `PreflightSystem`")
     }
 
     #[track_caller]
-    fn selectors(&self) -> &'static str {
+    fn selectors(&self) -> String {
         panic!("can't call selectors on `PreflightSystem`")
     }
 

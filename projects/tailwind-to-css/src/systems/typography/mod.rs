@@ -27,28 +27,26 @@ impl Display for FontSmoothing {
     }
 }
 
-impl CssInstance for FontSmoothing {
-    fn id(&self) -> &'static str {
+impl TailwindInstance for FontSmoothing {
+    fn id(&self) -> String {
         match self {
             Self::Normal => "antialiased",
             Self::Subpixel => "subpixel-antialiased",
         }
+        .to_string()
     }
-
-    fn selectors(&self) -> &'static str {
+    fn attributes(&self) -> Vec<String> {
         match self {
-            Self::Normal => ".antialiased",
-            Self::Subpixel => ".subpixel-antialiased",
-        }
-    }
-    fn attributes(&self) -> Vec<&'static str> {
-        match self {
-            Self::Normal => {
-                vec!["-webkit-font-smoothing: antialiased;", "-moz-osx-font-smoothing: grayscale;"]
-            }
-            Self::Subpixel => {
-                vec!["-webkit-font-smoothing: auto;", "-moz-osx-font-smoothing: auto;"]
-            }
+            Self::Normal => vec![
+                //
+                "-webkit-font-smoothing: antialiased;".to_string(),
+                "-moz-osx-font-smoothing: grayscale;".to_string(),
+            ],
+            Self::Subpixel => vec![
+                //
+                "-webkit-font-smoothing: auto;".to_string(),
+                "-moz-osx-font-smoothing: auto;".to_string(),
+            ],
         }
     }
 }

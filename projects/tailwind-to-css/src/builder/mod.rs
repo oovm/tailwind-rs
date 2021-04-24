@@ -1,15 +1,15 @@
-mod parser;
+pub mod parser;
 
-use crate::{BreakPointSystem, CssInstance, FontSystem, PaletteSystem, PreflightSystem, Result};
+use crate::{BreakPointSystem, FontSystem, PaletteSystem, PreflightSystem, Result, TailwindInstance};
 use itertools::Itertools;
-use std::{
-    collections::{BTreeMap, BTreeSet, HashSet},
-    fmt::Debug,
-};
+use nom::IResult;
+use std::{collections::BTreeSet, fmt::Debug};
+
+pub type TailwindParser<'a> = impl Fn(&'a str) -> IResult<&'a str, Box<dyn TailwindInstance>>;
 
 #[derive(Debug)]
 pub struct TailwindBuilder {
-    buffer: BTreeSet<Box<dyn CssInstance>>,
+    buffer: BTreeSet<Box<dyn TailwindInstance>>,
     preflight: PreflightSystem,
     screens: BreakPointSystem,
     colors: PaletteSystem,
@@ -35,13 +35,12 @@ impl TailwindBuilder {
     }
     #[track_caller]
     pub fn trace(&mut self, style: &str) -> String {
-        let parsed = Self::parse(style);
-        let mut out = parsed.iter().map(|s| s.selectors()).join(" ");
+        let parsed = self.parse(style);
+        let out = parsed.iter().map(|s| s.id()).join(" ");
         // self.buffer.extend(parsed.into_iter());
         for i in parsed.into_iter() {
             self.buffer.insert(i);
         }
-
         return out;
     }
     pub fn build(&self) -> Result<String> {
