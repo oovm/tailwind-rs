@@ -5,7 +5,7 @@ use itertools::Itertools;
 use nom::IResult;
 use std::{collections::BTreeSet, fmt::Debug};
 
-pub type TailwindParser<'a> = impl Fn(&'a str) -> IResult<&'a str, Box<dyn TailwindInstance>>;
+// pub type TailwindParser<'a> = impl Fn(&'a str) -> IResult<&'a str, Box<dyn TailwindInstance>>;
 
 #[derive(Debug)]
 pub struct TailwindBuilder {

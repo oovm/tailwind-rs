@@ -8,9 +8,12 @@ pub mod sizes;
 pub mod spaces;
 pub mod typography;
 
-use crate::{TailwindInstance, TailwindParser};
-use nom::{bytes::complete::tag, Err};
-use std::fmt::{Debug, Display, Formatter};
+use crate::TailwindInstance;
+use nom::{bytes::complete::tag, Err, IResult};
+use std::{
+    collections::HashMap,
+    fmt::{Debug, Display, Formatter},
+};
 
 #[derive(Debug)]
 pub struct TailwindObject {
@@ -34,7 +37,7 @@ impl TailwindInstance for TailwindObject {
 }
 
 impl TailwindObject {
-    pub fn parser<'a>(id: &'static str, css: &'static str) -> TailwindParser<'a> {
+    pub fn parser<'a>(id: &'static str, css: &'static str) -> impl Fn(&'a str) -> IResult<&'a str, Box<dyn TailwindInstance>> {
         move |input| match tag(id)(input) {
             Ok(o) => Ok((o.0, Self::new(id, css))),
             Err(e) => Err(e),

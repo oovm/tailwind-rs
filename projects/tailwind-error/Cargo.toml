@@ -1,10 +1,10 @@
 [package]
 name = "tailwind-error"
-version = "1.0.0"
+version = "1.0.1"
 authors = ["Aster <192607617@qq.com>"]
 description = "Awsl Error Handlers"
 repository = "https://github.com/notedge/notedown-rs/tree/master/projects/notedown-ast"
-documentation = "https://docs.rs/notedown-error"
+documentation = "https://docs.rs/tailwind-error"
 categories = []
 keywords = ["error", "tailwind"]
 readme = "Readme.md"

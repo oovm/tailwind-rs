@@ -6,20 +6,25 @@ pub mod parser;
 /// https://tailwindcss.com/docs/aspect-ratio
 pub struct LayoutSystem {}
 
-//         TailwindObject::parser("aspect-auto", "aspect-ratio: auto;"),
-//         TailwindObject::parser("aspect-square", "aspect-ratio: 1 / 1;"),
-//         TailwindObject::parser("aspect-video", "aspect-ratio: 16 / 9;"),
-
 /// https://tailwindcss.com/docs/aspect-ratio
 ///
 /// ```
 /// use tailwind_css::TailwindAspect;
+///
+/// #[test]
+/// fn build_aspect() {
+///     let mut out = String::new();
+///     TailwindAspect::new("square", "1/1").write_css(&mut out);
+///     assert_eq!(out, ".break-before: square; {\n    break-before: 1/1;\n}\n")
+/// }
 /// ```
+#[derive(Copy, Clone, Debug)]
 pub struct TailwindAspect {
     kind: &'static str,
     ratio: &'static str,
 }
 
+#[derive(Copy, Clone, Debug)]
 pub enum TailwindBreak {
     /// https://tailwindcss.com/docs/break-before
     Before(&'static str),

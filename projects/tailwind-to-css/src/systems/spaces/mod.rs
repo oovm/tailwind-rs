@@ -1,7 +1,15 @@
-use std::{
-    collections::HashMap,
-    fmt::{Display, Formatter},
-};
+mod builder;
+mod parser;
+
+use super::*;
+
+#[doc = include_str!("padding.md")]
+#[derive(Clone, Debug)]
+pub struct TailwindPadding {}
+
+#[doc = include_str!("margin.md")]
+#[derive(Clone, Debug)]
+pub struct TailwindMargin {}
 
 #[derive(Clone, Debug)]
 pub struct SpacingSystem {

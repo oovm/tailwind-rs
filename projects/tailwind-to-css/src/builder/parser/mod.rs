@@ -1,6 +1,6 @@
 use crate::{
     systems::{layouts::TailwindBreak, typography::FontSmoothing},
-    TailwindBuilder, TailwindInstance, TailwindObject, TailwindParser,
+    TailwindBuilder, TailwindInstance, TailwindObject,
 };
 use nom::{
     branch::alt,
@@ -27,25 +27,6 @@ fn parse_text(input: &str) -> IResult<&str, (&str, &str)> {
         Ok(o) => Ok((o.0, (&o.1.2, &o.1.4))),
         Err(e) => Err(e),
     }
-}
-
-fn layout_parser<'a>(input: &str) -> TailwindParser<'a> {
-    alt((
-        // aspect:
-        TailwindObject::parser("aspect-auto", "aspect-ratio: auto;"),
-        TailwindObject::parser("aspect-square", "aspect-ratio: 1 / 1;"),
-        TailwindObject::parser("aspect-video", "aspect-ratio: 16 / 9;"),
-        // TODO: container https://tailwindcss.com/docs/container
-        // TODO: Columns https://tailwindcss.com/docs/container
-        TailwindBreak::parser_after("auto"),
-        TailwindObject::parser("break-after-avoid", "break-after: avoid;"),
-        TailwindObject::parser("break-after-all", "break-after: all;"),
-        TailwindObject::parser("break-after-avoid-page", "break-after: avoid-page;"),
-        TailwindObject::parser("break-after-page", "break-after: page;"),
-        TailwindObject::parser("break-after-left", "break-after: left;"),
-        TailwindObject::parser("break-after-right", "break-after: right;"),
-        TailwindObject::parser("break-after-column", "break-after: column;"),
-    ))(input)
 }
 
 fn parse_width(input: &str) -> IResult<&str, (&str, &str)> {

@@ -3,10 +3,10 @@ use std::fmt::{format, Write};
 
 impl TailwindInstance for TailwindAspect {
     fn id(&self) -> String {
-        todo!()
+        format!("break-before: {};", self.kind)
     }
     fn attributes(&self) -> Vec<String> {
-        vec![format!("break-before: {};", kind)]
+        vec![format!("break-before: {};", self.ratio)]
     }
 }
 
