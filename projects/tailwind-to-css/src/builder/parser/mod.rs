@@ -10,10 +10,10 @@ use std::collections::HashSet;
 pub mod typography;
 
 impl TailwindBuilder {
-    pub(crate) fn parse(&self, input: &str) -> HashSet<Box<dyn TailwindInstance>> {
+    pub(crate) fn parse(&self, _input: &str) -> HashSet<Box<dyn TailwindInstance>> {
         todo!()
     }
-    pub(crate) fn parse_text(&self, input: &str) -> HashSet<Box<dyn TailwindInstance>> {
+    pub(crate) fn parse_text(&self, _input: &str) -> HashSet<Box<dyn TailwindInstance>> {
         todo!()
     }
 }

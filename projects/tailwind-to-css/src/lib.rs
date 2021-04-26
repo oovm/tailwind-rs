@@ -4,12 +4,9 @@
 #![forbid(missing_crate_level_docs)]
 #![doc = include_str ! ("../readme.md")]
 
-extern crate core;
-
 mod builder;
 mod systems;
 mod traits;
-
 pub use self::{
     builder::TailwindBuilder,
     systems::{
@@ -18,7 +15,7 @@ pub use self::{
         fonts::FontSystem,
         layouts::{TailWindZIndex, TailwindAspect, TailwindBreak},
         preflight::PreflightSystem,
-        sizes::{TailwindMaxWidth, TailwindMinWidth, TailwindWidth},
+        sizes::{TailwindMaxWidth, TailwindSizing, TailwindWidth},
         TailwindObject, TailwindParsed,
     },
     traits::TailwindInstance,

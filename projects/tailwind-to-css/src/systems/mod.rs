@@ -9,15 +9,20 @@ pub mod spaces;
 pub mod typography;
 
 use crate::TailwindInstance;
-use nom::{bytes::complete::tag, Err, IResult};
+use css_style::unit::{percent, px, rem, Length};
+use nom::{bytes::complete::tag, IResult};
 use std::{
     collections::HashMap,
-    fmt::{Debug, Display, Formatter},
+    fmt::{Debug, Display, Formatter, Write},
 };
 
 /// Tailwind Parsed Result
 pub type TailwindParsed<'a> = IResult<&'a str, Box<dyn TailwindInstance>>;
 
+/// Remove instance from builder
+pub(crate) struct SealedRemover(String);
+
+/// Uncategorized tailwind property
 #[derive(Debug)]
 pub struct TailwindObject {
     id: &'static str,

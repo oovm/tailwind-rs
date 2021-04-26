@@ -1,11 +1,13 @@
-use css_style::unit::{percent, px, rem, Length};
-use std::fmt::{Debug, Display, Formatter, Write};
+mod builder;
+mod parser;
+
+use super::*;
 
 pub struct SizingSystem {}
 
-#[doc = include_str!("width.md")]
+/// used to express sizing
 #[derive(Clone)]
-pub enum TailwindWidth {
+pub enum TailwindSizing {
     Min,
     Max,
     Fit,
@@ -16,15 +18,29 @@ pub enum TailwindWidth {
     Percent(usize, usize),
 }
 
-#[doc = include_str!("min-width.md")]
+/// https://tailwindcss.com/docs/height
 #[derive(Clone, Debug)]
-pub enum TailwindMinWidth {}
+pub enum TailwindWidth {
+    #[doc = include_str!("min-width.md")]
+    Min(TailwindSizing),
+    #[doc = include_str!("max-width.md")]
+    Max(TailwindSizing),
+    #[doc = include_str!("width.md")]
+    Normal(TailwindSizing),
+}
 
-#[doc = include_str!("max-width.md")]
+/// https://tailwindcss.com/docs/width
 #[derive(Clone, Debug)]
-pub enum TailwindMaxWidth {}
+pub enum TailwindHeight {
+    #[doc = include_str!("min-width.md")]
+    Min(TailwindSizing),
+    #[doc = include_str!("max-width.md")]
+    Max(TailwindSizing),
+    #[doc = include_str!("width.md")]
+    Normal(TailwindSizing),
+}
 
-impl TailwindWidth {
+impl TailwindSizing {
     /// `w-px`
     pub fn px(n: usize) -> Self {
         Self::Length(px(n as f32))
@@ -44,7 +60,7 @@ impl TailwindWidth {
     }
 }
 
-impl Debug for TailwindWidth {
+impl Debug for TailwindSizing {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.write_str("width: ")?;
         match self {
@@ -63,5 +79,5 @@ impl Debug for TailwindWidth {
 
 #[test]
 fn width() {
-    println!("{:#?}", TailwindWidth::percent(1, 2))
+    println!("{:#?}", TailwindSizing::percent(1, 2))
 }

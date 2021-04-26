@@ -1,6 +1,6 @@
 [package]
 name = "tailwind-css"
-version = "0.4.1"
+version = "0.4.2"
 authors = ["Aster <192607617@qq.com>"]
 description = "Compile tailwind short instructions to css"
 repository = "https://docs.rs/tailwind-css"

@@ -1,5 +1,4 @@
 use super::*;
-use std::fmt::Write;
 
 pub mod builder;
 pub mod parser;

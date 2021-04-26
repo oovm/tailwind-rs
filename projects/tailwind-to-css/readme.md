@@ -12,9 +12,19 @@ fn build() {
 }
 ```
 
+## Notice 
+
+This library is not strictly implemented according to the original version.
+
+Especially when some writing methods can be simplified or generalized.
+
+For example arbitrary values of z-index needs brackets, but rs version does not.
+- raw: `z-[100]`
+- rs: `z-100`
+
 ## Implement Progress
 
-- [x] [preflight](https://tailwindcss.com/docs/preflight): [`PreflightSystem`]
+- [x] [preflight](https://tailwindcss.com/docs/preflight): [`crate::PreflightSystem`]
 - **Layout**
   - [x] [aspect-ratio](https://tailwindcss.com/docs/aspect-ratio): [`TailwindAspect`]
   - [ ] [container](https://tailwindcss.com/docs/container): [``]
@@ -37,7 +47,7 @@ fn build() {
   - [ ] [visibility](https://tailwindcss.com/docs/display)
   - [ ] [z-index](https://tailwindcss.com/docs/z-index)
 - **Flexbox & Grid**
-  - [ ] [z-index](https://tailwindcss.com/docs/flex-basis)
+  - [x] [z-index](https://tailwindcss.com/docs/flex-basis): [`TailWindZIndex`]
 - **Spacing**
   - [x] [padding](https://tailwindcss.com/docs/padding)
   - [x] [margin](https://tailwindcss.com/docs/margin)
