@@ -1,0 +1,1 @@
+https://tailwindcss.com/docs/aspect-ratio

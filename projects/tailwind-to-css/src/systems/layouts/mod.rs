@@ -1,4 +1,5 @@
 use super::*;
+use std::fmt::Write;
 
 pub mod builder;
 pub mod parser;
@@ -32,4 +33,12 @@ pub enum TailwindBreak {
     After(&'static str),
     /// https://tailwindcss.com/docs/break-inside
     Inside(&'static str),
+}
+
+#[doc = include_str!("z-index.md")]
+#[derive(Copy, Clone, Debug)]
+pub enum TailWindZIndex {
+    Auto,
+    Positive(usize),
+    Negative(usize),
 }

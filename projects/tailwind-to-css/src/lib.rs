@@ -16,10 +16,10 @@ pub use self::{
         breakpoints::{BreakPoint, BreakPointSystem},
         colors::{Palette, PaletteSystem},
         fonts::FontSystem,
-        layouts::{TailwindAspect, TailwindBreak},
+        layouts::{TailWindZIndex, TailwindAspect, TailwindBreak},
         preflight::PreflightSystem,
         sizes::{TailwindMaxWidth, TailwindMinWidth, TailwindWidth},
-        TailwindObject,
+        TailwindObject, TailwindParsed,
     },
     traits::TailwindInstance,
 };

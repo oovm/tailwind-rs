@@ -1,15 +1,11 @@
-use crate::{
-    systems::{layouts::TailwindBreak, typography::FontSmoothing},
-    TailwindBuilder, TailwindInstance, TailwindObject,
-};
+use crate::{systems::typography::FontSmoothing, TailwindBuilder, TailwindInstance};
 use nom::{
-    branch::alt,
-    bytes::complete::{tag, take_while},
-    character::complete::{alpha0, alpha1, alphanumeric1, digit1},
+    bytes::complete::tag,
+    character::complete::{alpha1, digit1},
     sequence::tuple,
-    Compare, IResult, InputLength, InputTake,
+    IResult,
 };
-use std::{collections::HashSet, fmt::Write};
+use std::collections::HashSet;
 
 pub mod typography;
 

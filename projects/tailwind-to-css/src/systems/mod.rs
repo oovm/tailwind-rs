@@ -15,6 +15,9 @@ use std::{
     fmt::{Debug, Display, Formatter},
 };
 
+/// Tailwind Parsed Result
+pub type TailwindParsed<'a> = IResult<&'a str, Box<dyn TailwindInstance>>;
+
 #[derive(Debug)]
 pub struct TailwindObject {
     id: &'static str,
@@ -37,7 +40,7 @@ impl TailwindInstance for TailwindObject {
 }
 
 impl TailwindObject {
-    pub fn parser<'a>(id: &'static str, css: &'static str) -> impl Fn(&'a str) -> IResult<&'a str, Box<dyn TailwindInstance>> {
+    pub fn parser<'a>(id: &'static str, css: &'static str) -> impl Fn(&'a str) -> TailwindParsed<'a> {
         move |input| match tag(id)(input) {
             Ok(o) => Ok((o.0, Self::new(id, css))),
             Err(e) => Err(e),

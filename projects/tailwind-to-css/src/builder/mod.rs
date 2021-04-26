@@ -2,10 +2,10 @@ pub mod parser;
 
 use crate::{BreakPointSystem, FontSystem, PaletteSystem, PreflightSystem, Result, TailwindInstance};
 use itertools::Itertools;
-use nom::IResult;
+
 use std::{collections::BTreeSet, fmt::Debug};
 
-// pub type TailwindParser<'a> = impl Fn(&'a str) -> IResult<&'a str, Box<dyn TailwindInstance>>;
+// pub type TailwindParser<'a> = impl Fn(&'a str) -> TailwindParsed;
 
 #[derive(Debug)]
 pub struct TailwindBuilder {
