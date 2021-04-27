@@ -1,9 +1,13 @@
+pub mod attribute;
+pub mod instance;
+
 use crate::Result;
 use std::{
     cmp::Ordering,
     fmt::{Debug, Formatter, Write},
     hash::{Hash, Hasher},
 };
+use std::fmt::Display;
 use text_utils::indent;
 
 pub trait TailwindInstance {
@@ -14,7 +18,7 @@ pub trait TailwindInstance {
     fn selectors(&self) -> String {
         format!(".{}", self.id())
     }
-    fn attributes(&self) -> Vec<String> {
+    fn attributes(&self) -> Vec<CssAttribute> {
         vec![]
     }
 
@@ -28,34 +32,9 @@ pub trait TailwindInstance {
     }
 }
 
-impl Debug for Box<dyn TailwindInstance> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.write_str(&self.id())
-    }
+#[derive(Debug, Clone)]
+pub struct CssAttribute {
+    key: String,
+    value: String,
 }
 
-impl Hash for Box<dyn TailwindInstance> {
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        self.id().hash(state)
-    }
-}
-
-impl PartialEq for Box<dyn TailwindInstance> {
-    fn eq(&self, other: &Self) -> bool {
-        self.id().eq(&other.id())
-    }
-}
-
-impl Eq for Box<dyn TailwindInstance> {}
-
-impl PartialOrd for Box<dyn TailwindInstance> {
-    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        self.id().partial_cmp(&other.id())
-    }
-}
-
-impl Ord for Box<dyn TailwindInstance> {
-    fn cmp(&self, other: &Self) -> Ordering {
-        self.id().cmp(&other.id())
-    }
-}

@@ -15,6 +15,7 @@ use std::{
     collections::HashMap,
     fmt::{Debug, Display, Formatter, Write},
 };
+use crate::traits::CssAttribute;
 
 /// Tailwind Parsed Result
 pub type TailwindParsed<'a> = IResult<&'a str, Box<dyn TailwindInstance>>;
@@ -39,8 +40,15 @@ impl TailwindInstance for TailwindObject {
     fn id(&self) -> String {
         self.id.to_owned()
     }
-    fn attributes(&self) -> Vec<String> {
-        self.attributes.trim().lines().map(|s| s.trim().to_owned()).collect()
+    fn attributes(&self) -> Vec<CssAttribute> {
+        let lines = self.attributes.trim().lines();
+        let mut out = Vec::with_capacity(lines.count());
+        for i in lines.map(|s| s.trim()) {
+            if let Some((key, value)) = i.split_once(":") {
+                out.push(CssAttribute::new(key, value))
+            }
+        }
+        return out;
     }
 }
 

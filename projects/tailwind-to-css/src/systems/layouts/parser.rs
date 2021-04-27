@@ -71,7 +71,7 @@ impl TailwindBreak {
 
 impl TailWindZIndex {
     #[inline]
-    fn number(n: usize, negative: bool) -> Box<dyn TailwindInstance> {
+    fn number(n: isize, negative: bool) -> Box<dyn TailwindInstance> {
         match negative {
             true => Box::new(Self::Negative(n)),
             false => Box::new(Self::Positive(n)),

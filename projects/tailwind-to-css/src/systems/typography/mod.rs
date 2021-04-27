@@ -1,3 +1,4 @@
+use crate::traits::CssAttribute;
 use super::*;
 
 #[doc = include_str ! ("font-smoothing.md")]
@@ -27,25 +28,24 @@ impl Display for FontSmoothing {
     }
 }
 
+
 impl TailwindInstance for FontSmoothing {
     fn id(&self) -> String {
         match self {
             Self::Normal => "antialiased",
             Self::Subpixel => "subpixel-antialiased",
         }
-        .to_string()
+            .to_string()
     }
-    fn attributes(&self) -> Vec<String> {
+    fn attributes(&self) -> Vec<CssAttribute> {
         match self {
             Self::Normal => vec![
-                //
-                "-webkit-font-smoothing: antialiased;".to_string(),
-                "-moz-osx-font-smoothing: grayscale;".to_string(),
+                CssAttribute::new("-webkit-font-smoothing", "antialiased"),
+                CssAttribute::new("-moz-osx-font-smoothing", "grayscale"),
             ],
             Self::Subpixel => vec![
-                //
-                "-webkit-font-smoothing: auto;".to_string(),
-                "-moz-osx-font-smoothing: auto;".to_string(),
+                CssAttribute::new("-webkit-font-smoothing", "auto"),
+                CssAttribute::new("-moz-osx-font-smoothing", "auto"),
             ],
         }
     }

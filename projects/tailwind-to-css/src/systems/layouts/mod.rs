@@ -38,6 +38,6 @@ pub enum TailwindBreak {
 #[derive(Copy, Clone, Debug)]
 pub enum TailWindZIndex {
     Auto,
-    Positive(usize),
-    Negative(usize),
+    Positive(isize),
+    Negative(isize),
 }

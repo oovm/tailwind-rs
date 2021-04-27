@@ -4,8 +4,8 @@ impl TailwindInstance for TailwindAspect {
     fn id(&self) -> String {
         format!("break-before: {};", self.kind)
     }
-    fn attributes(&self) -> Vec<String> {
-        vec![format!("break-before: {};", self.ratio)]
+    fn attributes(&self) -> Vec<CssAttribute> {
+        vec![CssAttribute::new("aspect-ratio", self.ratio)]
     }
 }
 
@@ -17,11 +17,11 @@ impl TailwindInstance for TailwindBreak {
             Self::Inside(kind) => format!("break-inside-{}", kind),
         }
     }
-    fn attributes(&self) -> Vec<String> {
+    fn attributes(&self) -> Vec<CssAttribute> {
         match self {
-            Self::Before(kind) => vec![format!("break-before: {};", kind)],
-            Self::After(kind) => vec![format!("break-after: {};", kind)],
-            Self::Inside(kind) => vec![format!("break-inside: {};", kind)],
+            Self::Before(kind) => vec![CssAttribute::new("break-before", kind)],
+            Self::After(kind) => vec![CssAttribute::new("break-after", kind)],
+            Self::Inside(kind) => vec![CssAttribute::new("break-inside", kind)],
         }
     }
 }
@@ -34,11 +34,11 @@ impl TailwindInstance for TailWindZIndex {
             Self::Auto => format!("z-auto"),
         }
     }
-    fn attributes(&self) -> Vec<String> {
+    fn attributes(&self) -> Vec<CssAttribute> {
         match self {
-            Self::Positive(n) => vec![format!("z-index: {};", n)],
-            Self::Negative(n) => vec![format!("z-index: -{};", n)],
-            Self::Auto => vec![format!("z-index: auto;")],
+            Self::Positive(n) => vec![CssAttribute::new("z-index", &n.to_string())],
+            Self::Negative(n) => vec![CssAttribute::new("z-index", &n.to_string())],
+            Self::Auto => vec![CssAttribute::new("z-index", "auto")],
         }
     }
 }

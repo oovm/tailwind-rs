@@ -15,7 +15,7 @@ pub use self::{
         fonts::FontSystem,
         layouts::{TailWindZIndex, TailwindAspect, TailwindBreak},
         preflight::PreflightSystem,
-        sizes::{TailwindMaxWidth, TailwindSizing, TailwindWidth},
+        sizes::{TailwindSizing, TailwindWidth},
         TailwindObject, TailwindParsed,
     },
     traits::TailwindInstance,

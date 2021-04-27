@@ -76,8 +76,3 @@ impl Debug for TailwindSizing {
         f.write_char(';')
     }
 }
-
-#[test]
-fn width() {
-    println!("{:#?}", TailwindSizing::percent(1, 2))
-}
