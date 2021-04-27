@@ -1,7 +1,5 @@
 use super::*;
 
-
-
 impl Debug for Box<dyn TailwindInstance> {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.write_str(&self.id())

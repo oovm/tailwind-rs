@@ -7,6 +7,7 @@
 mod builder;
 mod systems;
 mod traits;
+mod macros;
 pub use self::{
     builder::TailwindBuilder,
     systems::{
@@ -18,6 +19,6 @@ pub use self::{
         sizes::{TailwindSizing, TailwindWidth},
         TailwindObject, TailwindParsed,
     },
-    traits::TailwindInstance,
+    traits::{TailwindInstance,CssAttribute},
 };
 pub use tailwind_error::{Result, TailwindError, TailwindErrorKind};

@@ -4,10 +4,10 @@ pub mod instance;
 use crate::Result;
 use std::{
     cmp::Ordering,
-    fmt::{Debug, Formatter, Write},
+    collections::BTreeSet,
+    fmt::{Debug, Display, Formatter, Write},
     hash::{Hash, Hasher},
 };
-use std::fmt::Display;
 use text_utils::indent;
 
 pub trait TailwindInstance {
@@ -18,14 +18,14 @@ pub trait TailwindInstance {
     fn selectors(&self) -> String {
         format!(".{}", self.id())
     }
-    fn attributes(&self) -> Vec<CssAttribute> {
-        vec![]
+    fn attributes(&self) -> BTreeSet<CssAttribute> {
+        BTreeSet::default()
     }
 
     fn write_css(&self, f: &mut (dyn Write)) -> Result<()> {
         writeln!(f, "{} {{", self.selectors())?;
         for item in self.attributes() {
-            writeln!(f, "{}", indent(item, 4))?
+            writeln!(f, "{}", indent(item.to_string(), 4))?
         }
         writeln!(f, "}}")?;
         Ok(())
@@ -37,4 +37,5 @@ pub struct CssAttribute {
     key: String,
     value: String,
 }
+
 

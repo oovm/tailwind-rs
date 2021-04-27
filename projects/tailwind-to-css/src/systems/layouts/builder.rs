@@ -4,8 +4,10 @@ impl TailwindInstance for TailwindAspect {
     fn id(&self) -> String {
         format!("break-before: {};", self.kind)
     }
-    fn attributes(&self) -> Vec<CssAttribute> {
-        vec![CssAttribute::new("aspect-ratio", self.ratio)]
+    fn attributes(&self) -> BTreeSet<CssAttribute> {
+        css_attributes! {
+            "aspect-ratio" => self.ratio
+        }
     }
 }
 
@@ -17,11 +19,17 @@ impl TailwindInstance for TailwindBreak {
             Self::Inside(kind) => format!("break-inside-{}", kind),
         }
     }
-    fn attributes(&self) -> Vec<CssAttribute> {
+    fn attributes(&self) -> BTreeSet<CssAttribute> {
         match self {
-            Self::Before(kind) => vec![CssAttribute::new("break-before", kind)],
-            Self::After(kind) => vec![CssAttribute::new("break-after", kind)],
-            Self::Inside(kind) => vec![CssAttribute::new("break-inside", kind)],
+            Self::Before(kind) => css_attributes!{
+                "break-before" => kind
+            },
+            Self::After(kind) => css_attributes!{
+                "break-after" => kind
+            },
+            Self::Inside(kind) => css_attributes!{
+                "break-inside" => kind
+            },
         }
     }
 }
@@ -34,11 +42,17 @@ impl TailwindInstance for TailWindZIndex {
             Self::Auto => format!("z-auto"),
         }
     }
-    fn attributes(&self) -> Vec<CssAttribute> {
+    fn attributes(&self) -> BTreeSet<CssAttribute> {
         match self {
-            Self::Positive(n) => vec![CssAttribute::new("z-index", &n.to_string())],
-            Self::Negative(n) => vec![CssAttribute::new("z-index", &n.to_string())],
-            Self::Auto => vec![CssAttribute::new("z-index", "auto")],
+            Self::Positive(n) => css_attributes!{
+                "z-index" => &n.to_string()
+            },
+            Self::Negative(n) => css_attributes!{
+                "z-index" => &(-n).to_string()
+            },
+            Self::Auto => css_attributes!{
+                "z-index" => "auto"
+            },
         }
     }
 }

@@ -8,14 +8,14 @@ pub mod sizes;
 pub mod spaces;
 pub mod typography;
 
-use crate::TailwindInstance;
+use crate::{traits::CssAttribute, TailwindInstance};
 use css_style::unit::{percent, px, rem, Length};
 use nom::{bytes::complete::tag, IResult};
 use std::{
-    collections::HashMap,
+    collections::{BTreeSet, HashMap},
     fmt::{Debug, Display, Formatter, Write},
 };
-use crate::traits::CssAttribute;
+use crate::css_attributes;
 
 /// Tailwind Parsed Result
 pub type TailwindParsed<'a> = IResult<&'a str, Box<dyn TailwindInstance>>;
@@ -40,12 +40,12 @@ impl TailwindInstance for TailwindObject {
     fn id(&self) -> String {
         self.id.to_owned()
     }
-    fn attributes(&self) -> Vec<CssAttribute> {
+    fn attributes(&self) -> BTreeSet<CssAttribute> {
         let lines = self.attributes.trim().lines();
-        let mut out = Vec::with_capacity(lines.count());
+        let mut out = BTreeSet::default();
         for i in lines.map(|s| s.trim()) {
             if let Some((key, value)) = i.split_once(":") {
-                out.push(CssAttribute::new(key, value))
+                out.insert(CssAttribute::new(key, value));
             }
         }
         return out;
