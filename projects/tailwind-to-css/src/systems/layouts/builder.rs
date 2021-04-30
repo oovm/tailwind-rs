@@ -21,13 +21,13 @@ impl TailwindInstance for TailwindBreak {
     }
     fn attributes(&self) -> BTreeSet<CssAttribute> {
         match self {
-            Self::Before(kind) => css_attributes!{
+            Self::Before(kind) => css_attributes! {
                 "break-before" => kind
             },
-            Self::After(kind) => css_attributes!{
+            Self::After(kind) => css_attributes! {
                 "break-after" => kind
             },
-            Self::Inside(kind) => css_attributes!{
+            Self::Inside(kind) => css_attributes! {
                 "break-inside" => kind
             },
         }
@@ -44,13 +44,13 @@ impl TailwindInstance for TailWindZIndex {
     }
     fn attributes(&self) -> BTreeSet<CssAttribute> {
         match self {
-            Self::Positive(n) => css_attributes!{
+            Self::Positive(n) => css_attributes! {
                 "z-index" => &n.to_string()
             },
-            Self::Negative(n) => css_attributes!{
+            Self::Negative(n) => css_attributes! {
                 "z-index" => &(-n).to_string()
             },
-            Self::Auto => css_attributes!{
+            Self::Auto => css_attributes! {
                 "z-index" => "auto"
             },
         }

@@ -37,5 +37,3 @@ pub struct CssAttribute {
     key: String,
     value: String,
 }
-
-

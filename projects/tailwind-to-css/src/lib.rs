@@ -5,9 +5,9 @@
 #![doc = include_str ! ("../readme.md")]
 
 mod builder;
+mod macros;
 mod systems;
 mod traits;
-mod macros;
 pub use self::{
     builder::TailwindBuilder,
     systems::{
@@ -19,6 +19,6 @@ pub use self::{
         sizes::{TailwindSizing, TailwindWidth},
         TailwindObject, TailwindParsed,
     },
-    traits::{TailwindInstance,CssAttribute},
+    traits::{CssAttribute, TailwindInstance},
 };
 pub use tailwind_error::{Result, TailwindError, TailwindErrorKind};

@@ -5,9 +5,7 @@ impl TailwindInstance for TailwindPadding {
         todo!()
     }
     fn attributes(&self) -> BTreeSet<CssAttribute> {
-        css_attributes! {
-
-            }
+        css_attributes! {}
     }
 }
 
@@ -16,8 +14,6 @@ impl TailwindInstance for TailwindMargin {
         todo!()
     }
     fn attributes(&self) -> BTreeSet<CssAttribute> {
-        css_attributes! {
-
-            }
+        css_attributes! {}
     }
 }

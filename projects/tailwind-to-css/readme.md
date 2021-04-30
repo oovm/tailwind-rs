@@ -53,7 +53,12 @@ For example arbitrary values of z-index needs brackets, but rs version does not.
   - [x] [margin](https://tailwindcss.com/docs/margin)
   - [x] [space](https://tailwindcss.com/docs/space)
 - **Sizing**
-  - [ ] [width](https://tailwindcss.com/docs/flex-basis)
+  - [ ] [width](https://tailwindcss.com/docs/width): [``]
+  - [ ] [min-width](https://tailwindcss.com/docs/min-width): [``]
+  - [ ] [max-width](https://tailwindcss.com/docs/max-width): [``]
+  - [ ] [height](https://tailwindcss.com/docs/height): [``]
+  - [ ] [min-height](https://tailwindcss.com/docs/min-height): [``]
+  - [ ] [max-height](https://tailwindcss.com/docs/max-height): [``]
 - **Typography**
   - [ ] [font-family](https://tailwindcss.com/docs/font-family)
 - **Backgrounds**
@@ -65,8 +70,8 @@ For example arbitrary values of z-index needs brackets, but rs version does not.
 - **Filters**
   - [ ] [box-shadow](https://tailwindcss.com/docs/background-attachment)
 - **Tables**
-  - [ ] [box-shadow](https://tailwindcss.com/docs/background-attachment)
-
+  - [ ] [border-collapse](https://tailwindcss.com/docs/border-collapse)
+  - [ ] [table-layout](https://tailwindcss.com/docs/table-layout)
 
 
 

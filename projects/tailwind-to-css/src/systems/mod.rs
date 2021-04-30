@@ -7,15 +7,15 @@ pub mod preflight;
 pub mod sizes;
 pub mod spaces;
 pub mod typography;
+pub mod tables;
 
-use crate::{traits::CssAttribute, TailwindInstance};
+use crate::{css_attributes, traits::CssAttribute, TailwindInstance};
 use css_style::unit::{percent, px, rem, Length};
 use nom::{bytes::complete::tag, IResult};
 use std::{
     collections::{BTreeSet, HashMap},
     fmt::{Debug, Display, Formatter, Write},
 };
-use crate::css_attributes;
 
 /// Tailwind Parsed Result
 pub type TailwindParsed<'a> = IResult<&'a str, Box<dyn TailwindInstance>>;
