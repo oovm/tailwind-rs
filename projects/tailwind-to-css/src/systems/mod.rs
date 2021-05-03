@@ -6,8 +6,8 @@ pub mod layouts;
 pub mod preflight;
 pub mod sizes;
 pub mod spaces;
-pub mod typography;
 pub mod tables;
+pub mod typography;
 
 use crate::{css_attributes, traits::CssAttribute, TailwindInstance};
 use css_style::unit::{percent, px, rem, Length};
