@@ -1,13 +1,21 @@
+mod systems;
+
 use tailwind_css::TailwindBuilder;
+use tailwind_css::TailwindObject;
+
 #[test]
 fn ready() {
     println!("it works!")
 }
 
-#[test]
-fn build() {
+pub fn build_target(id: &str, input: &str, inline_target: &str, bundle_target: &str) {
     let mut tailwind = TailwindBuilder::default();
-    //
-    tailwind.trace("py-2 px-4 bg-green-500");
-    println!("{}", tailwind.build().unwrap())
+    let inline = TailwindObject {
+        selector: id.to_string(),
+        attributes: tailwind.inline(input)
+    }.to_string();
+    tailwind.trace(input);
+    let bundle = tailwind.bundle().unwrap();
+    assert_eq!(inline, inline_target);
+    assert_eq!(bundle, bundle_target);
 }

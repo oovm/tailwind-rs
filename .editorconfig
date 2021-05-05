@@ -1,6 +1,6 @@
 [*]
 charset = utf-8
-
+end_of_line = lf
 
 [*.{m,json}]
 indent_style = space
@@ -9,3 +9,6 @@ indent_size = 4
 [*.toml]
 indent_style = space
 indent_size = 4
+
+[*.css]
+trim_trailing_whitespace = false

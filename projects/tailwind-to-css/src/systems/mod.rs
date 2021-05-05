@@ -36,36 +36,47 @@ pub(crate) struct SealedRemover(String);
 /// Uncategorized tailwind property
 #[derive(Debug)]
 pub struct TailwindObject {
-    id: &'static str,
-    attributes: &'static str,
+    pub selector: String,
+    pub attributes: BTreeSet<CssAttribute>,
 }
 
 impl TailwindObject {
-    pub fn new(id: &'static str, css: &'static str) -> Box<dyn TailwindInstance> {
-        Box::new(Self { id, attributes: css })
+    pub fn new(id: impl Into<String>, css: BTreeSet<CssAttribute>) -> Box<dyn TailwindInstance> {
+        Box::new(Self { selector: id.into(), attributes: css })
+    }
+}
+
+impl Display for TailwindObject {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self.write_css(f) {
+            Ok(_) => { Ok(()) }
+            Err(_) => { Err(std::fmt::Error) }
+        }
     }
 }
 
 impl TailwindInstance for TailwindObject {
     fn id(&self) -> String {
-        self.id.to_owned()
+        self.selector.to_owned()
     }
     fn attributes(&self) -> BTreeSet<CssAttribute> {
-        let lines = self.attributes.trim().lines();
-        let mut out = BTreeSet::default();
-        for i in lines.map(|s| s.trim()) {
-            if let Some((key, value)) = i.split_once(":") {
-                out.insert(CssAttribute::new(key, value));
-            }
-        }
-        return out;
+        self.attributes.to_owned()
     }
 }
 
 impl TailwindObject {
     pub fn parser<'a>(id: &'static str, css: &'static str) -> impl Fn(&'a str) -> ParsedItem<'a> {
         move |input| match tag(id)(input) {
-            Ok(o) => Ok((o.0, Self::new(id, css))),
+            Ok((rest, _)) => {
+                let lines = css.trim().lines();
+                let mut out = BTreeSet::default();
+                for i in lines.map(|s| s.trim()) {
+                    if let Some((key, value)) = i.split_once(":") {
+                        out.insert(CssAttribute::new(key, value));
+                    }
+                }
+                Ok((rest, Self::new(id, out)))
+            }
             Err(e) => Err(e),
         }
     }

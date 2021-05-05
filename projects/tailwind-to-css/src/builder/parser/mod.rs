@@ -27,26 +27,22 @@ impl TailwindBuilder {
             self.maybe_layout_system(),
             self.maybe_table_system(),
         ));
-        match opt(tuple((item0, many0(tuple((space0, item))))))(input) {
+        match opt(tuple((item0, many0(tuple((space0, item))))))(input.trim()) {
+            Ok((_, None)) => {}
             Ok((_, Some((head, rest)))) => {
                 out.extend(head.into_iter());
                 for (_, items) in rest {
                     out.extend(items.into_iter());
                 }
             }
-            Ok((_, None)) => {}
-            Err(e) => todo!()
+            Err(_) => todo!()
         };
         return out;
-    }
-    fn parse_text(&self, _input: &str) -> HashSet<Box<dyn TailwindInstance>> {
-        todo!()
     }
 
     fn maybe_layout_system<'a>(&self) -> impl FnMut(&'a str) -> ParsedList<'a> {
         alt((TailwindAspect::parser(), TailwindBreak::parser()))
     }
-
 
     fn maybe_table_system<'a>(&self) -> impl FnMut(&'a str) -> ParsedList<'a> {
         alt((
