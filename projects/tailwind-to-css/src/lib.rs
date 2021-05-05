@@ -14,12 +14,13 @@ pub use self::{
     systems::{
         breakpoints::{BreakPoint, BreakPointSystem},
         colors::{Palette, PaletteSystem},
+        effects::{ShadowSystem, TailwindBlendKind, TailwindBlendMode, TailwindBlender, TailwindOpacity},
         fonts::FontSystem,
         layouts::{TailWindZIndex, TailwindAspect, TailwindBreak},
         preflight::PreflightSystem,
-        sizes::{TailwindSizing, TailwindWidth},
-        TailwindObject, ParsedItem,
-        tables::{TailwindTableLayout, TailwindBorderCollapse},
+        sizes::{TailwindHeight, TailwindSizing, TailwindWidth},
+        tables::{TailwindBorderCollapse, TailwindTableLayout},
+        ParsedItem, TailwindObject,
     },
     traits::{CssAttribute, TailwindInstance},
 };

@@ -1,5 +1,6 @@
 pub mod breakpoints;
 pub mod colors;
+pub mod effects;
 pub mod flexbox;
 pub mod fonts;
 pub mod layouts;
@@ -13,10 +14,9 @@ use crate::{css_attributes, traits::CssAttribute, TailwindInstance};
 use css_style::unit::{percent, px, rem, Length};
 use nom::{bytes::complete::tag, IResult};
 use std::{
-    collections::{BTreeSet, HashMap},
+    collections::{BTreeSet, HashMap, HashSet},
     fmt::{Debug, Display, Formatter, Write},
 };
-use std::collections::HashSet;
 
 /// Tailwind Parsed Result
 pub type ParsedItem<'a> = IResult<&'a str, Box<dyn TailwindInstance>>;
@@ -49,8 +49,8 @@ impl TailwindObject {
 impl Display for TailwindObject {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self.write_css(f) {
-            Ok(_) => { Ok(()) }
-            Err(_) => { Err(std::fmt::Error) }
+            Ok(_) => Ok(()),
+            Err(_) => Err(std::fmt::Error),
         }
     }
 }

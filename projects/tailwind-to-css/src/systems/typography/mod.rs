@@ -28,3 +28,19 @@ impl TailwindInstance for FontSmoothing {
         }
     }
 }
+
+impl FontSmoothing {
+    pub fn parse_antialias(input: &str) -> ParsedItem {
+        match tag("antialiased")(input) {
+            Ok(o) => Ok((o.0, Box::new(FontSmoothing::Normal))),
+            Err(e) => Err(e),
+        }
+    }
+
+    pub fn parse_subpixel(input: &str) -> ParsedItem {
+        match tag("subpixel-antialiased")(input) {
+            Ok(o) => Ok((o.0, Box::new(FontSmoothing::Subpixel))),
+            Err(e) => Err(e),
+        }
+    }
+}

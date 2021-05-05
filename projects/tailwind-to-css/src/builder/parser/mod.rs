@@ -1,32 +1,25 @@
-use crate::{systems::typography::FontSmoothing, TailwindAspect, TailwindBorderCollapse, TailwindBreak, TailwindBuilder, TailwindInstance, ParsedItem, TailwindTableLayout};
+use crate::{
+    systems::ParsedList, TailwindAspect, TailwindBorderCollapse, TailwindBreak, TailwindBuilder, TailwindInstance,
+    TailwindTableLayout,
+};
 use nom::{
+    branch::alt,
     bytes::complete::tag,
-    character::complete::{alpha1, digit1},
+    character::complete::{alpha1, digit1, space0},
+    combinator::opt,
+    multi::many0,
     sequence::tuple,
     IResult,
 };
 use std::collections::{BTreeSet, HashSet};
-use nom::branch::alt;
-use nom::character::complete::space0;
-use nom::combinator::opt;
-use nom::multi::many0;
-use crate::systems::ParsedList;
-
-pub mod typography;
 
 impl TailwindBuilder {
     /// `(item (WS item)*)?`
     pub(crate) fn parse(&self, input: &str) -> BTreeSet<Box<dyn TailwindInstance>> {
         let mut out = BTreeSet::new();
         // FIXME: stupid code !!!
-        let item0 = alt((
-            self.maybe_layout_system(),
-            self.maybe_table_system(),
-        ));
-        let item = alt((
-            self.maybe_layout_system(),
-            self.maybe_table_system(),
-        ));
+        let item0 = alt((self.maybe_layout_system(), self.maybe_table_system()));
+        let item = alt((self.maybe_layout_system(), self.maybe_table_system()));
         match opt(tuple((item0, many0(tuple((space0, item))))))(input.trim()) {
             Ok((_, None)) => {}
             Ok((_, Some((head, rest)))) => {
@@ -35,7 +28,7 @@ impl TailwindBuilder {
                     out.extend(items.into_iter());
                 }
             }
-            Err(_) => todo!()
+            Err(_) => todo!(),
         };
         return out;
     }
@@ -45,10 +38,7 @@ impl TailwindBuilder {
     }
 
     fn maybe_table_system<'a>(&self) -> impl FnMut(&'a str) -> ParsedList<'a> {
-        alt((
-            TailwindBorderCollapse::parser(),
-            TailwindTableLayout::parser(),
-        ))
+        alt((TailwindBorderCollapse::parser(), TailwindTableLayout::parser()))
     }
 }
 

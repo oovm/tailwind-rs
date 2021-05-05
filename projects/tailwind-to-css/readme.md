@@ -4,11 +4,15 @@
 
 ```rust
 use tailwind_css::TailwindBuilder;
+
 fn build() {
     let mut tailwind = TailwindBuilder::default();
     // 
+    let inline = tailwind.inline("py-2 px-4 bg-green-500");
+    // 
     tailwind.trace("py-2 px-4 bg-green-500");
-    println!("{}", tailwind.build().unwrap())
+    //
+    let bundle = tailwind.bundle();
 }
 ```
 
@@ -24,7 +28,9 @@ For example arbitrary values of z-index needs brackets, but rs version does not.
 
 ## Implement Progress
 
-- [x] [preflight](https://tailwindcss.com/docs/preflight): [`crate::PreflightSystem`]
+See the `tests` folder for details
+
+- [x] [preflight](https://tailwindcss.com/docs/preflight): [`PreflightSystem`]
 - **Layout**
   - [x] [aspect-ratio](https://tailwindcss.com/docs/aspect-ratio): [`TailwindAspect`]
   - [ ] [container](https://tailwindcss.com/docs/container): [``]
@@ -45,7 +51,7 @@ For example arbitrary values of z-index needs brackets, but rs version does not.
   - [ ] [position](https://tailwindcss.com/docs/display)
   - [ ] [top-right-bottom-left](https://tailwindcss.com/docs/display)
   - [ ] [visibility](https://tailwindcss.com/docs/display)
-  - [ ] [z-index](https://tailwindcss.com/docs/z-index)
+  - [x] [z-index](https://tailwindcss.com/docs/z-index)
 - **Flexbox & Grid**
   - [x] [z-index](https://tailwindcss.com/docs/flex-basis): [`TailWindZIndex`]
 - **Spacing**
@@ -53,12 +59,12 @@ For example arbitrary values of z-index needs brackets, but rs version does not.
   - [x] [margin](https://tailwindcss.com/docs/margin)
   - [x] [space](https://tailwindcss.com/docs/space)
 - **Sizing**
-  - [ ] [width](https://tailwindcss.com/docs/width): [``]
-  - [ ] [min-width](https://tailwindcss.com/docs/min-width): [``]
-  - [ ] [max-width](https://tailwindcss.com/docs/max-width): [``]
-  - [ ] [height](https://tailwindcss.com/docs/height): [``]
-  - [ ] [min-height](https://tailwindcss.com/docs/min-height): [``]
-  - [ ] [max-height](https://tailwindcss.com/docs/max-height): [``]
+  - [x] [width](https://tailwindcss.com/docs/width): [`TailwindWidth`]
+  - [x] [min-width](https://tailwindcss.com/docs/min-width): [`TailwindWidth`]
+  - [x] [max-width](https://tailwindcss.com/docs/max-width): [`TailwindWidth`]
+  - [x] [height](https://tailwindcss.com/docs/height): [`TailwindHeight`]
+  - [x] [min-height](https://tailwindcss.com/docs/min-height): [`TailwindHeight`]
+  - [x] [max-height](https://tailwindcss.com/docs/max-height): [`TailwindHeight`]
 - **Typography**
   - [ ] [font-family](https://tailwindcss.com/docs/font-family)
 - **Backgrounds**
@@ -66,13 +72,18 @@ For example arbitrary values of z-index needs brackets, but rs version does not.
 - **Borders**
   - [ ] [border-radius](https://tailwindcss.com/docs/background-attachment)
 - **Effects**
-  - [ ] [box-shadow](https://tailwindcss.com/docs/background-attachment)
+  - [ ] [box-shadow](https://tailwindcss.com/docs/box-shadow): [`ShadowSystem`]
+  - [ ] [box-shadow-color](https://tailwindcss.com/docs/box-shadow-color): [`ShadowSystem`]
+  - [ ] [opacity](https://tailwindcss.com/docs/opacity): [`TailwindOpacity`]
+  - [ ] [mix-blend-mode](https://tailwindcss.com/docs/mix-blend-mode): [`TailwindBlender`]
+  - [ ] [background-blend-mode](https://tailwindcss.com/docs/background-blend-mode): [`TailwindBlender`]
 - **Filters**
-  - [ ] [box-shadow](https://tailwindcss.com/docs/background-attachment)
+  - [ ] [blur](https://tailwindcss.com/docs/blur)
 - **Tables**
-  - [ ] [border-collapse](https://tailwindcss.com/docs/border-collapse)
-  - [ ] [table-layout](https://tailwindcss.com/docs/table-layout)
-
+  - [x] [border-collapse](https://tailwindcss.com/docs/border-collapse): [`TailwindBorderCollapse`]
+  - [x] [table-layout](https://tailwindcss.com/docs/table-layout): [`TailwindTableLayout`]
+- **Transitions & Animation**
+  - [ ] [box-shadow](https://tailwindcss.com/docs/background-attachment)
 
 
 

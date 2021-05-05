@@ -32,11 +32,11 @@ pub enum TailwindWidth {
 /// https://tailwindcss.com/docs/width
 #[derive(Clone, Debug)]
 pub enum TailwindHeight {
-    #[doc = include_str!("min-width.md")]
+    #[doc = include_str!("min-height.md")]
     Min(TailwindSizing),
-    #[doc = include_str!("max-width.md")]
+    #[doc = include_str!("max-height.md")]
     Max(TailwindSizing),
-    #[doc = include_str!("width.md")]
+    #[doc = include_str!("height.md")]
     Normal(TailwindSizing),
 }
 

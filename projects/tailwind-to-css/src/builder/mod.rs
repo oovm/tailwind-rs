@@ -3,8 +3,10 @@ pub mod parser;
 use crate::{BreakPointSystem, CssAttribute, FontSystem, PaletteSystem, PreflightSystem, Result, TailwindInstance};
 use itertools::Itertools;
 
-use std::{collections::BTreeSet, fmt::Debug};
-use std::collections::HashSet;
+use std::{
+    collections::{BTreeSet, HashSet},
+    fmt::Debug,
+};
 
 #[derive(Debug)]
 pub struct TailwindBuilder {
@@ -48,12 +50,15 @@ impl TailwindBuilder {
         for item in self.parse(style) {
             out.extend(item.attributes())
         }
-        return out
+        return out;
     }
-    pub fn bundle(&self) -> Result<String> {
-        let mut out = String::with_capacity(1024 * 10);
-        self.preflight.write_css(&mut out)?;
+    pub fn bundle(&self) -> String {
+        self.bundle_buffer(1024 * 10).unwrap_or_default()
+    }
 
+    fn bundle_buffer(&self, cap: usize) -> Result<String> {
+        let mut out = String::with_capacity(cap);
+        self.preflight.write_css(&mut out)?;
         for item in &self.buffer {
             item.write_css(&mut out)?;
         }

@@ -12,12 +12,14 @@ impl TailwindAspect {
         Box::new(Self { kind, ratio })
     }
     pub fn parser<'a>() -> impl FnMut(&'a str) -> ParsedList<'a> {
-        move |input| as_list(alt((
-            // https://tailwindcss.com/docs/aspect-ratio
-            Self::parser_kind("auto", "auto"),
-            Self::parser_kind("square", "1 / 1"),
-            Self::parser_kind("video", "16 / 9"),
-        ))(input))
+        move |input| {
+            as_list(alt((
+                // https://tailwindcss.com/docs/aspect-ratio
+                Self::parser_kind("auto", "auto"),
+                Self::parser_kind("square", "1 / 1"),
+                Self::parser_kind("video", "16 / 9"),
+            ))(input))
+        }
     }
     pub fn parser_kind<'a>(kind: &'static str, ratio: &'static str) -> impl FnMut(&'a str) -> ParsedItem<'a> {
         let id = format!("aspect-{}", kind);
@@ -28,34 +30,35 @@ impl TailwindAspect {
     }
 }
 
-
 impl TailwindBreak {
     pub fn parser<'a>() -> impl FnMut(&'a str) -> ParsedList<'a> {
-        move |input| as_list(alt((
-            // https://tailwindcss.com/docs/break-before
-            TailwindBreak::parser_before("auto"),
-            TailwindBreak::parser_before("avoid"),
-            TailwindBreak::parser_before("all"),
-            TailwindBreak::parser_before("avoid-page"),
-            TailwindBreak::parser_before("page"),
-            TailwindBreak::parser_before("left"),
-            TailwindBreak::parser_before("right"),
-            TailwindBreak::parser_before("column"),
-            // https://tailwindcss.com/docs/break-after
-            TailwindBreak::parser_after("auto"),
-            TailwindBreak::parser_after("avoid"),
-            TailwindBreak::parser_after("all"),
-            TailwindBreak::parser_after("avoid-page"),
-            TailwindBreak::parser_after("page"),
-            TailwindBreak::parser_after("left"),
-            TailwindBreak::parser_after("right"),
-            TailwindBreak::parser_after("column"),
-            // https://tailwindcss.com/docs/break-inside
-            TailwindBreak::parser_inside("auto"),
-            TailwindBreak::parser_inside("avoid"),
-            TailwindBreak::parser_inside("avoid-page"),
-            TailwindBreak::parser_inside("avoid-column"),
-        ))(input))
+        move |input| {
+            as_list(alt((
+                // https://tailwindcss.com/docs/break-before
+                TailwindBreak::parser_before("auto"),
+                TailwindBreak::parser_before("avoid"),
+                TailwindBreak::parser_before("all"),
+                TailwindBreak::parser_before("avoid-page"),
+                TailwindBreak::parser_before("page"),
+                TailwindBreak::parser_before("left"),
+                TailwindBreak::parser_before("right"),
+                TailwindBreak::parser_before("column"),
+                // https://tailwindcss.com/docs/break-after
+                TailwindBreak::parser_after("auto"),
+                TailwindBreak::parser_after("avoid"),
+                TailwindBreak::parser_after("all"),
+                TailwindBreak::parser_after("avoid-page"),
+                TailwindBreak::parser_after("page"),
+                TailwindBreak::parser_after("left"),
+                TailwindBreak::parser_after("right"),
+                TailwindBreak::parser_after("column"),
+                // https://tailwindcss.com/docs/break-inside
+                TailwindBreak::parser_inside("auto"),
+                TailwindBreak::parser_inside("avoid"),
+                TailwindBreak::parser_inside("avoid-page"),
+                TailwindBreak::parser_inside("avoid-column"),
+            ))(input))
+        }
     }
 
     pub fn parser_before<'a>(kind: &'static str) -> impl FnMut(&'a str) -> ParsedItem {

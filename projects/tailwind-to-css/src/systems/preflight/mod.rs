@@ -23,14 +23,14 @@ impl PreflightSystem {
 p, blockquote, hr, dl, dd, h1, h2, h3, h4, h5, h6, figure, pre {
     margin: 0;
 }
-    "#;
+"#;
     const RESET_HEAD: &'static str = r#"
 h1, h2, h3, h4, h5, h6 {
     font-size: inherit;
     font-weight: inherit;
 }
-    "#;
-    const RESET_LIST: &'static str = r#"\
+"#;
+    const RESET_LIST: &'static str = r#"
 ol, ul {
     list-style: none;
     margin: 0;
@@ -52,13 +52,16 @@ impl TailwindInstance for PreflightSystem {
 
     fn write_css(&self, f: &mut (dyn Write)) -> Result<()> {
         if self.remove_margins {
-            f.write_str(Self::REMOVE_MARGINS)?;
+            f.write_str(Self::REMOVE_MARGINS.trim())?;
+            writeln!(f)?;
         }
         if self.unstyle_head {
-            f.write_str(Self::RESET_HEAD)?;
+            f.write_str(Self::RESET_HEAD.trim())?;
+            writeln!(f)?;
         }
         if self.unstyle_list {
-            f.write_str(Self::RESET_LIST)?;
+            f.write_str(Self::RESET_LIST.trim())?;
+            writeln!(f)?;
         }
         Ok(())
     }
