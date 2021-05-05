@@ -8,6 +8,7 @@ mod builder;
 mod macros;
 mod systems;
 mod traits;
+
 pub use self::{
     builder::TailwindBuilder,
     systems::{
@@ -17,7 +18,8 @@ pub use self::{
         layouts::{TailWindZIndex, TailwindAspect, TailwindBreak},
         preflight::PreflightSystem,
         sizes::{TailwindSizing, TailwindWidth},
-        TailwindObject, TailwindParsed,
+        TailwindObject, ParsedItem,
+        tables::{TailwindTableLayout, TailwindBorderCollapse},
     },
     traits::{CssAttribute, TailwindInstance},
 };

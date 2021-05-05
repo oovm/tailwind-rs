@@ -16,9 +16,19 @@ use std::{
     collections::{BTreeSet, HashMap},
     fmt::{Debug, Display, Formatter, Write},
 };
+use std::collections::HashSet;
 
 /// Tailwind Parsed Result
-pub type TailwindParsed<'a> = IResult<&'a str, Box<dyn TailwindInstance>>;
+pub type ParsedItem<'a> = IResult<&'a str, Box<dyn TailwindInstance>>;
+/// Tailwind Parsed Result
+pub type ParsedList<'a> = IResult<&'a str, HashSet<Box<dyn TailwindInstance>>>;
+
+pub(crate) fn as_list(out: ParsedItem) -> ParsedList {
+    match out {
+        Ok((rest, o)) => Ok((rest, HashSet::from_iter(vec![o]))),
+        Err(e) => Err(e),
+    }
+}
 
 /// Remove instance from builder
 pub(crate) struct SealedRemover(String);
@@ -53,7 +63,7 @@ impl TailwindInstance for TailwindObject {
 }
 
 impl TailwindObject {
-    pub fn parser<'a>(id: &'static str, css: &'static str) -> impl Fn(&'a str) -> TailwindParsed<'a> {
+    pub fn parser<'a>(id: &'static str, css: &'static str) -> impl Fn(&'a str) -> ParsedItem<'a> {
         move |input| match tag(id)(input) {
             Ok(o) => Ok((o.0, Self::new(id, css))),
             Err(e) => Err(e),
