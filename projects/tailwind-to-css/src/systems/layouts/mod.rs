@@ -41,3 +41,5 @@ pub enum TailWindZIndex {
     Positive(isize),
     Negative(isize),
 }
+
+pub struct TailwindContainer {}

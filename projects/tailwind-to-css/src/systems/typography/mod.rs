@@ -15,7 +15,7 @@ impl TailwindInstance for FontSmoothing {
         }
         .to_string()
     }
-    fn attributes(&self) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         match self {
             Self::Normal => css_attributes! {
                 "-webkit-font-smoothing" => "antialiased",

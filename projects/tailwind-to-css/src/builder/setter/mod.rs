@@ -10,3 +10,15 @@ impl TailwindBuilder {
         self.preflight.custom = custom.into()
     }
 }
+
+impl Default for TailwindBuilder {
+    fn default() -> Self {
+        Self {
+            objects: Default::default(),
+            screens: BreakPointSystem::builtin(),
+            colors: PaletteSystem::builtin(),
+            fonts: FontSystem::builtin(),
+            preflight: PreflightSystem::default(),
+        }
+    }
+}

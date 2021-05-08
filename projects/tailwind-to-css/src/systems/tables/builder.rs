@@ -8,7 +8,7 @@ impl TailwindInstance for TailwindBorderCollapse {
         }
         .to_string()
     }
-    fn attributes(&self) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         match self {
             Self::Collapse => css_attributes! {
                 "border-collapse" => "collapse"
@@ -28,7 +28,7 @@ impl TailwindInstance for TailwindTableLayout {
         }
         .to_string()
     }
-    fn attributes(&self) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         match self {
             Self::Auto => css_attributes! {
                 "table-layout" => "auto"

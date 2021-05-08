@@ -1,7 +1,6 @@
 use super::*;
 use nom::{
     branch::alt,
-    character::complete::digit1,
     combinator::{map_res, opt, recognize},
     sequence::tuple,
 };

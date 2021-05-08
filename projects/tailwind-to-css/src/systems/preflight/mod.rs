@@ -89,11 +89,11 @@ impl TailwindInstance for PreflightSystem {
     }
 
     #[track_caller]
-    fn selectors(&self) -> String {
+    fn selectors(&self, _: &TailwindBuilder) -> String {
         panic!("can't call selectors on `PreflightSystem`")
     }
 
-    fn write_css(&self, f: &mut (dyn Write)) -> Result<()> {
+    fn write_css(&self, f: &mut (dyn Write), _: &TailwindBuilder) -> Result<()> {
         if self.remove_margins {
             f.write_str(Self::REMOVE_MARGINS.trim())?;
             writeln!(f)?;
@@ -122,4 +122,3 @@ impl TailwindInstance for PreflightSystem {
         Ok(())
     }
 }
-

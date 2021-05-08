@@ -4,7 +4,7 @@ impl TailwindInstance for TailwindAspect {
     fn id(&self) -> String {
         format!("break-before: {};", self.kind)
     }
-    fn attributes(&self) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         css_attributes! {
             "aspect-ratio" => self.ratio
         }
@@ -19,7 +19,7 @@ impl TailwindInstance for TailwindBreak {
             Self::Inside(kind) => format!("break-inside-{}", kind),
         }
     }
-    fn attributes(&self) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         match self {
             Self::Before(kind) => css_attributes! {
                 "break-before" => kind
@@ -42,7 +42,7 @@ impl TailwindInstance for TailWindZIndex {
             Self::Auto => format!("z-auto"),
         }
     }
-    fn attributes(&self) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         match self {
             Self::Positive(n) => css_attributes! {
                 "z-index" => &n.to_string()

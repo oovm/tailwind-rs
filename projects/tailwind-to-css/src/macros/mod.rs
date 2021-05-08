@@ -1,5 +1,3 @@
-use crate::CssAttribute;
-
 #[macro_export]
 macro_rules! css_attributes {
     // map-like
