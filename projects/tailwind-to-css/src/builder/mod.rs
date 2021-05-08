@@ -1,4 +1,5 @@
 pub mod parser;
+pub mod setter;
 
 use crate::{BreakPointSystem, CssAttribute, FontSystem, PaletteSystem, PreflightSystem, Result, TailwindInstance};
 use itertools::Itertools;
