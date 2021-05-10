@@ -3,18 +3,43 @@ mod parser;
 
 use super::*;
 
-#[doc = include_str!("padding.md")]
-#[derive(Clone, Debug)]
-pub struct TailwindPadding {}
+#[doc = include_str ! ("spacing.md")]
+pub struct TailwindSpacing {
+    kind: TailwindSpacingKind,
+    size: TailwindSpacingSize,
+}
 
-#[doc = include_str!("margin.md")]
-#[derive(Clone, Debug)]
-pub struct TailwindMargin {}
+pub enum TailwindSpacingKind {
+    Padding,
+    PaddingL,
+    PaddingR,
+    PaddingT,
+    PaddingB,
+    PaddingX,
+    PaddingY,
+    Margin,
+    MarginL,
+    MarginR,
+    MarginT,
+    MarginB,
+    MarginX,
+    MarginY,
+    SpaceBetweenX,
+    SpaceBetweenY,
+}
+
+pub enum TailwindSpacingSize {
+    Auto,
+    Reversed,
+    Px(usize),
+    Number(usize),
+}
 
 #[derive(Clone, Debug)]
 pub struct SpacingSystem {
     inner: HashMap<String, Spacing>,
 }
+
 
 impl Default for SpacingSystem {
     fn default() -> Self {
