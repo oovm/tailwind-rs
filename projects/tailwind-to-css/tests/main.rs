@@ -9,7 +9,7 @@ fn ready() {
 
 pub fn build_target(id: &str, input: &str, inline_target: &str, bundle_target: &str) {
     let mut tailwind = TailwindBuilder::default();
-    let inline = TailwindObject { selector: id.to_string(), attributes: tailwind.inline(input) }.to_string();
+    let inline = TailwindObject { id: id.to_string(), attributes: tailwind.inline(input) }.to_string();
     tailwind.trace(input);
     let bundle = tailwind.bundle();
     assert_eq!(inline, inline_target);

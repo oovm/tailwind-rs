@@ -6,18 +6,7 @@ pub mod parser;
 /// https://tailwindcss.com/docs/aspect-ratio
 pub struct LayoutSystem {}
 
-/// https://tailwindcss.com/docs/aspect-ratio
-///
-/// ```
-/// use tailwind_css::TailwindAspect;
-///
-/// #[test]
-/// fn build_aspect() {
-///     let mut out = String::new();
-///     TailwindAspect::new("square", "1/1").write_css(&mut out);
-///     assert_eq!(out, ".break-before: square; {\n    break-before: 1/1;\n}\n")
-/// }
-/// ```
+#[doc = include_str ! ("aspect-ratio.md")]
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindAspect {
     kind: &'static str,
@@ -34,9 +23,17 @@ pub enum TailwindBreak {
     Inside(&'static str),
 }
 
-#[doc = include_str!("z-index.md")]
+#[doc = include_str ! ("z-index.md")]
 #[derive(Copy, Clone, Debug)]
 pub enum TailWindZIndex {
+    Auto,
+    Positive(usize),
+    Negative(usize),
+}
+
+#[doc = include_str ! ("box-sizing.md")]
+#[derive(Copy, Clone, Debug)]
+pub enum TailWindBoxSizing {
     Auto,
     Positive(isize),
     Negative(isize),

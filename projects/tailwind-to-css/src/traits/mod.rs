@@ -1,5 +1,6 @@
 pub mod attribute;
 pub mod instance;
+pub mod object;
 
 use crate::{Result, TailwindBuilder};
 use std::{
@@ -8,7 +9,16 @@ use std::{
     fmt::{Debug, Display, Formatter, Write},
     hash::{Hash, Hasher},
 };
+use std::collections::HashSet;
+use nom::IResult;
 use text_utils::indent;
+use nom::bytes::complete::tag;
+
+
+/// Tailwind Parsed Result
+pub type ParsedItem<'a> = IResult<&'a str, Box<dyn TailwindInstance>>;
+/// Tailwind Parsed Result
+pub type ParsedList<'a> = IResult<&'a str, HashSet<Box<dyn TailwindInstance>>>;
 
 #[allow(unused_variables)]
 pub trait TailwindInstance {
@@ -38,8 +48,17 @@ pub trait TailwindInstance {
     }
 }
 
-#[derive(Debug, Clone)]
+///
+#[derive(Clone)]
 pub struct CssAttribute {
     key: String,
     value: String,
+}
+
+
+/// Uncategorized tailwind property
+#[derive(Debug)]
+pub struct TailwindObject {
+    pub id: String,
+    pub attributes: BTreeSet<CssAttribute>,
 }

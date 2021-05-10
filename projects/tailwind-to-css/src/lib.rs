@@ -20,8 +20,7 @@ pub use self::{
         preflight::PreflightSystem,
         sizes::{TailwindHeight, TailwindSizing, TailwindWidth},
         tables::{TailwindBorderCollapse, TailwindTableLayout},
-        ParsedItem, TailwindObject,
     },
-    traits::{CssAttribute, TailwindInstance},
+    traits::{CssAttribute, TailwindInstance, TailwindObject, ParsedItem, ParsedList},
 };
 pub use tailwind_error::{Result, TailwindError, TailwindErrorKind};

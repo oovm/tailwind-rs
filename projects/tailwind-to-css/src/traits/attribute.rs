@@ -6,9 +6,15 @@ impl CssAttribute {
     }
 }
 
-impl Display for CssAttribute {
+impl Debug for CssAttribute {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}: {};", self.key, self.value)
+    }
+}
+
+impl Display for CssAttribute {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        Debug::fmt(self , f)
     }
 }
 

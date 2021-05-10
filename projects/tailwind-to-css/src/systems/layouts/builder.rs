@@ -48,7 +48,7 @@ impl TailwindInstance for TailWindZIndex {
                 "z-index" => &n.to_string()
             },
             Self::Negative(n) => css_attributes! {
-                "z-index" => &(-n).to_string()
+                "z-index" => &(-(*n as isize)).to_string()
             },
             Self::Auto => css_attributes! {
                 "z-index" => "auto"

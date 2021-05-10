@@ -1,10 +1,5 @@
 use super::*;
-use nom::{
-    branch::alt,
-    character::complete::digit1,
-    combinator::{map_res, opt, recognize},
-    sequence::tuple,
-};
+
 
 impl TailwindAspect {
     #[inline]
@@ -21,7 +16,7 @@ impl TailwindAspect {
             ))(input))
         }
     }
-    pub fn parser_kind<'a>(kind: &'static str, ratio: &'static str) -> impl FnMut(&'a str) -> ParsedItem<'a> {
+    fn parser_kind<'a>(kind: &'static str, ratio: &'static str) -> impl FnMut(&'a str) -> ParsedItem<'a> {
         let id = format!("aspect-{}", kind);
         move |input| match tag(id.as_str())(input) {
             Ok(o) => Ok((o.0, Self::instance(kind, ratio))),
@@ -61,21 +56,21 @@ impl TailwindBreak {
         }
     }
 
-    pub fn parser_before<'a>(kind: &'static str) -> impl FnMut(&'a str) -> ParsedItem {
+    fn parser_before<'a>(kind: &'static str) -> impl FnMut(&'a str) -> ParsedItem {
         let id = format!("break-before-{}", kind);
         move |input| match tag(id.as_str())(input) {
             Ok(o) => Ok((o.0, Box::new(Self::Before(kind)))),
             Err(e) => Err(e),
         }
     }
-    pub fn parser_after<'a>(kind: &'static str) -> impl FnMut(&'a str) -> ParsedItem {
+    fn parser_after<'a>(kind: &'static str) -> impl FnMut(&'a str) -> ParsedItem {
         let id = format!("break-after-{}", kind);
         move |input| match tag(id.as_str())(input) {
             Ok(o) => Ok((o.0, Box::new(Self::After(kind)))),
             Err(e) => Err(e),
         }
     }
-    pub fn parser_inside<'a>(kind: &'static str) -> impl FnMut(&'a str) -> ParsedItem {
+    fn parser_inside<'a>(kind: &'static str) -> impl FnMut(&'a str) -> ParsedItem {
         let id = format!("break-inside-{}", kind);
         move |input| match tag(id.as_str())(input) {
             Ok(o) => Ok((o.0, Box::new(Self::Inside(kind)))),
@@ -86,7 +81,7 @@ impl TailwindBreak {
 
 impl TailWindZIndex {
     #[inline]
-    fn number(n: isize, negative: bool) -> Box<dyn TailwindInstance> {
+    fn number(n: usize, negative: bool) -> Box<dyn TailwindInstance> {
         match negative {
             true => Box::new(Self::Negative(n)),
             false => Box::new(Self::Positive(n)),
@@ -96,13 +91,13 @@ impl TailWindZIndex {
     fn auto() -> Box<dyn TailwindInstance> {
         Box::new(Self::Auto)
     }
-    pub fn parser<'a>() -> impl FnMut(&'a str) -> ParsedItem {
-        alt((Self::parse_number, Self::parse_auto))
+
+    pub fn parser<'a>() -> impl FnMut(&'a str) -> ParsedList {
+        move |input| as_list(alt((Self::parse_number, Self::parse_auto))(input))
     }
 
-    pub fn parse_number(input: &str) -> ParsedItem {
+    fn parse_number(input: &str) -> ParsedItem {
         match tuple((
-            //
             opt(tag("-")),
             tag("z"),
             tag("-"),
@@ -114,9 +109,8 @@ impl TailWindZIndex {
             Err(e) => Err(e),
         }
     }
-    pub fn parse_auto(input: &str) -> ParsedItem {
+    fn parse_auto(input: &str) -> ParsedItem {
         match tuple((
-            //
             tag("z"),
             tag("-"),
             tag("auto"),
@@ -126,10 +120,4 @@ impl TailWindZIndex {
             Err(e) => Err(e),
         }
     }
-}
-
-#[test]
-fn test() {
-    let p = TailWindZIndex::parser()("-z-1");
-    println!("{:#?}", p)
 }

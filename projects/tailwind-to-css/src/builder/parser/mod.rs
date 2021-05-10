@@ -1,21 +1,9 @@
-use crate::{
-    systems::ParsedList, TailwindAspect, TailwindBorderCollapse, TailwindBreak, TailwindBuilder, TailwindInstance,
-    TailwindTableLayout,
-};
-use nom::{
-    branch::alt,
-    bytes::complete::tag,
-    character::complete::{alpha1, digit1, space0},
-    combinator::opt,
-    multi::many0,
-    sequence::tuple,
-    IResult,
-};
-use std::collections::BTreeSet;
+
+use super::*;
 
 impl TailwindBuilder {
     /// `(item (WS item)*)?`
-    pub(crate) fn parse(&self, input: &str) -> BTreeSet<Box<dyn TailwindInstance>> {
+    pub(crate) fn parse(&self, input: &str) -> Result<BTreeSet<Box<dyn TailwindInstance>>> {
         let mut out = BTreeSet::new();
         // FIXME: stupid code !!!
         let item0 = alt((self.maybe_layout_system(), self.maybe_table_system()));
@@ -30,11 +18,15 @@ impl TailwindBuilder {
             }
             Err(_) => todo!(),
         };
-        return out;
+        return Ok(out);
     }
 
     fn maybe_layout_system<'a>(&self) -> impl FnMut(&'a str) -> ParsedList<'a> {
-        alt((TailwindAspect::parser(), TailwindBreak::parser()))
+        alt((//
+             TailwindAspect::parser(),
+             TailwindBreak::parser(),
+             TailWindZIndex::parser()
+        ))
     }
 
     fn maybe_table_system<'a>(&self) -> impl FnMut(&'a str) -> ParsedList<'a> {

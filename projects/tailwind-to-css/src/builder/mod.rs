@@ -1,13 +1,24 @@
 pub mod parser;
+use crate::{TailwindAspect, TailwindBorderCollapse, TailwindBreak, TailwindTableLayout};
 pub mod setter;
 
 use crate::{BreakPointSystem, CssAttribute, FontSystem, PaletteSystem, PreflightSystem, Result, TailwindInstance};
 use itertools::Itertools;
-
+use nom::{
+    branch::alt,
+    bytes::complete::tag,
+    character::complete::{alpha1, digit1, space0},
+    combinator::opt,
+    multi::many0,
+    sequence::tuple,
+    IResult,
+};
 use std::{
     collections::BTreeSet,
     fmt::{Arguments, Debug, Write},
 };
+use crate::TailWindZIndex;
+use crate::traits::ParsedList;
 
 #[derive(Debug)]
 pub struct TailwindBuilder {
@@ -23,15 +34,19 @@ impl TailwindBuilder {
     pub fn clear(&mut self) {
         self.objects.clear()
     }
+    #[inline]
     #[track_caller]
     pub fn trace(&mut self, style: &str) -> String {
-        let parsed = self.parse(style);
+        self.try_trace(style).unwrap()
+    }
+    pub fn try_trace(&mut self, style: &str) -> Result<String> {
+        let parsed = self.parse(style)?;
         let out = parsed.iter().map(|s| s.id()).join(" ");
         // self.buffer.extend(parsed.into_iter());
         for i in parsed.into_iter() {
             self.objects.insert(i);
         }
-        return out;
+        return Ok(out);
     }
 
     pub fn inline(&self, style: &str) -> BTreeSet<CssAttribute> {
