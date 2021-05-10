@@ -8,7 +8,7 @@ use nom::{
 
 impl TailwindAspect {
     #[inline]
-    pub fn new(kind: &'static str, ratio: &'static str) -> Box<dyn TailwindInstance> {
+    fn instance(kind: &'static str, ratio: &'static str) -> Box<dyn TailwindInstance> {
         Box::new(Self { kind, ratio })
     }
     pub fn parser<'a>() -> impl FnMut(&'a str) -> ParsedList<'a> {
@@ -24,7 +24,7 @@ impl TailwindAspect {
     pub fn parser_kind<'a>(kind: &'static str, ratio: &'static str) -> impl FnMut(&'a str) -> ParsedItem<'a> {
         let id = format!("aspect-{}", kind);
         move |input| match tag(id.as_str())(input) {
-            Ok(o) => Ok((o.0, Self::new(kind, ratio))),
+            Ok(o) => Ok((o.0, Self::instance(kind, ratio))),
             Err(e) => Err(e),
         }
     }

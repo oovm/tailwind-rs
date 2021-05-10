@@ -42,4 +42,44 @@ pub enum TailWindZIndex {
     Negative(isize),
 }
 
+/// https://tailwindcss.com/docs/container
 pub struct TailwindContainer {}
+
+/// https://tailwindcss.com/docs/columns
+pub struct TailwindColumns {}
+
+/// https://tailwindcss.com/docs/box-sizing
+pub enum TailwindBoxSizing {
+    Border,
+    Content,
+}
+
+/// https://tailwindcss.com/docs/display
+pub enum TailwindDisplay {
+    Block,
+    Inline,
+    InlineBlock,
+}
+
+/// https://tailwindcss.com/docs/float
+pub enum TailwindFloat {
+    Left,
+    Right,
+    None,
+}
+
+/// https://tailwindcss.com/docs/clear
+pub enum TailwindClear {
+    Left,
+    Right,
+    Both,
+    None,
+}
+
+pub enum TailwindIsolation {
+    Isolate,
+    Auto,
+}
+
+/// https://tailwindcss.com/docs/object-fit
+pub enum TailwindObjectFit {}
