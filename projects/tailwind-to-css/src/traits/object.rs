@@ -1,6 +1,4 @@
-
 use super::*;
-
 
 impl TailwindObject {
     pub fn new(id: impl Into<String>, css: BTreeSet<CssAttribute>) -> Box<dyn TailwindInstance> {

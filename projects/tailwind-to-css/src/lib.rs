@@ -21,6 +21,6 @@ pub use self::{
         sizes::{TailwindHeight, TailwindSizing, TailwindWidth},
         tables::{TailwindBorderCollapse, TailwindTableLayout},
     },
-    traits::{CssAttribute, TailwindInstance, TailwindObject, ParsedItem, ParsedList},
+    traits::{CssAttribute, ParsedItem, ParsedList, TailwindInstance, TailwindObject},
 };
 pub use tailwind_error::{Result, TailwindError, TailwindErrorKind};

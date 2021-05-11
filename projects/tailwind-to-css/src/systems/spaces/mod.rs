@@ -40,7 +40,6 @@ pub struct SpacingSystem {
     inner: HashMap<String, Spacing>,
 }
 
-
 impl Default for SpacingSystem {
     fn default() -> Self {
         Self { inner: Default::default() }

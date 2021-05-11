@@ -1,4 +1,3 @@
-
 use super::*;
 
 impl TailwindBuilder {
@@ -22,10 +21,11 @@ impl TailwindBuilder {
     }
 
     fn maybe_layout_system<'a>(&self) -> impl FnMut(&'a str) -> ParsedList<'a> {
-        alt((//
-             TailwindAspect::parser(),
-             TailwindBreak::parser(),
-             TailWindZIndex::parser()
+        alt((
+            //
+            TailwindAspect::parser(),
+            TailwindBreak::parser(),
+            TailWindZIndex::parser(),
         ))
     }
 

@@ -1,6 +1,5 @@
 use super::*;
 
-
 impl TailwindAspect {
     #[inline]
     fn instance(kind: &'static str, ratio: &'static str) -> Box<dyn TailwindInstance> {
@@ -97,25 +96,14 @@ impl TailWindZIndex {
     }
 
     fn parse_number(input: &str) -> ParsedItem {
-        match tuple((
-            opt(tag("-")),
-            tag("z"),
-            tag("-"),
-            map_res(recognize(digit1), str::parse),
-        ))(input)
-        {
+        match tuple((opt(tag("-")), tag("z"), tag("-"), map_res(recognize(digit1), str::parse)))(input) {
             Ok((s, (Some(_), _, _, n))) => Ok((s, Self::number(n, true))),
             Ok((s, (None, _, _, n))) => Ok((s, Self::number(n, false))),
             Err(e) => Err(e),
         }
     }
     fn parse_auto(input: &str) -> ParsedItem {
-        match tuple((
-            tag("z"),
-            tag("-"),
-            tag("auto"),
-        ))(input)
-        {
+        match tuple((tag("z"), tag("-"), tag("auto")))(input) {
             Ok((s, _)) => Ok((s, Self::auto())),
             Err(e) => Err(e),
         }
