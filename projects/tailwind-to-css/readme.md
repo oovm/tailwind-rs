@@ -1,36 +1,53 @@
 # Tailwind to Css
 
-
+**Tailwind style tracer + compiler!**
 
 ```rust
 use tailwind_css::TailwindBuilder;
 
 fn build() {
     let mut tailwind = TailwindBuilder::default();
-    // 
+    // The compiler will expand directly into the final css property
+    // Inline style will not be tracked
     let inline = tailwind.inline("py-2 px-4 bg-green-500");
-    // 
+    // The compiler will expand into a `class`, and record the style class used
     tailwind.trace("py-2 px-4 bg-green-500");
-    //
+    // Compile all traced classes into bundle
     let bundle = tailwind.bundle();
 }
 ```
 
-## Notice 
+## Notice
+
+### Tailwind++ Grammar
 
 This library is not strictly implemented according to the original version.
 
 Especially when some writing methods can be simplified or generalized.
 
-For example arbitrary values of z-index needs brackets, but rs version does not.
-- raw: `z-[100]`
+For example arbitrary values of `z-index` needs brackets, but rs version does not.
+
+- js: `z-[100]`
 - rs: `z-100`
+
+### Bundle or Inline?
+
+For example, there are style overrides in `p-auto px-px pt-2 pb-2`.
+
+In inline mode, the latter will overwrite the former, and finally get `{}`
+
+In Bundle mode, the final result depends on the browser.
 
 ## Implement Progress
 
-See the `tests` folder for details
+**tailwind-rs needs your help!**
 
-- [x] [preflight](https://tailwindcss.com/docs/preflight): [`PreflightSystem`]
+A lot of documentation and test cases are missing, you are welcome to pr!
+
+See the `tests` folder for details.
+
+- **Preflight**
+  - [x] [preflight](https://tailwindcss.com/docs/preflight): [`PreflightSystem`]
 - **Layout**
   - [x] [aspect-ratio](https://tailwindcss.com/docs/aspect-ratio): [`TailwindAspect`]
   - [ ] [container](https://tailwindcss.com/docs/container): [``]
@@ -55,9 +72,9 @@ See the `tests` folder for details
 - **Flexbox & Grid**
   - [x] [z-index](https://tailwindcss.com/docs/flex-basis): [`TailWindZIndex`]
 - **Spacing**
-  - [x] [padding](https://tailwindcss.com/docs/padding)
-  - [x] [margin](https://tailwindcss.com/docs/margin)
-  - [x] [space](https://tailwindcss.com/docs/space)
+  - [x] [padding](https://tailwindcss.com/docs/padding): [`TailwindSpacing`]
+  - [x] [margin](https://tailwindcss.com/docs/margin): [`TailwindSpacing`]
+  - [x] [space](https://tailwindcss.com/docs/space): [`TailwindSpacing`]
 - **Sizing**
   - [x] [width](https://tailwindcss.com/docs/width): [`TailwindWidth`]
   - [x] [min-width](https://tailwindcss.com/docs/min-width): [`TailwindWidth`]

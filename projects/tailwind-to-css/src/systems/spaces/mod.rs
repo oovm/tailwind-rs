@@ -4,11 +4,12 @@ mod parser;
 use super::*;
 
 #[doc = include_str ! ("spacing.md")]
+#[derive(Copy, Clone,Debug)]
 pub struct TailwindSpacing {
     kind: TailwindSpacingKind,
     size: TailwindSpacingSize,
 }
-
+#[derive(Copy, Clone,Debug)]
 pub enum TailwindSpacingKind {
     Padding,
     PaddingL,
@@ -27,7 +28,7 @@ pub enum TailwindSpacingKind {
     SpaceBetweenX,
     SpaceBetweenY,
 }
-
+#[derive(Copy, Clone,Debug)]
 pub enum TailwindSpacingSize {
     Auto,
     Reversed,

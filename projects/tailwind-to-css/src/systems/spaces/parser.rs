@@ -1,4 +1,3 @@
-use std::fs::read_to_string;
 use super::*;
 use nom::character::complete::one_of;
 
@@ -21,18 +20,18 @@ impl TailwindSpacing {
     /// `(p|m)(t|r|b|l|x|y)?-(px|n|auto)`
     ///
     /// `(space)(x|y)-(px|n|reverse)`
-    pub fn parser<'a>(input: &str) -> impl FnMut(&'a str) -> ParsedList<'a> {
-        move |input| as_list(match tuple((Self::parser_kind(), tag("-"), Self::parser_size()))(input) {
-            Ok((rest, (kind, _, size))) => Ok((rest, Box::new(Self { kind, size }))),
-            Err(e) => Err(e),
-        })
+    pub fn parser<'a>() -> impl FnMut(&'a str) -> ParsedList<'a> {
+        move |input| {
+            as_list(match tuple((Self::parser_kind(), tag("-"), Self::parser_size()))(input) {
+                Ok((rest, (kind, _, size))) => Ok((rest, Box::new(Self { kind, size }))),
+                Err(e) => Err(e),
+            })
+        }
     }
 
     fn parser_kind<'a>() -> impl FnMut(&'a str) -> IResult<&'a str, TailwindSpacingKind> {
         let pm = move |input: &'a str| match tuple((one_of("pm"), opt(one_of("trblxy"))))(input) {
-            Ok((rest, (a, b))) => {
-                Ok((rest, TailwindSpacingKind::parse_pm(a, b).unwrap()))
-            }
+            Ok((rest, (a, b))) => Ok((rest, TailwindSpacingKind::parse_pm(a, b).unwrap())),
             Err(e) => Err(e),
         };
         let space = move |input: &'a str| match tuple((tag("space-"), one_of("xy")))(input) {
@@ -46,8 +45,8 @@ impl TailwindSpacing {
         move |input| match alt((tag("reverse"), tag("auto"), tag("px"), tag("n")))(input) {
             Ok((rest, all)) => {
                 let size = match all {
-                    "auto" => { TailwindSpacingSize::Auto }
-                    _ => todo!()
+                    "auto" => TailwindSpacingSize::Auto,
+                    _ => todo!(),
                 };
                 Ok((rest, size))
             }
@@ -74,7 +73,7 @@ impl TailwindSpacingKind {
             ('m', Some('l')) => Self::MarginL,
             ('m', Some('x')) => Self::MarginX,
             ('m', Some('y')) => Self::MarginY,
-            _ => return None
+            _ => return None,
         };
         return Some(kind);
     }
@@ -83,7 +82,7 @@ impl TailwindSpacingKind {
         match b {
             'x' => Some(Self::SpaceBetweenX),
             'y' => Some(Self::SpaceBetweenY),
-            _ => None
+            _ => None,
         }
     }
 }

@@ -9,3 +9,13 @@ fn test_table_system() {
         include_str!("table-bundle.css"),
     )
 }
+
+#[test]
+fn test_space_system() {
+    build_target(
+        "space_system",
+        "p-auto pt-px px-px space-x-reverse",
+        include_str!("space-inline.css"),
+        include_str!("space-bundle.css"),
+    )
+}
