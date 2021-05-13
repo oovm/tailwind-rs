@@ -1,3 +1,7 @@
+use nom::branch::alt;
+use nom::character::streaming::digit1;
+use nom::combinator::{map_res, opt, recognize};
+use nom::sequence::tuple;
 use super::*;
 
 impl TailwindAspect {

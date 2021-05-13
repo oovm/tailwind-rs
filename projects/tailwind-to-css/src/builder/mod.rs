@@ -51,7 +51,11 @@ impl TailwindBuilder {
 
     pub fn inline(&self, style: &str) -> BTreeSet<CssAttribute> {
         let mut out = BTreeSet::new();
-        for item in self.parse(style) {
+        let parsed = match self.parse(style) {
+            Ok(o) => {o}
+            Err(_) => {return out}
+        };
+        for item in parsed {
             out.extend(item.attributes(&self))
         }
         return out;

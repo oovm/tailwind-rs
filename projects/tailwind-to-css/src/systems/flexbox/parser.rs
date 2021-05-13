@@ -6,5 +6,5 @@ impl TailwindFlexBasis {
     fn instance(kind: &'static str, ratio: &'static str) -> Box<dyn TailwindInstance> {
         todo!()
     }
-    fn instance_full() -> Box<dyn TailwindInstance> {}
+    fn instance_full() -> Box<dyn TailwindInstance> {todo!()}
 }

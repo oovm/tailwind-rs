@@ -8,7 +8,7 @@ impl TailwindObject {
 
 impl Display for TailwindObject {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self.write_css(f) {
+        match self.write_css(f, &TailwindBuilder::default()) {
             Ok(_) => Ok(()),
             Err(_) => Err(std::fmt::Error),
         }
@@ -19,7 +19,7 @@ impl TailwindInstance for TailwindObject {
     fn id(&self) -> String {
         self.id.to_owned()
     }
-    fn attributes(&self) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         self.attributes.to_owned()
     }
 }
