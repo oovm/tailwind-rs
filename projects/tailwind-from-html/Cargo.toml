@@ -1,0 +1,18 @@
+[package]
+name = "tailwind-html"
+publish = false
+version = "0.1.0"
+authors = ["Aster <192607617@qq.com>"]
+description = "..."
+repository = "..."
+readme = "Readme.md"
+license = "MPL-2.0"
+edition = "2018"
+
+[dependencies]
+css-inline = "0.8"
+
+[dev-dependencies]
+
+[features]
+default = []

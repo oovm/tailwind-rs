@@ -5,7 +5,7 @@ use super::*;
 mod utils;
 
 impl TailwindBuilder {
-    /// `(item (WS item)*)?`
+    /// `(item (WS/NL item)*)?`
     pub(crate) fn parse(&self, input: &str) -> Result<BTreeSet<Box<dyn TailwindInstance>>> {
         let mut out = BTreeSet::new();
         // FIXME: stupid code !!!
