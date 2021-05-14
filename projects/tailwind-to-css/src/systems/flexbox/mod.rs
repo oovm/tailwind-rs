@@ -1,8 +1,6 @@
 mod builder;
 mod parser;
 
-use super::*;
-
 /// https://tailwindcss.com/docs/flex-basis
 pub struct TailwindFlexBasis {}
 

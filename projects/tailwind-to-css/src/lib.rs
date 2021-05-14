@@ -19,7 +19,7 @@ pub use self::{
         layouts::{TailWindZIndex, TailwindAspect, TailwindBreak},
         preflight::PreflightSystem,
         sizes::{TailwindHeight, TailwindSizing, TailwindWidth},
-        spaces::{TailwindSpacing, TailwindSpacingSize, TailwindSpacingKind},
+        spaces::{TailwindSpacing, TailwindSpacingKind, TailwindSpacingSize},
         tables::{TailwindBorderCollapse, TailwindTableLayout},
     },
     traits::{CssAttribute, ParsedItem, ParsedList, TailwindInstance, TailwindObject},

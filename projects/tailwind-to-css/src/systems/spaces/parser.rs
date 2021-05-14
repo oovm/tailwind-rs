@@ -1,8 +1,5 @@
-use nom::branch::alt;
 use super::*;
-use nom::character::complete::one_of;
-use nom::combinator::opt;
-use nom::sequence::tuple;
+use nom::{branch::alt, character::complete::one_of, combinator::opt, sequence::tuple};
 
 impl TailwindSpacing {
     pub fn auto(kind: TailwindSpacingKind) -> Self {

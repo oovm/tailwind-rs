@@ -3,17 +3,14 @@ pub mod instance;
 pub mod object;
 
 use crate::{Result, TailwindBuilder};
+use nom::{bytes::complete::tag, IResult};
 use std::{
     cmp::Ordering,
-    collections::BTreeSet,
+    collections::{BTreeSet, HashSet},
     fmt::{Debug, Display, Formatter, Write},
     hash::{Hash, Hasher},
 };
-use std::collections::HashSet;
-use nom::IResult;
 use text_utils::indent;
-use nom::bytes::complete::tag;
-
 
 /// Tailwind Parsed Result
 pub type ParsedItem<'a> = IResult<&'a str, Box<dyn TailwindInstance>>;
@@ -54,7 +51,6 @@ pub struct CssAttribute {
     key: String,
     value: String,
 }
-
 
 /// Uncategorized tailwind property
 #[derive(Debug)]

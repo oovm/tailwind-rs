@@ -1,6 +1,6 @@
-use nom::character::complete::multispace0;
-use crate::systems::spaces::TailwindSpacing;
 use super::*;
+use crate::systems::spaces::TailwindSpacing;
+use nom::character::complete::multispace0;
 
 mod utils;
 
@@ -70,4 +70,59 @@ fn parse_height(input: &str) -> IResult<&str, (&str, &str)> {
         Ok(o) => Ok((o.0, (&o.1.2, &o.1.4))),
         Err(e) => Err(e),
     }
+}
+/// https://tailwindcss.com/docs/adding-custom-styles#using-arbitrary-values
+///
+/// ```regexp
+/// \[[^\]\]
+/// ```
+pub fn parse_arbitrary() {}
+
+/// https://github.com/tw-in-js/twind/blob/main/src/twind/variants.ts
+pub enum AstVariantKind {
+    Dark,
+    Sticky,
+    MotionReduce,
+    MotionSafe,
+    First,
+    Last,
+    Even,
+    Odd,
+    Children,
+    Siblings,
+    Sibling,
+    Override,
+    Custom(),
+}
+
+pub enum AstElement {
+    /// `&`
+    SelfReference,
+    /// `[.]`
+    Arbitrary,
+    ///
+    Normal,
+}
+
+impl AstElement {
+    pub fn parser<'a>() -> impl FnMut(&'a str) -> IResult<&'a str, T> {
+        move |input| match opt() {}
+    }
+
+    pub fn as_usize(&self) -> Option<usize> {}
+    pub fn as_fraction(&self) -> Option<(usize, usize)> {}
+}
+
+pub struct AstStyle {}
+
+/// a(& b())
+pub struct AstGroup {}
+
+pub struct AstVariant<'a> {
+    not: bool,
+    names: Vec<&'a str>,
+}
+
+impl AstVariant {
+    pub fn parser() {}
 }

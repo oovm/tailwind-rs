@@ -2,23 +2,21 @@ pub mod parser;
 use crate::{TailwindAspect, TailwindBorderCollapse, TailwindBreak, TailwindTableLayout};
 pub mod setter;
 
-use crate::{BreakPointSystem, CssAttribute, FontSystem, PaletteSystem, PreflightSystem, Result, TailwindInstance};
+use crate::{
+    traits::ParsedList, BreakPointSystem, CssAttribute, FontSystem, PaletteSystem, PreflightSystem, Result, TailWindZIndex,
+    TailwindInstance,
+};
 use itertools::Itertools;
 use nom::{
     branch::alt,
     bytes::complete::tag,
-    character::complete::{alpha1, digit1, space0},
+    character::complete::{alpha1, digit1},
     combinator::opt,
     multi::many0,
     sequence::tuple,
     IResult,
 };
-use std::{
-    collections::BTreeSet,
-    fmt::{Arguments, Debug, Write},
-};
-use crate::TailWindZIndex;
-use crate::traits::ParsedList;
+use std::{collections::BTreeSet, fmt::Debug};
 
 #[derive(Debug)]
 pub struct TailwindBuilder {
@@ -52,8 +50,8 @@ impl TailwindBuilder {
     pub fn inline(&self, style: &str) -> BTreeSet<CssAttribute> {
         let mut out = BTreeSet::new();
         let parsed = match self.parse(style) {
-            Ok(o) => {o}
-            Err(_) => {return out}
+            Ok(o) => o,
+            Err(_) => return out,
         };
         for item in parsed {
             out.extend(item.attributes(&self))
