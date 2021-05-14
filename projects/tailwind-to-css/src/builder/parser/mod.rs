@@ -1,8 +1,10 @@
 use super::*;
 use crate::systems::spaces::TailwindSpacing;
-use nom::character::complete::multispace0;
+use nom::character::complete::{alphanumeric1, multispace0};
 
 mod utils;
+
+pub use self::utils::*;
 
 impl TailwindBuilder {
     /// `(item (WS/NL item)*)?`
@@ -95,34 +97,67 @@ pub enum AstVariantKind {
     Custom(),
 }
 
+#[derive(Debug)]
 pub enum AstElement {
     /// `&`
     SelfReference,
     /// `[.]`
-    Arbitrary,
+    Arbitrary(String),
     ///
-    Normal,
+    Normal(String),
 }
 
 impl AstElement {
-    pub fn parser<'a>() -> impl FnMut(&'a str) -> IResult<&'a str, T> {
-        move |input| match opt() {}
+    pub fn parse(input: &str) -> IResult<&str, Self> {
+        alt((Self::parse_self, Self::parse_arbitrary, Self::parse_normal))(input)
+    }
+    fn parse_self(input: &str) -> IResult<&str, Self> {
+        let (rest, _) = tag("&")(input)?;
+        Ok((rest, Self::SelfReference))
+    }
+    fn parse_arbitrary(input: &str) -> IResult<&str, Self> {
+        let (rest, _) = tag("&")(input)?;
+        Ok((rest, Self::SelfReference))
+    }
+    fn parse_normal(input: &str) -> IResult<&str, Self> {
+        let (rest, s) = alphanumeric1(input)?;
+        Ok((rest, Self::Normal(s.to_owned())))
     }
 
-    pub fn as_usize(&self) -> Option<usize> {}
-    pub fn as_fraction(&self) -> Option<(usize, usize)> {}
+    pub fn as_usize(&self) -> Option<usize> {
+        match self {
+            Self::Arbitrary(_) | Self::SelfReference => None,
+            Self::Normal(s) => match parser_integer()(s) {
+                Ok((_, o)) => Some(o),
+                Err(_) => None,
+            },
+        }
+    }
+    pub fn as_fraction(&self) -> Option<(usize, usize)> {
+        match self {
+            Self::Arbitrary(_) | Self::SelfReference => None,
+            Self::Normal(s) => match parser_fraction()(s) {
+                Ok((_, o)) => Some(o),
+                Err(_) => None,
+            },
+        }
+    }
+}
+#[test]
+fn test() {
+    println!("{:?}", AstElement::parse("200"))
 }
 
-pub struct AstStyle {}
-
-/// a(& b())
-pub struct AstGroup {}
-
-pub struct AstVariant<'a> {
-    not: bool,
-    names: Vec<&'a str>,
-}
-
-impl AstVariant {
-    pub fn parser() {}
-}
+// pub struct AstStyle {}
+//
+// /// a(& b())
+// pub struct AstGroup {}
+//
+// pub struct AstVariant<'a> {
+//     not: bool,
+//     names: Vec<&'a str>,
+// }
+//
+// impl AstVariant {
+//     pub fn parser() {}
+// }
