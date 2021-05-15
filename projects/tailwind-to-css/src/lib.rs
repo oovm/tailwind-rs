@@ -11,7 +11,7 @@ mod traits;
 
 pub use self::{
     builder::{
-        parser::{AstAtom, AstElement, AstVariant},
+        parser::{AstElement, AstStyle, AstVariant},
         TailwindBuilder,
     },
     systems::{

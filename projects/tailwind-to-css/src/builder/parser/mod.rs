@@ -3,7 +3,7 @@ use crate::systems::spaces::TailwindSpacing;
 use nom::{
     character::complete::{alphanumeric1, multispace0},
     error::ErrorKind,
-    multi::many1,
+    multi::{many1, separated_list0},
     AsChar, InputTakeAtPosition,
 };
 
@@ -102,62 +102,70 @@ pub enum AstVariantKind {
     Custom(),
 }
 
+/// `v:v:-a-a-[A]`
 #[derive(Debug)]
-pub enum AstAtom<'a> {
+pub struct AstStyle {
+    variants: Vec<AstVariant>,
+    atoms: Vec<String>,
+}
+
+#[derive(Debug)]
+pub enum AstElement {
     /// `&`
     SelfReference,
     /// `[.]`
-    Arbitrary(&'a str),
+    Arbitrary(String),
     ///
-    Normal(&'a str),
+    Normal(String),
 }
 
 #[derive(Debug)]
-pub struct AstElement<'a> {
-    variants: Vec<AstVariant<'a>>,
-    atoms: Vec<&'a str>,
-}
-
-#[derive(Debug)]
-pub struct AstVariant<'a> {
+pub struct AstVariant {
     not: bool,
-    names: &'a str,
+    names: Vec<String>,
 }
 
-pub struct AstGroup<'a> {
-    variants: Vec<AstVariant<'a>>,
-    inner: Vec<AstElement<'a>>,
+#[derive(Debug)]
+pub struct AstGroup {
+    variants: Vec<AstVariant>,
+    inner: Vec<AstStyle>,
 }
 
-impl<'a> AstVariant<'a> {
-    pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
-        // alt((Self::parse_self, Self::parse_arbitrary, Self::parse_normal))(input)
-        todo!()
+impl AstVariant {
+    /// `(not-)?(ALPHA)(-ALPHA)*`
+    ///
+    /// eg:
+    /// - `not-focus`
+    /// - `not-last-child`
+    pub fn parse(input: &str) -> IResult<&str, Self> {
+        let not = opt(tuple((tag("not"), tag("-"))));
+        let vs = separated_list0(tag("-"), alphanumeric1);
+        let (rest, (not, r)) = tuple((not, vs))(input)?;
+        Ok((rest, Self { not: not.is_some(), names: r.into_iter().map(|f| f.to_string()).collect() }))
     }
 }
 
-impl<'a> AstAtom<'a> {
-    pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
+impl AstElement {
+    pub fn parse(input: &str) -> IResult<&str, Self> {
         alt((Self::parse_self, Self::parse_arbitrary, Self::parse_normal))(input)
     }
-    fn parse_self(input: &'a str) -> IResult<&'a str, Self> {
+    fn parse_self(input: &str) -> IResult<&str, Self> {
         let (rest, _) = tag("&")(input)?;
         Ok((rest, Self::SelfReference))
     }
-    fn parse_arbitrary(input: &'a str) -> IResult<&'a str, Self> {
+    fn parse_arbitrary(input: &str) -> IResult<&str, Self> {
         let (rest, _) = tag("&")(input)?;
         Ok((rest, Self::SelfReference))
     }
-    fn parse_normal(input: &'a str) -> IResult<&'a str, Self> {
-        fn check_char(c: char) -> bool {
-            c.is_alphanum() || c == '/'
-        }
+    fn parse_normal(input: &str) -> IResult<&str, Self> {
+        // TODO: take_till(- | :)
+        let check_char = |c: char| -> bool { c.is_alphanum() || c == '/' };
         let (rest, s) = input.split_at_position1_complete(|item| !check_char(item), ErrorKind::RegexpMatch)?;
-        Ok((rest, Self::Normal(s)))
+        Ok((rest, Self::Normal(s.to_string())))
     }
 }
 
-impl<'a> AstAtom<'a> {
+impl AstElement {
     pub fn as_usize(&self) -> Option<usize> {
         match self {
             Self::Arbitrary(_) | Self::SelfReference => None,
@@ -172,9 +180,20 @@ impl<'a> AstAtom<'a> {
     }
 }
 
+impl AstStyle {
+    pub fn parse(input: &str) -> IResult<&str, Self> {
+        // let neg = opt(tag("-"));
+        // tuple(())
+        //
+        // alt((Self::parse_self, Self::parse_arbitrary, Self::parse_normal))(input)
+        todo!()
+    }
+}
+
 #[test]
 fn test() {
-    println!("{:?}", AstAtom::parse("200"))
+    println!("{:?}", AstElement::parse("200"));
+    println!("{:?}", AstVariant::parse("not-last-child"));
 }
 
 // pub struct AstStyle {}
