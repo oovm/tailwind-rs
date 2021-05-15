@@ -1,6 +1,11 @@
 use super::*;
 use crate::systems::spaces::TailwindSpacing;
-use nom::character::complete::{alphanumeric1, multispace0};
+use nom::{
+    character::complete::{alphanumeric1, multispace0},
+    error::ErrorKind,
+    multi::many1,
+    AsChar, InputTakeAtPosition,
+};
 
 mod utils;
 
@@ -98,54 +103,78 @@ pub enum AstVariantKind {
 }
 
 #[derive(Debug)]
-pub enum AstElement {
+pub enum AstAtom<'a> {
     /// `&`
     SelfReference,
     /// `[.]`
-    Arbitrary(String),
+    Arbitrary(&'a str),
     ///
-    Normal(String),
+    Normal(&'a str),
 }
 
-impl AstElement {
-    pub fn parse(input: &str) -> IResult<&str, Self> {
+#[derive(Debug)]
+pub struct AstElement<'a> {
+    variants: Vec<AstVariant<'a>>,
+    atoms: Vec<&'a str>,
+}
+
+#[derive(Debug)]
+pub struct AstVariant<'a> {
+    not: bool,
+    names: &'a str,
+}
+
+pub struct AstGroup<'a> {
+    variants: Vec<AstVariant<'a>>,
+    inner: Vec<AstElement<'a>>,
+}
+
+impl<'a> AstVariant<'a> {
+    pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
+        // alt((Self::parse_self, Self::parse_arbitrary, Self::parse_normal))(input)
+        todo!()
+    }
+}
+
+impl<'a> AstAtom<'a> {
+    pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
         alt((Self::parse_self, Self::parse_arbitrary, Self::parse_normal))(input)
     }
-    fn parse_self(input: &str) -> IResult<&str, Self> {
+    fn parse_self(input: &'a str) -> IResult<&'a str, Self> {
         let (rest, _) = tag("&")(input)?;
         Ok((rest, Self::SelfReference))
     }
-    fn parse_arbitrary(input: &str) -> IResult<&str, Self> {
+    fn parse_arbitrary(input: &'a str) -> IResult<&'a str, Self> {
         let (rest, _) = tag("&")(input)?;
         Ok((rest, Self::SelfReference))
     }
-    fn parse_normal(input: &str) -> IResult<&str, Self> {
-        let (rest, s) = alphanumeric1(input)?;
-        Ok((rest, Self::Normal(s.to_owned())))
+    fn parse_normal(input: &'a str) -> IResult<&'a str, Self> {
+        fn check_char(c: char) -> bool {
+            c.is_alphanum() || c == '/'
+        }
+        let (rest, s) = input.split_at_position1_complete(|item| !check_char(item), ErrorKind::RegexpMatch)?;
+        Ok((rest, Self::Normal(s)))
     }
+}
 
+impl<'a> AstAtom<'a> {
     pub fn as_usize(&self) -> Option<usize> {
         match self {
             Self::Arbitrary(_) | Self::SelfReference => None,
-            Self::Normal(s) => match parser_integer()(s) {
-                Ok((_, o)) => Some(o),
-                Err(_) => None,
-            },
+            Self::Normal(s) => parse_integer(s).ok().map(|(_, o)| o),
         }
     }
     pub fn as_fraction(&self) -> Option<(usize, usize)> {
         match self {
             Self::Arbitrary(_) | Self::SelfReference => None,
-            Self::Normal(s) => match parser_fraction()(s) {
-                Ok((_, o)) => Some(o),
-                Err(_) => None,
-            },
+            Self::Normal(s) => parse_fraction(s).ok().map(|(_, o)| o),
         }
     }
 }
+
 #[test]
 fn test() {
-    println!("{:?}", AstElement::parse("200"))
+    println!("{:?}", AstAtom::parse("200"))
 }
 
 // pub struct AstStyle {}
@@ -153,11 +182,7 @@ fn test() {
 // /// a(& b())
 // pub struct AstGroup {}
 //
-// pub struct AstVariant<'a> {
-//     not: bool,
-//     names: Vec<&'a str>,
-// }
-//
+
 // impl AstVariant {
 //     pub fn parser() {}
 // }
