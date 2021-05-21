@@ -7,10 +7,11 @@ use nom::{
     sequence::delimited,
 };
 
+mod display;
 mod methods;
 mod utils;
 
-pub use self::utils::*;
+use self::utils::*;
 
 impl TailwindBuilder {
     /// `(item (WS/NL item)*)?`
@@ -76,7 +77,7 @@ pub enum AstVariantKind {
 }
 
 /// `v:v:-a-a-[A]`
-#[derive(Debug)]
+// #[derive(Clone)]
 pub struct AstStyle {
     negative: bool,
     variants: Vec<AstVariant>,
@@ -101,17 +102,7 @@ pub struct AstVariant {
 }
 
 #[derive(Debug)]
-pub struct AstGroup {
-    variants: Vec<AstVariant>,
-    inner: Vec<AstStyle>,
+pub enum AstGroup {
+    Standalone { inner: AstStyle },
+    Grouped { variants: Vec<AstVariant>, elements: Option<AstElement>, inner: Vec<AstStyle> },
 }
-
-// pub struct AstStyle {}
-//
-// /// a(& b())
-// pub struct AstGroup {}
-//
-
-// impl AstVariant {
-//     pub fn parser() {}
-// }

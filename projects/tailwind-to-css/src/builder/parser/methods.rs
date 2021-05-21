@@ -1,4 +1,5 @@
 use super::*;
+use nom::{character::complete::multispace1, multi::separated_list1};
 
 impl AstVariant {
     /// `(not-)?(ALPHA)(-ALPHA)*`
@@ -57,7 +58,7 @@ impl AstArbitrary {
 
 impl AstElement {
     fn parse(input: &str) -> IResult<&str, Self> {
-        let stop = |c: char| -> bool { c == ':' || c == '|' || c == '[' };
+        let stop = |c: char| -> bool { matches!(c, ':' | '|' | '[' | ']' | '(' | ')' | ' ') };
         let (rest, s) = take_till(stop)(input)?;
         Ok((rest, Self(s.to_string())))
     }
@@ -85,6 +86,9 @@ impl AstStyle {
         let (variants, neg, atoms, arbitrary) = rhs;
         Ok((rest, Self { negative: neg.is_some(), variants, elements: atoms, arbitrary }))
     }
+    pub fn parse_list(input: &str) -> IResult<&str, Vec<Self>> {
+        separated_list0(multispace1, Self::parse)(input)
+    }
 }
 
 impl AstStyle {
@@ -93,7 +97,64 @@ impl AstStyle {
     }
 }
 
+impl AstGroup {
+    pub fn parse(input: &str) -> IResult<&str, Self> {
+        alt((Self::parse_grouped, Self::parse_standalone))(input)
+    }
+    pub fn parse_list(input: &str) -> IResult<&str, Vec<Self>> {
+        separated_list0(multispace1, Self::parse)(input)
+    }
+    #[inline]
+    fn parse_standalone(input: &str) -> IResult<&str, Self> {
+        let (rest, inner) = AstStyle::parse(input)?;
+        Ok((rest, Self::Standalone { inner }))
+    }
+    #[inline]
+    fn parse_grouped(input: &str) -> IResult<&str, Self> {
+        let lhs = tuple((AstVariant::parse_many, opt(AstElement::parse)));
+        let rhs = delimited(char('('), AstStyle::parse_list, char(')'));
+        let (rest, ((variants, elements), inner)) = tuple((lhs, rhs))(input)?;
+        Ok((rest, Self::Grouped { variants, elements, inner }))
+    }
+    pub fn expand(s: Self, buffer: &mut Vec<AstStyle>) -> Vec<AstStyle> {
+        let mut out = vec![];
+        match s {
+            Self::Standalone { inner } => buffer.push(inner),
+            Self::Grouped { variants, elements, inner } => {
+                for i in inner {
+                    let mut i = i;
+                    i.variants.extend(variants.into_iter());
+
+                    out.push(i)
+
+                }
+            }
+        }
+        out
+    }
+    pub fn expand_list(v: Vec<Self>) -> Vec<AstElement> {
+        let mut out = vec![];
+        for i in v {
+            i.
+        }
+    }
+}
+
 #[test]
-fn test() {
-    println!("{:#?}", AstStyle::parse("not-hover:sm:text-200").unwrap().1);
+fn test_style() {
+    // w-full sm:w-auto text-lg uppercase text-gray-100 bg-purple-800 hover:bg-purple-700 focus:bg-purple-700 focus-visible:ring-4 ring-purple-400 px-6
+    println!("{:#?}", AstStyle::parse("not-hover:sm:text-red-200").unwrap().1);
+    println!("{:#?}", AstStyle::parse_list("w-full sm:w-auto").unwrap().1);
+}
+
+#[test]
+fn test_group() {
+    println!("{:#?}", AstGroup::parse_list("w(full sm:auto)").unwrap().1);
+    println!("{:#?}", AstGroup::parse_list("not-hover:sm:text-red-200").unwrap().1);
+}
+
+#[test]
+fn test_group_expand() {
+    let g = AstGroup::parse_list("w(full sm:auto)").unwrap().1;
+    println!("{:#?}", AstGroup::expand_list(g));
 }
