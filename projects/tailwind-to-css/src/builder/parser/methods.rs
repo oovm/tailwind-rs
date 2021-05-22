@@ -1,5 +1,6 @@
 use super::*;
 use nom::{character::complete::multispace1, multi::separated_list1};
+use std::mem::swap;
 
 impl AstVariant {
     /// `(not-)?(ALPHA)(-ALPHA)*`
@@ -116,27 +117,28 @@ impl AstGroup {
         let (rest, ((variants, elements), inner)) = tuple((lhs, rhs))(input)?;
         Ok((rest, Self::Grouped { variants, elements, inner }))
     }
-    pub fn expand(s: Self, buffer: &mut Vec<AstStyle>) -> Vec<AstStyle> {
-        let mut out = vec![];
+    pub fn expand(s: Self, buffer: &mut Vec<AstStyle>) {
         match s {
             Self::Standalone { inner } => buffer.push(inner),
             Self::Grouped { variants, elements, inner } => {
-                for i in inner {
-                    let mut i = i;
-                    i.variants.extend(variants.into_iter());
-
-                    out.push(i)
-
+                for mut i in inner {
+                    i.variants.extend(variants.iter().cloned());
+                    if let Some(e) = elements.clone() {
+                        let mut elements = vec![e];
+                        swap(&mut elements, &mut i.elements);
+                        i.elements.extend(elements.into_iter());
+                    }
+                    buffer.push(i)
                 }
             }
         }
-        out
     }
-    pub fn expand_list(v: Vec<Self>) -> Vec<AstElement> {
+    pub fn expand_list(v: Vec<Self>) -> Vec<AstStyle> {
         let mut out = vec![];
         for i in v {
-            i.
+            Self::expand(i, &mut out)
         }
+        out
     }
 }
 

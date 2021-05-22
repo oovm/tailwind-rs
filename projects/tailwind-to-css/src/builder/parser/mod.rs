@@ -77,7 +77,7 @@ pub enum AstVariantKind {
 }
 
 /// `v:v:-a-a-[A]`
-// #[derive(Clone)]
+#[derive(Clone)]
 pub struct AstStyle {
     negative: bool,
     variants: Vec<AstVariant>,
@@ -88,20 +88,20 @@ pub struct AstStyle {
 /// https://tailwindcss.com/docs/adding-custom-styles#using-arbitrary-values
 ///
 /// `[.]`
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct AstArbitrary(String);
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct AstElement(String);
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct AstVariant {
     not: bool,
     pseudo: bool,
     names: Vec<String>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum AstGroup {
     Standalone { inner: AstStyle },
     Grouped { variants: Vec<AstVariant>, elements: Option<AstElement>, inner: Vec<AstStyle> },
