@@ -1,6 +1,4 @@
 use super::*;
-use nom::{character::complete::multispace1, multi::separated_list1};
-use std::mem::swap;
 
 impl AstVariant {
     /// `(not-)?(ALPHA)(-ALPHA)*`
@@ -96,6 +94,10 @@ impl AstStyle {
     pub fn view_elements(&self) -> Vec<&str> {
         self.elements.iter().map(|s| s.0.as_str()).collect()
     }
+    // TODO
+    pub fn normalization(self) -> Self {
+        self
+    }
 }
 
 impl AstGroup {
@@ -117,18 +119,21 @@ impl AstGroup {
         let (rest, ((variants, elements), inner)) = tuple((lhs, rhs))(input)?;
         Ok((rest, Self::Grouped { variants, elements, inner }))
     }
+
     pub fn expand(s: Self, buffer: &mut Vec<AstStyle>) {
         match s {
             Self::Standalone { inner } => buffer.push(inner),
-            Self::Grouped { variants, elements, inner } => {
-                for mut i in inner {
-                    i.variants.extend(variants.iter().cloned());
-                    if let Some(e) = elements.clone() {
-                        let mut elements = vec![e];
-                        swap(&mut elements, &mut i.elements);
-                        i.elements.extend(elements.into_iter());
-                    }
-                    buffer.push(i)
+            Self::Grouped { variants: vl, elements: el, inner } => {
+                for AstStyle { negative, variants: vr, elements: er, arbitrary } in inner {
+                    let mut variants = vl.clone();
+                    variants.extend(vr.into_iter());
+                    let mut elements = match el.clone() {
+                        None => vec![],
+                        Some(s) => vec![s],
+                    };
+                    elements.extend(er.into_iter());
+                    let new = AstStyle { negative, variants, elements, arbitrary };
+                    buffer.push(new);
                 }
             }
         }
@@ -139,6 +144,13 @@ impl AstGroup {
             Self::expand(i, &mut out)
         }
         out
+    }
+}
+
+impl TailwindBuilder {
+    pub fn parse_styles(input: &str) -> Result<Vec<AstStyle>> {
+        let g = AstGroup::parse_list(input.trim())?.1;
+        Ok(AstGroup::expand_list(g))
     }
 }
 
@@ -157,6 +169,5 @@ fn test_group() {
 
 #[test]
 fn test_group_expand() {
-    let g = AstGroup::parse_list("w(full sm:auto)").unwrap().1;
-    println!("{:#?}", AstGroup::expand_list(g));
+    println!("{:#?}", TailwindBuilder::parse_styles("w(full sm:auto)"));
 }

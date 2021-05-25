@@ -8,6 +8,8 @@ mod for_globset;
 mod for_html_parser;
 #[cfg(feature = "lsp-types")]
 mod for_lsp;
+#[cfg(feature = "nom")]
+mod for_nom;
 #[cfg(feature = "num")]
 mod for_num;
 #[cfg(feature = "pest")]

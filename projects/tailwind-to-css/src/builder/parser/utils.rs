@@ -1,6 +1,4 @@
 use super::*;
-use nom::combinator::{map_res, recognize};
-use std::str::FromStr;
 
 /// `\d+`
 pub fn parse_integer<T>(input: &str) -> IResult<&str, T>

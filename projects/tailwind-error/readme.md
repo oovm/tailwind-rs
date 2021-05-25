@@ -1,10 +1,9 @@
-# Notedown Error Handler Adaptor
+# Tailwind Error Handlers Adaptor
 
 
 ## Support Libs
-- [pest](): For parser
-- [rsass](): For sass/scss comp
-- [globset](): For glob
+- [pest](): For pest parser
+- [nom](): For nom parser
 
 
 

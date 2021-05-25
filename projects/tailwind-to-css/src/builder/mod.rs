@@ -7,7 +7,8 @@ use crate::{
     TailwindInstance,
 };
 use itertools::Itertools;
-use nom::{
+use std::{collections::BTreeSet, fmt::Debug};
+use tailwind_error::nom::{
     branch::alt,
     bytes::complete::tag,
     character::complete::{alpha1, digit1},
@@ -16,7 +17,6 @@ use nom::{
     sequence::tuple,
     IResult,
 };
-use std::{collections::BTreeSet, fmt::Debug};
 
 #[derive(Debug)]
 pub struct TailwindBuilder {

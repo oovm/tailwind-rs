@@ -1,5 +1,4 @@
 use super::*;
-use std::fmt::{Display, Formatter, Write};
 
 impl Display for AstVariant {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {

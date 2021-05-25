@@ -13,11 +13,11 @@ pub mod typography;
 
 use crate::{css_attributes, traits::CssAttribute, TailwindBuilder, TailwindInstance};
 use css_style::unit::{percent, px, rem, Length};
-use nom::{bytes::complete::tag, IResult};
 use std::{
     collections::{BTreeSet, HashMap, HashSet},
     fmt::{Debug, Display, Formatter, Write},
 };
+use tailwind_error::nom::{bytes::complete::tag, IResult};
 
 /// Tailwind Parsed Result
 pub type ParsedItem<'a> = IResult<&'a str, Box<dyn TailwindInstance>>;

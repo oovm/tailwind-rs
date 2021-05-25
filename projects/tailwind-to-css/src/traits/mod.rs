@@ -3,13 +3,13 @@ pub mod instance;
 pub mod object;
 
 use crate::{Result, TailwindBuilder};
-use nom::{bytes::complete::tag, IResult};
 use std::{
     cmp::Ordering,
     collections::{BTreeSet, HashSet},
     fmt::{Debug, Display, Formatter, Write},
     hash::{Hash, Hasher},
 };
+use tailwind_error::nom::{bytes::complete::tag, IResult};
 use text_utils::indent;
 
 /// Tailwind Parsed Result

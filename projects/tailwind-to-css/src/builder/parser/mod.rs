@@ -1,17 +1,86 @@
-use super::*;
-use crate::systems::spaces::TailwindSpacing;
-use nom::{
-    bytes::complete::{take_till, take_till1},
-    character::complete::{alphanumeric1, char, multispace0},
-    multi::separated_list0,
-    sequence::delimited,
-};
-
 mod display;
 mod methods;
 mod utils;
 
 use self::utils::*;
+use super::*;
+use crate::systems::spaces::TailwindSpacing;
+use std::{
+    fmt::{Display, Formatter, Write},
+    mem::swap,
+    str::FromStr,
+};
+use tailwind_error::nom::{
+    bytes::complete::{take_till, take_till1},
+    character::complete::{alphanumeric1, char, multispace0, multispace1},
+    combinator::{map_res, recognize},
+    multi::{separated_list0, separated_list1},
+    sequence::delimited,
+};
+
+/// `v:v:-a-a-[A]`
+#[derive(Clone)]
+pub struct AstStyle {
+    negative: bool,
+    variants: Vec<AstVariant>,
+    elements: Vec<AstElement>,
+    arbitrary: Option<AstArbitrary>,
+}
+
+#[derive(Debug, Clone)]
+pub enum AstGroup {
+    Standalone { inner: AstStyle },
+    Grouped { variants: Vec<AstVariant>, elements: Option<AstElement>, inner: Vec<AstStyle> },
+}
+
+/// https://github.com/tw-in-js/twind/blob/main/src/twind/variants.ts
+pub enum AstVariantKind {
+    Dark,
+    Sticky,
+    MotionReduce,
+    MotionSafe,
+    First,
+    Last,
+    Even,
+    Odd,
+    Children,
+    Siblings,
+    Sibling,
+    Override,
+}
+
+/// https://tailwindcss.com/docs/adding-custom-styles#using-arbitrary-values
+///
+/// `[.]`
+#[derive(Debug, Clone)]
+pub struct AstArbitrary(String);
+
+#[derive(Debug, Clone)]
+pub struct AstElement(String);
+
+#[derive(Debug, Clone)]
+pub struct AstVariant {
+    not: bool,
+    pseudo: bool,
+    names: Vec<String>,
+}
+
+impl TailwindInstance for AstStyle {
+    fn id(&self) -> String {
+        todo!()
+    }
+    fn selectors(&self, ctx: &TailwindBuilder) -> String {
+        todo!()
+    }
+    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        let mut out = BTreeSet::default();
+        match self.view_elements().as_slice() {
+            ["w", rest @ ..] => {}
+            _ => panic!("unknown tailwind style"),
+        }
+        out
+    }
+}
 
 impl TailwindBuilder {
     /// `(item (WS/NL item)*)?`
@@ -58,51 +127,4 @@ impl TailwindBuilder {
     fn maybe_spacing_system<'a>(&self) -> impl FnMut(&'a str) -> ParsedList<'a> {
         TailwindSpacing::parser()
     }
-}
-
-/// https://github.com/tw-in-js/twind/blob/main/src/twind/variants.ts
-pub enum AstVariantKind {
-    Dark,
-    Sticky,
-    MotionReduce,
-    MotionSafe,
-    First,
-    Last,
-    Even,
-    Odd,
-    Children,
-    Siblings,
-    Sibling,
-    Override,
-}
-
-/// `v:v:-a-a-[A]`
-#[derive(Clone)]
-pub struct AstStyle {
-    negative: bool,
-    variants: Vec<AstVariant>,
-    elements: Vec<AstElement>,
-    arbitrary: Option<AstArbitrary>,
-}
-
-/// https://tailwindcss.com/docs/adding-custom-styles#using-arbitrary-values
-///
-/// `[.]`
-#[derive(Debug, Clone)]
-pub struct AstArbitrary(String);
-
-#[derive(Debug, Clone)]
-pub struct AstElement(String);
-
-#[derive(Debug, Clone)]
-pub struct AstVariant {
-    not: bool,
-    pseudo: bool,
-    names: Vec<String>,
-}
-
-#[derive(Debug, Clone)]
-pub enum AstGroup {
-    Standalone { inner: AstStyle },
-    Grouped { variants: Vec<AstVariant>, elements: Option<AstElement>, inner: Vec<AstStyle> },
 }

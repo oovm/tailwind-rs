@@ -1,5 +1,5 @@
 use super::*;
-use nom::{
+use tailwind_error::nom::{
     branch::alt,
     character::streaming::digit1,
     combinator::{map_res, opt, recognize},

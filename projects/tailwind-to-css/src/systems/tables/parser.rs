@@ -1,5 +1,5 @@
 use super::*;
-use nom::{branch::alt, sequence::tuple};
+use tailwind_error::nom::{branch::alt, sequence::tuple};
 
 impl TailwindBorderCollapse {
     pub fn parser<'a>() -> impl FnMut(&'a str) -> ParsedList<'a> {

@@ -1,5 +1,5 @@
 use super::*;
-use nom::{branch::alt, character::complete::one_of, combinator::opt, sequence::tuple};
+use tailwind_error::nom::{branch::alt, character::complete::one_of, combinator::opt, sequence::tuple};
 
 impl TailwindSpacing {
     pub fn auto(kind: TailwindSpacingKind) -> Self {
