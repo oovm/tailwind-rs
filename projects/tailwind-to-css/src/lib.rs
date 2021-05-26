@@ -14,6 +14,7 @@ mod traits;
 pub use self::{
     builder::{parser::*, TailwindBuilder},
     systems::{
+        accessibility::TailwindScreenReader,
         breakpoints::{BreakPoint, BreakPointSystem},
         colors::{Palette, PaletteSystem},
         effects::{ShadowSystem, TailwindBlendKind, TailwindBlendMode, TailwindBlender, TailwindOpacity},

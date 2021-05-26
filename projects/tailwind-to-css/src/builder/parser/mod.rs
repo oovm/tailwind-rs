@@ -5,7 +5,10 @@ mod utils;
 pub use self::utils::*;
 use super::*;
 use crate::{
-    systems::{flexbox::TailwindFlexBasis, spaces::TailwindSpacing, typography::TailwindFontSmoothing},
+    systems::{
+        accessibility::TailwindScreenReader, flexbox::TailwindFlexBasis, spaces::TailwindSpacing,
+        typography::TailwindFontSmoothing,
+    },
     TailwindHeight, TailwindWidth,
 };
 use std::{
@@ -178,8 +181,8 @@ impl TailwindInstance for AstStyle {
             // SVG System
             ["svg", rest @ ..] => todo!(),
             // Accessibility System
-            ["sr", "only"] => todo!(),
-            ["not", "sr", "only"] => todo!(),
+            ["sr", "only"] => TailwindScreenReader::parse(true),
+            ["not", "sr", "only"] => TailwindScreenReader::parse(false),
             // Form System Extension
             _ => panic!("Unknown tailwind system"),
         };

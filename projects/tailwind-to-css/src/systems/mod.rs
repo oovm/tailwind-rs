@@ -1,3 +1,4 @@
+pub mod accessibility;
 pub mod breakpoints;
 pub mod colors;
 pub mod effects;
