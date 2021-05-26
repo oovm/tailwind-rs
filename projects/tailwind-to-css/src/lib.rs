@@ -12,10 +12,7 @@ mod systems;
 mod traits;
 
 pub use self::{
-    builder::{
-        parser::{AstElement, AstStyle, AstVariant},
-        TailwindBuilder,
-    },
+    builder::{parser::*, TailwindBuilder},
     systems::{
         breakpoints::{BreakPoint, BreakPointSystem},
         colors::{Palette, PaletteSystem},

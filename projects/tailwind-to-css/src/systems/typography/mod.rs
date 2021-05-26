@@ -2,12 +2,12 @@ use super::*;
 
 #[doc = include_str ! ("font-smoothing.md")]
 #[derive(Debug, Clone)]
-pub enum FontSmoothing {
+pub enum TailwindFontSmoothing {
     Normal,
     Subpixel,
 }
 
-impl TailwindInstance for FontSmoothing {
+impl TailwindInstance for TailwindFontSmoothing {
     fn id(&self) -> String {
         match self {
             Self::Normal => "antialiased",
@@ -29,18 +29,12 @@ impl TailwindInstance for FontSmoothing {
     }
 }
 
-impl FontSmoothing {
-    pub fn parse_antialias(input: &str) -> ParsedItem {
-        match tag("antialiased")(input) {
-            Ok(o) => Ok((o.0, Box::new(FontSmoothing::Normal))),
-            Err(e) => Err(e),
-        }
-    }
-
-    pub fn parse_subpixel(input: &str) -> ParsedItem {
-        match tag("subpixel-antialiased")(input) {
-            Ok(o) => Ok((o.0, Box::new(FontSmoothing::Subpixel))),
-            Err(e) => Err(e),
-        }
+impl TailwindFontSmoothing {
+    pub fn parse(subpixel: bool) -> Box<dyn TailwindInstance> {
+        let out = match subpixel {
+            true => Self::Subpixel,
+            false => Self::Normal,
+        };
+        Box::new(out)
     }
 }

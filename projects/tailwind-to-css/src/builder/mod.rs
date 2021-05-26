@@ -1,21 +1,14 @@
 pub mod parser;
-use crate::{TailwindAspect, TailwindBorderCollapse, TailwindBreak, TailwindTableLayout};
+use crate::{TailwindAspect, TailwindBreak, TailwindTableLayout};
 pub mod setter;
 
 use crate::{
-    traits::ParsedList, BreakPointSystem, CssAttribute, FontSystem, PaletteSystem, PreflightSystem, Result, TailWindZIndex,
-    TailwindInstance,
+    BreakPointSystem, CssAttribute, FontSystem, PaletteSystem, PreflightSystem, Result, TailWindZIndex, TailwindInstance,
 };
 use itertools::Itertools;
 use std::{collections::BTreeSet, fmt::Debug};
 use tailwind_error::nom::{
-    branch::alt,
-    bytes::complete::tag,
-    character::complete::{alpha1, digit1},
-    combinator::opt,
-    multi::many0,
-    sequence::tuple,
-    IResult,
+    branch::alt, bytes::complete::tag, character::complete::digit1, combinator::opt, multi::many0, sequence::tuple, IResult,
 };
 
 #[derive(Debug)]

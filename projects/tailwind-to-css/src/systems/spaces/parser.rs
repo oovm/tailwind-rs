@@ -1,5 +1,8 @@
 use super::*;
-use tailwind_error::nom::{branch::alt, character::complete::one_of, combinator::opt, sequence::tuple};
+use tailwind_error::{
+    nom::{branch::alt, character::complete::one_of, combinator::opt, sequence::tuple},
+    Result,
+};
 
 impl TailwindSpacing {
     pub fn auto(kind: TailwindSpacingKind) -> Self {
@@ -20,69 +23,71 @@ impl TailwindSpacing {
     /// `(p|m)(t|r|b|l|x|y)?-(px|n|auto)`
     ///
     /// `(space)(x|y)-(px|n|reverse)`
-    pub fn parser<'a>() -> impl FnMut(&'a str) -> ParsedList<'a> {
-        move |input| {
-            as_list(match tuple((Self::parser_kind(), tag("-"), Self::parser_size()))(input) {
-                Ok((rest, (kind, _, size))) => Ok((rest, Box::new(Self { kind, size }))),
-                Err(e) => Err(e),
-            })
-        }
+
+    pub fn parse_padding(input: &[&str], p: &str) -> Box<dyn TailwindInstance> {
+        Self::parse_pm(input, p).unwrap()
+    }
+    pub fn parse_margin(input: &[&str], m: &str) -> Box<dyn TailwindInstance> {
+        Self::parse_pm(input, m).unwrap()
+    }
+    fn parse_pm(input: &[&str], pm: &str) -> Result<Box<dyn TailwindInstance>> {
+        let kind = TailwindSpacingKind::parse_p(pm.chars().collect::<Vec<_>>().as_slice()).expect("not vaild");
+        let size = match input {
+            [s] => TailwindSpacingSize::parse_size(s).expect("Todo"),
+            _ => panic!("Todo"),
+        };
+        Ok(Box::new(Self { kind, size }))
     }
 
-    fn parser_kind<'a>() -> impl FnMut(&'a str) -> IResult<&'a str, TailwindSpacingKind> {
-        let pm = move |input: &'a str| match tuple((one_of("pm"), opt(one_of("trblxy"))))(input) {
-            Ok((rest, (a, b))) => Ok((rest, TailwindSpacingKind::parse_pm(a, b).unwrap())),
-            Err(e) => Err(e),
+    pub fn parse_space(input: &[&str], kind: char) -> Box<dyn TailwindInstance> {
+        let kind = TailwindSpacingKind::parse_space(kind).expect("Spacing: No such direction");
+        let size = match input {
+            [s] => TailwindSpacingSize::parse_size(s).expect("Todo"),
+            _ => panic!("Todo"),
         };
-        let space = move |input: &'a str| match tuple((tag("space-"), one_of("xy")))(input) {
-            Ok((rest, (a, b))) => Ok((rest, TailwindSpacingKind::parse_space(a, b).unwrap())),
-            Err(e) => Err(e),
-        };
-        alt((pm, space))
-    }
-
-    fn parser_size<'a>() -> impl FnMut(&'a str) -> IResult<&'a str, TailwindSpacingSize> {
-        move |input| match alt((tag("reverse"), tag("auto"), tag("px"), tag("n")))(input) {
-            Ok((rest, all)) => {
-                let size = match all {
-                    "auto" => TailwindSpacingSize::Auto,
-                    _ => todo!(),
-                };
-                Ok((rest, size))
-            }
-            Err(e) => Err(e),
-        }
+        Box::new(Self { kind, size })
     }
 }
 
 impl TailwindSpacingKind {
     /// `(p|m)(t|r|b|l|x|y)?`
-    fn parse_pm(a: char, b: Option<char>) -> Option<TailwindSpacingKind> {
-        let kind = match (a, b) {
-            ('p', None) => Self::Padding,
-            ('p', Some('t')) => Self::PaddingT,
-            ('p', Some('r')) => Self::PaddingR,
-            ('p', Some('b')) => Self::PaddingB,
-            ('p', Some('l')) => Self::PaddingL,
-            ('p', Some('x')) => Self::PaddingX,
-            ('p', Some('y')) => Self::PaddingY,
-            ('m', None) => Self::Margin,
-            ('m', Some('t')) => Self::MarginT,
-            ('m', Some('r')) => Self::MarginR,
-            ('m', Some('b')) => Self::MarginB,
-            ('m', Some('l')) => Self::MarginL,
-            ('m', Some('x')) => Self::MarginX,
-            ('m', Some('y')) => Self::MarginY,
+    fn parse_p(cs: &[char]) -> Option<TailwindSpacingKind> {
+        let kind = match cs {
+            ['p'] => Self::Padding,
+            ['p', 't'] => Self::PaddingT,
+            ['p', 'r'] => Self::PaddingR,
+            ['p', 'b'] => Self::PaddingB,
+            ['p', 'l'] => Self::PaddingL,
+            ['p', 'x'] => Self::PaddingX,
+            ['p', 'y'] => Self::PaddingY,
+            ['m'] => Self::Margin,
+            ['m', 't'] => Self::MarginT,
+            ['m', 'r'] => Self::MarginR,
+            ['m', 'b'] => Self::MarginB,
+            ['m', 'l'] => Self::MarginL,
+            ['m', 'x'] => Self::MarginX,
+            ['m', 'y'] => Self::MarginY,
             _ => return None,
         };
         return Some(kind);
     }
-    /// `(space)(x|y)`
-    fn parse_space(_: &str, b: char) -> Option<TailwindSpacingKind> {
-        match b {
+    /// `(space)-(x|y)`
+    fn parse_space(c: char) -> Option<TailwindSpacingKind> {
+        match c {
             'x' => Some(Self::SpaceBetweenX),
             'y' => Some(Self::SpaceBetweenY),
             _ => None,
         }
+    }
+}
+
+impl TailwindSpacingSize {
+    fn parse_size(input: &str) -> Result<Self> {
+        // match input {
+        //     "px" => {}
+        //     "reverse" => {}
+        //     "auto" => {}
+        // }
+        todo!()
     }
 }
