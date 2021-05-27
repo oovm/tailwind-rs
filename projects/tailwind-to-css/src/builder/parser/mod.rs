@@ -155,7 +155,7 @@ impl TailwindInstance for AstStyle {
             ["grayscale", rest @ ..] => todo!(),
             ["backdrop", rest @ ..] => todo!(),
             // Tables System
-            ["table", rest @ ..] => todo!(),
+            ["table", rest @ ..] => TailwindTableLayout::parse(rest),
             // Transitions System
             ["transition", rest @ ..] => todo!(),
             ["duration", rest @ ..] => todo!(),
