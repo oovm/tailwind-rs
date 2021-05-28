@@ -11,6 +11,7 @@ pub mod spaces;
 pub mod tables;
 pub mod theme;
 pub mod typography;
+pub mod borders;
 
 use crate::{css_attributes, traits::CssAttribute, TailwindBuilder, TailwindInstance};
 use css_style::unit::{percent, px, rem, Length};

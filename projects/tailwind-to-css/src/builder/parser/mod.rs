@@ -6,10 +6,10 @@ pub use self::utils::*;
 use super::*;
 use crate::{
     systems::{
-        accessibility::TailwindScreenReader, flexbox::TailwindFlexBasis, spaces::TailwindSpacing,
+        accessibility::TailwindScreenReader, borders::TailwindBorderStyle, flexbox::TailwindFlexBasis, spaces::TailwindSpacing,
         typography::TailwindFontSmoothing,
     },
-    TailwindHeight, TailwindWidth,
+    TailwindBorderCollapse, TailwindHeight, TailwindWidth,
 };
 use std::{
     fmt::{Display, Formatter, Write},
@@ -137,7 +137,7 @@ impl TailwindInstance for AstStyle {
             ["to", rest @ ..] => todo!(),
             // Borders System
             ["rounded", rest @ ..] => todo!(),
-            ["border", rest @ ..] => todo!(),
+            ["border", rest @ ..] => Self::border_adaptor(rest),
             ["divide", rest @ ..] => todo!(),
             ["outline", rest @ ..] => todo!(),
             ["ring", rest @ ..] => todo!(),
@@ -187,6 +187,31 @@ impl TailwindInstance for AstStyle {
             _ => panic!("Unknown tailwind system"),
         };
         out
+    }
+}
+
+impl AstStyle {
+    pub fn border_adaptor(str: &[&str]) -> Box<dyn TailwindInstance> {
+        match str {
+            // border
+            [] => TailwindBorderWidth::parse(),
+            [] => TailwindBorderWidth::parse(),
+            [] => TailwindBorderWidth::parse(),
+            [] => TailwindBorderWidth::parse(),
+
+            ["solid"] => TailwindBorderStyle::Solid.into_instance(),
+            ["dashed"] => TailwindBorderStyle::Dashed.into_instance(),
+            ["dotted"] => TailwindBorderStyle::Dotted.into_instance(),
+            ["double"] => TailwindBorderStyle::Double.into_instance(),
+            ["hidden"] => TailwindBorderStyle::Hidden.into_instance(),
+            ["none"] => TailwindBorderStyle::None.into_instance(),
+
+            // https://tailwindcss.com/docs/border-collapse
+            ["collapse"] => TailwindBorderCollapse::Collapse.into_instance(),
+            ["separate"] => TailwindBorderCollapse::Separate.into_instance(),
+
+            _ => panic!("todo"),
+        }
     }
 }
 
