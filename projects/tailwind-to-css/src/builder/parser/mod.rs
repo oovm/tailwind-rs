@@ -138,11 +138,11 @@ impl TailwindInstance for AstStyle {
             // Borders System
             ["rounded", rest @ ..] => todo!(),
             ["border", rest @ ..] => Self::border_adaptor(rest),
-            ["divide", rest @ ..] => todo!(),
-            ["outline", rest @ ..] => todo!(),
-            ["ring", rest @ ..] => todo!(),
+            ["divide", rest @ ..] => Self::divide_adaptor(rest),
+            ["outline", rest @ ..] => Self::outline_adaptor(rest),
+            ["ring", rest @ ..] => Self::ring_adaptor(rest),
             // Effects System
-            ["shadow", rest @ ..] => todo!(),
+            ["shadow", rest @ ..] => Self::shadow_adaptor(rest),
             ["opacity", rest @ ..] => todo!(),
             ["mix", "blend", rest @ ..] => todo!(),
             // Filters System
@@ -195,24 +195,28 @@ impl AstStyle {
         match str {
             // border
             [] => TailwindBorderWidth::parse(),
-            [] => TailwindBorderWidth::parse(),
-            [] => TailwindBorderWidth::parse(),
-            [] => TailwindBorderWidth::parse(),
 
+            // https://tailwindcss.com/docs/border-style
             ["solid"] => TailwindBorderStyle::Solid.into_instance(),
             ["dashed"] => TailwindBorderStyle::Dashed.into_instance(),
             ["dotted"] => TailwindBorderStyle::Dotted.into_instance(),
             ["double"] => TailwindBorderStyle::Double.into_instance(),
             ["hidden"] => TailwindBorderStyle::Hidden.into_instance(),
             ["none"] => TailwindBorderStyle::None.into_instance(),
-
             // https://tailwindcss.com/docs/border-collapse
             ["collapse"] => TailwindBorderCollapse::Collapse.into_instance(),
             ["separate"] => TailwindBorderCollapse::Separate.into_instance(),
+            // https://tailwindcss.com/docs/border-color
+            ["inherit"] => TailwindBorderCollapse::Collapse.into_instance(),
+            ["current"] => TailwindBorderCollapse::Separate.into_instance(),
+            ["transparent"] => TailwindBorderCollapse::Separate.into_instance(),
+            ["black"] => TailwindBorderCollapse::Separate.into_instance(),
+            ["white"] => TailwindBorderCollapse::Separate.into_instance(),
 
             _ => panic!("todo"),
         }
     }
+    pub fn divide_adaptor(str: &[&str]) -> Box<dyn TailwindInstance> {}
 }
 
 impl TailwindBuilder {

@@ -1,3 +1,4 @@
+#![feature(box_syntax)]
 // #![feature(type_alias_impl_trait)]
 // #![feature(box_syntax)]
 #![forbid(missing_debug_implementations)]
@@ -17,7 +18,7 @@ pub use self::{
         accessibility::TailwindScreenReader,
         breakpoints::{BreakPoint, BreakPointSystem},
         colors::{Palette, PaletteSystem},
-        effects::{ShadowSystem, TailwindBlendKind, TailwindBlendMode, TailwindBlender, TailwindOpacity},
+        effects::{ShadowSystem, TailwindBlend, TailwindBlendKind, TailwindBlendMode, TailwindOpacity},
         fonts::FontSystem,
         layouts::{TailWindZIndex, TailwindAspect, TailwindBreak},
         preflight::PreflightSystem,

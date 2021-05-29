@@ -11,3 +11,12 @@ pub enum TailwindBorderStyle {
     Double,
     Hidden,
 }
+
+pub enum TailwindDivideStyle {
+    None,
+    Solid,
+    Dashed,
+    Dotted,
+    Double,
+    // Hidden,
+}
