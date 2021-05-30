@@ -13,6 +13,18 @@ pub struct TailwindAspect {
     ratio: &'static str,
 }
 
+/// https://tailwindcss.com/docs/display
+pub enum TailwindDisplay {
+    Block,
+    Inline,
+    InlineBlock,
+    Flex,
+    InlineFlex,
+    Table,
+    InlineTable,
+    TableCaption,
+}
+
 #[derive(Copy, Clone, Debug)]
 pub enum TailwindBreak {
     /// https://tailwindcss.com/docs/break-before
@@ -49,13 +61,6 @@ pub struct TailwindColumns {}
 pub enum TailwindBoxSizing {
     Border,
     Content,
-}
-
-/// https://tailwindcss.com/docs/display
-pub enum TailwindDisplay {
-    Block,
-    Inline,
-    InlineBlock,
 }
 
 /// https://tailwindcss.com/docs/float

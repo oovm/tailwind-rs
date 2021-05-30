@@ -1,4 +1,3 @@
-#![feature(box_syntax)]
 // #![feature(type_alias_impl_trait)]
 // #![feature(box_syntax)]
 #![forbid(missing_debug_implementations)]

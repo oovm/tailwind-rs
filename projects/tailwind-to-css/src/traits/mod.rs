@@ -21,6 +21,10 @@ pub type ParsedList<'a> = IResult<&'a str, HashSet<Box<dyn TailwindInstance>>>;
 pub trait TailwindInstance {
     /// used to deduplication and marking
     fn id(&self) -> String;
+
+    fn boxed(self) -> Box<dyn TailwindInstance> {
+        Box::new(self)
+    }
     /// const ID: &'static str;
     fn selectors(&self, ctx: &TailwindBuilder) -> String {
         format!(".{}", self.id())

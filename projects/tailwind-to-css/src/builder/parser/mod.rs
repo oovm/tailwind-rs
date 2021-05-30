@@ -92,6 +92,11 @@ impl TailwindInstance for AstStyle {
             // ["w", rest @ ..] => {TailW}
             // Layout System
             ["aspect", rest @ ..] => TailwindAspect::parse(rest),
+            ["container"] => todo!(),
+            ["columns", rest @ ..] => todo!(),
+            ["box", rest @ ..] => Self::box_adaptor(rest),
+            ["block"] =>
+
             ["break", "before", rest @ ..] => TailwindBreak::parse_before(rest),
             ["break", "inside", rest @ ..] => TailwindBreak::parse_inside(rest),
             ["break", "after", rest @ ..] => TailwindBreak::parse_after(rest),
@@ -216,7 +221,24 @@ impl AstStyle {
             _ => panic!("todo"),
         }
     }
-    pub fn divide_adaptor(str: &[&str]) -> Box<dyn TailwindInstance> {}
+    pub fn divide_adaptor(str: &[&str]) -> Box<dyn TailwindInstance> {
+        todo!()
+    }
+
+    pub fn outline_adaptor(str: &[&str]) -> Box<dyn TailwindInstance> {
+        todo!()
+    }
+
+    pub fn ring_adaptor(str: &[&str]) -> Box<dyn TailwindInstance> {
+        todo!()
+    }
+
+    pub fn shadow_adaptor(str: &[&str]) -> Box<dyn TailwindInstance> {
+        todo!()
+    }
+    pub fn box_adaptor(str: &[&str]) -> Box<dyn TailwindInstance> {
+        todo!()
+    }
 }
 
 impl TailwindBuilder {
