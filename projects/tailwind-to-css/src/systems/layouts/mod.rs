@@ -85,3 +85,15 @@ pub enum TailwindIsolation {
 
 /// https://tailwindcss.com/docs/object-fit
 pub enum TailwindObjectFit {}
+
+/// https://tailwindcss.com/docs/overscroll-behavior
+pub enum TailwindOverscroll {}
+
+/// https://tailwindcss.com/docs/position
+pub enum TailwindPosition {}
+
+/// https://tailwindcss.com/docs/visibility
+pub enum TailwindVisibility {
+    Visible,
+    Invisible,
+}

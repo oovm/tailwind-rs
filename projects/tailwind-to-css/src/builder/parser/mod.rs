@@ -6,7 +6,11 @@ pub use self::utils::*;
 use super::*;
 use crate::{
     systems::{
-        accessibility::TailwindScreenReader, borders::TailwindBorderStyle, flexbox::TailwindFlexBasis, spaces::TailwindSpacing,
+        accessibility::TailwindScreenReader,
+        borders::TailwindBorderStyle,
+        flexbox::TailwindFlexBasis,
+        layouts::{TailwindDisplay, TailwindPosition, TailwindVisibility},
+        spaces::TailwindSpacing,
         typography::TailwindFontSmoothing,
     },
     TailwindBorderCollapse, TailwindHeight, TailwindWidth,
@@ -95,11 +99,20 @@ impl TailwindInstance for AstStyle {
             ["container"] => todo!(),
             ["columns", rest @ ..] => todo!(),
             ["box", rest @ ..] => Self::box_adaptor(rest),
-            ["block"] =>
+            ["block"] => TailwindDisplay::Block.boxed(),
+            ["flex"] => TailwindDisplay::Flex.boxed(),
+            ["inline", "flex"] => TailwindDisplay::InlineFlex.boxed(),
+            ["inline", "block"] => TailwindDisplay::InlineBlock.boxed(),
 
             ["break", "before", rest @ ..] => TailwindBreak::parse_before(rest),
             ["break", "inside", rest @ ..] => TailwindBreak::parse_inside(rest),
             ["break", "after", rest @ ..] => TailwindBreak::parse_after(rest),
+
+            ["static"] => TailwindPosition::InlineFlex.boxed(),
+
+            ["visible"] => TailwindVisibility::Visible.boxed(),
+            ["invisible"] => TailwindVisibility::Invisible.boxed(),
+
             ["z", rest @ ..] => TailWindZIndex::parse(rest, self.negative),
 
             ["s", rest @ ..] => TailWindZIndex::parse(rest, self.negative),
@@ -199,7 +212,7 @@ impl AstStyle {
     pub fn border_adaptor(str: &[&str]) -> Box<dyn TailwindInstance> {
         match str {
             // border
-            [] => TailwindBorderWidth::parse(),
+            // [] => TailwindBorderWidth::parse(),
 
             // https://tailwindcss.com/docs/border-style
             ["solid"] => TailwindBorderStyle::Solid.into_instance(),

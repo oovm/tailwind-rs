@@ -22,7 +22,10 @@ pub trait TailwindInstance {
     /// used to deduplication and marking
     fn id(&self) -> String;
 
-    fn boxed(self) -> Box<dyn TailwindInstance> {
+    fn boxed(self) -> Box<dyn TailwindInstance>
+    where
+        Self: Sized,
+    {
         Box::new(self)
     }
     /// const ID: &'static str;

@@ -34,6 +34,12 @@ impl TailwindInstance for TailwindBreak {
     }
 }
 
+impl TailwindInstance for TailwindDisplay {
+    fn id(&self) -> String {
+        todo!()
+    }
+}
+
 impl TailwindInstance for TailWindZIndex {
     fn id(&self) -> String {
         match self {

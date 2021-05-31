@@ -31,6 +31,6 @@ impl TailwindBlendKind {
 
 impl TailwindBlendMode {
     pub fn instance(self, is_background: bool) -> Box<dyn TailwindInstance> {
-        box TailwindBlend { kind: TailwindBlendKind::new(is_background), mode: self }
+        TailwindBlend { kind: TailwindBlendKind::new(is_background), mode: self }.boxed()
     }
 }
