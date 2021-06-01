@@ -1,5 +1,6 @@
 use super::*;
 use crate::TailwindInstance;
+use std::str::FromStr;
 
 impl TailwindOpacity {
     pub fn parse(input: &str) -> Box<dyn TailwindInstance> {
@@ -12,15 +13,30 @@ impl TailwindOpacity {
     }
 }
 
+impl TailwindBlendMode {}
+
+impl FromStr for TailwindBlendMode {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let out = match s {
+            "normal" => Self::Normal,
+            _ => return Err(()),
+        };
+        Ok(out)
+    }
+}
+
 impl TailwindBlend {
-    pub fn parse(mode: &str, is_background: bool) -> Box<dyn TailwindInstance> {
-        let mode = TailwindBlendMode::new(mode).expect("???");
-        let out = Self { kind: TailwindBlendKind::new(is_background), mode };
-        Box::new(out)
+    #[inline]
+    pub fn new(mode: &str, is_background: bool) -> Self {
+        let mode = mode.parse().expect("???");
+        Self { kind: TailwindBlendKind::new(is_background), mode }
     }
 }
 
 impl TailwindBlendKind {
+    #[inline]
     pub fn new(is_background: bool) -> Self {
         match is_background {
             true => Self::Background,

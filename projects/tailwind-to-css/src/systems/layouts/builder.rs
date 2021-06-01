@@ -40,6 +40,18 @@ impl TailwindInstance for TailwindDisplay {
     }
 }
 
+impl TailwindInstance for TailwindPosition {
+    fn id(&self) -> String {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindVisibility {
+    fn id(&self) -> String {
+        todo!()
+    }
+}
+
 impl TailwindInstance for TailWindZIndex {
     fn id(&self) -> String {
         match self {

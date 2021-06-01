@@ -4,6 +4,7 @@ pub mod builder;
 pub mod parser;
 
 /// https://tailwindcss.com/docs/aspect-ratio
+#[derive(Copy, Clone, Debug)]
 pub struct LayoutSystem {}
 
 #[doc = include_str ! ("aspect-ratio.md")]
@@ -14,6 +15,7 @@ pub struct TailwindAspect {
 }
 
 /// https://tailwindcss.com/docs/display
+#[derive(Copy, Clone, Debug)]
 pub enum TailwindDisplay {
     Block,
     Inline,
@@ -52,18 +54,22 @@ pub enum TailWindBoxSizing {
 }
 
 /// https://tailwindcss.com/docs/container
+#[derive(Copy, Clone, Debug)]
 pub struct TailwindContainer {}
 
 /// https://tailwindcss.com/docs/columns
+#[derive(Copy, Clone, Debug)]
 pub struct TailwindColumns {}
 
 /// https://tailwindcss.com/docs/box-sizing
+#[derive(Copy, Clone, Debug)]
 pub enum TailwindBoxSizing {
     Border,
     Content,
 }
 
 /// https://tailwindcss.com/docs/float
+#[derive(Copy, Clone, Debug)]
 pub enum TailwindFloat {
     Left,
     Right,
@@ -71,6 +77,7 @@ pub enum TailwindFloat {
 }
 
 /// https://tailwindcss.com/docs/clear
+#[derive(Copy, Clone, Debug)]
 pub enum TailwindClear {
     Left,
     Right,
@@ -78,21 +85,28 @@ pub enum TailwindClear {
     None,
 }
 
+#[derive(Copy, Clone, Debug)]
 pub enum TailwindIsolation {
     Isolate,
     Auto,
 }
 
 /// https://tailwindcss.com/docs/object-fit
+#[derive(Copy, Clone, Debug)]
 pub enum TailwindObjectFit {}
 
 /// https://tailwindcss.com/docs/overscroll-behavior
+#[derive(Copy, Clone, Debug)]
 pub enum TailwindOverscroll {}
 
 /// https://tailwindcss.com/docs/position
-pub enum TailwindPosition {}
+#[derive(Copy, Clone, Debug)]
+pub enum TailwindPosition {
+    InlineFlex,
+}
 
 /// https://tailwindcss.com/docs/visibility
+#[derive(Copy, Clone, Debug)]
 pub enum TailwindVisibility {
     Visible,
     Invisible,

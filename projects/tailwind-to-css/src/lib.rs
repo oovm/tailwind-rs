@@ -14,16 +14,8 @@ mod traits;
 pub use self::{
     builder::{parser::*, TailwindBuilder},
     systems::{
-        accessibility::TailwindScreenReader,
-        breakpoints::{BreakPoint, BreakPointSystem},
-        colors::{Palette, PaletteSystem},
-        effects::{ShadowSystem, TailwindBlend, TailwindBlendKind, TailwindBlendMode, TailwindOpacity},
-        fonts::FontSystem,
-        layouts::{TailWindZIndex, TailwindAspect, TailwindBreak},
-        preflight::PreflightSystem,
-        sizes::{TailwindHeight, TailwindSizing, TailwindWidth},
-        spaces::{TailwindSpacing, TailwindSpacingKind, TailwindSpacingSize},
-        tables::{TailwindBorderCollapse, TailwindTableLayout},
+        accessibility::*, breakpoints::*, colors::*, effects::*, fonts::*, layouts::*, preflight::*, sizes::*, spaces::*,
+        tables::*, typography::*,
     },
     traits::{CssAttribute, ParsedItem, ParsedList, TailwindInstance, TailwindObject},
 };

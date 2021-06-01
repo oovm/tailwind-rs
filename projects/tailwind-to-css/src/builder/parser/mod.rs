@@ -5,15 +5,8 @@ mod utils;
 pub use self::utils::*;
 use super::*;
 use crate::{
-    systems::{
-        accessibility::TailwindScreenReader,
-        borders::TailwindBorderStyle,
-        flexbox::TailwindFlexBasis,
-        layouts::{TailwindDisplay, TailwindPosition, TailwindVisibility},
-        spaces::TailwindSpacing,
-        typography::TailwindFontSmoothing,
-    },
-    TailwindBorderCollapse, TailwindHeight, TailwindWidth,
+    systems::borders::TailwindBorderStyle, TailwindBorderCollapse, TailwindDisplay, TailwindFontSmoothing, TailwindHeight,
+    TailwindPosition, TailwindScreenReader, TailwindSpacing, TailwindVisibility, TailwindWidth,
 };
 use std::{
     fmt::{Display, Formatter, Write},
@@ -132,8 +125,8 @@ impl TailwindInstance for AstStyle {
             ["font", family @ ("sans" | "serif" | "mono")] => todo!(),
             ["text", size] => todo!(),
             ["text", size] => todo!(),
-            ["antialiased"] => TailwindFontSmoothing::parse(false),
-            ["subpixel", "antialiased"] => TailwindFontSmoothing::parse(true),
+            ["antialiased"] => TailwindFontSmoothing::new(false).boxed(),
+            ["subpixel", "antialiased"] => TailwindFontSmoothing::new(true).boxed(),
             ["italic"] => todo!(),
             ["not", "italic"] => todo!(),
             ["font", weight @ ("thin" | "extralight" | "light")] => todo!(),
@@ -199,8 +192,8 @@ impl TailwindInstance for AstStyle {
             // SVG System
             ["svg", rest @ ..] => todo!(),
             // Accessibility System
-            ["sr", "only"] => TailwindScreenReader::parse(true),
-            ["not", "sr", "only"] => TailwindScreenReader::parse(false),
+            ["sr", "only"] => TailwindScreenReader::new(true).boxed(),
+            ["not", "sr", "only"] => TailwindScreenReader::new(false).boxed(),
             // Form System Extension
             _ => panic!("Unknown tailwind system"),
         };

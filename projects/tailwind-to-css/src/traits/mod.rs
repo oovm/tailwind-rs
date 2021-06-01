@@ -25,6 +25,7 @@ pub trait TailwindInstance {
     fn boxed(self) -> Box<dyn TailwindInstance>
     where
         Self: Sized,
+        Self: 'static,
     {
         Box::new(self)
     }

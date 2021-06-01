@@ -3,6 +3,7 @@ mod parser;
 
 use super::*;
 
+#[derive(Copy, Clone, Debug)]
 pub struct SizingSystem {}
 
 /// used to express sizing

@@ -23,11 +23,10 @@ impl TailwindInstance for TailwindScreenReader {
 }
 
 impl TailwindScreenReader {
-    pub fn parse(input: bool) -> Box<dyn TailwindInstance> {
-        let out = match input {
+    pub fn new(sr_only: bool) -> Self {
+        match sr_only {
             true => Self { inner: true },
             false => Self { inner: false },
-        };
-        Box::new(out)
+        }
     }
 }
