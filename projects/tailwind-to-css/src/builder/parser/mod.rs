@@ -5,8 +5,9 @@ mod utils;
 pub use self::utils::*;
 use super::*;
 use crate::{
-    systems::borders::TailwindBorderStyle, TailwindBorderCollapse, TailwindDisplay, TailwindFontSmoothing, TailwindHeight,
-    TailwindPosition, TailwindScreenReader, TailwindSpacing, TailwindVisibility, TailwindWidth,
+    syntax_error, systems::borders::TailwindBorderStyle, TailwindBorderCollapse, TailwindBoxDecorationBreak, TailwindBoxSizing,
+    TailwindClear, TailwindColumns, TailwindContainer, TailwindDisplay, TailwindFontSmoothing, TailwindHeight,
+    TailwindIsolation, TailwindPosition, TailwindScreenReader, TailwindSpacing, TailwindVisibility, TailwindWidth,
 };
 use std::{
     fmt::{Display, Formatter, Write},
@@ -85,28 +86,47 @@ impl TailwindInstance for AstStyle {
     }
     fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         let mut out = BTreeSet::default();
+        out
+    }
+}
+
+impl AstStyle {
+    pub fn get_instance(&self) -> Result<Box<dyn TailwindInstance>> {
         let instance = match self.view_elements().as_slice() {
             // ["w", rest @ ..] => {TailW}
             // Layout System
-            ["aspect", rest @ ..] => TailwindAspect::parse(rest),
-            ["container"] => todo!(),
-            ["columns", rest @ ..] => todo!(),
-            ["box", rest @ ..] => Self::box_adaptor(rest),
-            ["block"] => TailwindDisplay::Block.boxed(),
-            ["flex"] => TailwindDisplay::Flex.boxed(),
-            ["inline", "flex"] => TailwindDisplay::InlineFlex.boxed(),
-            ["inline", "block"] => TailwindDisplay::InlineBlock.boxed(),
-
+            ["aspect", rest @ ..] => TailwindAspect::parse(rest)?.boxed(),
+            ["container"] => TailwindContainer {}.boxed(),
+            ["columns", rest @ ..] => TailwindColumns::parse(rest)?.boxed(),
             ["break", "before", rest @ ..] => TailwindBreak::parse_before(rest),
             ["break", "inside", rest @ ..] => TailwindBreak::parse_inside(rest),
             ["break", "after", rest @ ..] => TailwindBreak::parse_after(rest),
+            ["box", rest @ ..] => Self::box_adaptor(rest),
+            ["block"] => TailwindDisplay::Block.boxed(),
+            ["flex"] => TailwindDisplay::Flex.boxed(),
+            // begin https://tailwindcss.com/docs/display
+            ["inline", "flex"] => TailwindDisplay::InlineFlex.boxed(),
+            ["inline", "block"] => TailwindDisplay::InlineBlock.boxed(),
+            // end https://tailwindcss.com/docs/display
+            ["float", rest @ ..] => Self::float_adaptor(rest),
+            ["clear", rest @ ..] => TailwindClear::parse(rest)?.boxed(),
 
+            ["isolate"] => TailwindIsolation::Visible.boxed(),
+            ["isolation", "auto"] => TailwindIsolation::Invisible.boxed(),
+            ["object", rest @ ..] => Self::object_adaptor(rest),
+            ["overflow", rest @ ..] => Self::overflow_adaptor(rest),
+            ["overscroll", rest @ ..] => Self::overscroll_adaptor(rest),
+            // begin https://tailwindcss.com/docs/position
             ["static"] => TailwindPosition::InlineFlex.boxed(),
-
+            ["fixed"] => TailwindPosition::InlineFlex.boxed(),
+            ["absolute"] => TailwindPosition::InlineFlex.boxed(),
+            ["relative"] => TailwindPosition::InlineFlex.boxed(),
+            ["sticky"] => TailwindPosition::InlineFlex.boxed(),
+            // end https://tailwindcss.com/docs/position
             ["visible"] => TailwindVisibility::Visible.boxed(),
             ["invisible"] => TailwindVisibility::Invisible.boxed(),
 
-            ["z", rest @ ..] => TailWindZIndex::parse(rest, self.negative),
+            ["inset", rest @ ..] => TailWindZIndex::parse(rest, self.negative),
 
             ["s", rest @ ..] => TailWindZIndex::parse(rest, self.negative),
             // Spacing System
@@ -197,11 +217,9 @@ impl TailwindInstance for AstStyle {
             // Form System Extension
             _ => panic!("Unknown tailwind system"),
         };
-        out
+        Ok(instance)
     }
-}
 
-impl AstStyle {
     pub fn border_adaptor(str: &[&str]) -> Box<dyn TailwindInstance> {
         match str {
             // border
@@ -242,8 +260,15 @@ impl AstStyle {
     pub fn shadow_adaptor(str: &[&str]) -> Box<dyn TailwindInstance> {
         todo!()
     }
-    pub fn box_adaptor(str: &[&str]) -> Box<dyn TailwindInstance> {
-        todo!()
+    pub fn box_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+        let out = match str {
+            ["decoration", "clone"] => TailwindBoxDecorationBreak::Clone.boxed(),
+            ["decoration", "slice"] => TailwindBoxDecorationBreak::Clone.boxed(),
+            ["border"] => TailwindBoxSizing::Border.boxed(),
+            ["content"] => TailwindBoxSizing::Content.boxed(),
+            _ => return syntax_error!(""),
+        };
+        Ok(out)
     }
 }
 

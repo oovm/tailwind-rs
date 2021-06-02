@@ -84,3 +84,16 @@ impl TailwindObject {
         }
     }
 }
+
+#[macro_export]
+macro_rules! syntax_error {
+    ($msg:literal $(,)?) => {
+        Err(tailwind_error::TailwindError::syntax_error($msg.to_string()))
+    };
+    // ($err:expr $(,)?) => {
+    //     Err(TailwindError::from($err))
+    // };
+    ($fmt:expr, $($arg:tt)*) => {
+        Err(tailwind_error::TailwindError::syntax_error(format!($fmt, $($arg)*)))
+    };
+}

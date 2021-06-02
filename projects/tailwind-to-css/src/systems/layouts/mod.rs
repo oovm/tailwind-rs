@@ -1,7 +1,7 @@
 use super::*;
 
 pub mod builder;
-pub mod parser;
+pub mod display;
 
 /// https://tailwindcss.com/docs/aspect-ratio
 #[derive(Copy, Clone, Debug)]
@@ -12,6 +12,43 @@ pub struct LayoutSystem {}
 pub struct TailwindAspect {
     kind: &'static str,
     ratio: &'static str,
+}
+
+/// https://tailwindcss.com/docs/container
+#[derive(Copy, Clone, Debug)]
+pub struct TailwindContainer {}
+
+#[doc = include_str ! ("columns.md")]
+#[derive(Copy, Clone, Debug)]
+pub enum TailwindColumns {
+    Auto,
+    Columns(u8),
+    Size(u8),
+}
+
+#[doc = include_str ! ("break.md")]
+#[derive(Copy, Clone, Debug)]
+pub enum TailwindBreak {
+    /// https://tailwindcss.com/docs/break-before
+    Before(&'static str),
+    /// https://tailwindcss.com/docs/break-after
+    After(&'static str),
+    /// https://tailwindcss.com/docs/break-inside
+    Inside(&'static str),
+}
+
+/// https://tailwindcss.com/docs/box-sizing
+#[derive(Copy, Clone, Debug)]
+pub enum TailwindBoxDecorationBreak {
+    Clone,
+    Slice,
+}
+
+/// https://tailwindcss.com/docs/box-sizing
+#[derive(Copy, Clone, Debug)]
+pub enum TailwindBoxSizing {
+    Border,
+    Content,
 }
 
 /// https://tailwindcss.com/docs/display
@@ -25,47 +62,6 @@ pub enum TailwindDisplay {
     Table,
     InlineTable,
     TableCaption,
-}
-
-#[derive(Copy, Clone, Debug)]
-pub enum TailwindBreak {
-    /// https://tailwindcss.com/docs/break-before
-    Before(&'static str),
-    /// https://tailwindcss.com/docs/break-after
-    After(&'static str),
-    /// https://tailwindcss.com/docs/break-inside
-    Inside(&'static str),
-}
-
-#[doc = include_str ! ("z-index.md")]
-#[derive(Copy, Clone, Debug)]
-pub enum TailWindZIndex {
-    Auto,
-    Positive(usize),
-    Negative(usize),
-}
-
-#[doc = include_str ! ("box-sizing.md")]
-#[derive(Copy, Clone, Debug)]
-pub enum TailWindBoxSizing {
-    Auto,
-    Positive(isize),
-    Negative(isize),
-}
-
-/// https://tailwindcss.com/docs/container
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindContainer {}
-
-/// https://tailwindcss.com/docs/columns
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindColumns {}
-
-/// https://tailwindcss.com/docs/box-sizing
-#[derive(Copy, Clone, Debug)]
-pub enum TailwindBoxSizing {
-    Border,
-    Content,
 }
 
 /// https://tailwindcss.com/docs/float
@@ -83,6 +79,22 @@ pub enum TailwindClear {
     Right,
     Both,
     None,
+}
+
+#[doc = include_str ! ("z-index.md")]
+#[derive(Copy, Clone, Debug)]
+pub enum TailWindZIndex {
+    Auto,
+    Positive(usize),
+    Negative(usize),
+}
+
+#[doc = include_str ! ("box-sizing.md")]
+#[derive(Copy, Clone, Debug)]
+pub enum TailWindBoxSizing {
+    Auto,
+    Positive(isize),
+    Negative(isize),
 }
 
 #[derive(Copy, Clone, Debug)]
