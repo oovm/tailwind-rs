@@ -40,6 +40,12 @@ impl TailwindInstance for TailwindBreak {
     }
 }
 
+impl TailwindInstance for TailwindColumns {
+    fn id(&self) -> String {
+        todo!()
+    }
+}
+
 impl TailwindInstance for TailwindBoxDecorationBreak {
     fn id(&self) -> String {
         todo!()

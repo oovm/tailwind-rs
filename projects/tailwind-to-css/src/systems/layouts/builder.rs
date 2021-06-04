@@ -140,3 +140,18 @@ impl TailWindZIndex {
         }
     }
 }
+
+impl TailwindClear {
+    /// https://tailwindcss.com/docs/clear
+    #[inline]
+    pub fn parse(kind: &[&str]) -> Result<Self> {
+        let out = match kind {
+            ["left"] => Self::Left,
+            ["right"] => Self::Right,
+            ["both"] => Self::Both,
+            ["none"] => Self::None,
+            _ => return syntax_error!("unknown clear elements"),
+        };
+        Ok(out)
+    }
+}
