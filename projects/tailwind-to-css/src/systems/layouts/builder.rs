@@ -1,13 +1,4 @@
 use super::*;
-use crate::{parse_integer, syntax_error};
-use tailwind_error::{
-    nom::{
-        character::streaming::digit1,
-        combinator::{map_res, opt, recognize},
-        sequence::tuple,
-    },
-    Result, TailwindError,
-};
 
 impl TailwindAspect {
     /// https://tailwindcss.com/docs/aspect-ratio
@@ -56,12 +47,8 @@ impl TailwindColumns {
 
 impl TailwindBreak {
     /// https://tailwindcss.com/docs/break-before
-    pub fn parse_before<'a>(kind: &[&str]) -> Box<dyn TailwindInstance> {
-        match kind.len() {
-            1 | 2 => {}
-            r => panic!("break-before expected 1 or 2 elements but found {} elements", r),
-        }
-        let instance = match kind {
+    pub fn parse_before(kind: &[&str]) -> Result<Self> {
+        let out = match kind {
             ["auto"] => Self::Before("auto"),
             ["avoid"] => Self::Before("avoid"),
             ["all"] => Self::Before("all"),
@@ -70,19 +57,13 @@ impl TailwindBreak {
             ["left"] => Self::Before("left"),
             ["right"] => Self::Before("right"),
             ["column"] => Self::Before("column"),
-            _ => {
-                panic!("unknown aspect-ratio")
-            }
+            _ => return syntax_error!("unknown break before elements"),
         };
-        Box::new(instance)
+        Ok(out)
     }
     /// https://tailwindcss.com/docs/break-after
-    pub fn parse_after<'a>(kind: &[&str]) -> Box<dyn TailwindInstance> {
-        match kind.len() {
-            1 | 2 => {}
-            r => panic!("break-after expected 1 or 2 elements but found {} elements", r),
-        }
-        let instance = match kind {
+    pub fn parse_after(kind: &[&str]) -> Result<Self> {
+        let out = match kind {
             ["auto"] => Self::After("auto"),
             ["avoid"] => Self::After("avoid"),
             ["all"] => Self::After("all"),
@@ -91,28 +72,20 @@ impl TailwindBreak {
             ["left"] => Self::After("left"),
             ["right"] => Self::After("right"),
             ["column"] => Self::After("column"),
-            _ => {
-                panic!("unknown aspect-ratio")
-            }
+            _ => return syntax_error!("unknown break after elements"),
         };
-        Box::new(instance)
+        Ok(out)
     }
     /// https://tailwindcss.com/docs/break-inside
-    pub fn parse_inside<'a>(kind: &[&str]) -> Box<dyn TailwindInstance> {
-        match kind.len() {
-            1 | 2 => {}
-            r => panic!("break-inside expected 1 or 2 elements but found {} elements", r),
-        }
-        let instance = match kind {
+    pub fn parse_inside(kind: &[&str]) -> Result<Self> {
+        let out = match kind {
             ["auto"] => Self::Inside("auto"),
             ["avoid"] => Self::Inside("avoid"),
             ["avoid", "page"] => Self::Inside("avoid-page"),
             ["avoid", "column"] => Self::Inside("avoid-column"),
-            _ => {
-                panic!("unknown aspect-ratio")
-            }
+            _ => return syntax_error!("unknown break inside elements"),
         };
-        Box::new(instance)
+        Ok(out)
     }
 }
 

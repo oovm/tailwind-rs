@@ -64,6 +64,23 @@ impl TailwindInstance for TailwindDisplay {
     }
 }
 
+impl TailwindInstance for TailwindClear {
+    fn id(&self) -> String {
+        todo!()
+    }
+}
+impl TailwindInstance for TailwindIsolation {
+    fn id(&self) -> String {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindFloat {
+    fn id(&self) -> String {
+        todo!()
+    }
+}
+
 impl TailwindInstance for TailwindPosition {
     fn id(&self) -> String {
         todo!()

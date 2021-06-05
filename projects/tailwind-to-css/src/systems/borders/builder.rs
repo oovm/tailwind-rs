@@ -1,5 +1,5 @@
 use crate::{systems::borders::TailwindBorderStyle, CssAttribute, TailwindBuilder, TailwindInstance};
-use std::{collections::BTreeSet, fmt::Write};
+use std::collections::BTreeSet;
 
 impl TailwindInstance for TailwindBorderStyle {
     fn id(&self) -> String {

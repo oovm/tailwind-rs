@@ -1,6 +1,5 @@
 use super::*;
-use crate::TailwindInstance;
-use std::str::FromStr;
+use tailwind_error::TailwindError;
 
 impl TailwindOpacity {
     pub fn parse(input: &str) -> Box<dyn TailwindInstance> {
@@ -16,12 +15,12 @@ impl TailwindOpacity {
 impl TailwindBlendMode {}
 
 impl FromStr for TailwindBlendMode {
-    type Err = ();
+    type Err = TailwindError;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> Result<Self> {
         let out = match s {
             "normal" => Self::Normal,
-            _ => return Err(()),
+            _ => return syntax_error!("mode error"),
         };
         Ok(out)
     }

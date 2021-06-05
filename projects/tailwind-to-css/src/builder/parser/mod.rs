@@ -6,7 +6,7 @@ pub use self::utils::*;
 use super::*;
 use crate::{
     syntax_error, systems::borders::TailwindBorderStyle, TailwindBorderCollapse, TailwindBoxDecorationBreak, TailwindBoxSizing,
-    TailwindClear, TailwindColumns, TailwindContainer, TailwindDisplay, TailwindFontSmoothing, TailwindHeight,
+    TailwindClear, TailwindColumns, TailwindContainer, TailwindDisplay, TailwindFloat, TailwindFontSmoothing, TailwindHeight,
     TailwindIsolation, TailwindPosition, TailwindScreenReader, TailwindSpacing, TailwindVisibility, TailwindWidth,
 };
 use std::{
@@ -98,24 +98,24 @@ impl AstStyle {
             ["aspect", rest @ ..] => TailwindAspect::parse(rest)?.boxed(),
             ["container"] => TailwindContainer {}.boxed(),
             ["columns", rest @ ..] => TailwindColumns::parse(rest)?.boxed(),
-            ["break", "before", rest @ ..] => TailwindBreak::parse_before(rest),
-            ["break", "inside", rest @ ..] => TailwindBreak::parse_inside(rest),
-            ["break", "after", rest @ ..] => TailwindBreak::parse_after(rest),
-            ["box", rest @ ..] => Self::box_adaptor(rest),
+            ["break", "before", rest @ ..] => TailwindBreak::parse_before(rest)?.boxed(),
+            ["break", "inside", rest @ ..] => TailwindBreak::parse_inside(rest)?.boxed(),
+            ["break", "after", rest @ ..] => TailwindBreak::parse_after(rest)?.boxed(),
+            ["box", rest @ ..] => Self::box_adaptor(rest)?,
             ["block"] => TailwindDisplay::Block.boxed(),
             ["flex"] => TailwindDisplay::Flex.boxed(),
             // begin https://tailwindcss.com/docs/display
             ["inline", "flex"] => TailwindDisplay::InlineFlex.boxed(),
             ["inline", "block"] => TailwindDisplay::InlineBlock.boxed(),
             // end https://tailwindcss.com/docs/display
-            ["float", rest @ ..] => Self::float_adaptor(rest),
+            ["float", rest @ ..] => Self::float_adaptor(rest)?,
             ["clear", rest @ ..] => TailwindClear::parse(rest)?.boxed(),
 
-            ["isolate"] => TailwindIsolation::Visible.boxed(),
-            ["isolation", "auto"] => TailwindIsolation::Invisible.boxed(),
-            ["object", rest @ ..] => Self::object_adaptor(rest),
-            ["overflow", rest @ ..] => Self::overflow_adaptor(rest),
-            ["overscroll", rest @ ..] => Self::overscroll_adaptor(rest),
+            ["isolate"] => TailwindIsolation::Isolate.boxed(),
+            ["isolation", "auto"] => TailwindIsolation::Auto.boxed(),
+            ["object", rest @ ..] => Self::object_adaptor(rest)?,
+            ["overflow", rest @ ..] => Self::overflow_adaptor(rest)?,
+            ["overscroll", rest @ ..] => Self::overscroll_adaptor(rest)?,
             // begin https://tailwindcss.com/docs/position
             ["static"] => TailwindPosition::InlineFlex.boxed(),
             ["fixed"] => TailwindPosition::InlineFlex.boxed(),
@@ -168,12 +168,12 @@ impl AstStyle {
             ["to", rest @ ..] => todo!(),
             // Borders System
             ["rounded", rest @ ..] => todo!(),
-            ["border", rest @ ..] => Self::border_adaptor(rest),
-            ["divide", rest @ ..] => Self::divide_adaptor(rest),
-            ["outline", rest @ ..] => Self::outline_adaptor(rest),
-            ["ring", rest @ ..] => Self::ring_adaptor(rest),
+            ["border", rest @ ..] => Self::border_adaptor(rest)?,
+            ["divide", rest @ ..] => Self::divide_adaptor(rest)?,
+            ["outline", rest @ ..] => Self::outline_adaptor(rest)?,
+            ["ring", rest @ ..] => Self::ring_adaptor(rest)?,
             // Effects System
-            ["shadow", rest @ ..] => Self::shadow_adaptor(rest),
+            ["shadow", rest @ ..] => Self::shadow_adaptor(rest)?,
             ["opacity", rest @ ..] => todo!(),
             ["mix", "blend", rest @ ..] => todo!(),
             // Filters System
@@ -186,7 +186,7 @@ impl AstStyle {
             ["grayscale", rest @ ..] => todo!(),
             ["backdrop", rest @ ..] => todo!(),
             // Tables System
-            ["table", rest @ ..] => TailwindTableLayout::parse(rest),
+            ["table", rest @ ..] => Self::table_adaptor(rest)?,
             // Transitions System
             ["transition", rest @ ..] => todo!(),
             ["duration", rest @ ..] => todo!(),
@@ -220,8 +220,9 @@ impl AstStyle {
         Ok(instance)
     }
 
-    pub fn border_adaptor(str: &[&str]) -> Box<dyn TailwindInstance> {
-        match str {
+    #[inline]
+    fn border_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+        let out = match str {
             // border
             // [] => TailwindBorderWidth::parse(),
 
@@ -242,30 +243,101 @@ impl AstStyle {
             ["black"] => TailwindBorderCollapse::Separate.into_instance(),
             ["white"] => TailwindBorderCollapse::Separate.into_instance(),
 
-            _ => panic!("todo"),
-        }
+            _ => return syntax_error!(""),
+        };
+        Ok(out)
     }
-    pub fn divide_adaptor(str: &[&str]) -> Box<dyn TailwindInstance> {
-        todo!()
+    #[inline]
+    fn divide_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+        let out = match str {
+            // https://tailwindcss.com/docs/float
+            _ => return syntax_error!(""),
+        };
+        Ok(out)
     }
-
-    pub fn outline_adaptor(str: &[&str]) -> Box<dyn TailwindInstance> {
-        todo!()
+    #[inline]
+    fn outline_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+        let out = match str {
+            // https://tailwindcss.com/docs/float
+            _ => return syntax_error!(""),
+        };
+        Ok(out)
     }
-
-    pub fn ring_adaptor(str: &[&str]) -> Box<dyn TailwindInstance> {
-        todo!()
+    #[inline]
+    fn ring_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+        let out = match str {
+            // https://tailwindcss.com/docs/float
+            _ => return syntax_error!(""),
+        };
+        Ok(out)
     }
-
-    pub fn shadow_adaptor(str: &[&str]) -> Box<dyn TailwindInstance> {
-        todo!()
+    #[inline]
+    fn shadow_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+        let out = match str {
+            // https://tailwindcss.com/docs/float
+            _ => return syntax_error!(""),
+        };
+        Ok(out)
     }
-    pub fn box_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+    #[inline]
+    fn box_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             ["decoration", "clone"] => TailwindBoxDecorationBreak::Clone.boxed(),
             ["decoration", "slice"] => TailwindBoxDecorationBreak::Clone.boxed(),
             ["border"] => TailwindBoxSizing::Border.boxed(),
             ["content"] => TailwindBoxSizing::Content.boxed(),
+            _ => return syntax_error!(""),
+        };
+        Ok(out)
+    }
+    #[inline]
+    fn table_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+        let out = match str {
+            // https://tailwindcss.com/docs/display#table
+            [] => TailwindDisplay::Table.boxed(),
+            ["caption"] => TailwindFloat::Left.boxed(),
+            ["right"] => TailwindFloat::Right.boxed(),
+            ["none"] => TailwindFloat::None.boxed(),
+            // https://tailwindcss.com/docs/table-layout
+            ["auto"] => TailwindTableLayout::Auto.boxed(),
+            ["fixed"] => TailwindTableLayout::Fixed.boxed(),
+
+            _ => return syntax_error!(""),
+        };
+        Ok(out)
+    }
+    #[inline]
+    fn float_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+        let out = match str {
+            // https://tailwindcss.com/docs/float
+            ["left"] => TailwindFloat::Left.boxed(),
+            ["right"] => TailwindFloat::Right.boxed(),
+            ["none"] => TailwindFloat::None.boxed(),
+            _ => return syntax_error!(""),
+        };
+        Ok(out)
+    }
+
+    #[inline]
+    fn object_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+        let out = match str {
+            // https://tailwindcss.com/docs/float
+            _ => return syntax_error!(""),
+        };
+        Ok(out)
+    }
+    #[inline]
+    fn overflow_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+        let out = match str {
+            // https://tailwindcss.com/docs/float
+            _ => return syntax_error!(""),
+        };
+        Ok(out)
+    }
+    #[inline]
+    fn overscroll_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+        let out = match str {
+            // https://tailwindcss.com/docs/float
             _ => return syntax_error!(""),
         };
         Ok(out)

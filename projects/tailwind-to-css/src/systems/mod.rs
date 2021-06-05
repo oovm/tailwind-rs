@@ -13,13 +13,17 @@ pub mod tables;
 pub mod theme;
 pub mod typography;
 
-use crate::{css_attributes, traits::CssAttribute, TailwindBuilder, TailwindInstance};
+use crate::{css_attributes, parse_integer, syntax_error, traits::CssAttribute, TailwindBuilder, TailwindInstance};
 use css_style::unit::{percent, px, rem, Length};
 use std::{
     collections::{BTreeSet, HashMap, HashSet},
     fmt::{Debug, Display, Formatter, Write},
+    str::FromStr,
 };
-use tailwind_error::nom::{bytes::complete::tag, IResult};
+use tailwind_error::{
+    nom::{bytes::complete::tag, IResult},
+    Result,
+};
 
 /// Tailwind Parsed Result
 pub type ParsedItem<'a> = IResult<&'a str, Box<dyn TailwindInstance>>;
