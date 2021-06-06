@@ -6,8 +6,9 @@ pub use self::utils::*;
 use super::*;
 use crate::{
     syntax_error, systems::borders::TailwindBorderStyle, TailwindBorderCollapse, TailwindBoxDecorationBreak, TailwindBoxSizing,
-    TailwindClear, TailwindColumns, TailwindContainer, TailwindDisplay, TailwindFloat, TailwindFontSmoothing, TailwindHeight,
-    TailwindIsolation, TailwindPosition, TailwindScreenReader, TailwindSpacing, TailwindVisibility, TailwindWidth,
+    TailwindClear, TailwindColumns, TailwindContainer, TailwindDisplay, TailwindFloat, TailwindFontFamily, TailwindFontSize,
+    TailwindFontSmoothing, TailwindHeight, TailwindIsolation, TailwindPosition, TailwindScreenReader, TailwindSpacing,
+    TailwindVisibility, TailwindWidth,
 };
 use std::{
     fmt::{Display, Formatter, Write},
@@ -86,6 +87,12 @@ impl TailwindInstance for AstStyle {
     }
     fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         let mut out = BTreeSet::default();
+        match self.get_instance() {
+            Ok(o) => out.extend(o.attributes(ctx)),
+            Err(e) => {
+                println!("{:?}", e)
+            }
+        }
         out
     }
 }
@@ -142,7 +149,7 @@ impl AstStyle {
             ["min", "h", rest @ ..] => TailwindHeight::parse(rest, "min"),
             ["max", "h", rest @ ..] => TailwindHeight::parse(rest, "max"),
             // Typography System
-            ["font", family @ ("sans" | "serif" | "mono")] => todo!(),
+            ["font", rest @ ..] => Self::font_adaptor(rest)?,
             ["text", size] => todo!(),
             ["text", size] => todo!(),
             ["antialiased"] => TailwindFontSmoothing::new(false).boxed(),
@@ -338,6 +345,35 @@ impl AstStyle {
     fn overscroll_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/float
+            _ => return syntax_error!(""),
+        };
+        Ok(out)
+    }
+    #[inline]
+    fn font_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+        let out = match str {
+            // https://tailwindcss.com/docs/float
+            ["sans"] => TailwindFontFamily::Sans.boxed(),
+            ["serif"] => TailwindFontFamily::Sans.boxed(),
+            ["mono"] => TailwindFontFamily::Sans.boxed(),
+            // https://tailwindcss.com/docs/font-size
+            ["xs"] => TailwindFontSize::new(0.75, 1.0).boxed(),
+            ["sm"] => TailwindFontSize::new(0.75, 1.0).boxed(),
+            ["md"] | ["base"] => TailwindFontSize::new(0.75, 1.0).boxed(),
+            ["lg"] => TailwindFontSize::new(0.75, 1.0).boxed(),
+            ["xl"] => TailwindFontSize::new(0.75, 1.0).boxed(),
+            ["2xl"] => TailwindFontSize::new(0.75, 1.0).boxed(),
+            ["3xl"] => TailwindFontSize::new(0.75, 1.0).boxed(),
+            ["4xl"] => TailwindFontSize::new(0.75, 1.0).boxed(),
+            ["5xl"] => TailwindFontSize::new(0.75, 1.0).boxed(),
+            ["6xl"] => TailwindFontSize::new(0.75, 1.0).boxed(),
+            ["7xl"] => TailwindFontSize::new(0.75, 1.0).boxed(),
+            ["8xl"] => TailwindFontSize::new(0.75, 1.0).boxed(),
+            ["9xl"] => TailwindFontSize::new(0.75, 1.0).boxed(),
+            // https://tailwindcss.com/docs/float
+            ["sans"] => TailwindFontFamily::Sans.boxed(),
+            ["serif"] => TailwindFontFamily::Sans.boxed(),
+            ["mono"] => TailwindFontFamily::Sans.boxed(),
             _ => return syntax_error!(""),
         };
         Ok(out)

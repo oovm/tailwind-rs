@@ -9,3 +9,10 @@ impl TailwindFontSmoothing {
         }
     }
 }
+
+impl TailwindFontSize {
+    #[inline]
+    pub fn new(size: f32, height: f32) -> Self {
+        Self { size: Rem::from(size), height: Rem::from(height) }
+    }
+}
