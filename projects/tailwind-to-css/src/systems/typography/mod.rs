@@ -28,7 +28,15 @@ pub enum TailwindFontSmoothing {
 
 #[doc = include_str ! ("font-smoothing.md")]
 #[derive(Debug, Clone)]
-pub enum TailwindFontWeight {
-    Thin,
-    ExtraLight,
+pub struct TailwindFontWeight {
+    weight: usize,
+}
+
+#[doc = include_str ! ("font-smoothing.md")]
+#[derive(Debug, Clone)]
+pub enum TailwindTextAlignment {
+    Left,
+    Center,
+    Right,
+    Justify,
 }

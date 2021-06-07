@@ -7,8 +7,8 @@ use super::*;
 use crate::{
     syntax_error, systems::borders::TailwindBorderStyle, TailwindBorderCollapse, TailwindBoxDecorationBreak, TailwindBoxSizing,
     TailwindClear, TailwindColumns, TailwindContainer, TailwindDisplay, TailwindFloat, TailwindFontFamily, TailwindFontSize,
-    TailwindFontSmoothing, TailwindHeight, TailwindIsolation, TailwindPosition, TailwindScreenReader, TailwindSpacing,
-    TailwindVisibility, TailwindWidth,
+    TailwindFontSmoothing, TailwindFontWeight, TailwindHeight, TailwindIsolation, TailwindPosition, TailwindScreenReader,
+    TailwindSpacing, TailwindTextAlignment, TailwindVisibility, TailwindWidth,
 };
 use std::{
     fmt::{Display, Formatter, Write},
@@ -96,7 +96,7 @@ impl TailwindInstance for AstStyle {
         out
     }
 }
-
+// noinspection SpellCheckingInspection
 impl AstStyle {
     pub fn get_instance(&self) -> Result<Box<dyn TailwindInstance>> {
         let instance = match self.view_elements().as_slice() {
@@ -150,18 +150,20 @@ impl AstStyle {
             ["max", "h", rest @ ..] => TailwindHeight::parse(rest, "max"),
             // Typography System
             ["font", rest @ ..] => Self::font_adaptor(rest)?,
-            ["text", size] => todo!(),
-            ["text", size] => todo!(),
+            // begin https://tailwindcss.com/docs/font-variant-numeric
+            ["normal", "nums"] => todo!(),
+            ["ordinal"] => todo!(),
+            // end https://tailwindcss.com/docs/font-variant-numeric
+            ["text", rest @ ..] => Self::text_adaptor(rest)?,
             ["antialiased"] => TailwindFontSmoothing::new(false).boxed(),
             ["subpixel", "antialiased"] => TailwindFontSmoothing::new(true).boxed(),
             ["italic"] => todo!(),
             ["not", "italic"] => todo!(),
-            ["font", weight @ ("thin" | "extralight" | "light")] => todo!(),
             // TODO:https://tailwindcss.com/docs/font-variant-numeric
             ["tracking", rest @ ..] => todo!(),
             ["leading", rest @ ..] => todo!(),
-            ["list", rest @ ..] => todo!(),
-            ["font", alignment @ ("text" | "serif" | "mono")] => todo!(),
+            ["list", rest @ ..] => Self::list_adaptor(rest)?,
+            ["text", alignment @ ("text" | "serif" | "mono")] => todo!(),
             // TODO:https://tailwindcss.com/docs/font-variant-numeric
             ["underline", rest @ ..] => todo!(),
             ["decoration", rest @ ..] => todo!(),
@@ -297,6 +299,16 @@ impl AstStyle {
         };
         Ok(out)
     }
+
+    #[inline]
+    fn list_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+        let out = match str {
+            // https://tailwindcss.com/docs/list-style-type
+            ["none"] => todo!(),
+            _ => return syntax_error!(""),
+        };
+        Ok(out)
+    }
     #[inline]
     fn table_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
@@ -349,6 +361,7 @@ impl AstStyle {
         };
         Ok(out)
     }
+
     #[inline]
     fn font_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
@@ -371,9 +384,29 @@ impl AstStyle {
             ["8xl"] => TailwindFontSize::new(0.75, 1.0).boxed(),
             ["9xl"] => TailwindFontSize::new(0.75, 1.0).boxed(),
             // https://tailwindcss.com/docs/float
-            ["sans"] => TailwindFontFamily::Sans.boxed(),
-            ["serif"] => TailwindFontFamily::Sans.boxed(),
-            ["mono"] => TailwindFontFamily::Sans.boxed(),
+            ["thin"] => TailwindFontWeight::THIN.boxed(),
+            ["extralight"] => TailwindFontWeight::EXTRA_LIGHT.boxed(),
+            ["light"] => TailwindFontWeight::LIGHT.boxed(),
+            ["normal"] => TailwindFontWeight::NORMAL.boxed(),
+            ["medium"] => TailwindFontWeight::MEDIUM.boxed(),
+            ["semibold"] => TailwindFontWeight::SEMI_BOLD.boxed(),
+            ["bold"] => TailwindFontWeight::BOLD.boxed(),
+            ["extrabold"] => TailwindFontWeight::EXTRA_BOLD.boxed(),
+            ["black"] => TailwindFontWeight::BLACK.boxed(),
+            _ => return syntax_error!(""),
+        };
+        Ok(out)
+    }
+    #[inline]
+    fn text_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+        let out = match str {
+            // https://tailwindcss.com/docs/text-align
+            ["left"] => TailwindTextAlignment::Left.boxed(),
+            ["center"] => TailwindTextAlignment::Center.boxed(),
+            ["right"] => TailwindTextAlignment::Right.boxed(),
+            ["justify"] => TailwindTextAlignment::Justify.boxed(),
+            // https://tailwindcss.com/docs/text-color
+            ["inherit"] => todo!(),
             _ => return syntax_error!(""),
         };
         Ok(out)

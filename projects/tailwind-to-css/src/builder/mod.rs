@@ -5,7 +5,6 @@ pub mod setter;
 use crate::{
     BreakPointSystem, CssAttribute, FontSystem, PaletteSystem, PreflightSystem, Result, TailWindZIndex, TailwindInstance,
 };
-use itertools::Itertools;
 use std::{collections::BTreeSet, fmt::Debug};
 use tailwind_error::nom::{
     branch::alt, bytes::complete::tag, character::complete::digit1, combinator::opt, multi::many0, sequence::tuple, IResult,
@@ -32,7 +31,7 @@ impl TailwindBuilder {
     }
     pub fn try_trace(&mut self, style: &str) -> Result<String> {
         let parsed = self.parse(style)?;
-        let out = parsed.iter().map(|s| s.id()).join(" ");
+        let out = parsed.iter().map(|s| s.id()).collect::<Vec<String>>().join(" ");
         // self.buffer.extend(parsed.into_iter());
         for i in parsed.into_iter() {
             self.objects.insert(i);

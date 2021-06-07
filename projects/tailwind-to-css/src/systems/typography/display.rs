@@ -21,3 +21,28 @@ impl TailwindInstance for TailwindFontSmoothing {
         }
     }
 }
+
+impl TailwindInstance for TailwindFontFamily {
+    fn id(&self) -> String {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindFontSize {
+    fn id(&self) -> String {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindFontWeight {
+    fn id(&self) -> String {
+        let text = match self.weight {
+            100 => "thin",
+            _ => return format!("font-[{}]", self.weight),
+        };
+        format!("font-{}", text)
+    }
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        Iterator::collect(IntoIterator::into_iter([CssAttribute::new("font-weight", &self.weight.to_string())]))
+    }
+}
