@@ -18,9 +18,11 @@ pub type ParsedItem<'a> = IResult<&'a str, Box<dyn TailwindInstance>>;
 pub type ParsedList<'a> = IResult<&'a str, HashSet<Box<dyn TailwindInstance>>>;
 
 #[allow(unused_variables)]
-pub trait TailwindInstance {
+pub trait TailwindInstance: Display {
     /// used to deduplication and marking
-    fn id(&self) -> String;
+    fn id(&self) -> String {
+        format!("{}", self)
+    }
 
     fn boxed(self) -> Box<dyn TailwindInstance>
     where

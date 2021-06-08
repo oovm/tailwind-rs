@@ -44,7 +44,7 @@ pub enum TailwindTextAlignment {
 #[doc = include_str ! ("font-smoothing.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindTextColor {
-    color: ColorResolver,
+    pub(crate) color: ColorResolver,
 }
 
 #[doc = include_str ! ("font-smoothing.md")]

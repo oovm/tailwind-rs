@@ -14,8 +14,8 @@ mod traits;
 pub use self::{
     builder::{parser::*, TailwindBuilder},
     systems::{
-        accessibility::*, breakpoints::*, colors::*, effects::*, fonts::*, layouts::*, preflight::*, sizes::*, spaces::*,
-        tables::*, typography::*,
+        accessibility::*, background::*, borders::*, breakpoints::*, colors::*, effects::*, fonts::*, layouts::*, preflight::*,
+        sizes::*, spaces::*, tables::*, typography::*,
     },
     traits::{CssAttribute, ParsedItem, ParsedList, TailwindInstance, TailwindObject},
 };

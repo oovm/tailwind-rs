@@ -1,4 +1,5 @@
 pub mod accessibility;
+pub mod background;
 pub mod borders;
 pub mod breakpoints;
 pub mod colors;
@@ -18,7 +19,7 @@ use crate::{
 };
 use css_style::unit::{percent, px, rem, Length};
 use std::{
-    collections::{BTreeSet, HashMap, HashSet},
+    collections::{BTreeMap, BTreeSet, HashMap, HashSet},
     fmt::{Debug, Display, Formatter, Write},
     str::FromStr,
 };

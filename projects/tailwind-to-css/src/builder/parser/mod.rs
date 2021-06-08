@@ -406,11 +406,11 @@ impl AstStyle {
             ["right"] => TailwindTextAlignment::Right.boxed(),
             ["justify"] => TailwindTextAlignment::Justify.boxed(),
             // https://tailwindcss.com/docs/text-color
-            ["inherit"] => TailwindTextColor::Inherit.boxed(),
-            ["current"] => TailwindTextColor::Current.boxed(),
-            ["transparent"] => TailwindTextColor::Transparent.boxed(),
-            ["black"] => TailwindTextColor::Black.boxed(),
-            ["white"] => TailwindTextColor::White.boxed(),
+            ["inherit"] => TailwindTextColor::INHERIT.boxed(),
+            ["current"] => TailwindTextColor::CURRENT.boxed(),
+            ["transparent"] => TailwindTextColor::TRANSPARENT.boxed(),
+            ["black"] => TailwindTextColor::BLACK.boxed(),
+            ["white"] => TailwindTextColor::WHITE.boxed(),
             [color, weight] => TailwindTextColor::parse(color, weight)?.boxed(),
             _ => return syntax_error!(""),
         };
