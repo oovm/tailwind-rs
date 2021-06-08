@@ -32,3 +32,16 @@ impl TailwindFontWeight {
         Self { weight }
     }
 }
+
+impl TailwindTextColor {
+    #[inline]
+    pub fn parse(name: &str, weight: &str) -> Result<Self> {
+        let w = parse_integer(weight)?;
+        Ok(Self::Colored(ColorResolver::new(name, w.1)))
+    }
+
+    #[inline]
+    pub fn new(name: impl Into<String>, weight: usize) -> Self {
+        Self::Colored(ColorResolver::new(name, weight))
+    }
+}

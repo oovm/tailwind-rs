@@ -13,7 +13,9 @@ pub mod tables;
 pub mod theme;
 pub mod typography;
 
-use crate::{css_attributes, parse_integer, syntax_error, traits::CssAttribute, TailwindBuilder, TailwindInstance};
+use crate::{
+    css_attributes, parse_integer, syntax_error, traits::CssAttribute, ColorResolver, TailwindBuilder, TailwindInstance,
+};
 use css_style::unit::{percent, px, rem, Length};
 use std::{
     collections::{BTreeSet, HashMap, HashSet},

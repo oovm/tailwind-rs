@@ -8,7 +8,7 @@ use crate::{
     syntax_error, systems::borders::TailwindBorderStyle, TailwindBorderCollapse, TailwindBoxDecorationBreak, TailwindBoxSizing,
     TailwindClear, TailwindColumns, TailwindContainer, TailwindDisplay, TailwindFloat, TailwindFontFamily, TailwindFontSize,
     TailwindFontSmoothing, TailwindFontWeight, TailwindHeight, TailwindIsolation, TailwindPosition, TailwindScreenReader,
-    TailwindSpacing, TailwindTextAlignment, TailwindVisibility, TailwindWidth,
+    TailwindSpacing, TailwindTextAlignment, TailwindTextColor, TailwindVisibility, TailwindWidth,
 };
 use std::{
     fmt::{Display, Formatter, Write},
@@ -406,7 +406,12 @@ impl AstStyle {
             ["right"] => TailwindTextAlignment::Right.boxed(),
             ["justify"] => TailwindTextAlignment::Justify.boxed(),
             // https://tailwindcss.com/docs/text-color
-            ["inherit"] => todo!(),
+            ["inherit"] => TailwindTextColor::Inherit.boxed(),
+            ["current"] => TailwindTextColor::Current.boxed(),
+            ["transparent"] => TailwindTextColor::Transparent.boxed(),
+            ["black"] => TailwindTextColor::Black.boxed(),
+            ["white"] => TailwindTextColor::White.boxed(),
+            [color, weight] => TailwindTextColor::parse(color, weight)?.boxed(),
             _ => return syntax_error!(""),
         };
         Ok(out)

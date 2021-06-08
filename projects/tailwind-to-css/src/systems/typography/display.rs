@@ -46,3 +46,15 @@ impl TailwindInstance for TailwindFontWeight {
         Iterator::collect(IntoIterator::into_iter([CssAttribute::new("font-weight", &self.weight.to_string())]))
     }
 }
+
+impl TailwindInstance for TailwindTextAlignment {
+    fn id(&self) -> String {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindTextColor {
+    fn id(&self) -> String {
+        todo!()
+    }
+}

@@ -60,3 +60,20 @@ pub struct Palette {
     /// unit: px
     inner: BTreeMap<usize, Color>,
 }
+
+#[derive(Clone, Debug)]
+pub enum ColorResolver {
+    Inherit,
+    Current,
+    Transparent,
+    Black,
+    White,
+    Themed { name: String, weight: usize },
+}
+
+impl ColorResolver {
+    #[inline]
+    pub fn new(name: impl Into<String>, weight: usize) -> Self {
+        Self::Themed { name: name.into(), weight }
+    }
+}
