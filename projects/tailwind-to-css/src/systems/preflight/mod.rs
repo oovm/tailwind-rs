@@ -1,5 +1,5 @@
 use crate::{Result, TailwindBuilder, TailwindInstance};
-use std::fmt::Write;
+use std::fmt::{Display, Formatter, Write};
 
 /// https://tailwindcss.com/docs/preflight
 #[derive(Clone, Debug)]
@@ -80,6 +80,12 @@ button:focus {
   outline: 5px auto -webkit-focus-ring-color;
 }
 "#;
+}
+
+impl Display for PreflightSystem {
+    fn fmt(&self, _: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
 }
 
 impl TailwindInstance for PreflightSystem {

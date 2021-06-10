@@ -1,18 +1,12 @@
 use super::*;
 
-// impl TailwindInstance for TailwindPadding {
-//     fn id(&self) -> String {
-//         todo!()
-//     }
-//     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-//         css_attributes! {}
-//     }
-// }
-//
-impl TailwindInstance for TailwindSpacing {
-    fn id(&self) -> String {
+impl Display for TailwindSpacing {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
+}
+
+impl TailwindInstance for TailwindSpacing {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         css_attributes! {}
     }

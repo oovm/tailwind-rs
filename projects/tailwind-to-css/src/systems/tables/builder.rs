@@ -1,13 +1,16 @@
 use super::*;
 
-impl TailwindInstance for TailwindBorderCollapse {
-    fn id(&self) -> String {
-        match self {
+impl Display for TailwindBorderCollapse {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let text = match self {
             Self::Collapse => "border-collapse",
             Self::Separate => "border-separate",
-        }
-        .to_string()
+        };
+        f.write_str(text)
     }
+}
+
+impl TailwindInstance for TailwindBorderCollapse {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         match self {
             Self::Collapse => css_attributes! {
@@ -20,14 +23,17 @@ impl TailwindInstance for TailwindBorderCollapse {
     }
 }
 
-impl TailwindInstance for TailwindTableLayout {
-    fn id(&self) -> String {
-        match self {
+impl Display for TailwindTableLayout {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let text = match self {
             Self::Auto => "table-auto",
             Self::Fixed => "table-fixed",
-        }
-        .to_string()
+        };
+        f.write_str(text)
     }
+}
+
+impl TailwindInstance for TailwindTableLayout {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         match self {
             Self::Auto => css_attributes! {

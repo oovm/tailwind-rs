@@ -1,10 +1,16 @@
 use crate::{systems::borders::TailwindBorderStyle, CssAttribute, TailwindBuilder, TailwindInstance};
-use std::collections::BTreeSet;
+use std::{
+    collections::BTreeSet,
+    fmt::{Display, Formatter},
+};
 
-impl TailwindInstance for TailwindBorderStyle {
-    fn id(&self) -> String {
+impl Display for TailwindBorderStyle {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
+}
+
+impl TailwindInstance for TailwindBorderStyle {
     fn selectors(&self, ctx: &TailwindBuilder) -> String {
         todo!()
     }

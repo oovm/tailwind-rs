@@ -1,13 +1,16 @@
 use super::*;
 
-impl TailwindInstance for TailwindFontSmoothing {
-    fn id(&self) -> String {
-        match self {
+impl Display for TailwindFontSmoothing {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let text = match self {
             Self::Normal => "antialiased",
             Self::Subpixel => "subpixel-antialiased",
-        }
-        .to_string()
+        };
+        f.write_str(text)
     }
+}
+
+impl TailwindInstance for TailwindFontSmoothing {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         match self {
             Self::Normal => css_attributes! {
@@ -22,39 +25,50 @@ impl TailwindInstance for TailwindFontSmoothing {
     }
 }
 
-impl TailwindInstance for TailwindFontFamily {
-    fn id(&self) -> String {
+impl Display for TailwindFontFamily {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
 
-impl TailwindInstance for TailwindFontSize {
-    fn id(&self) -> String {
+impl TailwindInstance for TailwindFontFamily {}
+
+impl Display for TailwindFontSize {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
+    }
+}
+
+impl TailwindInstance for TailwindFontSize {}
+
+impl Display for TailwindFontWeight {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let text = match self.weight {
+            100 => "thin",
+            _ => return write!(f, "font-[{}]", self.weight),
+        };
+        write!(f, "font-{}", text)
     }
 }
 
 impl TailwindInstance for TailwindFontWeight {
-    fn id(&self) -> String {
-        let text = match self.weight {
-            100 => "thin",
-            _ => return format!("font-[{}]", self.weight),
-        };
-        format!("font-{}", text)
-    }
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         Iterator::collect(IntoIterator::into_iter([CssAttribute::new("font-weight", &self.weight.to_string())]))
     }
 }
 
-impl TailwindInstance for TailwindTextAlignment {
-    fn id(&self) -> String {
+impl Display for TailwindTextAlignment {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
 
-impl TailwindInstance for TailwindTextColor {
-    fn id(&self) -> String {
+impl TailwindInstance for TailwindTextAlignment {}
+
+impl Display for TailwindTextColor {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
+
+impl TailwindInstance for TailwindTextColor {}

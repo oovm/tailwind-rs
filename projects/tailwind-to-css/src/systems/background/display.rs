@@ -1,12 +1,9 @@
 use super::*;
 
-impl TailwindInstance for TailwindBackgroundColor {
-    fn id(&self) -> String {
-        format!("bg- {};", self.color)
-    }
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        css_attributes! {
-            "aspect-ratio" => self.ratio
-        }
+impl Display for TailwindBackgroundColor {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "bg-{}", self.color)
     }
 }
+
+impl TailwindInstance for TailwindBackgroundColor {}

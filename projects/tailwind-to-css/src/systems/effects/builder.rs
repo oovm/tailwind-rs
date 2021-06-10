@@ -1,9 +1,12 @@
 use super::*;
 
-impl TailwindInstance for TailwindOpacity {
-    fn id(&self) -> String {
+impl Display for TailwindOpacity {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
+}
+
+impl TailwindInstance for TailwindOpacity {
     fn selectors(&self, ctx: &TailwindBuilder) -> String {
         todo!()
     }
@@ -12,10 +15,13 @@ impl TailwindInstance for TailwindOpacity {
     }
 }
 
-impl TailwindInstance for TailwindBlend {
-    fn id(&self) -> String {
+impl Display for TailwindBlend {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
+}
+
+impl TailwindInstance for TailwindBlend {
     fn selectors(&self, ctx: &TailwindBuilder) -> String {
         todo!()
     }

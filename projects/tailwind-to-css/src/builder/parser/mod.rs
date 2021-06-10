@@ -78,10 +78,13 @@ pub struct AstVariant {
     names: Vec<String>,
 }
 
-impl TailwindInstance for AstStyle {
-    fn id(&self) -> String {
+impl Display for AstStyle {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
+}
+
+impl TailwindInstance for AstStyle {
     fn selectors(&self, ctx: &TailwindBuilder) -> String {
         todo!()
     }

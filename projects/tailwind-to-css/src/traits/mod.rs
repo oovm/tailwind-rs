@@ -20,6 +20,7 @@ pub type ParsedList<'a> = IResult<&'a str, HashSet<Box<dyn TailwindInstance>>>;
 #[allow(unused_variables)]
 pub trait TailwindInstance: Display {
     /// used to deduplication and marking
+    #[inline]
     fn id(&self) -> String {
         format!("{}", self)
     }

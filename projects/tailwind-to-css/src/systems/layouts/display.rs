@@ -1,9 +1,12 @@
 use super::*;
 
-impl TailwindInstance for TailwindAspect {
-    fn id(&self) -> String {
-        format!("break-before: {};", self.kind)
+impl Display for TailwindAspect {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "aspect-{}", self.kind)
     }
+}
+
+impl TailwindInstance for TailwindAspect {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         css_attributes! {
             "aspect-ratio" => self.ratio
@@ -11,20 +14,25 @@ impl TailwindInstance for TailwindAspect {
     }
 }
 
-impl TailwindInstance for TailwindContainer {
-    fn id(&self) -> String {
+impl Display for TailwindContainer {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
 
-impl TailwindInstance for TailwindBreak {
-    fn id(&self) -> String {
+impl TailwindInstance for TailwindContainer {}
+
+impl Display for TailwindBreak {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::Before(kind) => format!("break-before-{}", kind),
-            Self::After(kind) => format!("break-after-{}", kind),
-            Self::Inside(kind) => format!("break-inside-{}", kind),
+            Self::Before(kind) => write!(f, "break-before-{}", kind),
+            Self::After(kind) => write!(f, "break-after-{}", kind),
+            Self::Inside(kind) => write!(f, "break-inside-{}", kind),
         }
     }
+}
+
+impl TailwindInstance for TailwindBreak {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         match self {
             Self::Before(kind) => css_attributes! {
@@ -40,8 +48,20 @@ impl TailwindInstance for TailwindBreak {
     }
 }
 
+impl Display for TailwindColumns {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
 impl TailwindInstance for TailwindColumns {
     fn id(&self) -> String {
+        todo!()
+    }
+}
+
+impl Display for TailwindBoxDecorationBreak {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -52,55 +72,73 @@ impl TailwindInstance for TailwindBoxDecorationBreak {
     }
 }
 
-impl TailwindInstance for TailwindBoxSizing {
-    fn id(&self) -> String {
+impl Display for TailwindBoxSizing {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
 
-impl TailwindInstance for TailwindDisplay {
-    fn id(&self) -> String {
+impl TailwindInstance for TailwindBoxSizing {}
+
+impl Display for TailwindDisplay {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
 
-impl TailwindInstance for TailwindClear {
-    fn id(&self) -> String {
-        todo!()
-    }
-}
-impl TailwindInstance for TailwindIsolation {
-    fn id(&self) -> String {
+impl TailwindInstance for TailwindDisplay {}
+
+impl Display for TailwindClear {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
 
-impl TailwindInstance for TailwindFloat {
-    fn id(&self) -> String {
+impl TailwindInstance for TailwindClear {}
+
+impl Display for TailwindIsolation {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
 
-impl TailwindInstance for TailwindPosition {
-    fn id(&self) -> String {
+impl TailwindInstance for TailwindIsolation {}
+
+impl Display for TailwindFloat {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
 
-impl TailwindInstance for TailwindVisibility {
-    fn id(&self) -> String {
+impl TailwindInstance for TailwindFloat {}
+
+impl Display for TailwindPosition {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
+    }
+}
+
+impl TailwindInstance for TailwindPosition {}
+
+impl Display for TailwindVisibility {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindVisibility {}
+
+impl Display for TailWindZIndex {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Positive(n) => write!(f, "z-{}", n),
+            Self::Negative(n) => write!(f, "-z-{}", n),
+            Self::Auto => write!(f, "z-auto"),
+        }
     }
 }
 
 impl TailwindInstance for TailWindZIndex {
-    fn id(&self) -> String {
-        match self {
-            Self::Positive(n) => format!("z-{}", n),
-            Self::Negative(n) => format!("-z-{}", n),
-            Self::Auto => format!("z-auto"),
-        }
-    }
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         match self {
             Self::Positive(n) => css_attributes! {

@@ -6,14 +6,16 @@ pub struct TailwindScreenReader {
     inner: bool,
 }
 
-impl TailwindInstance for TailwindScreenReader {
-    fn id(&self) -> String {
-        match self.inner {
-            true => "sr-only",
-            false => "not-sr-only",
+impl Display for TailwindScreenReader {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        if !self.inner {
+            f.write_str("not-")?
         }
-        .to_string()
+        f.write_str("sr-only")
     }
+}
+
+impl TailwindInstance for TailwindScreenReader {
     fn selectors(&self, _: &TailwindBuilder) -> String {
         self.id()
     }
