@@ -5,10 +5,12 @@ mod utils;
 pub use self::utils::*;
 use super::*;
 use crate::{
-    syntax_error, systems::borders::TailwindBorderStyle, TailwindBorderCollapse, TailwindBoxDecorationBreak, TailwindBoxSizing,
-    TailwindClear, TailwindColumns, TailwindContainer, TailwindDisplay, TailwindFloat, TailwindFontFamily, TailwindFontSize,
-    TailwindFontSmoothing, TailwindFontWeight, TailwindHeight, TailwindIsolation, TailwindPosition, TailwindScreenReader,
-    TailwindSpacing, TailwindTextAlignment, TailwindTextColor, TailwindVisibility, TailwindWidth,
+    syntax_error,
+    systems::{borders::TailwindBorderStyle, filters::TailwindBrightness},
+    TailwindBorderCollapse, TailwindBoxDecorationBreak, TailwindBoxSizing, TailwindClear, TailwindColumns, TailwindContainer,
+    TailwindDisplay, TailwindFloat, TailwindFontFamily, TailwindFontSize, TailwindFontSmoothing, TailwindFontWeight,
+    TailwindHeight, TailwindIsolation, TailwindPosition, TailwindScreenReader, TailwindSpacing, TailwindTextAlignment,
+    TailwindTextColor, TailwindVisibility, TailwindWidth,
 };
 use std::{
     fmt::{Display, Formatter, Write},
@@ -188,7 +190,7 @@ impl AstStyle {
             ["mix", "blend", rest @ ..] => todo!(),
             // Filters System
             ["blur", rest @ ..] => todo!(),
-            ["brightness", rest @ ..] => todo!(),
+            ["brightness", rest @ ..] => TailwindBrightness::parse(rest, arbitrary)?.boxed(),
             ["contrast", rest @ ..] => todo!(),
 
             ["drop", "shadow", rest @ ..] => todo!(),
