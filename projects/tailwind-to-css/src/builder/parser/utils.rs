@@ -21,16 +21,16 @@ fn test_usize() {
 }
 
 /// `\d+\.\d+`
-pub fn parser_f32(input: &str) -> IResult<&str, f32> {
+pub fn parse_f32(input: &str) -> IResult<&str, f32> {
     let float1 = tuple((digit1, opt(tuple((tag("."), digit1)))));
     map_res(recognize(float1), str::parse)(input)
 }
 
 #[test]
 fn test_f32() {
-    assert_eq!(parser_f32("0"), Ok(("", 0.0)));
-    assert_eq!(parser_f32("42"), Ok(("", 42.0)));
-    assert_eq!(parser_f32("99.99"), Ok(("", 99.99)));
+    assert_eq!(parse_f32("0"), Ok(("", 0.0)));
+    assert_eq!(parse_f32("42"), Ok(("", 42.0)));
+    assert_eq!(parse_f32("99.99"), Ok(("", 99.99)));
 }
 
 /// `\d+\/\d+`

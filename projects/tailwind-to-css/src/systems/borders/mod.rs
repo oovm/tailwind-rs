@@ -3,6 +3,8 @@ mod parser;
 
 use crate::{ColorResolver, TailwindInstance};
 
+///
+#[derive(Copy, Clone, Debug)]
 pub enum TailwindBorderStyle {
     None,
     Solid,
@@ -11,7 +13,8 @@ pub enum TailwindBorderStyle {
     Double,
     Hidden,
 }
-
+///
+#[derive(Copy, Clone, Debug)]
 pub enum TailwindDivideStyle {
     None,
     Solid,
@@ -20,7 +23,8 @@ pub enum TailwindDivideStyle {
     Double,
     // Hidden,
 }
-
+///
+#[derive(Clone, Debug)]
 pub struct TailwindRingColor {
     pub(crate) color: ColorResolver,
 }

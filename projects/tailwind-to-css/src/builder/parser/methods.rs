@@ -98,6 +98,12 @@ impl AstStyle {
     pub fn normalization(self) -> Self {
         self
     }
+    pub fn view_arbitrary(&self) -> &str {
+        match &self.arbitrary {
+            None => "",
+            Some(setter) => setter.0.as_str(),
+        }
+    }
 }
 
 impl AstGroup {

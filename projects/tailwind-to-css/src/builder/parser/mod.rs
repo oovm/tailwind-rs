@@ -85,9 +85,6 @@ impl Display for AstStyle {
 }
 
 impl TailwindInstance for AstStyle {
-    fn selectors(&self, ctx: &TailwindBuilder) -> String {
-        todo!()
-    }
     fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         let mut out = BTreeSet::default();
         match self.get_instance() {
@@ -102,30 +99,31 @@ impl TailwindInstance for AstStyle {
 // noinspection SpellCheckingInspection
 impl AstStyle {
     pub fn get_instance(&self) -> Result<Box<dyn TailwindInstance>> {
+        let arbitrary = self.view_arbitrary();
         let instance = match self.view_elements().as_slice() {
             // ["w", rest @ ..] => {TailW}
             // Layout System
-            ["aspect", rest @ ..] => TailwindAspect::parse(rest)?.boxed(),
+            ["aspect", rest @ ..] => TailwindAspect::parse(rest, arbitrary)?.boxed(),
             ["container"] => TailwindContainer {}.boxed(),
             ["columns", rest @ ..] => TailwindColumns::parse(rest)?.boxed(),
             ["break", "before", rest @ ..] => TailwindBreak::parse_before(rest)?.boxed(),
             ["break", "inside", rest @ ..] => TailwindBreak::parse_inside(rest)?.boxed(),
             ["break", "after", rest @ ..] => TailwindBreak::parse_after(rest)?.boxed(),
-            ["box", rest @ ..] => Self::box_adaptor(rest)?,
+            ["box", rest @ ..] => Self::box_adaptor(rest, arbitrary)?,
             ["block"] => TailwindDisplay::Block.boxed(),
             ["flex"] => TailwindDisplay::Flex.boxed(),
             // begin https://tailwindcss.com/docs/display
             ["inline", "flex"] => TailwindDisplay::InlineFlex.boxed(),
             ["inline", "block"] => TailwindDisplay::InlineBlock.boxed(),
             // end https://tailwindcss.com/docs/display
-            ["float", rest @ ..] => Self::float_adaptor(rest)?,
+            ["float", rest @ ..] => Self::float_adaptor(rest, arbitrary)?,
             ["clear", rest @ ..] => TailwindClear::parse(rest)?.boxed(),
 
             ["isolate"] => TailwindIsolation::Isolate.boxed(),
             ["isolation", "auto"] => TailwindIsolation::Auto.boxed(),
-            ["object", rest @ ..] => Self::object_adaptor(rest)?,
-            ["overflow", rest @ ..] => Self::overflow_adaptor(rest)?,
-            ["overscroll", rest @ ..] => Self::overscroll_adaptor(rest)?,
+            ["object", rest @ ..] => Self::object_adaptor(rest, arbitrary)?,
+            ["overflow", rest @ ..] => Self::overflow_adaptor(rest, arbitrary)?,
+            ["overscroll", rest @ ..] => Self::overscroll_adaptor(rest, arbitrary)?,
             // begin https://tailwindcss.com/docs/position
             ["static"] => TailwindPosition::InlineFlex.boxed(),
             ["fixed"] => TailwindPosition::InlineFlex.boxed(),
@@ -152,12 +150,12 @@ impl AstStyle {
             ["min", "h", rest @ ..] => TailwindHeight::parse(rest, "min"),
             ["max", "h", rest @ ..] => TailwindHeight::parse(rest, "max"),
             // Typography System
-            ["font", rest @ ..] => Self::font_adaptor(rest)?,
+            ["font", rest @ ..] => Self::font_adaptor(rest, arbitrary)?,
             // begin https://tailwindcss.com/docs/font-variant-numeric
             ["normal", "nums"] => todo!(),
             ["ordinal"] => todo!(),
             // end https://tailwindcss.com/docs/font-variant-numeric
-            ["text", rest @ ..] => Self::text_adaptor(rest)?,
+            ["text", rest @ ..] => Self::text_adaptor(rest, arbitrary)?,
             ["antialiased"] => TailwindFontSmoothing::new(false).boxed(),
             ["subpixel", "antialiased"] => TailwindFontSmoothing::new(true).boxed(),
             ["italic"] => todo!(),
@@ -165,7 +163,7 @@ impl AstStyle {
             // TODO:https://tailwindcss.com/docs/font-variant-numeric
             ["tracking", rest @ ..] => todo!(),
             ["leading", rest @ ..] => todo!(),
-            ["list", rest @ ..] => Self::list_adaptor(rest)?,
+            ["list", rest @ ..] => Self::list_adaptor(rest, arbitrary)?,
             ["text", alignment @ ("text" | "serif" | "mono")] => todo!(),
             // TODO:https://tailwindcss.com/docs/font-variant-numeric
             ["underline", rest @ ..] => todo!(),
@@ -181,11 +179,11 @@ impl AstStyle {
             // Borders System
             ["rounded", rest @ ..] => todo!(),
             ["border", rest @ ..] => Self::border_adaptor(rest)?,
-            ["divide", rest @ ..] => Self::divide_adaptor(rest)?,
-            ["outline", rest @ ..] => Self::outline_adaptor(rest)?,
-            ["ring", rest @ ..] => Self::ring_adaptor(rest)?,
+            ["divide", rest @ ..] => Self::divide_adaptor(rest, arbitrary)?,
+            ["outline", rest @ ..] => Self::outline_adaptor(rest, arbitrary)?,
+            ["ring", rest @ ..] => Self::ring_adaptor(rest, arbitrary)?,
             // Effects System
-            ["shadow", rest @ ..] => Self::shadow_adaptor(rest)?,
+            ["shadow", rest @ ..] => Self::shadow_adaptor(rest, arbitrary)?,
             ["opacity", rest @ ..] => todo!(),
             ["mix", "blend", rest @ ..] => todo!(),
             // Filters System
@@ -198,7 +196,7 @@ impl AstStyle {
             ["grayscale", rest @ ..] => todo!(),
             ["backdrop", rest @ ..] => todo!(),
             // Tables System
-            ["table", rest @ ..] => Self::table_adaptor(rest)?,
+            ["table", rest @ ..] => Self::table_adaptor(rest, arbitrary)?,
             // Transitions System
             ["transition", rest @ ..] => todo!(),
             ["duration", rest @ ..] => todo!(),
@@ -260,7 +258,7 @@ impl AstStyle {
         Ok(out)
     }
     #[inline]
-    fn divide_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+    fn divide_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/float
             _ => return syntax_error!(""),
@@ -268,7 +266,7 @@ impl AstStyle {
         Ok(out)
     }
     #[inline]
-    fn outline_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+    fn outline_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/float
             _ => return syntax_error!(""),
@@ -276,7 +274,7 @@ impl AstStyle {
         Ok(out)
     }
     #[inline]
-    fn ring_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+    fn ring_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/float
             _ => return syntax_error!(""),
@@ -284,7 +282,7 @@ impl AstStyle {
         Ok(out)
     }
     #[inline]
-    fn shadow_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+    fn shadow_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/float
             _ => return syntax_error!(""),
@@ -292,7 +290,7 @@ impl AstStyle {
         Ok(out)
     }
     #[inline]
-    fn box_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+    fn box_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             ["decoration", "clone"] => TailwindBoxDecorationBreak::Clone.boxed(),
             ["decoration", "slice"] => TailwindBoxDecorationBreak::Clone.boxed(),
@@ -304,7 +302,7 @@ impl AstStyle {
     }
 
     #[inline]
-    fn list_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+    fn list_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/list-style-type
             ["none"] => todo!(),
@@ -313,7 +311,7 @@ impl AstStyle {
         Ok(out)
     }
     #[inline]
-    fn table_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+    fn table_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/display#table
             [] => TailwindDisplay::Table.boxed(),
@@ -329,7 +327,7 @@ impl AstStyle {
         Ok(out)
     }
     #[inline]
-    fn float_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+    fn float_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/float
             ["left"] => TailwindFloat::Left.boxed(),
@@ -341,7 +339,7 @@ impl AstStyle {
     }
 
     #[inline]
-    fn object_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+    fn object_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/float
             _ => return syntax_error!(""),
@@ -349,7 +347,7 @@ impl AstStyle {
         Ok(out)
     }
     #[inline]
-    fn overflow_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+    fn overflow_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/float
             _ => return syntax_error!(""),
@@ -357,7 +355,7 @@ impl AstStyle {
         Ok(out)
     }
     #[inline]
-    fn overscroll_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+    fn overscroll_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/float
             _ => return syntax_error!(""),
@@ -366,7 +364,7 @@ impl AstStyle {
     }
 
     #[inline]
-    fn font_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+    fn font_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/float
             ["sans"] => TailwindFontFamily::Sans.boxed(),
@@ -401,7 +399,7 @@ impl AstStyle {
         Ok(out)
     }
     #[inline]
-    fn text_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+    fn text_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/text-align
             ["left"] => TailwindTextAlignment::Left.boxed(),

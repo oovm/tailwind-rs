@@ -17,12 +17,14 @@ impl Display for Palette {
 impl Display for ColorResolver {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::Inherit => {}
-            Self::Current => {}
-            Self::Transparent => {}
-            Self::Black => {}
-            Self::White => {}
-            Self::Themed { name, weight } => {}
+            Self::Inherit => f.write_str("inherit"),
+            Self::Current => f.write_str("current"),
+            Self::Transparent => f.write_str("transparent"),
+            Self::Black => f.write_str("black"),
+            Self::White => f.write_str("white"),
+            Self::Themed { name, weight } => {
+                write!(f, "{}-{}", name, weight)
+            }
         }
     }
 }

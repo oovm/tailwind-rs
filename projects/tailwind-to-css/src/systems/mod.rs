@@ -4,6 +4,7 @@ pub mod borders;
 pub mod breakpoints;
 pub mod colors;
 pub mod effects;
+pub mod filters;
 pub mod flexbox;
 pub mod fonts;
 pub mod layouts;

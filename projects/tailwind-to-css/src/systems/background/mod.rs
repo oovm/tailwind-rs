@@ -6,5 +6,5 @@ pub mod display;
 #[doc = include_str ! ("aspect-ratio.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindBackgroundColor {
-    color: ColorResolver,
+    pub(crate) color: ColorResolver,
 }

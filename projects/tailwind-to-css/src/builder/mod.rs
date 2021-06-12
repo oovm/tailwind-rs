@@ -12,11 +12,11 @@ use tailwind_error::nom::{
 
 #[derive(Debug)]
 pub struct TailwindBuilder {
-    objects: BTreeSet<Box<dyn TailwindInstance>>,
-    preflight: PreflightSystem,
-    screens: BreakPointSystem,
-    colors: PaletteSystem,
-    fonts: FontSystem,
+    pub objects: BTreeSet<Box<dyn TailwindInstance>>,
+    pub preflight: PreflightSystem,
+    pub screens: BreakPointSystem,
+    pub colors: PaletteSystem,
+    pub fonts: FontSystem,
 }
 
 impl TailwindBuilder {

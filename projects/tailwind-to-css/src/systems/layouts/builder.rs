@@ -2,7 +2,7 @@ use super::*;
 
 impl TailwindAspect {
     /// https://tailwindcss.com/docs/aspect-ratio
-    pub fn parse(kind: &[&str]) -> Result<Self> {
+    pub fn parse(kind: &[&str], arbitrary: &str) -> Result<Self> {
         let name = match kind {
             [name] => *name,
             _ => return syntax_error!("unknown aspect-ratio elements"),

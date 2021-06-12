@@ -72,4 +72,26 @@ impl ColorResolver {
     pub fn new(name: impl Into<String>, weight: usize) -> Self {
         Self::Themed { name: name.into(), weight }
     }
+    pub fn resolve(&self, ctx: &TailwindBuilder) -> String {
+        let out = match self {
+            Self::Inherit => "inherit",
+            Self::Current => "currentColor",
+            Self::Transparent => "transparent",
+            Self::Black => "rgb(0 0 0)",
+            Self::White => "rgb(255 255 255)",
+            Self::Themed { name, weight } => {
+                return match Self::resolve_themed(name, *weight, ctx) {
+                    None => "inherit".to_string(),
+                    Some(s) => s,
+                };
+            }
+        };
+        out.to_string()
+    }
+    #[inline]
+    fn resolve_themed(name: &str, weight: usize, ctx: &TailwindBuilder) -> Option<String> {
+        let p = ctx.colors.inner.get(name)?;
+        let _ = (p, weight);
+        todo!()
+    }
 }
