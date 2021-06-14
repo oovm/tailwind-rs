@@ -91,18 +91,20 @@ impl AstStyle {
 }
 
 impl AstStyle {
+    #[inline]
     pub fn view_elements(&self) -> Vec<&str> {
         self.elements.iter().map(|s| s.0.as_str()).collect()
     }
-    // TODO
-    pub fn normalization(self) -> Self {
-        self
-    }
+    #[inline]
     pub fn view_arbitrary(&self) -> &str {
         match &self.arbitrary {
             None => "",
             Some(setter) => setter.0.as_str(),
         }
+    }
+    // TODO
+    pub fn normalization(self) -> Self {
+        self
     }
 }
 

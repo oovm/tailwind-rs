@@ -1,6 +1,8 @@
 use super::*;
 use crate::parse_f32;
 
+#[doc = include_str ! ("brightness.md")]
+#[derive(Clone, Debug)]
 pub struct TailwindBrightness {
     brightness: f32,
 }

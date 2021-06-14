@@ -16,7 +16,8 @@ pub mod theme;
 pub mod typography;
 
 use crate::{
-    css_attributes, parse_integer, syntax_error, traits::CssAttribute, ColorResolver, TailwindBuilder, TailwindInstance,
+    css_attributes, parse_integer, syntax_error, traits::CssAttribute, ColorResolver, TailwindBrightness, TailwindBuilder,
+    TailwindInstance,
 };
 use css_style::unit::{percent, px, rem, Length};
 use std::{

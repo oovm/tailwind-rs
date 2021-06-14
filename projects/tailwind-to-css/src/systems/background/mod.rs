@@ -8,3 +8,9 @@ pub mod display;
 pub struct TailwindBackgroundColor {
     pub(crate) color: ColorResolver,
 }
+
+#[doc = include_str ! ("aspect-ratio.md")]
+#[derive(Clone, Debug)]
+pub struct TailwindBackgroundBrightness {
+    brightness: TailwindBrightness,
+}

@@ -100,6 +100,7 @@ impl TailwindInstance for AstStyle {
 }
 // noinspection SpellCheckingInspection
 impl AstStyle {
+    #[inline(never)]
     pub fn get_instance(&self) -> Result<Box<dyn TailwindInstance>> {
         let arbitrary = self.view_arbitrary();
         let instance = match self.view_elements().as_slice() {
