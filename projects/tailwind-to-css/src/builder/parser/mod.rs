@@ -102,8 +102,9 @@ impl TailwindInstance for AstStyle {
 impl AstStyle {
     #[inline(never)]
     pub fn get_instance(&self) -> Result<Box<dyn TailwindInstance>> {
+        let element = self.view_elements();
         let arbitrary = self.view_arbitrary();
-        let instance = match self.view_elements().as_slice() {
+        let instance = match element.as_slice() {
             // ["w", rest @ ..] => {TailW}
             // Layout System
             ["aspect", rest @ ..] => TailwindAspect::parse(rest, arbitrary)?.boxed(),
@@ -228,7 +229,7 @@ impl AstStyle {
             ["sr", "only"] => TailwindScreenReader::new(true).boxed(),
             ["not", "sr", "only"] => TailwindScreenReader::new(false).boxed(),
             // Form System Extension
-            _ => panic!("Unknown tailwind system"),
+            _ => return syntax_error!("Unknown instructions: {} + [{}]", element.join("-"), arbitrary),
         };
         Ok(instance)
     }
@@ -256,23 +257,44 @@ impl AstStyle {
             ["black"] => TailwindBorderCollapse::Separate.into_instance(),
             ["white"] => TailwindBorderCollapse::Separate.into_instance(),
 
-            _ => return syntax_error!(""),
+            _ => return syntax_error!("Unknown border instructions: {}", str.join("-")),
         };
         Ok(out)
     }
     #[inline]
     fn divide_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
-            // https://tailwindcss.com/docs/float
-            _ => return syntax_error!(""),
+            // https://tailwindcss.com/docs/divide-width
+            ["x"] => todo!(),
+            ["x", n] => todo!(),
+            ["y"] => todo!(),
+            ["y", n] => todo!(),
+            // https://tailwindcss.com/docs/divide-style
+            ["solid"] => todo!(),
+            ["dashed"] => todo!(),
+            ["dotted"] => todo!(),
+            ["double"] => todo!(),
+            ["none"] => todo!(),
+            // https://tailwindcss.com/docs/divide-color
+            _ => return syntax_error!("Unknown divide instructions: {}", str.join("-")),
         };
         Ok(out)
     }
     #[inline]
     fn outline_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
-            // https://tailwindcss.com/docs/float
-            _ => return syntax_error!(""),
+            // https://tailwindcss.com/docs/outline-width
+            [n] => todo!(),
+            // https://tailwindcss.com/docs/outline-style
+            [] => todo!(),
+            ["none"] => todo!(),
+            ["dashed"] => todo!(),
+            ["dotted"] => todo!(),
+            ["double"] => todo!(),
+            ["hidden"] => todo!(),
+            // https://tailwindcss.com/docs/outline-offset
+            ["offset", n] => todo!(),
+            _ => return syntax_error!("Unknown outline instructions: {}", str.join("-")),
         };
         Ok(out)
     }
@@ -280,15 +302,17 @@ impl AstStyle {
     fn ring_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/float
-            _ => return syntax_error!(""),
+            _ => return syntax_error!("Unknown ring instructions: {}", str.join("-")),
         };
         Ok(out)
     }
     #[inline]
     fn shadow_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
-            // https://tailwindcss.com/docs/float
-            _ => return syntax_error!(""),
+            // https://tailwindcss.com/docs/box-shadow
+            ["sm"] => todo!(),
+            // https://tailwindcss.com/docs/box-shadow-color
+            _ => return syntax_error!("Unknown shadow instructions: {}", str.join("-")),
         };
         Ok(out)
     }
@@ -299,7 +323,7 @@ impl AstStyle {
             ["decoration", "slice"] => TailwindBoxDecorationBreak::Clone.boxed(),
             ["border"] => TailwindBoxSizing::Border.boxed(),
             ["content"] => TailwindBoxSizing::Content.boxed(),
-            _ => return syntax_error!(""),
+            _ => return syntax_error!("Unknown box instructions: {}", str.join("-")),
         };
         Ok(out)
     }
@@ -309,7 +333,12 @@ impl AstStyle {
         let out = match str {
             // https://tailwindcss.com/docs/list-style-type
             ["none"] => todo!(),
-            _ => return syntax_error!(""),
+            ["disc"] => todo!(),
+            ["decimal"] => todo!(),
+            // https://tailwindcss.com/docs/list-style-position
+            ["inside"] => todo!(),
+            ["outside"] => todo!(),
+            _ => return syntax_error!("Unknown list instructions: {}", str.join("-")),
         };
         Ok(out)
     }
@@ -324,8 +353,7 @@ impl AstStyle {
             // https://tailwindcss.com/docs/table-layout
             ["auto"] => TailwindTableLayout::Auto.boxed(),
             ["fixed"] => TailwindTableLayout::Fixed.boxed(),
-
-            _ => return syntax_error!(""),
+            _ => return syntax_error!("Unknown table instructions: {}", str.join("-")),
         };
         Ok(out)
     }
@@ -336,7 +364,7 @@ impl AstStyle {
             ["left"] => TailwindFloat::Left.boxed(),
             ["right"] => TailwindFloat::Right.boxed(),
             ["none"] => TailwindFloat::None.boxed(),
-            _ => return syntax_error!(""),
+            _ => return syntax_error!("Unknown float instructions: {}", str.join("-")),
         };
         Ok(out)
     }
@@ -345,7 +373,7 @@ impl AstStyle {
     fn object_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/float
-            _ => return syntax_error!(""),
+            _ => return syntax_error!("Unknown object instructions: {}", str.join("-")),
         };
         Ok(out)
     }
@@ -353,7 +381,7 @@ impl AstStyle {
     fn overflow_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/float
-            _ => return syntax_error!(""),
+            _ => return syntax_error!("Unknown overflow instructions: {}", str.join("-")),
         };
         Ok(out)
     }
@@ -361,7 +389,7 @@ impl AstStyle {
     fn overscroll_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/float
-            _ => return syntax_error!(""),
+            _ => return syntax_error!("Unknown overscroll instructions: {}", str.join("-")),
         };
         Ok(out)
     }
@@ -397,7 +425,7 @@ impl AstStyle {
             ["bold"] => TailwindFontWeight::BOLD.boxed(),
             ["extrabold"] => TailwindFontWeight::EXTRA_BOLD.boxed(),
             ["black"] => TailwindFontWeight::BLACK.boxed(),
-            _ => return syntax_error!(""),
+            _ => return syntax_error!("Unknown font instructions: {}", str.join("-")),
         };
         Ok(out)
     }
@@ -416,15 +444,8 @@ impl AstStyle {
             ["black"] => TailwindTextColor::BLACK.boxed(),
             ["white"] => TailwindTextColor::WHITE.boxed(),
             [color, weight] => TailwindTextColor::parse(color, weight)?.boxed(),
-            _ => return syntax_error!(""),
+            _ => return syntax_error!("Unknown text instructions: {}", str.join("-")),
         };
         Ok(out)
-    }
-}
-
-impl TailwindBuilder {
-    /// `(item (WS/NL item)*)?`
-    pub(crate) fn parse(&self, input: &str) -> Result<BTreeSet<Box<dyn TailwindInstance>>> {
-        todo!()
     }
 }

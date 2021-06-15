@@ -30,25 +30,24 @@ impl TailwindBuilder {
         self.try_trace(style).unwrap()
     }
     pub fn try_trace(&mut self, style: &str) -> Result<String> {
-        let parsed = self.parse(style)?;
-        let out = parsed.iter().map(|s| s.id()).collect::<Vec<String>>().join(" ");
-        // self.buffer.extend(parsed.into_iter());
+        let parsed = Self::parse_styles(style)?;
+        let out: Vec<String> = parsed.iter().map(|s| s.id()).collect();
         for i in parsed.into_iter() {
-            self.objects.insert(i);
+            self.objects.insert(i.get_instance()?);
         }
-        return Ok(out);
+        Ok(out.join(" "))
     }
 
     pub fn inline(&self, style: &str) -> BTreeSet<CssAttribute> {
         let mut out = BTreeSet::new();
-        let parsed = match self.parse(style) {
+        let parsed = match Self::parse_styles(style) {
             Ok(o) => o,
             Err(_) => return out,
         };
         for item in parsed {
-            out.extend(item.attributes(&self))
+            out.extend(item.attributes(self))
         }
-        return out;
+        out
     }
     pub fn bundle(&self) -> String {
         self.bundle_objects(1024 * 10).unwrap_or_default()
@@ -56,10 +55,10 @@ impl TailwindBuilder {
 
     fn bundle_objects(&self, cap: usize) -> Result<String> {
         let mut out = String::with_capacity(cap);
-        self.preflight.write_css(&mut out, &self)?;
+        self.preflight.write_css(&mut out, self)?;
         for item in &self.objects {
-            item.write_css(&mut out, &self)?;
+            item.write_css(&mut out, self)?;
         }
-        return Ok(out);
+        Ok(out)
     }
 }

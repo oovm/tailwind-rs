@@ -21,7 +21,12 @@ impl TailwindBrightness {
         Ok(Self { brightness: parse_f32(arbitrary)?.1 })
     }
 }
-
+#[test]
+fn build_brightness() {
+    let builder = TailwindBuilder::default();
+    let out = format!("{:?}", builder.inline("brightness-125"));
+    assert_eq!(out, "{filter: brightness(1.25);}")
+}
 impl Display for TailwindBrightness {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "brightness-{}", (self.brightness * 100.0) as usize)
