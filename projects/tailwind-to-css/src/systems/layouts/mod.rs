@@ -9,9 +9,9 @@ pub struct LayoutSystem {}
 
 #[doc = include_str ! ("aspect-ratio.md")]
 #[derive(Copy, Clone, Debug)]
-pub struct TailwindAspect {
-    kind: &'static str,
-    ratio: &'static str,
+pub enum TailwindAspect {
+    Auto,
+    Arbitrary(usize, usize),
 }
 
 /// https://tailwindcss.com/docs/container
@@ -111,10 +111,14 @@ pub enum TailwindObjectFit {}
 #[derive(Copy, Clone, Debug)]
 pub enum TailwindOverscroll {}
 
-/// https://tailwindcss.com/docs/position
+#[doc = include_str ! ("position.md")]
 #[derive(Copy, Clone, Debug)]
 pub enum TailwindPosition {
-    InlineFlex,
+    Static,
+    Fixed,
+    Absolute,
+    Relative,
+    Sticky,
 }
 
 /// https://tailwindcss.com/docs/visibility

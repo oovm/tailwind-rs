@@ -1,16 +1,21 @@
 use super::*;
+use crate::parse_fraction;
 
 impl TailwindAspect {
     /// https://tailwindcss.com/docs/aspect-ratio
     pub fn parse(kind: &[&str], arbitrary: &str) -> Result<Self> {
-        let name = match kind {
-            [name] => *name,
-            _ => return syntax_error!("unknown aspect-ratio elements"),
-        };
-        let out = match name {
-            "auto" => Self { kind: "auto", ratio: "auto" },
-            "square" => Self { kind: "square", ratio: "1/1" },
-            "video" => Self { kind: "video", ratio: "16/9" },
+        let out = match kind {
+            [] => {
+                let (a, b) = parse_fraction(arbitrary)?.1;
+                Self::Arbitrary(a, b)
+            }
+            ["auto"] => Self::Auto,
+            ["square"] => Self::Arbitrary(1, 1),
+            ["video"] => Self::Arbitrary(16, 9),
+            ["auto"] => Self::Auto,
+            ["inherit"] => todo!(),
+            ["w", _n] => todo!(),
+            ["h", _n] => todo!(),
             _ => return syntax_error!("unknown aspect-ratio elements"),
         };
         Ok(out)

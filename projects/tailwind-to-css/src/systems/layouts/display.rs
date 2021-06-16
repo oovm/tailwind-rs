@@ -2,7 +2,14 @@ use super::*;
 
 impl Display for TailwindAspect {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "aspect-{}", self.kind)
+        match self {
+            Self::Auto => {
+                write!(f, "aspect-auto")
+            }
+            Self::Arbitrary(a, b) => {
+                write!(f, "aspect-{}/{}", a, b)
+            }
+        }
     }
 }
 

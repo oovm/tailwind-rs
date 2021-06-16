@@ -129,11 +129,11 @@ impl AstStyle {
             ["overflow", rest @ ..] => Self::overflow_adaptor(rest, arbitrary)?,
             ["overscroll", rest @ ..] => Self::overscroll_adaptor(rest, arbitrary)?,
             // begin https://tailwindcss.com/docs/position
-            ["static"] => TailwindPosition::InlineFlex.boxed(),
-            ["fixed"] => TailwindPosition::InlineFlex.boxed(),
-            ["absolute"] => TailwindPosition::InlineFlex.boxed(),
-            ["relative"] => TailwindPosition::InlineFlex.boxed(),
-            ["sticky"] => TailwindPosition::InlineFlex.boxed(),
+            ["static"] => TailwindPosition::Static.boxed(),
+            ["fixed"] => TailwindPosition::Fixed.boxed(),
+            ["absolute"] => TailwindPosition::Absolute.boxed(),
+            ["relative"] => TailwindPosition::Relative.boxed(),
+            ["sticky"] => TailwindPosition::Sticky.boxed(),
             // end https://tailwindcss.com/docs/position
             ["visible"] => TailwindVisibility::Visible.boxed(),
             ["invisible"] => TailwindVisibility::Invisible.boxed(),
