@@ -2,13 +2,15 @@ mod builder;
 mod display;
 use super::*;
 
-/// https://tailwindcss.com/docs/flex-basis
+#[doc=include_str!("justify-content.md")]
+#[derive(Debug, Copy, Clone)]
 pub enum TailwindFlexBasis {
     Auto,
     Full,
 }
 
-/// https://tailwindcss.com/docs/flex-basis
+#[doc=include_str!("justify-content.md")]
+#[derive(Debug, Copy, Clone)]
 pub enum TailwindFlexDirection {
     Row,
     RowReverse,
@@ -16,9 +18,41 @@ pub enum TailwindFlexDirection {
     ColumnReverse,
 }
 
-pub struct TailwindFlexWrap {}
+#[doc=include_str!("justify-content.md")]
+#[derive(Debug, Copy, Clone)]
+pub enum TailwindFlexWrap {
+    Wrap,
+    WrapReverse,
+    NoWrap,
+}
 
-pub struct TailwindFlex {}
+#[doc=include_str!("justify-content.md")]
+#[derive(Debug, Copy, Clone)]
+pub enum TailwindFlex {
+    None,
+    Inherit,
+    Auto { grow: usize, shrink: usize },
+    Percent { grow: usize, shrink: usize, basis: usize },
+}
+
+#[doc=include_str!("justify-content.md")]
+#[derive(Debug, Copy, Clone)]
+pub struct TailWindFlexGrow {
+    grow: usize,
+}
+
+#[doc=include_str!("justify-content.md")]
+#[derive(Debug, Copy, Clone)]
+pub struct TailWindFlexShrink {
+    shrink: usize,
+}
+
+#[doc=include_str!("justify-content.md")]
+#[derive(Debug, Copy, Clone)]
+pub struct TailWindOrder {
+    order: usize,
+    negative: bool,
+}
 
 #[doc=include_str!("justify-content.md")]
 #[derive(Debug, Copy, Clone)]

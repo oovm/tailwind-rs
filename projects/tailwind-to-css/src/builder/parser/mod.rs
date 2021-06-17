@@ -6,7 +6,11 @@ pub use self::utils::*;
 use super::*;
 use crate::{
     syntax_error,
-    systems::{borders::TailwindBorderStyle, filters::TailwindBrightness},
+    systems::{
+        borders::TailwindBorderStyle,
+        filters::TailwindBrightness,
+        flexbox::{TailWindFlexGrow, TailWindFlexShrink, TailWindOrder, TailwindFlex, TailwindFlexDirection, TailwindFlexWrap},
+    },
     TailwindBorderCollapse, TailwindBoxDecorationBreak, TailwindBoxSizing, TailwindClear, TailwindColumns, TailwindContainer,
     TailwindDisplay, TailwindFloat, TailwindFontFamily, TailwindFontSize, TailwindFontSmoothing, TailwindFontWeight,
     TailwindHeight, TailwindIsolation, TailwindPosition, TailwindScreenReader, TailwindSpacing, TailwindTextAlignment,
@@ -114,7 +118,6 @@ impl AstStyle {
             ["break", "inside", rest @ ..] => TailwindBreak::parse_inside(rest)?.boxed(),
             ["break", "after", rest @ ..] => TailwindBreak::parse_after(rest)?.boxed(),
             ["box", rest @ ..] => Self::box_adaptor(rest, arbitrary)?,
-            ["flex", rest @ ..] => Self::flex_adaptor(rest, arbitrary)?,
             ["block"] => TailwindDisplay::Block.boxed(),
             // begin https://tailwindcss.com/docs/display
             ["inline", "flex"] => TailwindDisplay::InlineFlex.boxed(),
@@ -141,6 +144,12 @@ impl AstStyle {
             ["inset", rest @ ..] => TailWindZIndex::parse(rest, self.negative),
 
             ["s", rest @ ..] => TailWindZIndex::parse(rest, self.negative),
+            // Flexbox & Grid
+            ["flex", rest @ ..] => Self::flex_adaptor(rest, arbitrary)?,
+            ["grow", rest @ ..] => TailWindFlexGrow::parse(rest, arbitrary)?.boxed(),
+            ["shrink", rest @ ..] => TailWindFlexShrink::parse(rest, arbitrary)?.boxed(),
+            ["order", rest @ ..] => TailWindOrder::parse(rest, arbitrary, self.negative),
+
             // Spacing System
             [p @ ("p" | "pl" | "pr" | "pm" | "pt" | "px" | "py"), rest @ ..] => TailwindSpacing::parse_padding(rest, p),
             [m @ ("m" | "ml" | "mr" | "mm" | "mt" | "mx" | "my"), rest @ ..] => TailwindSpacing::parse_margin(rest, m),
@@ -333,21 +342,21 @@ impl AstStyle {
             // https://tailwindcss.com/docs/display#flex
             [] if arbitrary.is_empty() => TailwindDisplay::Flex.boxed(),
             // https://tailwindcss.com/docs/flex#arbitrary-values
-            [] => TailwindBoxDecorationBreak::Clone.boxed(),
+            [] => TailwindFlex::parse_arbitrary(arbitrary).boxed(),
             // https://tailwindcss.com/docs/flex-direction
-            ["row"] => TailwindBoxDecorationBreak::Clone.boxed(),
-            ["row", "reverse"] => TailwindBoxDecorationBreak::Clone.boxed(),
-            ["col"] => TailwindBoxDecorationBreak::Clone.boxed(),
-            ["col", "reverse"] => TailwindBoxDecorationBreak::Clone.boxed(),
+            ["row"] => TailwindFlexDirection::Row.boxed(),
+            ["row", "reverse"] => TailwindFlexDirection::RowReverse.boxed(),
+            ["col"] => TailwindFlexDirection::Column.boxed(),
+            ["col", "reverse"] => TailwindFlexDirection::ColumnReverse.boxed(),
             // https://tailwindcss.com/docs/flex-wrap
-            ["wrap"] => TailwindBoxDecorationBreak::Clone.boxed(),
-            ["wrap", "reverse"] => TailwindBoxDecorationBreak::Clone.boxed(),
-            ["nowrap"] => TailwindBoxDecorationBreak::Clone.boxed(),
+            ["wrap"] => TailwindFlexWrap::Wrap.boxed(),
+            ["wrap", "reverse"] => TailwindFlexWrap::WrapReverse.boxed(),
+            ["nowrap"] => TailwindFlexWrap::NoWrap.boxed(),
             // https://tailwindcss.com/docs/flex
-            ["1"] => TailwindBoxDecorationBreak::Clone.boxed(),
             ["auto"] => TailwindBoxDecorationBreak::Clone.boxed(),
             ["initial"] => TailwindBoxDecorationBreak::Clone.boxed(),
             ["none"] => TailwindBoxDecorationBreak::Clone.boxed(),
+            [n] => TailwindFlex::parse(n).boxed(),
             _ => return syntax_error!("Unknown box instructions: {}", str.join("-")),
         };
         Ok(out)
