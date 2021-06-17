@@ -7,12 +7,14 @@ pub mod effects;
 pub mod filters;
 pub mod flexbox;
 pub mod fonts;
+pub mod interactivity;
 pub mod layouts;
 pub mod preflight;
 pub mod sizes;
 pub mod spaces;
 pub mod tables;
 pub mod theme;
+pub mod transition;
 pub mod typography;
 
 use crate::{

@@ -1,13 +1,20 @@
-use css_style::AlignContent::SpaceBetween;
-
 mod builder;
-mod parser;
+mod display;
+use super::*;
 
 /// https://tailwindcss.com/docs/flex-basis
-pub struct TailwindFlexBasis {}
+pub enum TailwindFlexBasis {
+    Auto,
+    Full,
+}
 
 /// https://tailwindcss.com/docs/flex-basis
-pub struct TailwindFlexDirection {}
+pub enum TailwindFlexDirection {
+    Row,
+    RowReverse,
+    Column,
+    ColumnReverse,
+}
 
 pub struct TailwindFlexWrap {}
 

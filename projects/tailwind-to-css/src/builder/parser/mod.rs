@@ -114,8 +114,8 @@ impl AstStyle {
             ["break", "inside", rest @ ..] => TailwindBreak::parse_inside(rest)?.boxed(),
             ["break", "after", rest @ ..] => TailwindBreak::parse_after(rest)?.boxed(),
             ["box", rest @ ..] => Self::box_adaptor(rest, arbitrary)?,
+            ["flex", rest @ ..] => Self::flex_adaptor(rest, arbitrary)?,
             ["block"] => TailwindDisplay::Block.boxed(),
-            ["flex"] => TailwindDisplay::Flex.boxed(),
             // begin https://tailwindcss.com/docs/display
             ["inline", "flex"] => TailwindDisplay::InlineFlex.boxed(),
             ["inline", "block"] => TailwindDisplay::InlineBlock.boxed(),
@@ -323,6 +323,31 @@ impl AstStyle {
             ["decoration", "slice"] => TailwindBoxDecorationBreak::Clone.boxed(),
             ["border"] => TailwindBoxSizing::Border.boxed(),
             ["content"] => TailwindBoxSizing::Content.boxed(),
+            _ => return syntax_error!("Unknown box instructions: {}", str.join("-")),
+        };
+        Ok(out)
+    }
+    #[inline]
+    fn flex_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
+        let out = match str {
+            // https://tailwindcss.com/docs/display#flex
+            [] if arbitrary.is_empty() => TailwindDisplay::Flex.boxed(),
+            // https://tailwindcss.com/docs/flex#arbitrary-values
+            [] => TailwindBoxDecorationBreak::Clone.boxed(),
+            // https://tailwindcss.com/docs/flex-direction
+            ["row"] => TailwindBoxDecorationBreak::Clone.boxed(),
+            ["row", "reverse"] => TailwindBoxDecorationBreak::Clone.boxed(),
+            ["col"] => TailwindBoxDecorationBreak::Clone.boxed(),
+            ["col", "reverse"] => TailwindBoxDecorationBreak::Clone.boxed(),
+            // https://tailwindcss.com/docs/flex-wrap
+            ["wrap"] => TailwindBoxDecorationBreak::Clone.boxed(),
+            ["wrap", "reverse"] => TailwindBoxDecorationBreak::Clone.boxed(),
+            ["nowrap"] => TailwindBoxDecorationBreak::Clone.boxed(),
+            // https://tailwindcss.com/docs/flex
+            ["1"] => TailwindBoxDecorationBreak::Clone.boxed(),
+            ["auto"] => TailwindBoxDecorationBreak::Clone.boxed(),
+            ["initial"] => TailwindBoxDecorationBreak::Clone.boxed(),
+            ["none"] => TailwindBoxDecorationBreak::Clone.boxed(),
             _ => return syntax_error!("Unknown box instructions: {}", str.join("-")),
         };
         Ok(out)
