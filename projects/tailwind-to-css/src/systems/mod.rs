@@ -11,7 +11,7 @@ pub mod interactivity;
 pub mod layouts;
 pub mod preflight;
 pub mod sizes;
-pub mod spaces;
+pub mod spacing;
 pub mod tables;
 pub mod theme;
 pub mod transition;
@@ -21,7 +21,6 @@ use crate::{
     css_attributes, parse_integer, syntax_error, traits::CssAttribute, ColorResolver, TailwindBrightness, TailwindBuilder,
     TailwindInstance,
 };
-use css_style::unit::{percent, px, rem, Length};
 use std::{
     collections::{BTreeMap, BTreeSet, HashMap},
     fmt::{Debug, Display, Formatter, Write},

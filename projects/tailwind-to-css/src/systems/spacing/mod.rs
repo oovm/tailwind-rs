@@ -1,5 +1,5 @@
 mod builder;
-mod parser;
+mod display;
 
 use super::*;
 

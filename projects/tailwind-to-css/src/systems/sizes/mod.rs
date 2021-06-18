@@ -1,13 +1,19 @@
 mod builder;
-mod parser;
+mod display;
 
 use super::*;
 
 #[derive(Copy, Clone, Debug)]
-pub struct SizingSystem {}
+pub enum LengthResolver {
+    Px(f32),
+    Rem(f32),
+    Percent(f32),
+    Unit(isize),
+    Fraction(usize, usize),
+}
 
 /// used to express sizing
-#[derive(Clone)]
+#[derive(Copy, Clone, Debug)]
 pub enum TailwindSizing {
     Min,
     Max,
@@ -15,7 +21,8 @@ pub enum TailwindSizing {
     Full,
     Auto,
     Screen,
-    Length(Length),
+    Px(f32),
+    Unit(usize),
     Percent(usize, usize),
 }
 
@@ -39,41 +46,4 @@ pub enum TailwindHeight {
     Max(TailwindSizing),
     #[doc = include_str!("height.md")]
     Normal(TailwindSizing),
-}
-
-impl TailwindSizing {
-    /// `w-px`
-    pub fn px(n: usize) -> Self {
-        Self::Length(px(n as f32))
-    }
-    /// `w-{number}`
-    pub fn number(number: usize) -> Self {
-        Self::Length(rem(number as f32 / 4.0))
-    }
-    /// `w-[{n}rem]`
-    pub fn rem(number: usize) -> Self {
-        Self::Length(rem(number as f32))
-    }
-    /// `w-{a}/{b}` & `w-full`
-    pub fn percent(numerator: usize, denominator: usize) -> Self {
-        assert!(numerator <= denominator);
-        if numerator == denominator { Self::Full } else { Self::Percent(numerator, denominator) }
-    }
-}
-
-impl Debug for TailwindSizing {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.write_str("width: ")?;
-        match self {
-            Self::Min => f.write_str("min-content")?,
-            Self::Max => f.write_str("max-content")?,
-            Self::Fit => f.write_str("fit-content")?,
-            Self::Screen => f.write_str("fit-content")?,
-            Self::Full => f.write_str("fit-content")?,
-            Self::Auto => f.write_str("auto")?,
-            Self::Length(n) => Display::fmt(n, f)?,
-            Self::Percent(numerator, denominator) => Display::fmt(&percent(*numerator as f32 / *denominator as f32), f)?,
-        }
-        f.write_char(';')
-    }
 }
