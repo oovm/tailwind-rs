@@ -29,7 +29,7 @@ impl TailwindSpacing {
     fn parse_pm(input: &[&str], pm: &str) -> Result<Box<dyn TailwindInstance>> {
         let kind = TailwindSpacingKind::parse_p(pm.chars().collect::<Vec<_>>().as_slice()).expect("not vaild");
         let size = match input {
-            [s] => TailwindSpacingSize::parse_size(s).expect("Todo"),
+            [s] => TailwindSpacingSize::parse(s).expect("Todo"),
             _ => panic!("Todo"),
         };
         Ok(Box::new(Self { kind, size }))
@@ -38,7 +38,7 @@ impl TailwindSpacing {
     pub fn parse_space(input: &[&str], kind: char) -> Box<dyn TailwindInstance> {
         let kind = TailwindSpacingKind::parse_space(kind).expect("Spacing: No such direction");
         let size = match input {
-            [s] => TailwindSpacingSize::parse_size(s).expect("Todo"),
+            [s] => TailwindSpacingSize::parse(s).expect("Todo"),
             _ => panic!("Todo"),
         };
         Box::new(Self { kind, size })
@@ -78,7 +78,7 @@ impl TailwindSpacingKind {
 }
 
 impl TailwindSpacingSize {
-    fn parse_size(input: &str) -> Result<Self> {
+    fn parse(input: &str) -> Result<Self> {
         // match input {
         //     "px" => {}
         //     "reverse" => {}
@@ -86,4 +86,5 @@ impl TailwindSpacingSize {
         // }
         todo!()
     }
+    fn parse_arb() {}
 }

@@ -23,29 +23,11 @@ use crate::{
 };
 use css_style::unit::{percent, px, rem, Length};
 use std::{
-    collections::{BTreeMap, BTreeSet, HashMap, HashSet},
+    collections::{BTreeMap, BTreeSet, HashMap},
     fmt::{Debug, Display, Formatter, Write},
     str::FromStr,
 };
-use tailwind_error::{
-    nom::{bytes::complete::tag, IResult},
-    Result,
-};
-
-/// Tailwind Parsed Result
-pub type ParsedItem<'a> = IResult<&'a str, Box<dyn TailwindInstance>>;
-/// Tailwind Parsed Result
-pub type ParsedList<'a> = IResult<&'a str, HashSet<Box<dyn TailwindInstance>>>;
-
-pub(crate) fn as_list(out: ParsedItem) -> ParsedList {
-    match out {
-        Ok((rest, o)) => Ok((rest, HashSet::from_iter(vec![o]))),
-        Err(e) => Err(e),
-    }
-}
-
-/// Remove instance from builder
-pub(crate) struct SealedRemover(String);
+use tailwind_error::{nom::IResult, Result};
 
 /// Uncategorized tailwind property
 #[derive(Debug)]
@@ -77,25 +59,6 @@ impl TailwindInstance for TailwindObject {
         self.attributes.to_owned()
     }
 }
-
-impl TailwindObject {
-    pub fn parser<'a>(id: &'static str, css: &'static str) -> impl Fn(&'a str) -> ParsedItem<'a> {
-        move |input| match tag(id)(input) {
-            Ok((rest, _)) => {
-                let lines = css.trim().lines();
-                let mut out = BTreeSet::default();
-                for i in lines.map(|s| s.trim()) {
-                    if let Some((key, value)) = i.split_once(":") {
-                        out.insert(CssAttribute::new(key, value));
-                    }
-                }
-                Ok((rest, Self::new(id, out)))
-            }
-            Err(e) => Err(e),
-        }
-    }
-}
-
 #[macro_export]
 macro_rules! syntax_error {
     ($msg:literal $(,)?) => {

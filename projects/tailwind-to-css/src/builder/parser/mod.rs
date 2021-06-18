@@ -148,7 +148,7 @@ impl AstStyle {
             ["flex", rest @ ..] => Self::flex_adaptor(rest, arbitrary)?,
             ["grow", rest @ ..] => TailWindFlexGrow::parse(rest, arbitrary)?.boxed(),
             ["shrink", rest @ ..] => TailWindFlexShrink::parse(rest, arbitrary)?.boxed(),
-            ["order", rest @ ..] => TailWindOrder::parse(rest, arbitrary, self.negative),
+            ["order", rest @ ..] => TailWindOrder::parse(rest, arbitrary, self.negative)?.boxed(),
 
             // Spacing System
             [p @ ("p" | "pl" | "pr" | "pm" | "pt" | "px" | "py"), rest @ ..] => TailwindSpacing::parse_padding(rest, p),
@@ -342,7 +342,7 @@ impl AstStyle {
             // https://tailwindcss.com/docs/display#flex
             [] if arbitrary.is_empty() => TailwindDisplay::Flex.boxed(),
             // https://tailwindcss.com/docs/flex#arbitrary-values
-            [] => TailwindFlex::parse_arbitrary(arbitrary).boxed(),
+            [] => TailwindFlex::parse_arbitrary(arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/flex-direction
             ["row"] => TailwindFlexDirection::Row.boxed(),
             ["row", "reverse"] => TailwindFlexDirection::RowReverse.boxed(),
@@ -356,7 +356,7 @@ impl AstStyle {
             ["auto"] => TailwindBoxDecorationBreak::Clone.boxed(),
             ["initial"] => TailwindBoxDecorationBreak::Clone.boxed(),
             ["none"] => TailwindBoxDecorationBreak::Clone.boxed(),
-            [n] => TailwindFlex::parse(n).boxed(),
+            [n] => TailwindFlex::parse(n)?.boxed(),
             _ => return syntax_error!("Unknown box instructions: {}", str.join("-")),
         };
         Ok(out)

@@ -50,8 +50,7 @@ pub struct TailWindFlexShrink {
 #[doc=include_str!("justify-content.md")]
 #[derive(Debug, Copy, Clone)]
 pub struct TailWindOrder {
-    order: usize,
-    negative: bool,
+    order: isize,
 }
 
 #[doc=include_str!("justify-content.md")]

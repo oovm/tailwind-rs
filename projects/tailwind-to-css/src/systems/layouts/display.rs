@@ -15,8 +15,14 @@ impl Display for TailwindAspect {
 
 impl TailwindInstance for TailwindAspect {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        let ar = match self {
+            Self::Auto => "auto",
+            Self::Arbitrary(_, _) => {
+                todo!()
+            }
+        };
         css_attributes! {
-            "aspect-ratio" => self.ratio
+            "aspect-ratio" => ar
         }
     }
 }

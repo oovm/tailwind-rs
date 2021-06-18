@@ -54,25 +54,28 @@ impl TailWindFlexShrink {
 }
 
 impl TailWindOrder {
-    pub const NONE: Self = Self { order: 0, negative: false };
-    pub const FIRST: Self = Self { order: 9999, negative: false };
-    pub const LAST: Self = Self { order: 9999, negative: true };
+    pub const NONE: Self = Self { order: 0 };
+    pub const FIRST: Self = Self { order: 9999 };
+    pub const LAST: Self = Self { order: -9999 };
     #[inline]
     pub fn parse(pattern: &[&str], arbitrary: &str, negative: bool) -> Result<Self> {
         let out = match pattern {
-            // [] if arbitrary.is_empty() => Ok(Self { order: 0, negative }),
+            [] if arbitrary.is_empty() => Self { order: 0 },
             [] => Self::parse_arbitrary(arbitrary, negative)?,
             ["none"] => Self::NONE,
             ["first"] => Self::FIRST,
             ["last"] => Self::LAST,
-            [n] => Self { order: parse_integer(n)?.1, negative },
+            [n] => Self::parse_arbitrary(n, negative)?,
             _ => return syntax_error!("Unknown flex-order instructions: {}", pattern.join("-")),
         };
         Ok(out)
     }
     #[inline]
     pub fn parse_arbitrary(arbitrary: &str, negative: bool) -> Result<Self> {
-        let order = parse_integer(arbitrary)?.1;
-        Ok(Self { order, negative })
+        let mut order: isize = parse_integer(arbitrary)?.1;
+        if negative {
+            order = -order
+        }
+        Ok(Self { order })
     }
 }
