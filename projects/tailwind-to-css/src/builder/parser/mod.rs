@@ -4,18 +4,11 @@ mod utils;
 
 pub use self::utils::*;
 use super::*;
-use crate::{
-    syntax_error,
-    systems::{
-        borders::TailwindBorderStyle,
-        filters::TailwindBrightness,
-        flexbox::{TailWindFlexGrow, TailWindFlexShrink, TailWindOrder, TailwindFlex, TailwindFlexDirection, TailwindFlexWrap},
-    },
-    TailwindBorderCollapse, TailwindBoxDecorationBreak, TailwindBoxSizing, TailwindClear, TailwindColumns, TailwindContainer,
-    TailwindDisplay, TailwindFloat, TailwindFontFamily, TailwindFontSize, TailwindFontSmoothing, TailwindFontWeight,
-    TailwindHeight, TailwindIsolation, TailwindPosition, TailwindScreenReader, TailwindSizing, TailwindSpacing,
-    TailwindTextAlignment, TailwindTextColor, TailwindVisibility,
-};
+use crate::{TailwindBoxShadow, syntax_error, systems::{
+    borders::TailwindBorderStyle,
+    filters::TailwindBrightness,
+    flexbox::{TailWindFlexGrow, TailWindFlexShrink, TailWindOrder, TailwindFlex, TailwindFlexDirection, TailwindFlexWrap},
+}, TailwindBorderCollapse, TailwindBoxDecorationBreak, TailwindBoxSizing, TailwindClear, TailwindColumns, TailwindContainer, TailwindDisplay, TailwindDivideStyle, TailwindFloat, TailwindFontFamily, TailwindFontSize, TailwindFontSmoothing, TailwindFontWeight, TailwindIsolation, TailwindOutlineStyle, TailwindPosition, TailwindRingOffsetWidth, TailwindScreenReader, TailwindSizing, TailwindSpacing, TailwindTextAlignment, TailwindTextColor, TailwindVisibility};
 use std::{
     fmt::{Display, Formatter, Write},
     str::FromStr,
@@ -160,12 +153,12 @@ impl AstStyle {
             ["space", "x", rest @ ..] => TailwindSpacing::parse_space(rest, 'x', arbitrary)?.boxed(),
             ["space", "y", rest @ ..] => TailwindSpacing::parse_space(rest, 'y', arbitrary)?.boxed(),
             // Sizing System
-            ["w", rest @ ..] => TailwindSizing::parse(rest, arbitrary)?.boxed(),
-            ["min", "w", rest @ ..] => TailwindSizing::parse_min(rest, arbitrary)?.boxed(),
-            ["max", "w", rest @ ..] => TailwindSizing::parse_max(rest, arbitrary)?.boxed(),
-            ["h", rest @ ..] => TailwindHeight::parse(rest, arbitrary)?.boxed(),
-            ["min", "h", rest @ ..] => TailwindHeight::parse_min(rest, arbitrary)?.boxed(),
-            ["max", "h", rest @ ..] => TailwindHeight::parse_max(rest, arbitrary)?.boxed(),
+            ["w", rest @ ..] => TailwindSizing::parse_width(rest, arbitrary)?.boxed(),
+            ["min", "w", rest @ ..] => TailwindSizing::parse_width_min(rest, arbitrary)?.boxed(),
+            ["max", "w", rest @ ..] => TailwindSizing::parse_width_max(rest, arbitrary)?.boxed(),
+            ["h", rest @ ..] => TailwindSizing::parse_width(rest, arbitrary)?.boxed(),
+            ["min", "h", rest @ ..] => TailwindSizing::parse_width_min(rest, arbitrary)?.boxed(),
+            ["max", "h", rest @ ..] => TailwindSizing::parse_width_max(rest, arbitrary)?.boxed(),
             // Typography System
             ["font", rest @ ..] => Self::font_adaptor(rest, arbitrary)?,
             // begin https://tailwindcss.com/docs/font-variant-numeric
@@ -283,11 +276,11 @@ impl AstStyle {
             ["y"] => todo!(),
             ["y", n] => todo!(),
             // https://tailwindcss.com/docs/divide-style
-            ["solid"] => todo!(),
-            ["dashed"] => todo!(),
-            ["dotted"] => todo!(),
-            ["double"] => todo!(),
-            ["none"] => todo!(),
+            ["solid"] => TailwindDivideStyle::Solid.boxed(),
+            ["dashed"] => TailwindDivideStyle::Dashed.boxed(),
+            ["dotted"] => TailwindDivideStyle::Dotted.boxed(),
+            ["double"] => TailwindDivideStyle::Double.boxed(),
+            ["none"] => TailwindDivideStyle::None.boxed(),
             // https://tailwindcss.com/docs/divide-color
             _ => return syntax_error!("Unknown divide instructions: {}", str.join("-")),
         };
@@ -300,11 +293,11 @@ impl AstStyle {
             [n] => todo!(),
             // https://tailwindcss.com/docs/outline-style
             [] => todo!(),
-            ["none"] => todo!(),
-            ["dashed"] => todo!(),
-            ["dotted"] => todo!(),
-            ["double"] => todo!(),
-            ["hidden"] => todo!(),
+            ["none"] => TailwindOutlineStyle::None.boxed(),
+            ["dashed"] => TailwindOutlineStyle::Dashed.boxed(),
+            ["dotted"] => TailwindOutlineStyle::Dotted.boxed(),
+            ["double"] => TailwindOutlineStyle::Double.boxed(),
+            ["hidden"] => TailwindOutlineStyle::Hidden.boxed(),
             // https://tailwindcss.com/docs/outline-offset
             ["offset", n] => todo!(),
             _ => return syntax_error!("Unknown outline instructions: {}", str.join("-")),
@@ -314,7 +307,8 @@ impl AstStyle {
     #[inline]
     fn ring_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
-            // https://tailwindcss.com/docs/float
+            // https://tailwindcss.com/docs/ring-offset-width
+            ["offset", rest @ ..] => TailwindRingOffsetWidth::parse(rest, arbitrary)?.boxed(),
             _ => return syntax_error!("Unknown ring instructions: {}", str.join("-")),
         };
         Ok(out)
@@ -323,6 +317,7 @@ impl AstStyle {
     fn shadow_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/box-shadow
+            [] => TailwindBoxShadow::from()
             ["sm"] => todo!(),
             // https://tailwindcss.com/docs/box-shadow-color
             _ => return syntax_error!("Unknown shadow instructions: {}", str.join("-")),

@@ -3,38 +3,37 @@ use super::*;
 pub mod builder;
 pub mod display;
 
-/// https://tailwindcss.com/docs/aspect-ratio
-#[derive(Copy, Clone, Debug)]
-pub struct LayoutSystem {}
-
-#[doc = include_str ! ("aspect-ratio.md")]
+#[doc = include_str!("aspect-ratio.md")]
 #[derive(Copy, Clone, Debug)]
 pub enum TailwindAspect {
     Auto,
     Arbitrary(usize, usize),
 }
 
-/// https://tailwindcss.com/docs/container
+#[doc = include_str!("container.md")]
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindContainer {}
 
-#[doc = include_str ! ("columns.md")]
+#[doc = include_str!("columns.md")]
 #[derive(Copy, Clone, Debug)]
 pub enum TailwindColumns {
     Auto,
     Columns(u8),
-    Size(u8),
+    Rem(usize),
 }
 
-#[doc = include_str ! ("break.md")]
 #[derive(Copy, Clone, Debug)]
-pub enum TailwindBreak {
-    /// https://tailwindcss.com/docs/break-before
-    Before(&'static str),
-    /// https://tailwindcss.com/docs/break-after
-    After(&'static str),
-    /// https://tailwindcss.com/docs/break-inside
-    Inside(&'static str),
+enum TailwindBreakKind {
+    Before,
+    After,
+    Inside,
+}
+
+#[doc = include_str!("break.md")]
+#[derive(Clone, Debug)]
+pub struct TailwindBreak {
+    kind: TailwindBreakKind,
+    info: String,
 }
 
 /// https://tailwindcss.com/docs/box-sizing

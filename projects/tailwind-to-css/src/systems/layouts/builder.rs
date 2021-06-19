@@ -24,27 +24,24 @@ impl TailwindAspect {
 
 impl TailwindColumns {
     /// https://tailwindcss.com/docs/columns
-    pub fn parse(kind: &[&str]) -> Result<Self> {
-        let name = match kind {
-            [name] => *name,
-            _ => return syntax_error!("unknown column elements"),
-        };
-        let out = match name {
-            "auto" => Self::Auto,
-            "3xs" => Self::Size(16),
-            "2xs" => Self::Size(18),
-            "xs" => Self::Size(20),
-            "sm" => Self::Size(24),
-            "md" => Self::Size(28),
-            "lg" => Self::Size(32),
-            "xl" => Self::Size(36),
-            "2xl" => Self::Size(42),
-            "3xl" => Self::Size(48),
-            "4xl" => Self::Size(56),
-            "5xl" => Self::Size(64),
-            "6xl" => Self::Size(72),
-            "7xl" => Self::Size(80),
-            _ => Self::Columns(parse_integer(name)?.1),
+    pub fn parse(input: &[&str]) -> Result<Self> {
+        let out = match input {
+            ["auto"] => Self::Auto,
+            ["3xs"] => Self::Rem(16),
+            ["2xs"] => Self::Rem(18),
+            ["xs"] => Self::Rem(20),
+            ["sm"] => Self::Rem(24),
+            ["md"] => Self::Rem(28),
+            ["lg"] => Self::Rem(32),
+            ["xl"] => Self::Rem(36),
+            ["2xl"] => Self::Rem(42),
+            ["3xl"] => Self::Rem(48),
+            ["4xl"] => Self::Rem(56),
+            ["5xl"] => Self::Rem(64),
+            ["6xl"] => Self::Rem(72),
+            ["7xl"] => Self::Rem(80),
+            [name] => Self::Columns(parse_integer(name)?.1),
+            _ => return syntax_error!("Unknown column instructions: {}", input.join("-")),
         };
         Ok(out)
     }
@@ -52,45 +49,35 @@ impl TailwindColumns {
 
 impl TailwindBreak {
     /// https://tailwindcss.com/docs/break-before
-    pub fn parse_before(kind: &[&str]) -> Result<Self> {
-        let out = match kind {
-            ["auto"] => Self::Before("auto"),
-            ["avoid"] => Self::Before("avoid"),
-            ["all"] => Self::Before("all"),
-            ["avoid", "page"] => Self::Before("avoid-page"),
-            ["page"] => Self::Before("page"),
-            ["left"] => Self::Before("left"),
-            ["right"] => Self::Before("right"),
-            ["column"] => Self::Before("column"),
-            _ => return syntax_error!("unknown break before elements"),
-        };
-        Ok(out)
+    pub fn parse_before(input: &[&str]) -> Result<Self> {
+        let kind = TailwindBreakKind::Before;
+        let info = input.join("-");
+        match input {
+            ["auto"] | ["avoid"] | ["all"] | ["avoid", "page"] | ["page"] | ["left"] | ["right"] | ["column"] => {
+                Ok(Self { kind, info })
+            }
+            _ => syntax_error!("Unknown break-before instructions: {}", info),
+        }
     }
     /// https://tailwindcss.com/docs/break-after
-    pub fn parse_after(kind: &[&str]) -> Result<Self> {
-        let out = match kind {
-            ["auto"] => Self::After("auto"),
-            ["avoid"] => Self::After("avoid"),
-            ["all"] => Self::After("all"),
-            ["avoid", "page"] => Self::After("avoid-page"),
-            ["page"] => Self::After("page"),
-            ["left"] => Self::After("left"),
-            ["right"] => Self::After("right"),
-            ["column"] => Self::After("column"),
-            _ => return syntax_error!("unknown break after elements"),
-        };
-        Ok(out)
+    pub fn parse_after(input: &[&str]) -> Result<Self> {
+        let kind = TailwindBreakKind::After;
+        let info = input.join("-");
+        match input {
+            ["auto"] | ["avoid"] | ["all"] | ["avoid", "page"] | ["page"] | ["left"] | ["right"] | ["column"] => {
+                Ok(Self { kind, info })
+            }
+            _ => syntax_error!("Unknown break-after instructions: {}", info),
+        }
     }
     /// https://tailwindcss.com/docs/break-inside
-    pub fn parse_inside(kind: &[&str]) -> Result<Self> {
-        let out = match kind {
-            ["auto"] => Self::Inside("auto"),
-            ["avoid"] => Self::Inside("avoid"),
-            ["avoid", "page"] => Self::Inside("avoid-page"),
-            ["avoid", "column"] => Self::Inside("avoid-column"),
-            _ => return syntax_error!("unknown break inside elements"),
-        };
-        Ok(out)
+    pub fn parse_inside(input: &[&str]) -> Result<Self> {
+        let kind = TailwindBreakKind::Inside;
+        let info = input.join("-");
+        match input {
+            ["auto"] | ["avoid"] | ["avoid", "page"] | ["avoid", "column"] => Ok(Self { kind, info }),
+            _ => syntax_error!("Unknown break-inside instructions: {}", info),
+        }
     }
 }
 

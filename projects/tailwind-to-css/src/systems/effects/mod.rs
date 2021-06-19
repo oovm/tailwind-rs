@@ -1,11 +1,11 @@
-mod builder;
+mod display;
 mod parser;
 
 use super::*;
 
 /// https://tailwindcss.com/docs/box-shadow
 #[derive(Copy, Clone, Debug)]
-pub struct ShadowSystem {}
+pub struct TailwindBoxShadow {}
 
 /// https://tailwindcss.com/docs/opacity
 #[derive(Copy, Clone, Debug)]

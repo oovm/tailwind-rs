@@ -12,9 +12,8 @@ pub enum LengthResolver {
     Fraction(usize, usize),
 }
 
-/// used to express sizing
 #[derive(Copy, Clone, Debug)]
-enum SizeUnit {
+enum LengthUnit {
     Min,
     Max,
     Fit,
@@ -49,5 +48,5 @@ pub enum TailwindSizingKind {
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindSizing {
     kind: TailwindSizingKind,
-    size: SizeUnit,
+    size: LengthUnit,
 }

@@ -35,28 +35,28 @@ impl Display for TailwindContainer {
 
 impl TailwindInstance for TailwindContainer {}
 
-impl Display for TailwindBreak {
+impl Display for TailwindBreakKind {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::Before(kind) => write!(f, "break-before-{}", kind),
-            Self::After(kind) => write!(f, "break-after-{}", kind),
-            Self::Inside(kind) => write!(f, "break-inside-{}", kind),
+            Self::Before => f.write_str("break-before"),
+            Self::After => f.write_str("break-after"),
+            Self::Inside => f.write_str("break-inside"),
         }
+    }
+}
+
+impl Display for TailwindBreak {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}-{}", self.kind, self.info)
     }
 }
 
 impl TailwindInstance for TailwindBreak {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        match self {
-            Self::Before(kind) => css_attributes! {
-                "break-before" => kind
-            },
-            Self::After(kind) => css_attributes! {
-                "break-after" => kind
-            },
-            Self::Inside(kind) => css_attributes! {
-                "break-inside" => kind
-            },
+        let class = self.kind.to_string();
+        let breaking = self.info.to_string();
+        css_attributes! {
+            class => breaking
         }
     }
 }

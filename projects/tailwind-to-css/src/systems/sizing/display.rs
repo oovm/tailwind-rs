@@ -1,6 +1,6 @@
 use super::*;
 
-impl SizeUnit {
+impl LengthUnit {
     pub fn get_attribute(&self, is_width: bool) -> String {
         let is_width = match is_width {
             true => "vw",
@@ -22,7 +22,7 @@ impl SizeUnit {
     }
 }
 
-impl Display for SizeUnit {
+impl Display for LengthUnit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::Min => f.write_str("min"),
@@ -44,54 +44,31 @@ impl Display for SizeUnit {
     }
 }
 
-impl Display for TailwindSizing {
+impl Display for TailwindSizingKind {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::Min(s) => write!(f, "min-w-{}", s),
-            Self::Max(s) => write!(f, "max-w-{}", s),
-            Self::Normal(s) => write!(f, "w-{}", s),
+            Self::Width => f.write_str("w"),
+            Self::MinWidth => f.write_str("min-w"),
+            Self::MaxWidth => f.write_str("max-w"),
+            Self::Height => f.write_str("h"),
+            Self::MinHeight => f.write_str("min-h"),
+            Self::MaxHeight => f.write_str("max-h"),
         }
+    }
+}
+
+impl Display for TailwindSizing {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}-{}", self.kind, self.size)
     }
 }
 
 impl TailwindInstance for TailwindSizing {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let class = match self {
-            Self::Min(_) => "min-width",
-            Self::Max(_) => "max-width",
-            Self::Normal(_) => "width",
-        };
-        let width = match self {
-            Self::Min(s) | Self::Max(s) | Self::Normal(s) => s.get_attribute(true),
-        };
+        let class = self.kind.to_string();
+        let width = self.size.get_attribute(true);
         css_attributes! {
             class => width
-        }
-    }
-}
-
-impl Display for TailwindHeight {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Min(s) => write!(f, "min-h-{}", s),
-            Self::Max(s) => write!(f, "max-h-{}", s),
-            Self::Normal(s) => write!(f, "h-{}", s),
-        }
-    }
-}
-
-impl TailwindInstance for TailwindHeight {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let class = match self {
-            Self::Min(_) => "min-height",
-            Self::Max(_) => "max-height",
-            Self::Normal(_) => "height",
-        };
-        let height = match self {
-            Self::Min(s) | Self::Max(s) | Self::Normal(s) => s.get_attribute(false),
-        };
-        css_attributes! {
-            class => height
         }
     }
 }
