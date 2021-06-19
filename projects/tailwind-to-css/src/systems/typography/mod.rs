@@ -2,7 +2,6 @@ mod builder;
 mod display;
 
 use super::*;
-use crate::LengthResolver;
 
 #[doc = include_str ! ("font-family.md")]
 #[derive(Debug, Clone)]
@@ -15,8 +14,8 @@ pub enum TailwindFontFamily {
 #[doc = include_str ! ("font-family.md")]
 #[derive(Copy, Debug, Clone)]
 pub struct TailwindFontSize {
-    size: LengthResolver,
-    height: LengthResolver,
+    size: f32,
+    height: f32,
 }
 
 #[doc = include_str ! ("font-smoothing.md")]

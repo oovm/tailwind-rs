@@ -13,8 +13,8 @@ use crate::{
     },
     TailwindBorderCollapse, TailwindBoxDecorationBreak, TailwindBoxSizing, TailwindClear, TailwindColumns, TailwindContainer,
     TailwindDisplay, TailwindFloat, TailwindFontFamily, TailwindFontSize, TailwindFontSmoothing, TailwindFontWeight,
-    TailwindHeight, TailwindIsolation, TailwindPosition, TailwindScreenReader, TailwindSpacing, TailwindTextAlignment,
-    TailwindTextColor, TailwindVisibility, TailwindWidth,
+    TailwindHeight, TailwindIsolation, TailwindPosition, TailwindScreenReader, TailwindSizing, TailwindSpacing,
+    TailwindTextAlignment, TailwindTextColor, TailwindVisibility,
 };
 use std::{
     fmt::{Display, Formatter, Write},
@@ -151,17 +151,21 @@ impl AstStyle {
             ["order", rest @ ..] => TailWindOrder::parse(rest, arbitrary, self.negative)?.boxed(),
 
             // Spacing System
-            [p @ ("p" | "pl" | "pr" | "pm" | "pt" | "px" | "py"), rest @ ..] => TailwindSpacing::parse_padding(rest, p),
-            [m @ ("m" | "ml" | "mr" | "mm" | "mt" | "mx" | "my"), rest @ ..] => TailwindSpacing::parse_margin(rest, m),
-            ["space", "x", rest @ ..] => TailwindSpacing::parse_space(rest, 'x'),
-            ["space", "y", rest @ ..] => TailwindSpacing::parse_space(rest, 'y'),
+            [p @ ("p" | "pl" | "pr" | "pm" | "pt" | "px" | "py"), rest @ ..] => {
+                TailwindSpacing::parse_padding(rest, p, arbitrary)?.boxed()
+            }
+            [m @ ("m" | "ml" | "mr" | "mm" | "mt" | "mx" | "my"), rest @ ..] => {
+                TailwindSpacing::parse_margin(rest, m, arbitrary)?.boxed()
+            }
+            ["space", "x", rest @ ..] => TailwindSpacing::parse_space(rest, 'x', arbitrary)?.boxed(),
+            ["space", "y", rest @ ..] => TailwindSpacing::parse_space(rest, 'y', arbitrary)?.boxed(),
             // Sizing System
-            ["w", rest @ ..] => TailwindWidth::parse(rest, "normal"),
-            ["min", "w", rest @ ..] => TailwindWidth::parse(rest, "min"),
-            ["max", "w", rest @ ..] => TailwindWidth::parse(rest, "max"),
-            ["h", rest @ ..] => TailwindHeight::parse(rest, "normal"),
-            ["min", "h", rest @ ..] => TailwindHeight::parse(rest, "min"),
-            ["max", "h", rest @ ..] => TailwindHeight::parse(rest, "max"),
+            ["w", rest @ ..] => TailwindSizing::parse(rest, arbitrary)?.boxed(),
+            ["min", "w", rest @ ..] => TailwindSizing::parse_min(rest, arbitrary)?.boxed(),
+            ["max", "w", rest @ ..] => TailwindSizing::parse_max(rest, arbitrary)?.boxed(),
+            ["h", rest @ ..] => TailwindHeight::parse(rest, arbitrary)?.boxed(),
+            ["min", "h", rest @ ..] => TailwindHeight::parse_min(rest, arbitrary)?.boxed(),
+            ["max", "h", rest @ ..] => TailwindHeight::parse_max(rest, arbitrary)?.boxed(),
             // Typography System
             ["font", rest @ ..] => Self::font_adaptor(rest, arbitrary)?,
             // begin https://tailwindcss.com/docs/font-variant-numeric

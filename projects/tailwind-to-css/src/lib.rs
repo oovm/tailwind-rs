@@ -15,7 +15,7 @@ pub use self::{
     builder::{parser::*, TailwindBuilder},
     systems::{
         accessibility::*, background::*, borders::*, breakpoints::*, colors::*, effects::*, filters::*, fonts::*, layouts::*,
-        preflight::*, sizes::*, spacing::*, tables::*, typography::*,
+        preflight::*, sizing::*, spacing::*, tables::*, typography::*,
     },
     traits::{CssAttribute, ParsedItem, ParsedList, TailwindInstance, TailwindObject},
 };

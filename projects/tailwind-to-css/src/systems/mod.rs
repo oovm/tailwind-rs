@@ -10,7 +10,7 @@ pub mod fonts;
 pub mod interactivity;
 pub mod layouts;
 pub mod preflight;
-pub mod sizes;
+pub mod sizing;
 pub mod spacing;
 pub mod tables;
 pub mod theme;
@@ -26,7 +26,7 @@ use std::{
     fmt::{Debug, Display, Formatter, Write},
     str::FromStr,
 };
-use tailwind_error::{nom::IResult, Result};
+use tailwind_error::Result;
 
 /// Uncategorized tailwind property
 #[derive(Debug)]

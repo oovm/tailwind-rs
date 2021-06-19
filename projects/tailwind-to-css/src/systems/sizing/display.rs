@@ -1,7 +1,6 @@
 use super::*;
-use std::fmt::format;
 
-impl TailwindSizing {
+impl SizeUnit {
     pub fn get_attribute(&self, is_width: bool) -> String {
         let is_width = match is_width {
             true => "vw",
@@ -15,13 +14,15 @@ impl TailwindSizing {
             Self::Auto => format!("auto"),
             Self::Screen => format!("100{}", is_width),
             Self::Px(n) => format!("{}px", n),
+            Self::Rem(n) => format!("{}rem", n),
             Self::Unit(n) => format!("{}rem", *n as f32 / 4.0),
-            Self::Percent(numerator, denominator) => format!("{}%", (100 * numerator) as f32 / *denominator as f32),
+            Self::Fraction(numerator, denominator) => format!("{}%", Self::Percent(*numerator as f32 / *denominator as f32)),
+            Self::Percent(percent) => format!("{}%", 100.0 * percent),
         }
     }
 }
 
-impl Display for TailwindSizing {
+impl Display for SizeUnit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::Min => f.write_str("min"),
@@ -31,17 +32,19 @@ impl Display for TailwindSizing {
             Self::Full => f.write_str("full"),
             Self::Auto => f.write_str("auto"),
             Self::Px(px) => match px {
-                0.0 => f.write_char('0'),
-                1.0 => f.write_str("px"),
+                n if n.eq(&0.0) => f.write_char('0'),
+                n if n.eq(&1.0) => f.write_str("px"),
                 _ => f.write_str("{}px"),
             },
             Self::Unit(n) => write!(f, "{}", n),
-            Self::Percent(a, b) => write!(f, "{}/{}", a, b),
+            Self::Fraction(a, b) => write!(f, "{}/{}", a, b),
+            Self::Rem(rem) => write!(f, "{}rem", rem),
+            Self::Percent(p) => write!(f, "{}%", (p * 100.0).round()),
         }
     }
 }
 
-impl Display for TailwindWidth {
+impl Display for TailwindSizing {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::Min(s) => write!(f, "min-w-{}", s),
@@ -51,7 +54,7 @@ impl Display for TailwindWidth {
     }
 }
 
-impl TailwindInstance for TailwindWidth {
+impl TailwindInstance for TailwindSizing {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         let class = match self {
             Self::Min(_) => "min-width",

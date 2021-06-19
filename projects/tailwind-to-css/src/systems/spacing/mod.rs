@@ -3,12 +3,22 @@ mod display;
 
 use super::*;
 
+#[derive(Copy, Clone, Debug)]
+pub enum SizeKind {
+    Auto,
+    Reverse,
+    Unit(f32),
+    Px(f32),
+    Rem(f32),
+}
+
 #[doc = include_str ! ("spacing.md")]
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindSpacing {
     kind: TailwindSpacingKind,
-    size: TailwindSpacingSize,
+    size: SizeKind,
 }
+
 #[derive(Copy, Clone, Debug)]
 pub enum TailwindSpacingKind {
     Padding,
@@ -27,13 +37,6 @@ pub enum TailwindSpacingKind {
     MarginY,
     SpaceBetweenX,
     SpaceBetweenY,
-}
-#[derive(Copy, Clone, Debug)]
-pub enum TailwindSpacingSize {
-    Auto,
-    Reversed,
-    Px(usize),
-    Number(usize),
 }
 
 #[derive(Clone, Debug)]
