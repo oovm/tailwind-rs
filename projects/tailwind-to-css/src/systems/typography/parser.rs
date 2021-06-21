@@ -1,4 +1,5 @@
 use super::*;
+use tailwind_error::nom::{bytes::complete::tag, combinator::opt, sequence::tuple};
 
 impl TailwindFontSmoothing {
     #[inline]
@@ -10,16 +11,25 @@ impl TailwindFontSmoothing {
     }
 }
 
-// Class
-// Properties
-// tracking-tighter	letter-spacing: -0.05em;
-// tracking-tight	letter-spacing: -0.025em;
-// tracking-normal	letter-spacing: 0em;
-// tracking-wide	letter-spacing: 0.025em;
-// tracking-wider	letter-spacing: 0.05em;
-// tracking-widest	letter-spacing: 0.1em;
 impl TailwindTracking {
-    pub fn parse() {}
+    pub fn parse(input: &[&str], arbitrary: &str) -> Result<Self> {
+        let em = match input {
+            ["tighter"] => -0.05,
+            ["tight"] => -0.25,
+            ["normal"] => 0.0,
+            ["wide"] => 0.025,
+            ["wider"] => 0.05,
+            ["widest"] => 0.1,
+            [] => return Self::parse_arbitrary(arbitrary),
+            [n] => return Self::parse_arbitrary(n),
+            _ => return syntax_error!("Unknown tracking instructions: {}", input.join("-")),
+        };
+        Ok(Self { em })
+    }
+    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
+        let (em, _) = tuple((parse_integer, opt(tag("em"))))(arbitrary)?.1;
+        Ok(Self { em })
+    }
 }
 
 impl TailwindFontSize {

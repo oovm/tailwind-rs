@@ -2,13 +2,13 @@ use super::*;
 use tailwind_error::TailwindError;
 
 impl TailwindOpacity {
-    pub fn parse(input: &str) -> Box<dyn TailwindInstance> {
+    pub fn parse(input: &[&str], arbitrary: &str) -> Result<Self> {
         todo!()
     }
 
     #[inline]
-    pub fn number(input: usize) -> Box<dyn TailwindInstance> {
-        Box::new(Self { opacity: input })
+    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
+        todo!()
     }
 }
 
@@ -45,8 +45,8 @@ impl TailwindBlendKind {
 }
 
 impl TailwindBlendMode {
-    pub fn instance(self, is_background: bool) -> Box<dyn TailwindInstance> {
-        TailwindBlend { kind: TailwindBlendKind::new(is_background), mode: self }.boxed()
+    pub fn parse(input: &[&str], arbitrary: &str) -> Result<Self> {
+        todo!()
     }
 }
 

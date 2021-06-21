@@ -1,4 +1,5 @@
 use super::*;
+use std::fmt::format;
 
 impl Display for TailwindFontSmoothing {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -48,6 +49,29 @@ impl Display for TailwindFontSize {
 }
 
 impl TailwindInstance for TailwindFontSize {}
+
+impl Display for TailwindTracking {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "tracking-[{}em]", self.em)
+    }
+}
+
+impl TailwindInstance for TailwindTracking {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        let em = format!("{}em", self.em);
+        css_attributes! {
+            "letter-spacing" => em
+        }
+    }
+}
+
+impl Display for TailwindLeading {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindLeading {}
 
 impl Display for TailwindFontWeight {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
