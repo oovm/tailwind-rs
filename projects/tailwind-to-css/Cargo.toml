@@ -11,6 +11,7 @@ edition = "2021"
 
 [dependencies]
 text-utils = "0.4.3"
+log = "0.4.14"
 #css-style = "0.13.1"
 #itertools = "0.10.3"
 

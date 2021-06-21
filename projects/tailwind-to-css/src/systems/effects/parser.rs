@@ -49,3 +49,15 @@ impl TailwindBlendMode {
         TailwindBlend { kind: TailwindBlendKind::new(is_background), mode: self }.boxed()
     }
 }
+
+impl TailwindShadow {
+    pub fn parse_box(input: &[&str], arbitrary: &str) -> Result<Self> {
+        todo!()
+    }
+    pub fn parse_drop(input: &[&str], arbitrary: &str) -> Result<Self> {
+        todo!()
+    }
+    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
+        todo!()
+    }
+}

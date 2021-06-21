@@ -10,6 +10,18 @@ impl TailwindFontSmoothing {
     }
 }
 
+// Class
+// Properties
+// tracking-tighter	letter-spacing: -0.05em;
+// tracking-tight	letter-spacing: -0.025em;
+// tracking-normal	letter-spacing: 0em;
+// tracking-wide	letter-spacing: 0.025em;
+// tracking-wider	letter-spacing: 0.05em;
+// tracking-widest	letter-spacing: 0.1em;
+impl TailwindTracking {
+    pub fn parse() {}
+}
+
 impl TailwindFontSize {
     #[inline]
     pub fn new(size: f32, height: f32) -> Self {

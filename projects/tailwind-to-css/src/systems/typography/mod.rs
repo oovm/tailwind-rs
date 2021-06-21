@@ -1,5 +1,5 @@
-mod builder;
 mod display;
+mod parser;
 
 use super::*;
 
@@ -27,6 +27,13 @@ pub enum TailwindFontSmoothing {
 
 #[doc = include_str ! ("font-smoothing.md")]
 #[derive(Debug, Clone)]
+pub enum TailwindFontStyle {
+    Italic,
+    Normal,
+}
+
+#[doc = include_str ! ("font-smoothing.md")]
+#[derive(Debug, Clone)]
 pub struct TailwindFontWeight {
     weight: usize,
 }
@@ -45,6 +52,25 @@ pub enum TailwindTextAlignment {
 pub struct TailwindTextColor {
     pub(crate) color: ColorResolver,
 }
+
+#[doc = include_str ! ("font-smoothing.md")]
+#[derive(Debug, Clone)]
+pub struct TailwindUnderlineOffset {}
+
+#[doc = include_str!("font-smoothing.md")]
+#[derive(Debug, Clone)]
+pub enum TailwindTracking {
+    Tighter,
+    Tight,
+    Normal,
+    Wide,
+    Wider,
+    Widest,
+}
+
+#[doc = include_str!("font-smoothing.md")]
+#[derive(Debug, Clone)]
+pub enum TailwindLeading {}
 
 #[doc = include_str ! ("font-smoothing.md")]
 #[derive(Debug, Clone)]

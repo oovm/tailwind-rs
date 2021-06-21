@@ -33,6 +33,14 @@ impl Display for TailwindFontFamily {
 
 impl TailwindInstance for TailwindFontFamily {}
 
+impl Display for TailwindFontStyle {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindFontStyle {}
+
 impl Display for TailwindFontSize {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()

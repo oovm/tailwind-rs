@@ -3,9 +3,28 @@ mod parser;
 
 use super::*;
 
+#[derive(Copy, Clone, Debug)]
+enum ShadowKind {
+    None,
+    Small,
+    Normal,
+    Medium,
+    Large,
+    ExtraLarge,
+    UltraLarge,
+    Custom { x: usize, y: usize, alpha: usize },
+}
+
 /// https://tailwindcss.com/docs/box-shadow
 #[derive(Copy, Clone, Debug)]
-pub struct TailwindBoxShadow {}
+pub struct TailwindShadow {
+    kind: ShadowKind,
+    is_drop: bool,
+}
+
+/// https://tailwindcss.com/docs/box-shadow
+#[derive(Copy, Clone, Debug)]
+pub struct TailwindShadowColor {}
 
 /// https://tailwindcss.com/docs/opacity
 #[derive(Copy, Clone, Debug)]

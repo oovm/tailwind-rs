@@ -4,11 +4,20 @@ mod utils;
 
 pub use self::utils::*;
 use super::*;
-use crate::{TailwindBoxShadow, syntax_error, systems::{
-    borders::TailwindBorderStyle,
-    filters::TailwindBrightness,
-    flexbox::{TailWindFlexGrow, TailWindFlexShrink, TailWindOrder, TailwindFlex, TailwindFlexDirection, TailwindFlexWrap},
-}, TailwindBorderCollapse, TailwindBoxDecorationBreak, TailwindBoxSizing, TailwindClear, TailwindColumns, TailwindContainer, TailwindDisplay, TailwindDivideStyle, TailwindFloat, TailwindFontFamily, TailwindFontSize, TailwindFontSmoothing, TailwindFontWeight, TailwindIsolation, TailwindOutlineStyle, TailwindPosition, TailwindRingOffsetWidth, TailwindScreenReader, TailwindSizing, TailwindSpacing, TailwindTextAlignment, TailwindTextColor, TailwindVisibility};
+use crate::{
+    syntax_error,
+    systems::{
+        borders::TailwindBorderStyle,
+        filters::TailwindBrightness,
+        flexbox::{TailWindFlexGrow, TailWindFlexShrink, TailWindOrder, TailwindFlex, TailwindFlexDirection, TailwindFlexWrap},
+    },
+    TailwindBorderCollapse, TailwindBoxDecorationBreak, TailwindBoxSizing, TailwindClear, TailwindColumns, TailwindContainer,
+    TailwindDisplay, TailwindDivideStyle, TailwindFloat, TailwindFontFamily, TailwindFontSize, TailwindFontSmoothing,
+    TailwindFontStyle, TailwindFontWeight, TailwindIsolation, TailwindOutlineStyle, TailwindPosition, TailwindRingOffsetWidth,
+    TailwindScreenReader, TailwindShadow, TailwindSizing, TailwindSpacing, TailwindTextAlignment, TailwindTextColor,
+    TailwindTracking, TailwindUnderlineOffset, TailwindVisibility,
+};
+use log::error;
 use std::{
     fmt::{Display, Formatter, Write},
     str::FromStr,
@@ -89,7 +98,8 @@ impl TailwindInstance for AstStyle {
         match self.get_instance() {
             Ok(o) => out.extend(o.attributes(ctx)),
             Err(e) => {
-                println!("{:?}", e)
+                #[cfg(debug_assertions)]
+                error!("{:?}", e)
             }
         }
         out
@@ -168,15 +178,14 @@ impl AstStyle {
             ["text", rest @ ..] => Self::text_adaptor(rest, arbitrary)?,
             ["antialiased"] => TailwindFontSmoothing::new(false).boxed(),
             ["subpixel", "antialiased"] => TailwindFontSmoothing::new(true).boxed(),
-            ["italic"] => todo!(),
-            ["not", "italic"] => todo!(),
-            // TODO:https://tailwindcss.com/docs/font-variant-numeric
-            ["tracking", rest @ ..] => todo!(),
-            ["leading", rest @ ..] => todo!(),
+            ["italic"] => TailwindFontStyle::Italic.boxed(),
+            ["not", "italic"] => TailwindFontStyle::Normal.boxed(),
+            // TODO: https://tailwindcss.com/docs/font-variant-numeric
+            ["tracking", rest @ ..] => TailwindTracking::parse(rest)?.boxed(),
+            ["leading", rest @ ..] => TailwindLeading::parse(rest)?.boxed(),
             ["list", rest @ ..] => Self::list_adaptor(rest, arbitrary)?,
-            ["text", alignment @ ("text" | "serif" | "mono")] => todo!(),
             // TODO:https://tailwindcss.com/docs/font-variant-numeric
-            ["underline", rest @ ..] => todo!(),
+            ["underline", "offset", rest @ ..] => TailwindUnderlineOffset::parse(rest)?.boxed(),
             ["decoration", rest @ ..] => todo!(),
             // Typography System Extension
             ["prose"] => todo!(),
@@ -201,7 +210,7 @@ impl AstStyle {
             ["brightness", rest @ ..] => TailwindBrightness::parse(rest, arbitrary)?.boxed(),
             ["contrast", rest @ ..] => todo!(),
 
-            ["drop", "shadow", rest @ ..] => todo!(),
+            ["drop", "shadow", rest @ ..] => TailwindShadow::parse_drop(rest, arbitrary)?.boxed(),
 
             ["grayscale", rest @ ..] => todo!(),
             ["backdrop", rest @ ..] => todo!(),
@@ -212,7 +221,6 @@ impl AstStyle {
             ["duration", rest @ ..] => todo!(),
             ["ease", rest @ ..] => todo!(),
             ["delay", rest @ ..] => todo!(),
-
             ["animate", rest @ ..] => todo!(),
             ["ease", rest @ ..] => todo!(),
             ["delay", rest @ ..] => todo!(),
@@ -289,8 +297,6 @@ impl AstStyle {
     #[inline]
     fn outline_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
-            // https://tailwindcss.com/docs/outline-width
-            [n] => todo!(),
             // https://tailwindcss.com/docs/outline-style
             [] => todo!(),
             ["none"] => TailwindOutlineStyle::None.boxed(),
@@ -300,6 +306,8 @@ impl AstStyle {
             ["hidden"] => TailwindOutlineStyle::Hidden.boxed(),
             // https://tailwindcss.com/docs/outline-offset
             ["offset", n] => todo!(),
+            // https://tailwindcss.com/docs/outline-width
+            [n] => todo!(),
             _ => return syntax_error!("Unknown outline instructions: {}", str.join("-")),
         };
         Ok(out)
@@ -317,7 +325,7 @@ impl AstStyle {
     fn shadow_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/box-shadow
-            [] => TailwindBoxShadow::from()
+            [] => TailwindShadow::parse_arbitrary(arbitrary)?.boxed(),
             ["sm"] => todo!(),
             // https://tailwindcss.com/docs/box-shadow-color
             _ => return syntax_error!("Unknown shadow instructions: {}", str.join("-")),
