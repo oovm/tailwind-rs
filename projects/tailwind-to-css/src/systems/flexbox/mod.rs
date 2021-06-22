@@ -1,5 +1,5 @@
-mod builder;
 mod display;
+mod parser;
 use super::*;
 
 #[doc=include_str!("justify-content.md")]
@@ -37,13 +37,13 @@ pub enum TailwindFlex {
 
 #[doc=include_str!("justify-content.md")]
 #[derive(Debug, Copy, Clone)]
-pub struct TailWindFlexGrow {
+pub struct TailWindGrow {
     grow: usize,
 }
 
 #[doc=include_str!("justify-content.md")]
 #[derive(Debug, Copy, Clone)]
-pub struct TailWindFlexShrink {
+pub struct TailWindShrink {
     shrink: usize,
 }
 
@@ -51,6 +51,55 @@ pub struct TailWindFlexShrink {
 #[derive(Debug, Copy, Clone)]
 pub struct TailWindOrder {
     order: isize,
+}
+
+#[doc=include_str!("justify-content.md")]
+#[derive(Debug, Copy, Clone)]
+pub struct TailwindGridTemplate {
+    row: bool,
+    unit: usize,
+}
+
+#[doc=include_str!("justify-content.md")]
+#[derive(Debug, Copy, Clone)]
+pub struct TailwindColumn {
+    unit: usize,
+}
+
+#[doc=include_str!("justify-content.md")]
+#[derive(Debug, Copy, Clone)]
+pub struct TailwindGridRow {
+    unit: usize,
+}
+
+#[doc=include_str!("justify-content.md")]
+#[derive(Debug, Copy, Clone)]
+pub struct TailwindRow {
+    unit: usize,
+}
+
+#[doc=include_str!("justify-content.md")]
+#[derive(Debug, Copy, Clone)]
+pub enum TailwindGridFlow {
+    Row,
+    RowDense,
+    Column,
+    ColumnDense,
+}
+
+#[derive(Debug, Copy, Clone)]
+enum GridAutoKind {
+    Auto,
+    Min,
+    Max,
+    Fr,
+}
+
+#[doc=include_str!("justify-content.md")]
+#[derive(Debug, Copy, Clone)]
+pub struct TailwindGridAuto {
+    kind: GridAutoKind,
+    layout: bool,
 }
 
 #[doc=include_str!("justify-content.md")]
@@ -93,7 +142,7 @@ pub enum TailwindJustifySelf {
 
 #[doc=include_str!("justify-self.md")]
 #[derive(Debug, Copy, Clone)]
-pub enum TailwindAlignContent {
+pub enum TailwindContent {
     // Auto,
     Start,
     End,
@@ -105,7 +154,7 @@ pub enum TailwindAlignContent {
 
 #[doc=include_str!("justify-self.md")]
 #[derive(Debug, Copy, Clone)]
-pub enum TailwindAlignItems {
+pub enum TailwindItems {
     Auto,
     Start,
     End,
@@ -115,7 +164,7 @@ pub enum TailwindAlignItems {
 
 #[doc=include_str!("justify-self.md")]
 #[derive(Debug, Copy, Clone)]
-pub enum TailwindAlignSelf {
+pub enum TailwindSelf {
     Auto,
     Start,
     End,

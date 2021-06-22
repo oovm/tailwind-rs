@@ -19,7 +19,7 @@ impl TailwindFlex {
     }
 }
 
-impl TailWindFlexGrow {
+impl TailWindGrow {
     #[inline]
     pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
         match pattern {
@@ -36,7 +36,7 @@ impl TailWindFlexGrow {
     }
 }
 
-impl TailWindFlexShrink {
+impl TailWindShrink {
     #[inline]
     pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
         match pattern {

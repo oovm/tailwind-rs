@@ -9,7 +9,7 @@ use crate::{
     systems::{
         borders::TailwindBorderStyle,
         filters::TailwindBrightness,
-        flexbox::{TailWindFlexGrow, TailWindFlexShrink, TailWindOrder, TailwindFlex, TailwindFlexDirection, TailwindFlexWrap},
+        flexbox::{TailWindGrow, TailWindOrder, TailWindShrink, TailwindFlex, TailwindFlexDirection, TailwindFlexWrap},
     },
     TailwindBorderCollapse, TailwindBoxDecorationBreak, TailwindBoxSizing, TailwindClear, TailwindColumns, TailwindContainer,
     TailwindDisplay, TailwindDivideStyle, TailwindFloat, TailwindFontFamily, TailwindFontSize, TailwindFontSmoothing,
@@ -149,8 +149,8 @@ impl AstStyle {
             ["s", rest @ ..] => TailWindZIndex::parse(rest, self.negative),
             // Flexbox & Grid
             ["flex", rest @ ..] => Self::flex_adaptor(rest, arbitrary)?,
-            ["grow", rest @ ..] => TailWindFlexGrow::parse(rest, arbitrary)?.boxed(),
-            ["shrink", rest @ ..] => TailWindFlexShrink::parse(rest, arbitrary)?.boxed(),
+            ["grow", rest @ ..] => TailWindGrow::parse(rest, arbitrary)?.boxed(),
+            ["shrink", rest @ ..] => TailWindShrink::parse(rest, arbitrary)?.boxed(),
             ["order", rest @ ..] => TailWindOrder::parse(rest, arbitrary, self.negative)?.boxed(),
 
             // Spacing System

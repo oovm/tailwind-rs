@@ -1,5 +1,13 @@
 use super::*;
 
+impl Display for TailwindFlexBasis {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindFlexBasis {}
+
 impl Display for TailwindFlexDirection {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.write_str("flex-")?;
@@ -70,13 +78,13 @@ impl Display for TailwindFlex {
 
 impl TailwindInstance for TailwindFlex {}
 
-impl Display for TailWindFlexGrow {
+impl Display for TailWindGrow {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "grow-{}", self.grow)
     }
 }
 
-impl TailwindInstance for TailWindFlexGrow {
+impl TailwindInstance for TailWindGrow {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         css_attributes! {
             "flex-grow" => self.grow
@@ -84,13 +92,13 @@ impl TailwindInstance for TailWindFlexGrow {
     }
 }
 
-impl Display for TailWindFlexShrink {
+impl Display for TailWindShrink {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "shrink-{}", self.shrink)
     }
 }
 
-impl TailwindInstance for TailWindFlexShrink {
+impl TailwindInstance for TailWindShrink {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         css_attributes! {
             "flex-shrink" => self.shrink
@@ -114,3 +122,37 @@ impl TailwindInstance for TailWindOrder {
         }
     }
 }
+
+impl Display for TailwindGridTemplate {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let kind = match self.row {
+            true => "rows",
+            false => "cols",
+        };
+        write!(f, "grid-{}-{}", kind, self.unit)
+    }
+}
+
+impl TailwindInstance for TailwindGridTemplate {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        let class = match self.row {
+            true => "grid-template-columns",
+            false => "grid-template-columns",
+        };
+        let grid = match self.unit {
+            0 => format!("none"),
+            n => format!("repeat({},minmax(0,1fr))", n),
+        };
+        css_attributes! {
+            class => grid
+        }
+    }
+}
+
+impl Display for TailwindGridRow {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindGridRow {}
