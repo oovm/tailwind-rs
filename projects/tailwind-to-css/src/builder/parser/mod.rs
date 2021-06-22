@@ -13,9 +13,9 @@ use crate::{
     },
     TailwindBorderCollapse, TailwindBoxDecorationBreak, TailwindBoxSizing, TailwindClear, TailwindColumns, TailwindContainer,
     TailwindDisplay, TailwindDivideStyle, TailwindFloat, TailwindFontFamily, TailwindFontSize, TailwindFontSmoothing,
-    TailwindFontStyle, TailwindFontWeight, TailwindIsolation, TailwindOutlineStyle, TailwindPosition, TailwindRingOffsetWidth,
-    TailwindScreenReader, TailwindShadow, TailwindSizing, TailwindSpacing, TailwindTextAlignment, TailwindTextColor,
-    TailwindTracking, TailwindUnderlineOffset, TailwindVisibility,
+    TailwindFontStyle, TailwindFontWeight, TailwindIsolation, TailwindLeading, TailwindOutlineStyle, TailwindPosition,
+    TailwindRingOffsetWidth, TailwindScreenReader, TailwindShadow, TailwindSizing, TailwindSpacing, TailwindTextAlignment,
+    TailwindTextColor, TailwindTracking, TailwindUnderlineOffset, TailwindVisibility,
 };
 use log::error;
 use std::{
@@ -181,11 +181,11 @@ impl AstStyle {
             ["italic"] => TailwindFontStyle::Italic.boxed(),
             ["not", "italic"] => TailwindFontStyle::Normal.boxed(),
             // TODO: https://tailwindcss.com/docs/font-variant-numeric
-            ["tracking", rest @ ..] => TailwindTracking::parse(rest)?.boxed(),
-            ["leading", rest @ ..] => TailwindLeading::parse(rest)?.boxed(),
+            ["tracking", rest @ ..] => TailwindTracking::parse(rest, arbitrary)?.boxed(),
+            ["leading", rest @ ..] => TailwindLeading::parse(rest, arbitrary)?.boxed(),
             ["list", rest @ ..] => Self::list_adaptor(rest, arbitrary)?,
             // TODO:https://tailwindcss.com/docs/font-variant-numeric
-            ["underline", "offset", rest @ ..] => TailwindUnderlineOffset::parse(rest)?.boxed(),
+            ["underline", "offset", rest @ ..] => TailwindUnderlineOffset::parse(rest, arbitrary)?.boxed(),
             ["decoration", rest @ ..] => todo!(),
             // Typography System Extension
             ["prose"] => todo!(),

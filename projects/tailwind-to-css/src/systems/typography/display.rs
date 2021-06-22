@@ -1,5 +1,12 @@
 use super::*;
-use std::fmt::format;
+
+impl Display for TailwindFontFamily {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindFontFamily {}
 
 impl Display for TailwindFontSmoothing {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -26,14 +33,6 @@ impl TailwindInstance for TailwindFontSmoothing {
     }
 }
 
-impl Display for TailwindFontFamily {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-impl TailwindInstance for TailwindFontFamily {}
-
 impl Display for TailwindFontStyle {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
@@ -52,13 +51,26 @@ impl TailwindInstance for TailwindFontSize {}
 
 impl Display for TailwindTracking {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "tracking-[{}em]", self.em)
+        f.write_str("tracking-")?;
+        match self {
+            Self::Normal => write!(f, "normal"),
+            Self::Inherit => write!(f, "inherit"),
+            Self::Initial => write!(f, "initial"),
+            Self::Unset => write!(f, "unset"),
+            Self::Em(em) => write!(f, "[{}em]", em),
+        }
     }
 }
 
 impl TailwindInstance for TailwindTracking {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let em = format!("{}em", self.em);
+        let em = match self {
+            Self::Normal => format!("normal"),
+            Self::Inherit => format!("inherit"),
+            Self::Initial => format!("initial"),
+            Self::Unset => format!("unset"),
+            Self::Em(em) => format!("{}em", em),
+        };
         css_attributes! {
             "letter-spacing" => em
         }
@@ -67,11 +79,36 @@ impl TailwindInstance for TailwindTracking {
 
 impl Display for TailwindLeading {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        f.write_str("leading-")?;
+        match self {
+            Self::Normal => write!(f, "normal"),
+            Self::Inherit => write!(f, "inherit"),
+            Self::Initial => write!(f, "initial"),
+            Self::Unset => write!(f, "unset"),
+            Self::Unit(n) => write!(f, "{}", n),
+            Self::Scale(n) => write!(f, "[{}%]", n * 100.0),
+            Self::Rem(n) => write!(f, "[{}rem]", n),
+            // Self::Px(n) => write!(f, "[{}px]", n),
+        }
     }
 }
 
-impl TailwindInstance for TailwindLeading {}
+impl TailwindInstance for TailwindLeading {
+    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        let leading = match self {
+            TailwindLeading::Normal => {}
+            TailwindLeading::Inherit => {}
+            TailwindLeading::Initial => {}
+            TailwindLeading::Unset => {}
+            TailwindLeading::Unit(_) => {}
+            TailwindLeading::Scale(_) => {}
+            TailwindLeading::Rem(_) => {} // TailwindLeading::Px(_) => {}
+        };
+        css_attributes! {
+            "line-height" => ""
+        }
+    }
+}
 
 impl Display for TailwindFontWeight {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -104,3 +141,11 @@ impl Display for TailwindTextColor {
 }
 
 impl TailwindInstance for TailwindTextColor {}
+
+impl Display for TailwindUnderlineOffset {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindUnderlineOffset {}

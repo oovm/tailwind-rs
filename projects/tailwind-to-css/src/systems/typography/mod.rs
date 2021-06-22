@@ -58,8 +58,12 @@ pub struct TailwindUnderlineOffset {}
 
 #[doc = include_str!("letter-spacing.md")]
 #[derive(Debug, Clone)]
-pub struct TailwindTracking {
-    em: f32,
+pub enum TailwindTracking {
+    Normal,
+    Inherit,
+    Initial,
+    Unset,
+    Em(f32),
 }
 
 #[doc = include_str!("line-height.md")]
@@ -69,7 +73,10 @@ pub enum TailwindLeading {
     Inherit,
     Initial,
     Unset,
-    Percent,
+    Unit(usize),
+    Scale(f32),
+    Rem(f32),
+    // Px(f32),
 }
 
 #[doc = include_str!("font-smoothing.md")]

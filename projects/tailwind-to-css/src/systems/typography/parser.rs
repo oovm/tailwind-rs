@@ -1,5 +1,8 @@
 use super::*;
-use tailwind_error::nom::{bytes::complete::tag, combinator::opt, sequence::tuple};
+use crate::parse_f32;
+use tailwind_error::nom::{
+    branch::alt, bytes::complete::tag, character::complete::char, combinator::opt, sequence::tuple, IResult,
+};
 
 impl TailwindFontSmoothing {
     #[inline]
@@ -16,10 +19,12 @@ impl TailwindTracking {
         let em = match input {
             ["tighter"] => -0.05,
             ["tight"] => -0.25,
-            ["normal"] => 0.0,
+            // different from tailwind.js
+            ["none"] => 0.0,
             ["wide"] => 0.025,
-            ["wider"] => 0.05,
-            ["widest"] => 0.1,
+            ["wider" | "relaxed"] => 0.05,
+            ["widest" | "loose"] => 0.1,
+            ["normal"] => 0.0,
             [] => return Self::parse_arbitrary(arbitrary),
             [n] => return Self::parse_arbitrary(n),
             _ => return syntax_error!("Unknown tracking instructions: {}", input.join("-")),
@@ -29,6 +34,49 @@ impl TailwindTracking {
     pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
         let (em, _) = tuple((parse_integer, opt(tag("em"))))(arbitrary)?.1;
         Ok(Self { em })
+    }
+}
+
+impl TailwindLeading {
+    pub fn parse(input: &[&str], arbitrary: &str) -> Result<Self> {
+        match input {
+            ["none"] => Ok(Self::Scale(1.0)),
+            ["tight"] => Ok(Self::Scale(1.25)),
+            ["snug"] => Ok(Self::Scale(1.375)),
+            // different from tailwind.js
+            ["wide"] => Ok(Self::Scale(1.5)),
+            ["relaxed"] => Ok(Self::Scale(1.625)),
+            ["loose"] => Ok(Self::Scale(2.0)),
+            // https://developer.mozilla.org/zh-CN/docs/Web/CSS/line-height#normal
+            ["normal"] => Ok(Self::Normal),
+            [] => Self::parse_arbitrary(arbitrary),
+            [n] => Self::parse_arbitrary(n),
+            _ => syntax_error!("Unknown tracking instructions: {}", input.join("-")),
+        }
+    }
+    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
+        let out = alt((Self::arbitrary_percent, Self::arbitrary_rem, Self::arbitrary_unit))(arbitrary)?;
+        Ok(out.1)
+    }
+    #[inline]
+    fn arbitrary_percent(input: &str) -> IResult<&str, Self> {
+        let (rest, (f, _)) = tuple((parse_f32, char('%')))(input)?;
+        Ok((rest, Self::Scale(f / 100.0)))
+    }
+    #[inline]
+    fn arbitrary_unit(input: &str) -> IResult<&str, Self> {
+        let (rest, u) = parse_integer(input)?;
+        Ok((rest, Self::Unit(u)))
+    }
+    // #[inline]
+    // fn arbitrary_px(input: &str) -> IResult<&str, Self> {
+    //     let (rest, (f, _)) = tuple((parse_f32, tag("px")))(input)?;
+    //     Ok((rest, Self::Px(f)))
+    // }
+    #[inline]
+    fn arbitrary_rem(input: &str) -> IResult<&str, Self> {
+        let (rest, (f, _)) = tuple((parse_f32, tag("rem")))(input)?;
+        Ok((rest, Self::Rem(f)))
     }
 }
 
@@ -52,5 +100,14 @@ impl TailwindFontWeight {
     #[inline]
     pub fn new(weight: usize) -> Self {
         Self { weight }
+    }
+}
+
+impl TailwindUnderlineOffset {
+    pub fn parse(input: &[&str], arbitrary: &str) -> Result<Self> {
+        todo!()
+    }
+    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
+        todo!()
     }
 }
