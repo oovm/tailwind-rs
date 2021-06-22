@@ -1,5 +1,19 @@
 use super::*;
 
+impl Display for TailwindFontArbitrary {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindFontArbitrary {}
+
+impl Display for TailwindFontSize {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
 impl Display for TailwindFontFamily {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "font-{}", self.name)
@@ -12,12 +26,6 @@ impl TailwindInstance for TailwindFontFamily {
         css_attributes! {
             "font-family" => family
         }
-    }
-}
-
-impl Display for TailwindFontSize {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
     }
 }
 
@@ -152,6 +160,22 @@ impl TailwindInstance for TailwindLeading {
     }
 }
 
+impl Display for TailwindListStyleType {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindListStyleType {}
+
+impl Display for TailwindListStylePosition {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindListStylePosition {}
+
 impl Display for TailwindTextAlignment {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
@@ -168,10 +192,111 @@ impl Display for TailwindTextColor {
 
 impl TailwindInstance for TailwindTextColor {}
 
-impl Display for TailwindTextUnderlineOffset {
+impl Display for TailwindTextDecoration {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
 
-impl TailwindInstance for TailwindTextUnderlineOffset {}
+impl TailwindInstance for TailwindTextDecoration {}
+
+impl Display for TailwindDecorationColor {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindDecorationColor {}
+
+impl Display for TailwindDecorationStyle {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindDecorationStyle {}
+
+impl Display for TailwindDecorationThickness {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindDecorationThickness {}
+
+impl Display for TailwindUnderlineOffset {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindUnderlineOffset {}
+
+impl Display for TailwindTextTransform {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+// Class
+// Properties
+// uppercase	text-transform: uppercase;
+// lowercase	text-transform: lowercase;
+// capitalize	text-transform: capitalize;
+// normal-case	text-transform: none;
+impl TailwindInstance for TailwindTextTransform {}
+
+impl Display for TailwindTextOverflow {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+// Class
+// Properties
+// truncate	overflow: hidden;
+// text-overflow: ellipsis;
+// white-space: nowrap;
+// text-ellipsis	text-overflow: ellipsis;
+// text-clip	text-overflow: clip;
+impl TailwindInstance for TailwindTextOverflow {}
+
+impl Display for TailwindIndent {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindIndent {}
+
+impl Display for TailwindAlign {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindAlign {}
+
+impl Display for TailwindWhiteSpace {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindWhiteSpace {}
+
+impl Display for TailwindBreak {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindBreak {}
+
+impl Display for TailwindContent {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindContent {}

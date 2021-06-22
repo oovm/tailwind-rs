@@ -15,7 +15,7 @@ use crate::{
     TailwindDisplay, TailwindDivideStyle, TailwindFloat, TailwindFontFamily, TailwindFontSize, TailwindFontSmoothing,
     TailwindFontStyle, TailwindFontWeight, TailwindIsolation, TailwindLeading, TailwindOutlineStyle, TailwindPosition,
     TailwindRingOffsetWidth, TailwindScreenReader, TailwindShadow, TailwindSizing, TailwindSpacing, TailwindTextAlignment,
-    TailwindTextColor, TailwindTextUnderlineOffset, TailwindTracking, TailwindVisibility,
+    TailwindTextColor, TailwindTracking, TailwindUnderlineOffset, TailwindVisibility,
 };
 use log::error;
 use std::{
@@ -185,7 +185,7 @@ impl AstStyle {
             ["leading", rest @ ..] => TailwindLeading::parse(rest, arbitrary)?.boxed(),
             ["list", rest @ ..] => Self::list_adaptor(rest, arbitrary)?,
             // TODO:https://tailwindcss.com/docs/font-variant-numeric
-            ["underline", "offset", rest @ ..] => TailwindTextUnderlineOffset::parse(rest, arbitrary)?.boxed(),
+            ["underline", "offset", rest @ ..] => TailwindUnderlineOffset::parse(rest, arbitrary)?.boxed(),
             ["decoration", rest @ ..] => todo!(),
             // Typography System Extension
             ["prose"] => todo!(),

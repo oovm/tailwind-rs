@@ -117,7 +117,7 @@ impl TailwindFontWeight {
     }
 }
 
-impl TailwindTextUnderlineOffset {
+impl TailwindUnderlineOffset {
     pub fn parse(input: &[&str], arbitrary: &str) -> Result<Self> {
         todo!()
     }

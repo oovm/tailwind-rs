@@ -14,7 +14,7 @@ pub struct TailwindFontFamily {
     name: String,
 }
 
-#[doc = include_str!("font-family.md")]
+#[doc = include_str!("font-size.md")]
 #[derive(Copy, Debug, Clone)]
 pub struct TailwindFontSize {
     size: TailwindTracking,
@@ -28,20 +28,20 @@ pub enum TailwindFontSmoothing {
     Subpixel,
 }
 
-#[doc = include_str!("font-smoothing.md")]
+#[doc = include_str!("font-style.md")]
 #[derive(Debug, Clone)]
 pub enum TailwindFontStyle {
     Italic,
     Normal,
 }
 
-#[doc = include_str!("font-smoothing.md")]
+#[doc = include_str!("font-weight.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindFontWeight {
     weight: usize,
 }
 
-#[doc = include_str!("font-smoothing.md")]
+#[doc = include_str!("font-variant-numeric.md")]
 #[derive(Copy, Debug, Clone)]
 pub enum TailwindFontVariantNumeric {
     Normal,
@@ -78,7 +78,7 @@ pub enum TailwindLeading {
     // Px(f32),
 }
 
-#[doc = include_str!("line-height.md")]
+#[doc = include_str!("list-style-type.md")]
 #[derive(Copy, Debug, Clone)]
 pub enum TailwindListStyleType {
     None,
@@ -86,14 +86,14 @@ pub enum TailwindListStyleType {
     Decimal,
 }
 
-#[doc = include_str!("line-height.md")]
+#[doc = include_str!("list-style-position.md")]
 #[derive(Copy, Debug, Clone)]
 pub enum TailwindListStylePosition {
     Inside,
     Outside,
 }
 
-#[doc = include_str!("font-smoothing.md")]
+#[doc = include_str!("text-align.md")]
 #[derive(Debug, Clone)]
 pub enum TailwindTextAlignment {
     Left,
@@ -102,13 +102,13 @@ pub enum TailwindTextAlignment {
     Justify,
 }
 
-#[doc = include_str!("font-smoothing.md")]
+#[doc = include_str!("text-color.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindTextColor {
     pub(crate) color: ColorResolver,
 }
 
-#[doc = include_str!("font-smoothing.md")]
+#[doc = include_str!("text-decoration.md")]
 #[derive(Debug, Clone)]
 pub enum TailwindTextDecoration {
     Underline,
@@ -117,15 +117,15 @@ pub enum TailwindTextDecoration {
     None,
 }
 
-#[doc = include_str!("font-smoothing.md")]
+#[doc = include_str!("text-decoration-color.md")]
 #[derive(Debug, Clone)]
-pub struct TailwindTextDecorationColor {
+pub struct TailwindDecorationColor {
     pub(crate) color: ColorResolver,
 }
 
-#[doc = include_str!("font-smoothing.md")]
+#[doc = include_str!("text-decoration-style.md")]
 #[derive(Debug, Clone)]
-pub enum TailwindTextDecorationStyle {
+pub enum TailwindDecorationStyle {
     /// <p style="text-decoration-line:underline;text-decoration-style:solid;">The quick brown fox jumps over the lazy dog.</p>
     Solid,
     /// <p style="text-decoration-line:underline;text-decoration-style:double;">The quick brown fox jumps over the lazy dog.</p>
@@ -138,9 +138,9 @@ pub enum TailwindTextDecorationStyle {
     Wavy,
 }
 
-#[doc = include_str!("font-smoothing.md")]
+#[doc = include_str!("text-decoration-thickness.md")]
 #[derive(Debug, Clone)]
-pub enum TailwindTextDecorationThickness {
+pub enum TailwindDecorationThickness {
     /// <p style="text-decoration-line:underline;text-decoration-thickness:auto;">The quick brown fox jumps over the lazy dog.</p>
     Auto,
     /// <p style="text-decoration-line:underline;text-decoration-thickness:from-font;">The quick brown fox jumps over the lazy dog.</p>
@@ -149,14 +149,14 @@ pub enum TailwindTextDecorationThickness {
     Unit(usize),
 }
 
-#[doc = include_str!("font-smoothing.md")]
+#[doc = include_str!("text-underline-offset.md")]
 #[derive(Debug, Clone)]
-pub enum TailwindTextUnderlineOffset {
+pub enum TailwindUnderlineOffset {
     Auto,
     Unit(usize),
 }
 
-#[doc = include_str!("font-smoothing.md")]
+#[doc = include_str!("text-transform.md")]
 #[derive(Debug, Clone)]
 pub enum TailwindTextTransform {
     Uppercase,
@@ -165,7 +165,7 @@ pub enum TailwindTextTransform {
     None,
 }
 
-#[doc = include_str!("font-smoothing.md")]
+#[doc = include_str!("text-overflow.md")]
 #[derive(Debug, Clone)]
 pub enum TailwindTextOverflow {
     Truncate,
@@ -173,15 +173,15 @@ pub enum TailwindTextOverflow {
     Clip,
 }
 
-#[doc = include_str!("font-smoothing.md")]
+#[doc = include_str!("text-indent.md")]
 #[derive(Debug, Clone)]
-pub enum TailwindTextIndent {
+pub enum TailwindIndent {
     Px(f32),
     Unit(f32),
     Percent(f32),
 }
 
-#[doc = include_str!("font-smoothing.md")]
+#[doc = include_str!("vertical-align.md")]
 #[derive(Debug, Clone)]
 pub enum TailwindAlign {
     Baseline,
@@ -194,7 +194,7 @@ pub enum TailwindAlign {
     Super,
 }
 
-#[doc = include_str!("font-smoothing.md")]
+#[doc = include_str!("whitespace.md")]
 #[derive(Debug, Clone)]
 pub enum TailwindWhiteSpace {
     Normal,
@@ -204,7 +204,7 @@ pub enum TailwindWhiteSpace {
     PreWrap,
 }
 
-#[doc = include_str!("font-smoothing.md")]
+#[doc = include_str!("word-break.md")]
 #[derive(Debug, Clone)]
 pub enum TailwindBreak {
     Normal,
@@ -212,7 +212,7 @@ pub enum TailwindBreak {
     All,
 }
 
-#[doc = include_str!("font-smoothing.md")]
+#[doc = include_str!("content.md")]
 #[derive(Debug, Clone)]
 pub enum TailwindContent {
     None,

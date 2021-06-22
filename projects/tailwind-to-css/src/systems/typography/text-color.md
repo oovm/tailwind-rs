@@ -1,4 +1,4 @@
-Utilities for controlling the font family of an element.
+Utilities for controlling the font smoothing of an element.
 
 ## Example
 
@@ -15,5 +15,5 @@ fn build_aspect() {
 
 ## Reference
 
-- [font-family](https://tailwindcss.com/docs/font-family)
-- [font-family/cn](https://tailwindcss.cn/docs/font-family)
+- [font-smoothing](https://tailwindcss.com/docs/font-smoothing)
+- [font-smoothing/cn](https://tailwindcss.cn/docs/font-smoothing)
