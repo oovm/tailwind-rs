@@ -15,7 +15,7 @@ use crate::{
     TailwindDisplay, TailwindDivideStyle, TailwindFloat, TailwindFontFamily, TailwindFontSize, TailwindFontSmoothing,
     TailwindFontStyle, TailwindFontWeight, TailwindIsolation, TailwindLeading, TailwindOutlineStyle, TailwindPosition,
     TailwindRingOffsetWidth, TailwindScreenReader, TailwindShadow, TailwindSizing, TailwindSpacing, TailwindTextAlignment,
-    TailwindTextColor, TailwindTracking, TailwindUnderlineOffset, TailwindVisibility,
+    TailwindTextColor, TailwindTextUnderlineOffset, TailwindTracking, TailwindVisibility,
 };
 use log::error;
 use std::{
@@ -185,7 +185,7 @@ impl AstStyle {
             ["leading", rest @ ..] => TailwindLeading::parse(rest, arbitrary)?.boxed(),
             ["list", rest @ ..] => Self::list_adaptor(rest, arbitrary)?,
             // TODO:https://tailwindcss.com/docs/font-variant-numeric
-            ["underline", "offset", rest @ ..] => TailwindUnderlineOffset::parse(rest, arbitrary)?.boxed(),
+            ["underline", "offset", rest @ ..] => TailwindTextUnderlineOffset::parse(rest, arbitrary)?.boxed(),
             ["decoration", rest @ ..] => todo!(),
             // Typography System Extension
             ["prose"] => todo!(),
@@ -439,9 +439,7 @@ impl AstStyle {
     fn font_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/float
-            ["sans"] => TailwindFontFamily::Sans.boxed(),
-            ["serif"] => TailwindFontFamily::Sans.boxed(),
-            ["mono"] => TailwindFontFamily::Sans.boxed(),
+            [s @ ("sans" | "serif" | "mono")] => TailwindFontFamily::new(s).boxed(),
             // https://tailwindcss.com/docs/font-size
             ["xs"] => TailwindFontSize::new(0.75, 1.0).boxed(),
             ["sm"] => TailwindFontSize::new(0.75, 1.0).boxed(),

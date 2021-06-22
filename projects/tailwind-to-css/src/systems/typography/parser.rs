@@ -4,6 +4,17 @@ use tailwind_error::nom::{
     branch::alt, bytes::complete::tag, character::complete::char, combinator::opt, sequence::tuple, IResult,
 };
 
+impl TailwindFontArbitrary {
+    pub fn parse() {}
+}
+
+impl TailwindFontFamily {
+    #[inline]
+    pub fn new(input: &str) -> Self {
+        Self { name: input.to_string() }
+    }
+}
+
 impl TailwindFontSmoothing {
     #[inline]
     pub fn new(subpixel: bool) -> Self {
@@ -16,24 +27,27 @@ impl TailwindFontSmoothing {
 
 impl TailwindTracking {
     pub fn parse(input: &[&str], arbitrary: &str) -> Result<Self> {
-        let em = match input {
-            ["tighter"] => -0.05,
-            ["tight"] => -0.25,
+        match input {
+            ["tighter"] => Ok(Self::Em(1.0)),
+            ["tight"] => Ok(Self::Em(1.0)),
             // different from tailwind.js
-            ["none"] => 0.0,
-            ["wide"] => 0.025,
-            ["wider" | "relaxed"] => 0.05,
-            ["widest" | "loose"] => 0.1,
-            ["normal"] => 0.0,
-            [] => return Self::parse_arbitrary(arbitrary),
-            [n] => return Self::parse_arbitrary(n),
-            _ => return syntax_error!("Unknown tracking instructions: {}", input.join("-")),
-        };
-        Ok(Self { em })
+            ["none"] => Ok(Self::Em(1.0)),
+            ["wide"] => Ok(Self::Em(1.0)),
+            ["wider" | "relaxed"] => Ok(Self::Em(1.0)),
+            ["widest" | "loose"] => Ok(Self::Em(1.0)),
+            ["normal"] => Ok(Self::Normal),
+            [] => Self::parse_arbitrary(arbitrary),
+            [n] => Self::parse_arbitrary(n),
+            _ => syntax_error!("Unknown tracking instructions: {}", input.join("-")),
+        }
     }
     pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
-        let (em, _) = tuple((parse_integer, opt(tag("em"))))(arbitrary)?.1;
-        Ok(Self { em })
+        Ok(Self::parse_em(arbitrary)?.1)
+    }
+    #[inline]
+    fn parse_em(input: &str) -> IResult<&str, Self> {
+        let (rest, (em, _)) = tuple((parse_integer, opt(tag("em"))))(input)?;
+        Ok((rest, Self::Em(em)))
     }
 }
 
@@ -45,8 +59,8 @@ impl TailwindLeading {
             ["snug"] => Ok(Self::Scale(1.375)),
             // different from tailwind.js
             ["wide"] => Ok(Self::Scale(1.5)),
-            ["relaxed"] => Ok(Self::Scale(1.625)),
-            ["loose"] => Ok(Self::Scale(2.0)),
+            ["wider" | "relaxed"] => Ok(Self::Scale(1.625)),
+            ["widest" | "loose"] => Ok(Self::Scale(2.0)),
             // https://developer.mozilla.org/zh-CN/docs/Web/CSS/line-height#normal
             ["normal"] => Ok(Self::Normal),
             [] => Self::parse_arbitrary(arbitrary),
@@ -83,7 +97,7 @@ impl TailwindLeading {
 impl TailwindFontSize {
     #[inline]
     pub fn new(size: f32, height: f32) -> Self {
-        Self { size: size, height: height }
+        Self { size: TailwindTracking::Em(size), height: TailwindLeading::Rem(height) }
     }
 }
 
@@ -103,7 +117,7 @@ impl TailwindFontWeight {
     }
 }
 
-impl TailwindUnderlineOffset {
+impl TailwindTextUnderlineOffset {
     pub fn parse(input: &[&str], arbitrary: &str) -> Result<Self> {
         todo!()
     }

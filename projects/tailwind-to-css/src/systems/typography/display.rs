@@ -2,11 +2,26 @@ use super::*;
 
 impl Display for TailwindFontFamily {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "font-{}", self.name)
+    }
+}
+
+impl TailwindInstance for TailwindFontFamily {
+    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        let family = ctx.fonts.get_family(&self.name);
+        css_attributes! {
+            "font-family" => family
+        }
+    }
+}
+
+impl Display for TailwindFontSize {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
 
-impl TailwindInstance for TailwindFontFamily {}
+impl TailwindInstance for TailwindFontSize {}
 
 impl Display for TailwindFontSmoothing {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -41,13 +56,40 @@ impl Display for TailwindFontStyle {
 
 impl TailwindInstance for TailwindFontStyle {}
 
-impl Display for TailwindFontSize {
+impl Display for TailwindFontWeight {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let text = match self.weight {
+            100 => "thin",
+            _ => return write!(f, "font-[{}]", self.weight),
+        };
+        write!(f, "font-{}", text)
+    }
+}
+
+impl TailwindInstance for TailwindFontWeight {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        Iterator::collect(IntoIterator::into_iter([CssAttribute::new("font-weight", &self.weight.to_string())]))
+    }
+}
+
+// Class
+// Properties
+// normal-nums	font-variant-numeric: normal;
+// ordinal	font-variant-numeric: ordinal;
+// slashed-zero	font-variant-numeric: slashed-zero;
+// lining-nums	font-variant-numeric: lining-nums;
+// oldstyle-nums	font-variant-numeric: oldstyle-nums;
+// proportional-nums	font-variant-numeric: proportional-nums;
+// tabular-nums	font-variant-numeric: tabular-nums;
+// diagonal-fractions	font-variant-numeric: diagonal-fractions;
+// stacked-fractions	font-variant-numeric: stacked-fractions;
+impl Display for TailwindFontVariantNumeric {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
 
-impl TailwindInstance for TailwindFontSize {}
+impl TailwindInstance for TailwindFontVariantNumeric {}
 
 impl Display for TailwindTracking {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -110,22 +152,6 @@ impl TailwindInstance for TailwindLeading {
     }
 }
 
-impl Display for TailwindFontWeight {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let text = match self.weight {
-            100 => "thin",
-            _ => return write!(f, "font-[{}]", self.weight),
-        };
-        write!(f, "font-{}", text)
-    }
-}
-
-impl TailwindInstance for TailwindFontWeight {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        Iterator::collect(IntoIterator::into_iter([CssAttribute::new("font-weight", &self.weight.to_string())]))
-    }
-}
-
 impl Display for TailwindTextAlignment {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
@@ -142,10 +168,10 @@ impl Display for TailwindTextColor {
 
 impl TailwindInstance for TailwindTextColor {}
 
-impl Display for TailwindUnderlineOffset {
+impl Display for TailwindTextUnderlineOffset {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
 
-impl TailwindInstance for TailwindUnderlineOffset {}
+impl TailwindInstance for TailwindTextUnderlineOffset {}

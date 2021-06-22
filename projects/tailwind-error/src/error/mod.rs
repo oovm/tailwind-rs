@@ -44,6 +44,8 @@ pub enum TailwindErrorKind {
         /// The name of the undefined variable
         name: String,
     },
+    /// Parsing not complete
+    Incomplete,
     /// A forbidden cst_node encountered
     Unreachable,
     // #[error(transparent)]
@@ -68,12 +70,16 @@ impl TailwindError {
     pub fn set_range(&mut self, start: usize, end: usize) {
         self.range = Some(Range { start, end });
     }
+    /// Constructor of [`NoteErrorKind::Incomplete`]
+    #[inline]
+    pub fn incomplete() -> Self {
+        Self { kind: Box::new(TailwindErrorKind::Incomplete), level: DiagnosticLevel::None, file: None, range: None }
+    }
     /// Constructor of [`NoteErrorKind::Unreachable`]
     #[inline]
     pub fn unreachable() -> Self {
         Self { kind: Box::new(TailwindErrorKind::Unreachable), level: DiagnosticLevel::None, file: None, range: None }
     }
-
     /// Constructor of [`NoteErrorKind::UndefinedVariable`]
     #[inline]
     pub fn undefined_variable(name: impl Into<String>) -> TailwindError {
@@ -155,6 +161,10 @@ impl Display for TailwindErrorKind {
             }
             Self::UndefinedVariable { name } => {
                 write!(f, "RuntimeError: Variable {} not found in scope", name)
+            }
+            Self::Incomplete => {
+                f.write_str("InternalError: ")?;
+                f.write_str("Parsing incomplete!")
             }
             Self::Unreachable => {
                 f.write_str("InternalError: ")?;
