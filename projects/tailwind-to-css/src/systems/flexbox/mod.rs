@@ -2,14 +2,14 @@ mod display;
 mod parser;
 use super::*;
 
-#[doc=include_str!("justify-content.md")]
+#[doc=include_str!("flex-basis.md")]
 #[derive(Debug, Copy, Clone)]
 pub enum TailwindFlexBasis {
     Auto,
     Full,
 }
 
-#[doc=include_str!("justify-content.md")]
+#[doc=include_str!("flex-direction.md")]
 #[derive(Debug, Copy, Clone)]
 pub enum TailwindFlexDirection {
     Row,
@@ -18,7 +18,7 @@ pub enum TailwindFlexDirection {
     ColumnReverse,
 }
 
-#[doc=include_str!("justify-content.md")]
+#[doc=include_str!("flex-wrap.md")]
 #[derive(Debug, Copy, Clone)]
 pub enum TailwindFlexWrap {
     Wrap,
@@ -26,7 +26,7 @@ pub enum TailwindFlexWrap {
     NoWrap,
 }
 
-#[doc=include_str!("justify-content.md")]
+#[doc=include_str!("flex.md")]
 #[derive(Debug, Copy, Clone)]
 pub enum TailwindFlex {
     None,
@@ -35,50 +35,44 @@ pub enum TailwindFlex {
     Percent { grow: usize, shrink: usize, basis: usize },
 }
 
-#[doc=include_str!("justify-content.md")]
+#[doc=include_str!("flex-grow.md")]
 #[derive(Debug, Copy, Clone)]
 pub struct TailWindGrow {
     grow: usize,
 }
 
-#[doc=include_str!("justify-content.md")]
+#[doc=include_str!("flex-shrink.md")]
 #[derive(Debug, Copy, Clone)]
 pub struct TailWindShrink {
     shrink: usize,
 }
 
-#[doc=include_str!("justify-content.md")]
+#[doc=include_str!("order.md")]
 #[derive(Debug, Copy, Clone)]
 pub struct TailWindOrder {
     order: isize,
 }
 
-#[doc=include_str!("justify-content.md")]
+#[doc=include_str!("grid-template-columns.md")]
 #[derive(Debug, Copy, Clone)]
 pub struct TailwindGridTemplate {
     row: bool,
     unit: usize,
 }
 
-#[doc=include_str!("justify-content.md")]
+#[doc=include_str!("grid-column.md")]
 #[derive(Debug, Copy, Clone)]
 pub struct TailwindColumn {
     unit: usize,
 }
 
-#[doc=include_str!("justify-content.md")]
+#[doc=include_str!("grid-row.md")]
 #[derive(Debug, Copy, Clone)]
 pub struct TailwindGridRow {
     unit: usize,
 }
 
-#[doc=include_str!("justify-content.md")]
-#[derive(Debug, Copy, Clone)]
-pub struct TailwindRow {
-    unit: usize,
-}
-
-#[doc=include_str!("justify-content.md")]
+#[doc=include_str!("grid-auto-flow.md")]
 #[derive(Debug, Copy, Clone)]
 pub enum TailwindGridFlow {
     Row,
@@ -95,14 +89,14 @@ enum GridAutoKind {
     Fr,
 }
 
-#[doc=include_str!("justify-content.md")]
+#[doc=include_str!("grid-auto-columns.md")]
 #[derive(Debug, Copy, Clone)]
 pub struct TailwindGridAuto {
     kind: GridAutoKind,
     layout: bool,
 }
 
-#[doc=include_str!("justify-content.md")]
+#[doc=include_str!("gap.md")]
 #[derive(Debug, Copy, Clone)]
 pub enum TailwindGap {
     Row,
@@ -140,7 +134,7 @@ pub enum TailwindJustifySelf {
     Stretch,
 }
 
-#[doc=include_str!("justify-self.md")]
+#[doc=include_str!("align-content.md")]
 #[derive(Debug, Copy, Clone)]
 pub enum TailwindContent {
     // Auto,
@@ -152,7 +146,7 @@ pub enum TailwindContent {
     Evenly,
 }
 
-#[doc=include_str!("justify-self.md")]
+#[doc=include_str!("align-items.md")]
 #[derive(Debug, Copy, Clone)]
 pub enum TailwindItems {
     Auto,
@@ -162,7 +156,7 @@ pub enum TailwindItems {
     Stretch,
 }
 
-#[doc=include_str!("justify-self.md")]
+#[doc=include_str!("align-self.md")]
 #[derive(Debug, Copy, Clone)]
 pub enum TailwindSelf {
     Auto,
@@ -172,7 +166,7 @@ pub enum TailwindSelf {
     Stretch,
 }
 
-#[doc=include_str!("justify-self.md")]
+#[doc=include_str!("place-content.md")]
 #[derive(Debug, Copy, Clone)]
 pub enum TailwindPlaceContent {
     // Auto,
@@ -184,7 +178,7 @@ pub enum TailwindPlaceContent {
     Evenly,
 }
 
-#[doc=include_str!("justify-self.md")]
+#[doc=include_str!("place-items.md")]
 #[derive(Debug, Copy, Clone)]
 pub enum TailwindPlaceItems {
     Auto,
@@ -194,7 +188,7 @@ pub enum TailwindPlaceItems {
     Stretch,
 }
 
-#[doc=include_str!("justify-self.md")]
+#[doc=include_str!("place-self.md")]
 #[derive(Debug, Copy, Clone)]
 pub enum TailwindPlaceSelf {
     Auto,
