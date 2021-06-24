@@ -47,10 +47,10 @@ impl TailwindColumns {
     }
 }
 
-impl TailwindBreak {
+impl TailwindLayoutBreak {
     /// https://tailwindcss.com/docs/break-before
     pub fn parse_before(input: &[&str]) -> Result<Self> {
-        let kind = TailwindBreakKind::Before;
+        let kind = LayoutBreakKind::Before;
         let info = input.join("-");
         match input {
             ["auto"] | ["avoid"] | ["all"] | ["avoid", "page"] | ["page"] | ["left"] | ["right"] | ["column"] => {
@@ -61,7 +61,7 @@ impl TailwindBreak {
     }
     /// https://tailwindcss.com/docs/break-after
     pub fn parse_after(input: &[&str]) -> Result<Self> {
-        let kind = TailwindBreakKind::After;
+        let kind = LayoutBreakKind::After;
         let info = input.join("-");
         match input {
             ["auto"] | ["avoid"] | ["all"] | ["avoid", "page"] | ["page"] | ["left"] | ["right"] | ["column"] => {
@@ -72,7 +72,7 @@ impl TailwindBreak {
     }
     /// https://tailwindcss.com/docs/break-inside
     pub fn parse_inside(input: &[&str]) -> Result<Self> {
-        let kind = TailwindBreakKind::Inside;
+        let kind = LayoutBreakKind::Inside;
         let info = input.join("-");
         match input {
             ["auto"] | ["avoid"] | ["avoid", "page"] | ["avoid", "column"] => Ok(Self { kind, info }),

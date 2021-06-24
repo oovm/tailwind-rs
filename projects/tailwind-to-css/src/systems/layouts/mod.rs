@@ -23,7 +23,7 @@ pub enum TailwindColumns {
 }
 
 #[derive(Copy, Clone, Debug)]
-enum TailwindBreakKind {
+enum LayoutBreakKind {
     Before,
     After,
     Inside,
@@ -31,8 +31,8 @@ enum TailwindBreakKind {
 
 #[doc = include_str!("break.md")]
 #[derive(Clone, Debug)]
-pub struct TailwindBreak {
-    kind: TailwindBreakKind,
+pub struct TailwindLayoutBreak {
+    kind: LayoutBreakKind,
     info: String,
 }
 

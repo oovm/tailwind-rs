@@ -1,5 +1,5 @@
 pub mod parser;
-use crate::{TailwindAspect, TailwindBreak, TailwindTableLayout};
+use crate::{TailwindAspect, TailwindTableLayout};
 pub mod setter;
 
 use crate::{

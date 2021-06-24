@@ -11,11 +11,11 @@ use crate::{
         filters::TailwindBrightness,
         flexbox::{TailWindGrow, TailWindOrder, TailWindShrink, TailwindFlex, TailwindFlexDirection, TailwindFlexWrap},
     },
-    TailwindBorderCollapse, TailwindBoxDecorationBreak, TailwindBoxSizing, TailwindClear, TailwindColumns, TailwindContainer,
-    TailwindDisplay, TailwindDivideStyle, TailwindFloat, TailwindFontFamily, TailwindFontSize, TailwindFontSmoothing,
-    TailwindFontStyle, TailwindFontWeight, TailwindIsolation, TailwindLeading, TailwindOutlineStyle, TailwindPosition,
-    TailwindRingOffsetWidth, TailwindScreenReader, TailwindShadow, TailwindSizing, TailwindSpacing, TailwindTextAlignment,
-    TailwindTextColor, TailwindTracking, TailwindUnderlineOffset, TailwindVisibility,
+    TailwindBorderCollapse, TailwindBoxDecorationBreak, TailwindBoxSizing, TailwindBreak, TailwindClear, TailwindColumns,
+    TailwindContainer, TailwindDisplay, TailwindDivideStyle, TailwindFloat, TailwindFontFamily, TailwindFontSize,
+    TailwindFontSmoothing, TailwindFontStyle, TailwindFontWeight, TailwindIsolation, TailwindLayoutBreak, TailwindLeading,
+    TailwindOutlineStyle, TailwindPosition, TailwindRingOffsetWidth, TailwindScreenReader, TailwindShadow, TailwindSizing,
+    TailwindSpacing, TailwindTextAlignment, TailwindTextColor, TailwindTracking, TailwindUnderlineOffset, TailwindVisibility,
 };
 use log::error;
 use std::{
@@ -117,9 +117,7 @@ impl AstStyle {
             ["aspect", rest @ ..] => TailwindAspect::parse(rest, arbitrary)?.boxed(),
             ["container"] => TailwindContainer {}.boxed(),
             ["columns", rest @ ..] => TailwindColumns::parse(rest)?.boxed(),
-            ["break", "before", rest @ ..] => TailwindBreak::parse_before(rest)?.boxed(),
-            ["break", "inside", rest @ ..] => TailwindBreak::parse_inside(rest)?.boxed(),
-            ["break", "after", rest @ ..] => TailwindBreak::parse_after(rest)?.boxed(),
+            ["break", rest @ ..] => Self::break_adaptor(rest, arbitrary)?,
             ["box", rest @ ..] => Self::box_adaptor(rest, arbitrary)?,
             ["block"] => TailwindDisplay::Block.boxed(),
             // begin https://tailwindcss.com/docs/display
@@ -247,7 +245,23 @@ impl AstStyle {
         };
         Ok(instance)
     }
-
+    #[inline]
+    fn break_adaptor(str: &[&str], _: &str) -> Result<Box<dyn TailwindInstance>> {
+        let out = match str {
+            // https://tailwindcss.com/docs/border-style
+            ["normal"] => TailwindBreak::Normal.boxed(),
+            ["words"] => TailwindBreak::Words.boxed(),
+            ["all"] => TailwindBreak::All.boxed(),
+            // https://tailwindcss.com/docs/break-before
+            ["before", rest @ ..] => TailwindLayoutBreak::parse_before(rest)?.boxed(),
+            // https://tailwindcss.com/docs/break-inside
+            ["inside", rest @ ..] => TailwindLayoutBreak::parse_inside(rest)?.boxed(),
+            // https://tailwindcss.com/docs/break-after
+            ["after", rest @ ..] => TailwindLayoutBreak::parse_after(rest)?.boxed(),
+            _ => return syntax_error!("Unknown break instructions: {}", str.join("-")),
+        };
+        Ok(out)
+    }
     #[inline]
     fn border_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
