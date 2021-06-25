@@ -117,6 +117,22 @@ impl Display for TailwindIsolation {
 
 impl TailwindInstance for TailwindIsolation {}
 
+impl Display for TailwindObjectFit {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindObjectFit {}
+
+impl Display for TailwindObjectPosition {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindObjectPosition {}
+
 impl Display for TailwindFloat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()

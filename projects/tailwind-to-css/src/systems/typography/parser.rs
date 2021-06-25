@@ -94,6 +94,12 @@ impl TailwindLeading {
     }
 }
 
+impl TailwindListStyle {
+    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
+        Ok(Self::Custom(arbitrary.to_string()))
+    }
+}
+
 impl TailwindFontSize {
     #[inline]
     pub fn new(size: f32, height: f32) -> Self {

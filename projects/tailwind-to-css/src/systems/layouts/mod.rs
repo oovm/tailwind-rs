@@ -1,7 +1,7 @@
 use super::*;
 
-pub mod builder;
 pub mod display;
+pub mod parser;
 
 #[doc = include_str!("aspect-ratio.md")]
 #[derive(Copy, Clone, Debug)]
@@ -104,7 +104,28 @@ pub enum TailwindIsolation {
 
 /// https://tailwindcss.com/docs/object-fit
 #[derive(Copy, Clone, Debug)]
-pub enum TailwindObjectFit {}
+pub enum TailwindObjectFit {
+    Contain,
+    Cover,
+    Fill,
+    None,
+    ScaleDown,
+}
+
+/// https://tailwindcss.com/docs/object-fit
+#[derive(Clone, Debug)]
+pub enum TailwindObjectPosition {
+    LeftTop,
+    Top,
+    RightTop,
+    Left,
+    Center,
+    Right,
+    LeftBottom,
+    Bottom,
+    RightBottom,
+    Custom { x: String, y: String },
+}
 
 /// https://tailwindcss.com/docs/overscroll-behavior
 #[derive(Copy, Clone, Debug)]

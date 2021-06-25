@@ -14,8 +14,9 @@ use crate::{
     TailwindBorderCollapse, TailwindBoxDecorationBreak, TailwindBoxSizing, TailwindBreak, TailwindClear, TailwindColumns,
     TailwindContainer, TailwindDisplay, TailwindDivideStyle, TailwindFloat, TailwindFontFamily, TailwindFontSize,
     TailwindFontSmoothing, TailwindFontStyle, TailwindFontWeight, TailwindIsolation, TailwindLayoutBreak, TailwindLeading,
-    TailwindOutlineStyle, TailwindPosition, TailwindRingOffsetWidth, TailwindScreenReader, TailwindShadow, TailwindSizing,
-    TailwindSpacing, TailwindTextAlignment, TailwindTextColor, TailwindTracking, TailwindUnderlineOffset, TailwindVisibility,
+    TailwindListStyle, TailwindListStylePosition, TailwindObjectFit, TailwindObjectPosition, TailwindOutlineStyle,
+    TailwindPosition, TailwindRingOffsetWidth, TailwindScreenReader, TailwindShadow, TailwindSizing, TailwindSpacing,
+    TailwindTextAlignment, TailwindTextColor, TailwindTracking, TailwindUnderlineOffset, TailwindVisibility,
 };
 use log::error;
 use std::{
@@ -184,7 +185,7 @@ impl AstStyle {
             ["list", rest @ ..] => Self::list_adaptor(rest, arbitrary)?,
             // TODO:https://tailwindcss.com/docs/font-variant-numeric
             ["underline", "offset", rest @ ..] => TailwindUnderlineOffset::parse(rest, arbitrary)?.boxed(),
-            ["decoration", rest @ ..] => todo!(),
+            ["decoration", rest @ ..] => Self::decoration_adaptor(rest, arbitrary)?,
             // Typography System Extension
             ["prose"] => todo!(),
             // Backgrounds System
@@ -382,21 +383,27 @@ impl AstStyle {
         };
         Ok(out)
     }
-
     #[inline]
     fn list_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/list-style-type
-            ["none"] => todo!(),
-            ["disc"] => todo!(),
-            ["decimal"] => todo!(),
+            ["none"] => TailwindListStyle::None.boxed(),
+            ["disc"] => TailwindListStyle::Disc.boxed(),
+            ["decimal"] => TailwindListStyle::Decimal.boxed(),
             // https://tailwindcss.com/docs/list-style-position
-            ["inside"] => todo!(),
-            ["outside"] => todo!(),
+            ["inside"] => TailwindListStylePosition::Inside.boxed(),
+            ["outside"] => TailwindListStylePosition::Outside.boxed(),
+            // https://tailwindcss.com/docs/list-style-type#arbitrary-values
+            [] => TailwindListStyle::parse_arbitrary(arbitrary)?.boxed(),
             _ => return syntax_error!("Unknown list instructions: {}", str.join("-")),
         };
         Ok(out)
     }
+    #[inline]
+    fn decoration_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
+        todo!()
+    }
+
     #[inline]
     fn table_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
@@ -427,7 +434,23 @@ impl AstStyle {
     #[inline]
     fn object_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
-            // https://tailwindcss.com/docs/float
+            // https://tailwindcss.com/docs/object-fit
+            ["contain"] => TailwindObjectFit::Contain.boxed(),
+            ["cover"] => TailwindObjectFit::Cover.boxed(),
+            ["fill"] => TailwindObjectFit::Fill.boxed(),
+            ["none"] => TailwindObjectFit::None.boxed(),
+            ["scale", "down"] => TailwindObjectFit::ScaleDown.boxed(),
+            // https://tailwindcss.com/docs/object-position
+            ["7"] | ["left", "top"] => TailwindObjectPosition::LeftTop.boxed(),
+            ["8"] | ["top"] => TailwindObjectPosition::Bottom.boxed(),
+            ["9"] | ["right", "top"] => TailwindObjectPosition::Bottom.boxed(),
+            ["4"] | ["left"] => TailwindObjectPosition::Bottom.boxed(),
+            ["5"] | ["center"] => TailwindObjectPosition::Bottom.boxed(),
+            ["6"] | ["right"] => TailwindObjectPosition::Bottom.boxed(),
+            ["1"] | ["left", "buttom"] => TailwindObjectPosition::Bottom.boxed(),
+            ["2"] | ["buttom"] => TailwindObjectPosition::Bottom.boxed(),
+            ["3"] | ["right", "buttom"] => TailwindObjectPosition::Bottom.boxed(),
+            [] => TailwindObjectPosition::parse_arbitrary(arbitrary)?.boxed(),
             _ => return syntax_error!("Unknown object instructions: {}", str.join("-")),
         };
         Ok(out)

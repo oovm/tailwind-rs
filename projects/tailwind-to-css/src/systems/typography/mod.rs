@@ -79,11 +79,12 @@ pub enum TailwindLeading {
 }
 
 #[doc = include_str!("list-style-type.md")]
-#[derive(Copy, Debug, Clone)]
-pub enum TailwindListStyleType {
+#[derive(Debug, Clone)]
+pub enum TailwindListStyle {
     None,
     Disc,
     Decimal,
+    Custom(String),
 }
 
 #[doc = include_str!("list-style-position.md")]

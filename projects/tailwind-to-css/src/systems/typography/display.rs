@@ -160,13 +160,13 @@ impl TailwindInstance for TailwindLeading {
     }
 }
 
-impl Display for TailwindListStyleType {
+impl Display for TailwindListStyle {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
 
-impl TailwindInstance for TailwindListStyleType {}
+impl TailwindInstance for TailwindListStyle {}
 
 impl Display for TailwindListStylePosition {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
