@@ -126,6 +126,21 @@ pub enum TailwindObjectPosition {
     RightBottom,
     Custom { x: String, y: String },
 }
+#[derive(Copy, Clone, Debug)]
+enum OverflowKind {
+    Auto,
+    Hidden,
+    Clip,
+    Visible,
+    Scroll,
+}
+
+/// https://tailwindcss.com/docs/overflow#hiding-content-that-overflows
+#[derive(Copy, Clone, Debug)]
+pub struct TailwindOverflow {
+    kind: OverflowKind,
+    axis: Option<bool>,
+}
 
 /// https://tailwindcss.com/docs/overscroll-behavior
 #[derive(Copy, Clone, Debug)]

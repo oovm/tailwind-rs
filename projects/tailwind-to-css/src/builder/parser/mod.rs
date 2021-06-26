@@ -15,8 +15,8 @@ use crate::{
     TailwindContainer, TailwindDisplay, TailwindDivideStyle, TailwindFloat, TailwindFontFamily, TailwindFontSize,
     TailwindFontSmoothing, TailwindFontStyle, TailwindFontWeight, TailwindIsolation, TailwindLayoutBreak, TailwindLeading,
     TailwindListStyle, TailwindListStylePosition, TailwindObjectFit, TailwindObjectPosition, TailwindOutlineStyle,
-    TailwindPosition, TailwindRingOffsetWidth, TailwindScreenReader, TailwindShadow, TailwindSizing, TailwindSpacing,
-    TailwindTextAlignment, TailwindTextColor, TailwindTracking, TailwindUnderlineOffset, TailwindVisibility,
+    TailwindOverscroll, TailwindPosition, TailwindRingOffsetWidth, TailwindScreenReader, TailwindShadow, TailwindSizing,
+    TailwindSpacing, TailwindTextAlignment, TailwindTextColor, TailwindTracking, TailwindUnderlineOffset, TailwindVisibility,
 };
 use log::error;
 use std::{
@@ -459,6 +459,8 @@ impl AstStyle {
     fn overflow_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/float
+            ["x", pattern @ ..] => TailwindObjectFit::None.boxed(),
+            ["y", pattern @ ..] => TailwindObjectFit::None.boxed(),
             _ => return syntax_error!("Unknown overflow instructions: {}", str.join("-")),
         };
         Ok(out)

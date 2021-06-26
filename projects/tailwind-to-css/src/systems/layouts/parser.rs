@@ -81,6 +81,27 @@ impl TailwindLayoutBreak {
     }
 }
 
+impl TailwindObjectPosition {
+    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
+        todo!("{}", arbitrary)
+    }
+}
+
+impl TailwindOverflow {
+    pub fn parse_x(kind: &[&str]) -> Result<Self> {}
+    pub fn parse_y(kind: &[&str]) -> Result<Self> {}
+    pub fn parse_xy(kind: &[&str]) -> Result<Self> {}
+    fn parse(kind: &[&str]) {
+        match kind {
+            ["auto"] => TailwindObjectFit::None.boxed(),
+            ["hidden"] => TailwindObjectFit::None.boxed(),
+            ["clip"] => TailwindObjectFit::None.boxed(),
+            ["visible"] => TailwindObjectFit::None.boxed(),
+            ["scrool"] => TailwindObjectFit::None.boxed(),
+        }
+    }
+}
+
 impl TailWindZIndex {
     pub fn parse(kind: &[&str], neg: bool) -> Box<dyn TailwindInstance> {
         match kind.len() {
