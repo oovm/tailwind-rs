@@ -142,9 +142,19 @@ pub struct TailwindOverflow {
     axis: Option<bool>,
 }
 
+#[derive(Copy, Clone, Debug)]
+enum OverscrollKind {
+    Auto,
+    Contain,
+    None,
+}
+
 /// https://tailwindcss.com/docs/overscroll-behavior
 #[derive(Copy, Clone, Debug)]
-pub enum TailwindOverscroll {}
+pub struct TailwindOverscroll {
+    kind: OverscrollKind,
+    axis: Option<bool>,
+}
 
 #[doc = include_str ! ("position.md")]
 #[derive(Copy, Clone, Debug)]

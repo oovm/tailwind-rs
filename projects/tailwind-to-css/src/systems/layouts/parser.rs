@@ -87,18 +87,63 @@ impl TailwindObjectPosition {
     }
 }
 
-impl TailwindOverflow {
-    pub fn parse_x(kind: &[&str]) -> Result<Self> {}
-    pub fn parse_y(kind: &[&str]) -> Result<Self> {}
-    pub fn parse_xy(kind: &[&str]) -> Result<Self> {}
-    fn parse(kind: &[&str]) {
-        match kind {
-            ["auto"] => TailwindObjectFit::None.boxed(),
-            ["hidden"] => TailwindObjectFit::None.boxed(),
-            ["clip"] => TailwindObjectFit::None.boxed(),
-            ["visible"] => TailwindObjectFit::None.boxed(),
-            ["scrool"] => TailwindObjectFit::None.boxed(),
+impl OverflowKind {
+    pub fn parse(input: &[&str]) -> Result<Self> {
+        match input {
+            ["auto"] => Ok(Self::Auto),
+            ["hidden"] => Ok(Self::Hidden),
+            ["clip"] => Ok(Self::Clip),
+            ["visible"] => Ok(Self::Visible),
+            ["scroll"] => Ok(Self::Scroll),
+            _ => syntax_error!("Unknown overflow instructions: {}", input.join("-")),
         }
+    }
+}
+
+impl TailwindOverflow {
+    #[inline]
+    pub fn parse_x(kind: &[&str]) -> Result<Self> {
+        let kind = OverflowKind::parse(kind)?;
+        Ok(Self { kind, axis: Some(true) })
+    }
+    #[inline]
+    pub fn parse_y(kind: &[&str]) -> Result<Self> {
+        let kind = OverflowKind::parse(kind)?;
+        Ok(Self { kind, axis: Some(false) })
+    }
+    #[inline]
+    pub fn parse_xy(kind: &[&str]) -> Result<Self> {
+        let kind = OverflowKind::parse(kind)?;
+        Ok(Self { kind, axis: None })
+    }
+}
+
+impl OverscrollKind {
+    pub fn parse(input: &[&str]) -> Result<Self> {
+        match input {
+            ["auto"] => Ok(Self::Auto),
+            ["contain"] => Ok(Self::Contain),
+            ["none"] => Ok(Self::None),
+            _ => syntax_error!("Unknown overflow instructions: {}", input.join("-")),
+        }
+    }
+}
+
+impl TailwindOverscroll {
+    #[inline]
+    pub fn parse_x(kind: &[&str]) -> Result<Self> {
+        let kind = OverscrollKind::parse(kind)?;
+        Ok(Self { kind, axis: Some(true) })
+    }
+    #[inline]
+    pub fn parse_y(kind: &[&str]) -> Result<Self> {
+        let kind = OverscrollKind::parse(kind)?;
+        Ok(Self { kind, axis: Some(false) })
+    }
+    #[inline]
+    pub fn parse_xy(kind: &[&str]) -> Result<Self> {
+        let kind = OverscrollKind::parse(kind)?;
+        Ok(Self { kind, axis: None })
     }
 }
 

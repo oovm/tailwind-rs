@@ -133,6 +133,22 @@ impl Display for TailwindObjectPosition {
 
 impl TailwindInstance for TailwindObjectPosition {}
 
+impl Display for TailwindOverflow {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindOverflow {}
+
+impl Display for TailwindOverscroll {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindOverscroll {}
+
 impl Display for TailwindFloat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
