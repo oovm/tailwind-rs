@@ -14,12 +14,13 @@ pub mod sizing;
 pub mod spacing;
 pub mod tables;
 pub mod theme;
+pub mod transforms;
 pub mod transition;
 pub mod typography;
 
 use crate::{
     css_attributes, parse_integer, syntax_error, traits::CssAttribute, ColorResolver, TailwindBrightness, TailwindBuilder,
-    TailwindInstance,
+    TailwindInstance, TailwindObjectPosition,
 };
 use std::{
     collections::{BTreeMap, BTreeSet, HashMap},

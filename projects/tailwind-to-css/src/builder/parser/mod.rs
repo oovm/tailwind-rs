@@ -265,7 +265,6 @@ impl AstStyle {
             ["saturate", rest @ ..] => todo!(),
             ["sepia", rest @ ..] => todo!(),
             ["backdrop", rest @ ..] => Self::backdrop_adaptor(rest, arbitrary)?,
-
             // Tables System
             ["table", rest @ ..] => Self::table_adaptor(rest, arbitrary)?,
             // Transitions System
@@ -446,6 +445,18 @@ impl AstStyle {
         Ok(out)
     }
     #[inline]
+    fn grid_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
+        todo!()
+    }
+    #[inline]
+    fn justify_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
+        todo!()
+    }
+    #[inline]
+    fn place_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
+        todo!()
+    }
+    #[inline]
     fn list_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/list-style-type
@@ -465,7 +476,10 @@ impl AstStyle {
     fn decoration_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         todo!()
     }
-
+    #[inline]
+    fn backdrop_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
+        todo!()
+    }
     #[inline]
     fn table_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {

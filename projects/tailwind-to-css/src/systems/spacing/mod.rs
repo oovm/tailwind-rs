@@ -1,6 +1,5 @@
 mod builder;
 mod display;
-
 use super::*;
 
 #[derive(Copy, Clone, Debug)]
