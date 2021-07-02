@@ -16,9 +16,9 @@ use crate::{
     TailwindFontSize, TailwindFontSmoothing, TailwindFontStyle, TailwindFontVariantNumeric, TailwindFontWeight,
     TailwindIsolation, TailwindLayoutBreak, TailwindLeading, TailwindListStyle, TailwindListStylePosition, TailwindObjectFit,
     TailwindObjectPosition, TailwindOutlineStyle, TailwindOverflow, TailwindOverscroll, TailwindPosition,
-    TailwindRingOffsetWidth, TailwindScreenReader, TailwindShadow, TailwindSizing, TailwindSpacing, TailwindTextAlignment,
-    TailwindTextColor, TailwindTextDecoration, TailwindTextOverflow, TailwindTextTransform, TailwindTracking,
-    TailwindUnderlineOffset, TailwindVisibility,
+    TailwindRingOffsetWidth, TailwindScale, TailwindScreenReader, TailwindShadow, TailwindSizing, TailwindSpacing,
+    TailwindTextAlignment, TailwindTextColor, TailwindTextDecoration, TailwindTextOverflow, TailwindTextTransform,
+    TailwindTracking, TailwindUnderlineOffset, TailwindVisibility,
 };
 use log::error;
 use std::{
@@ -274,9 +274,9 @@ impl AstStyle {
             ["delay", rest @ ..] => todo!(),
             ["animate", rest @ ..] => todo!(),
             // Transforms System
-            ["scale", "x", rest @ ..] => todo!(),
-            ["scale", "y", rest @ ..] => todo!(),
-            ["scale", rest @ ..] => todo!(),
+            ["scale", "x", rest @ ..] => TailwindScale::parse(rest, arbitrary, Some(true))?.boxed(),
+            ["scale", "y", rest @ ..] => TailwindScale::parse(rest, arbitrary, Some(false))?.boxed(),
+            ["scale", rest @ ..] => TailwindScale::parse(rest, arbitrary, None)?.boxed(),
             ["rotate", rest @ ..] => todo!(),
             ["translate", "x", rest @ ..] => todo!(),
             ["translate", "y", rest @ ..] => todo!(),
