@@ -16,7 +16,7 @@ use crate::{
     TailwindFontSize, TailwindFontSmoothing, TailwindFontStyle, TailwindFontVariantNumeric, TailwindFontWeight,
     TailwindIsolation, TailwindLayoutBreak, TailwindLeading, TailwindListStyle, TailwindListStylePosition, TailwindObjectFit,
     TailwindObjectPosition, TailwindOutlineStyle, TailwindOverflow, TailwindOverscroll, TailwindPosition,
-    TailwindRingOffsetWidth, TailwindRotate, TailwindScale, TailwindScreenReader, TailwindShadow, TailwindSizing,
+    TailwindRingOffsetWidth, TailwindRotate, TailwindScale, TailwindScreenReader, TailwindShadow, TailwindSizing, TailwindSkew,
     TailwindSpacing, TailwindTextAlignment, TailwindTextColor, TailwindTextDecoration, TailwindTextOverflow,
     TailwindTextTransform, TailwindTracking, TailwindUnderlineOffset, TailwindVisibility,
 };
@@ -280,8 +280,8 @@ impl AstStyle {
             ["rotate", rest @ ..] => TailwindRotate::parse(rest, arbitrary)?.boxed(),
             ["translate", "x", rest @ ..] => todo!(),
             ["translate", "y", rest @ ..] => todo!(),
-            ["skew", "x", rest @ ..] => todo!(),
-            ["skew", "y", rest @ ..] => todo!(),
+            ["skew", "x", rest @ ..] => TailwindSkew::parse(rest, arbitrary, true)?.boxed(),
+            ["skew", "y", rest @ ..] => TailwindSkew::parse(rest, arbitrary, false)?.boxed(),
             ["origin", rest @ ..] => todo!(),
             // Interactivity System
             ["accent", rest @ ..] => todo!(),

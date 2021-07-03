@@ -1,5 +1,5 @@
-mod parser;
 mod display;
+mod parser;
 use super::*;
 
 #[doc = include_str!("scale.md")]
@@ -28,7 +28,7 @@ pub struct TailwindTranslate {
 #[doc = include_str!("skew.md")]
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindSkew {
-    scale: usize,
+    deg: usize,
     axis: bool,
 }
 
