@@ -100,9 +100,14 @@ See the `tests` folder for details.
   - [x] [border-collapse](https://tailwindcss.com/docs/border-collapse): [`TailwindBorderCollapse`]
   - [x] [table-layout](https://tailwindcss.com/docs/table-layout): [`TailwindTableLayout`]
 - **Transitions & Animation**
-  - [ ] [box-shadow](https://tailwindcss.com/docs/background-attachment)
-
-
+  - [ ] [border-collapse](https://tailwindcss.com/docs/border-collapse): [`TailwindTableLayout`]
+  - [ ] [table-layout](https://tailwindcss.com/docs/table-layout): [`TailwindTableLayout`]
+- **Transforms**
+  - [x] [scale](https://tailwindcss.com/docs/scale): [`TailwindScale`]
+  - [x] [rotate](https://tailwindcss.com/docs/rotate): [`TailwindRotate`]
+  - [ ] [translate](https://tailwindcss.com/docs/translate): [`TailwindTranslate`]
+  - [x] [skew](https://tailwindcss.com/docs/skew): [`TailwindSkew`]
+  - [ ] [transform-origin](https://tailwindcss.com/docs/transform-origin): [`TailwindOrigin`]
 
 
 

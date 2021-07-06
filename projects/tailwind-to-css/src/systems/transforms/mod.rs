@@ -5,6 +5,7 @@ use super::*;
 #[doc = include_str!("scale.md")]
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindScale {
+    neg: bool,
     scale: usize,
     axis: Option<bool>,
 }
@@ -12,6 +13,7 @@ pub struct TailwindScale {
 #[doc = include_str!("rotate.md")]
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindRotate {
+    neg: bool,
     deg: usize,
 }
 
@@ -28,6 +30,7 @@ pub struct TailwindTranslate {
 #[doc = include_str!("skew.md")]
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindSkew {
+    neg: bool,
     deg: usize,
     axis: bool,
 }
