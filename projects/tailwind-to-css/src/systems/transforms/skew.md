@@ -1,20 +1,19 @@
-Utilities for controlling the aspect ratio of an element.
+Utilities for skewing elements with transform.
 
-## Aspect Ratio
+## Example
 
 ```rust
-use tailwind_css::{TailwindBuilder};
+use tailwind_css::TailwindBuilder;
 
 #[test]
-fn build_aspect() {
+fn build_skew() {
     let builder = TailwindBuilder::default();
-    let out = format!("{:?}", builder.inline("aspect-square"));
-    assert_eq!(out, "{aspect-ratio: 1 / 1;}")
+    let out = format!("{:?}", builder.inline("skew-x-0"));
+    assert_eq!(out, "{transform: skewX(0deg);}")
 }
 ```
 
 ## Reference
 
-- [aspect-ratio](https://tailwindcss.com/docs/aspect-ratio)
-- [aspect-ratio/cn](https://tailwindcss.cn/docs/aspect-ratio)
-- [tailwindcss-aspect-ratio](https://github.com/tailwindlabs/tailwindcss-aspect-ratio)
+- [skew](https://tailwindcss.com/docs/skew)
+- [skew/cn](https://tailwindcss.cn/docs/skew)
