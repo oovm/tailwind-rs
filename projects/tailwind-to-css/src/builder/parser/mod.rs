@@ -114,6 +114,7 @@ impl AstStyle {
     pub fn get_instance(&self) -> Result<Box<dyn TailwindInstance>> {
         let element = self.view_elements();
         let arbitrary = self.view_arbitrary();
+        let neg = self.negative;
         let instance = match element.as_slice() {
             // Layout System
             ["aspect", rest @ ..] => TailwindAspect::parse(rest, arbitrary)?.boxed(),
@@ -274,14 +275,14 @@ impl AstStyle {
             ["delay", rest @ ..] => todo!(),
             ["animate", rest @ ..] => todo!(),
             // Transforms System
-            ["scale", "x", rest @ ..] => TailwindScale::parse(rest, arbitrary, Some(true))?.boxed(),
-            ["scale", "y", rest @ ..] => TailwindScale::parse(rest, arbitrary, Some(false))?.boxed(),
-            ["scale", rest @ ..] => TailwindScale::parse(rest, arbitrary, None)?.boxed(),
-            ["rotate", rest @ ..] => TailwindRotate::parse(rest, arbitrary)?.boxed(),
+            ["scale", "x", rest @ ..] => TailwindScale::parse(rest, arbitrary, Some(true), neg)?.boxed(),
+            ["scale", "y", rest @ ..] => TailwindScale::parse(rest, arbitrary, Some(false), neg)?.boxed(),
+            ["scale", rest @ ..] => TailwindScale::parse(rest, arbitrary, None, neg)?.boxed(),
+            ["rotate", rest @ ..] => TailwindRotate::parse(rest, arbitrary, neg)?.boxed(),
             ["translate", "x", rest @ ..] => todo!(),
             ["translate", "y", rest @ ..] => todo!(),
-            ["skew", "x", rest @ ..] => TailwindSkew::parse(rest, arbitrary, true)?.boxed(),
-            ["skew", "y", rest @ ..] => TailwindSkew::parse(rest, arbitrary, false)?.boxed(),
+            ["skew", "x", rest @ ..] => TailwindSkew::parse(rest, arbitrary, true, neg)?.boxed(),
+            ["skew", "y", rest @ ..] => TailwindSkew::parse(rest, arbitrary, false, neg)?.boxed(),
             ["origin", rest @ ..] => todo!(),
             // Interactivity System
             ["accent", rest @ ..] => todo!(),
