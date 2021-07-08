@@ -131,3 +131,9 @@ impl TailwindUnderlineOffset {
         todo!()
     }
 }
+
+impl TailwindContentElement {
+    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
+        todo!()
+    }
+}

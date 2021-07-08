@@ -40,7 +40,7 @@ impl TailwindSkew {
     }
 }
 
-#[inline]
+#[inline(always)]
 fn parse_deg(deg: &str) -> Result<usize> {
     Ok(parse_integer(deg)?.1)
 }

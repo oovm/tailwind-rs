@@ -293,10 +293,10 @@ impl Display for TailwindBreak {
 
 impl TailwindInstance for TailwindBreak {}
 
-impl Display for TailwindContent {
+impl Display for TailwindContentElement {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
 
-impl TailwindInstance for TailwindContent {}
+impl TailwindInstance for TailwindContentElement {}

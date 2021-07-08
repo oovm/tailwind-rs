@@ -215,6 +215,6 @@ pub enum TailwindBreak {
 
 #[doc = include_str!("content.md")]
 #[derive(Debug, Clone)]
-pub enum TailwindContent {
+pub enum TailwindContentElement {
     None,
 }

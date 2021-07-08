@@ -9,10 +9,13 @@ use crate::{
     systems::{
         borders::TailwindBorderStyle,
         filters::TailwindBrightness,
-        flexbox::{TailWindGrow, TailWindOrder, TailWindShrink, TailwindFlex, TailwindFlexDirection, TailwindFlexWrap},
+        flexbox::{
+            TailWindGrow, TailWindOrder, TailWindShrink, TailwindContent, TailwindFlex, TailwindFlexDirection,
+            TailwindFlexWrap, TailwindItems,
+        },
     },
     TailwindBorderCollapse, TailwindBoxDecorationBreak, TailwindBoxSizing, TailwindBreak, TailwindClear, TailwindColumns,
-    TailwindContainer, TailwindContent, TailwindDisplay, TailwindDivideStyle, TailwindFloat, TailwindFontFamily,
+    TailwindContainer, TailwindContentElement, TailwindDisplay, TailwindDivideStyle, TailwindFloat, TailwindFontFamily,
     TailwindFontSize, TailwindFontSmoothing, TailwindFontStyle, TailwindFontVariantNumeric, TailwindFontWeight,
     TailwindIsolation, TailwindLayoutBreak, TailwindLeading, TailwindListStyle, TailwindListStylePosition, TailwindObjectFit,
     TailwindObjectPosition, TailwindOutlineStyle, TailwindOverflow, TailwindOverscroll, TailwindPosition,
@@ -175,10 +178,10 @@ impl AstStyle {
             ["auto", rest @ ..] => todo!(),
             ["gap", rest @ ..] => todo!(),
             ["justify", rest @ ..] => Self::justify_adaptor(rest, arbitrary)?,
-            ["content", rest @ ..] => todo!(),
+            ["content", rest @ ..] => Self::content_adaptor(rest, arbitrary)?,
             ["items", rest @ ..] => todo!(),
             ["self", rest @ ..] => todo!(),
-            ["justify", rest @ ..] => Self::place_adaptor(rest, arbitrary)?,
+            // justify catched
             // Spacing System
             [p @ ("p" | "pl" | "pr" | "pm" | "pt" | "px" | "py"), rest @ ..] => {
                 TailwindSpacing::parse_padding(rest, p, arbitrary)?.boxed()
@@ -235,8 +238,8 @@ impl AstStyle {
             ["indent", rest @ ..] => todo!(),
             ["align", rest @ ..] => todo!(),
             ["whitespace", rest @ ..] => todo!(),
-            ["break", rest @ ..] => todo!(),
-            ["content", "none"] => TailwindContent::None.boxed(),
+            // break catched
+            // content catched
             // Typography System Extension
             ["prose"] => todo!(),
             // Backgrounds System
@@ -452,6 +455,24 @@ impl AstStyle {
     #[inline]
     fn justify_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         todo!()
+    }
+    #[inline]
+    fn content_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
+        let out = match str {
+            // https://tailwindcss.com/docs/align-content
+            ["center"] => TailwindContent::Center.boxed(),
+            ["start"] => TailwindContent::Start.boxed(),
+            ["end"] => TailwindContent::End.boxed(),
+            ["between"] => TailwindContent::Between.boxed(),
+            ["around"] => TailwindContent::Around.boxed(),
+            ["evenly"] => TailwindContent::Evenly.boxed(),
+            // https://tailwindcss.com/docs/content
+            ["none"] => TailwindContentElement::None.boxed(),
+            // https://tailwindcss.com/docs/content#arbitrary-values
+            [] => TailwindContentElement::parse_arbitrary(arbitrary)?.boxed(),
+            _ => return syntax_error!("Unknown content instructions: {}", str.join("-")),
+        };
+        Ok(out)
     }
     #[inline]
     fn place_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
