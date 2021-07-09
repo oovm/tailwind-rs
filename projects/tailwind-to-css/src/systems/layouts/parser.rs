@@ -12,7 +12,6 @@ impl TailwindAspect {
             ["auto"] => Self::Auto,
             ["square"] => Self::Arbitrary(1, 1),
             ["video"] => Self::Arbitrary(16, 9),
-            ["auto"] => Self::Auto,
             ["inherit"] => todo!(),
             ["w", _n] => todo!(),
             ["h", _n] => todo!(),

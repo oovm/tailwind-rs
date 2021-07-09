@@ -5,10 +5,9 @@ impl LengthUnit {
         match kind {
             [] => Self::parse_arbitrary(arbitrary),
             ["min"] => Ok(Self::Min),
-            ["max"] => Ok(Self::Min),
-            ["auto"] => Ok(Self::Min),
-            ["full"] => Ok(Self::Min),
-            ["min"] => Ok(Self::Min),
+            ["max"] => Ok(Self::Max),
+            ["auto"] => Ok(Self::Auto),
+            ["full"] => Ok(Self::Full),
             // px, unit, fract
             _ => Self::parse_arbitrary(arbitrary),
         }

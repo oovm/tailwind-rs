@@ -5,12 +5,9 @@ impl TailwindScale {
     pub fn parse(input: &[&str], arbitrary: &str, axis: Option<bool>, neg: bool) -> Result<Self> {
         debug_assert!(arbitrary.is_empty(), "forbidden arbitrary");
         match input {
-            [n] => Ok(Self { neg, scale: Self::parse_scale(n)?, axis }),
+            [n] => Ok(Self { neg, scale: parse_usize(n)?, axis }),
             _ => syntax_error!("Unknown scale instructions: {}", input.join("-")),
         }
-    }
-    fn parse_scale(scale: &str) -> Result<usize> {
-        Ok(parse_integer(scale)?.1)
     }
 }
 
@@ -19,13 +16,9 @@ impl TailwindRotate {
     pub fn parse(input: &[&str], arbitrary: &str, neg: bool) -> Result<Self> {
         debug_assert!(arbitrary.is_empty(), "forbidden arbitrary");
         match input {
-            [n] => Ok(Self { neg, deg: parse_deg(n)? }),
+            [n] => Ok(Self { neg, deg: parse_usize(n)? }),
             _ => syntax_error!("Unknown rotate instructions: {}", input.join("-")),
         }
-    }
-    #[inline]
-    fn parse_deg(deg: &str) -> Result<usize> {
-        Ok(parse_integer(deg)?.1)
     }
 }
 
@@ -34,13 +27,13 @@ impl TailwindSkew {
     pub fn parse(input: &[&str], arbitrary: &str, axis: bool, neg: bool) -> Result<Self> {
         debug_assert!(arbitrary.is_empty(), "forbidden arbitrary");
         match input {
-            [n] => Ok(Self { neg, deg: parse_deg(n)?, axis }),
+            [n] => Ok(Self { neg, deg: parse_usize(n)?, axis }),
             _ => syntax_error!("Unknown rotate instructions: {}", input.join("-")),
         }
     }
 }
 
 #[inline(always)]
-fn parse_deg(deg: &str) -> Result<usize> {
+fn parse_usize(deg: &str) -> Result<usize> {
     Ok(parse_integer(deg)?.1)
 }

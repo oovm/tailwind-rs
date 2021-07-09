@@ -10,11 +10,17 @@ impl TailwindInstance for TailwindTransition {}
 
 impl Display for TailwindDuration {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        write!(f, "duration-{}", self.ms)
     }
 }
 
-impl TailwindInstance for TailwindDuration {}
+impl TailwindInstance for TailwindDuration {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        css_attributes! {
+            "transition-duration" => format!("{}ms", self.ms)
+        }
+    }
+}
 
 impl Display for TailwindEase {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -26,11 +32,17 @@ impl TailwindInstance for TailwindEase {}
 
 impl Display for TailwindDelay {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        write!(f, "delay-{}", self.ms)
     }
 }
 
-impl TailwindInstance for TailwindDelay {}
+impl TailwindInstance for TailwindDelay {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        css_attributes! {
+            "transition-delay" => format!("{}ms", self.ms)
+        }
+    }
+}
 
 impl Display for TailwindAnimate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
