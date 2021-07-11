@@ -2,13 +2,13 @@ use super::*;
 use tailwind_error::TailwindError;
 
 impl TailwindOpacity {
+    /// https://tailwindcss.com/docs/opacity
     pub fn parse(input: &[&str], arbitrary: &str) -> Result<Self> {
-        todo!()
-    }
-
-    #[inline]
-    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
-        todo!()
+        debug_assert!(arbitrary.is_empty(), "forbidden arbitrary in duration");
+        match input {
+            [n] => Ok(Self { opacity: parse_usize(n)? }),
+            _ => syntax_error!("Unknown opacity instructions: {}", input.join("-")),
+        }
     }
 }
 
@@ -60,4 +60,9 @@ impl TailwindShadow {
     pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
         todo!()
     }
+}
+
+#[inline(always)]
+fn parse_usize(deg: &str) -> Result<usize> {
+    Ok(parse_integer(deg)?.1)
 }

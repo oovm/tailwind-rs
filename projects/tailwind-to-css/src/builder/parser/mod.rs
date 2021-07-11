@@ -18,10 +18,10 @@ use crate::{
     TailwindContainer, TailwindContentElement, TailwindDelay, TailwindDisplay, TailwindDivideStyle, TailwindDuration,
     TailwindFloat, TailwindFontFamily, TailwindFontSize, TailwindFontSmoothing, TailwindFontStyle, TailwindFontVariantNumeric,
     TailwindFontWeight, TailwindIsolation, TailwindLayoutBreak, TailwindLeading, TailwindListStyle, TailwindListStylePosition,
-    TailwindObjectFit, TailwindObjectPosition, TailwindOutlineStyle, TailwindOverflow, TailwindOverscroll, TailwindPosition,
-    TailwindRingOffsetWidth, TailwindRotate, TailwindScale, TailwindScreenReader, TailwindShadow, TailwindSizing, TailwindSkew,
-    TailwindSpacing, TailwindTextAlignment, TailwindTextColor, TailwindTextDecoration, TailwindTextOverflow,
-    TailwindTextTransform, TailwindTracking, TailwindUnderlineOffset, TailwindVisibility,
+    TailwindObjectFit, TailwindObjectPosition, TailwindOpacity, TailwindOutlineStyle, TailwindOverflow, TailwindOverscroll,
+    TailwindPosition, TailwindRingOffsetWidth, TailwindRotate, TailwindScale, TailwindScreenReader, TailwindShadow,
+    TailwindSizing, TailwindSkew, TailwindSpacing, TailwindTextAlignment, TailwindTextColor, TailwindTextDecoration,
+    TailwindTextOverflow, TailwindTextTransform, TailwindTracking, TailwindUnderlineOffset, TailwindVisibility,
 };
 use log::error;
 use std::{
@@ -256,7 +256,7 @@ impl AstStyle {
             ["ring", rest @ ..] => Self::ring_adaptor(rest, arbitrary)?,
             // Effects System
             ["shadow", rest @ ..] => Self::shadow_adaptor(rest, arbitrary)?,
-            ["opacity", rest @ ..] => todo!(),
+            ["opacity", rest @ ..] => TailwindOpacity::parse(rest, arbitrary)?.boxed(),
             ["mix", "blend", rest @ ..] => todo!(),
             // Filters System
             ["blur", rest @ ..] => todo!(),
