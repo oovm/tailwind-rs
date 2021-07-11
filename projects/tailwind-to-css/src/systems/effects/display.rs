@@ -8,7 +8,6 @@ impl Display for TailwindShadow {
 
 impl TailwindInstance for TailwindShadow {}
 
-// opacity-95	opacity: 0.95;
 impl Display for TailwindOpacity {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let normed = self.opacity.min(100);
