@@ -2,23 +2,41 @@ use super::*;
 
 impl Display for TailwindBlur {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        if self.backdrop {
+            f.write_str("backdrop-")?;
+        }
+        write!(f, "blur-[{}px]", self.px)
     }
 }
 
-impl TailwindInstance for TailwindBlur {}
+impl TailwindInstance for TailwindBlur {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        let filter = match self.backdrop {
+            true => "backdrop-filter",
+            false => "filter",
+        };
+        let scale = format!("blur({}px)", self.px);
+        css_attributes! {
+            filter => scale
+        }
+    }
+}
 
 impl Display for TailwindBrightness {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "brightness-{}", (self.percent * 100.0) as usize)
+        write!(f, "brightness-{}", self.percent)
     }
 }
 
 impl TailwindInstance for TailwindBrightness {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let brightness = format!("brightness({})", self.percent);
+        let filter = match self.backdrop {
+            true => "backdrop-filter",
+            false => "filter",
+        };
+        let brightness = format!("brightness({})", self.percent as f32 / 100.0);
         css_attributes! {
-            "filter" => brightness
+            filter => brightness
         }
     }
 }
@@ -38,14 +56,6 @@ impl Display for TailwindGrayscale {
 }
 
 impl TailwindInstance for TailwindGrayscale {}
-
-impl Display for TailwindHueRotate {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-impl TailwindInstance for TailwindHueRotate {}
 
 impl Display for TailwindInvert {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {

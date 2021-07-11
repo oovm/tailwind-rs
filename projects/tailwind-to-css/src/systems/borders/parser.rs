@@ -1,5 +1,6 @@
 use super::*;
-use tailwind_error::nom::{bytes::complete::tag, combinator::opt, sequence::tuple};
+use crate::parse_i_px_maybe;
+use tailwind_error::nom::{combinator::opt, sequence::tuple, IResult};
 
 impl TailwindBorderStyle {
     pub fn into_instance(self) -> Box<dyn TailwindInstance> {
@@ -16,7 +17,6 @@ impl TailwindRingOffsetWidth {
         }
     }
     pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
-        let (width, _) = tuple((parse_integer, opt(tag("px"))))(arbitrary)?.1;
-        Ok(Self { width })
+        Ok(Self { width: parse_i_px_maybe(arbitrary)?.1 })
     }
 }

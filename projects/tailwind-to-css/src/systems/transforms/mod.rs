@@ -10,17 +10,9 @@ pub struct TailwindScale {
     axis: Option<bool>,
 }
 
-#[derive(Copy, Clone, Debug)]
-enum RotateKind {
-    This,
-    Hue,
-    Backdrop,
-}
-
 #[doc = include_str!("rotate.md")]
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindRotate {
-    kind: RotateKind,
     neg: bool,
     deg: usize,
 }

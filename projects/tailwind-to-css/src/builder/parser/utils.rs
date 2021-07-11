@@ -8,6 +8,14 @@ where
     map_res(recognize(digit1), str::parse)(input)
 }
 
+pub fn parse_i_px_maybe<T>(input: &str) -> IResult<&str, T>
+where
+    T: FromStr,
+{
+    let (rest, (i, _)) = tuple((parse_integer, opt(tag("px"))))(input)?;
+    Ok((rest, i))
+}
+
 #[test]
 fn test_isize() {
     assert_eq!(parse_integer("0"), Ok(("", 0isize)));

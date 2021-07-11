@@ -19,8 +19,8 @@ pub mod transition;
 pub mod typography;
 
 use crate::{
-    css_attributes, parse_f32, parse_integer, syntax_error, traits::CssAttribute, ColorResolver, TailwindBrightness,
-    TailwindBuilder, TailwindInstance, TailwindObjectPosition,
+    css_attributes, parse_f32, parse_i_px_maybe, parse_integer, syntax_error, traits::CssAttribute, ColorResolver,
+    TailwindBrightness, TailwindBuilder, TailwindInstance, TailwindObjectPosition,
 };
 use std::{
     collections::{BTreeMap, BTreeSet, HashMap},
