@@ -1,5 +1,7 @@
 mod display;
 mod parser;
+#[cfg(test)]
+mod test;
 use super::*;
 
 #[doc = include_str!("blur.md")]

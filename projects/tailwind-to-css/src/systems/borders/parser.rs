@@ -1,6 +1,5 @@
 use super::*;
 use crate::parse_i_px_maybe;
-use tailwind_error::nom::{combinator::opt, sequence::tuple, IResult};
 
 impl TailwindBorderStyle {
     pub fn into_instance(self) -> Box<dyn TailwindInstance> {

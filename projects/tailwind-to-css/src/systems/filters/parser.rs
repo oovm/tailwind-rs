@@ -1,48 +1,51 @@
 use super::*;
 
-// Class
-// Properties
-// blur-none	filter: blur(0);
-// blur-sm	filter: blur(4px);
-// blur	filter: blur(8px);
-// blur-md	filter: blur(12px);
-// blur-lg	filter: blur(16px);
-// blur-xl	filter: blur(24px);
-// blur-2xl	filter: blur(40px);
-// blur-3xl	filter: blur(64px);
-
 impl TailwindBlur {
-    #[inline]
-    pub fn parse(rest: &[&str], arbitrary: &str) -> Result<Self> {
-        match rest {
-            ["none"] => Self { px: 0, backdrop: false },
-            [n] => Ok(Self { percent: parse_integer::<usize>(n)?.1 as f32 / 100.0, backdrop: 0 }),
-            _ => syntax_error!("Unknown Brightness instructions"),
-        }
-    }
-    #[inline]
-    fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
-        Ok(Self { percent: parse_i_px_maybe(arbitrary)?.1 })
+    pub fn parse(rest: &[&str], arbitrary: &str, backdrop: bool) -> Result<Self> {
+        debug_assert!(arbitrary.is_empty(), "forbidden arbitrary in blur");
+        let px = match rest {
+            ["none"] => 0,
+            ["sm"] => 4,
+            ["base"] => 8,
+            [] if arbitrary.is_empty() => 8,
+            ["md"] => 12,
+            ["lg"] => 16,
+            ["xl"] => 24,
+            ["2xl"] => 40,
+            ["3xl"] => 64,
+            [n] => parse_i_px_maybe(n)?.1,
+            _ => return syntax_error!("Unknown blur instructions"),
+        };
+        Ok(Self { px, backdrop })
     }
 }
 
 impl TailwindBrightness {
-    #[inline]
-    pub fn parse(rest: &[&str], arbitrary: &str) -> Result<Self> {
+    pub fn parse(rest: &[&str], arbitrary: &str, backdrop: bool) -> Result<Self> {
+        debug_assert!(arbitrary.is_empty(), "forbidden arbitrary in brightness");
         match rest {
-            [] => Self::parse_arbitrary(arbitrary),
-            [n] => Ok(Self { percent: parse_integer::<usize>(n)?.1 as f32 / 100.0, backdrop: 0 }),
-            _ => syntax_error!("Unknown Brightness instructions"),
+            [n] => Ok(Self { percent: parse_integer(n)?.1, backdrop }),
+            _ => syntax_error!("Unknown brightness instructions"),
         }
     }
-    #[inline]
-    fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
-        Ok(Self { percent: parse_f32(arbitrary)?.1 })
+}
+
+impl TailwindContrast {
+    pub fn parse(rest: &[&str], arbitrary: &str, backdrop: bool) -> Result<Self> {
+        debug_assert!(arbitrary.is_empty(), "forbidden arbitrary in contrast");
+        match rest {
+            [n] => Ok(Self { percent: parse_integer(n)?.1, backdrop }),
+            _ => syntax_error!("Unknown contrast instructions"),
+        }
     }
 }
-#[test]
-fn build_brightness() {
-    let builder = TailwindBuilder::default();
-    let out = format!("{:?}", builder.inline("brightness-125"));
-    assert_eq!(out, "{filter: brightness(1.25);}")
+
+impl TailwindGrayscale {
+    pub fn parse(rest: &[&str], arbitrary: &str, backdrop: bool) -> Result<Self> {
+        debug_assert!(arbitrary.is_empty(), "forbidden arbitrary in grayscale");
+        match rest {
+            [n] => Ok(Self { percent: parse_integer(n)?.1, backdrop }),
+            _ => syntax_error!("Unknown grayscale instructions"),
+        }
+    }
 }

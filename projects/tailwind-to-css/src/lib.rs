@@ -12,10 +12,13 @@ mod systems;
 mod traits;
 
 pub use self::{
-    builder::{parser::*, TailwindBuilder},
+    builder::{
+        parser::{utils::*, *},
+        TailwindBuilder,
+    },
     systems::{
-        accessibility::*, background::*, borders::*, breakpoints::*, colors::*, effects::*, filters::*, fonts::*, layouts::*,
-        preflight::*, sizing::*, spacing::*, tables::*, transforms::*, transition::*, typography::*,
+        accessibility::*, background::*, borders::*, breakpoints::*, colors::*, effects::*, filters::*, flexbox::*, fonts::*,
+        layouts::*, preflight::*, sizing::*, spacing::*, tables::*, transforms::*, transition::*, typography::*,
     },
     traits::{CssAttribute, ParsedItem, ParsedList, TailwindInstance, TailwindObject},
 };

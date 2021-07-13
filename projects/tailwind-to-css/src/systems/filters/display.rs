@@ -5,7 +5,7 @@ impl Display for TailwindBlur {
         if self.backdrop {
             f.write_str("backdrop-")?;
         }
-        write!(f, "blur-[{}px]", self.px)
+        write!(f, "blur-{}px", self.px)
     }
 }
 

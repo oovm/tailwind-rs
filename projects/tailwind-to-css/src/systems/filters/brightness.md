@@ -3,7 +3,7 @@ Utilities for applying brightness filters to an element.
 ## Brightness
 
 ```rust
-use tailwind_css::{TailwindBrightness, TailwindBuilder};
+use tailwind_css::TailwindBuilder;
 
 #[test]
 fn build_brightness() {

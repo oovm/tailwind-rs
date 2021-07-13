@@ -1,40 +1,8 @@
-mod display;
-mod methods;
-mod utils;
+pub mod display;
+pub mod methods;
+pub mod utils;
 
-pub use self::utils::*;
 use super::*;
-use crate::{
-    syntax_error,
-    systems::{
-        borders::TailwindBorderStyle,
-        filters::TailwindBrightness,
-        flexbox::{
-            TailWindGrow, TailWindOrder, TailWindShrink, TailwindContent, TailwindFlex, TailwindFlexBasis,
-            TailwindFlexDirection, TailwindFlexWrap, TailwindItems,
-        },
-    },
-    TailwindBorderCollapse, TailwindBoxDecorationBreak, TailwindBoxSizing, TailwindBreak, TailwindClear, TailwindColumns,
-    TailwindContainer, TailwindContentElement, TailwindDelay, TailwindDisplay, TailwindDivideStyle, TailwindDuration,
-    TailwindFloat, TailwindFontFamily, TailwindFontSize, TailwindFontSmoothing, TailwindFontStyle, TailwindFontVariantNumeric,
-    TailwindFontWeight, TailwindIsolation, TailwindLayoutBreak, TailwindLeading, TailwindListStyle, TailwindListStylePosition,
-    TailwindObjectFit, TailwindObjectPosition, TailwindOpacity, TailwindOutlineStyle, TailwindOverflow, TailwindOverscroll,
-    TailwindPosition, TailwindRingOffsetWidth, TailwindRotate, TailwindScale, TailwindScreenReader, TailwindShadow,
-    TailwindSizing, TailwindSkew, TailwindSpacing, TailwindTextAlignment, TailwindTextColor, TailwindTextDecoration,
-    TailwindTextOverflow, TailwindTextTransform, TailwindTracking, TailwindUnderlineOffset, TailwindVisibility,
-};
-use log::error;
-use std::{
-    fmt::{Display, Formatter, Write},
-    str::FromStr,
-};
-use tailwind_error::nom::{
-    bytes::complete::{take_till, take_till1},
-    character::complete::{alphanumeric1, char, multispace1},
-    combinator::{map_res, recognize},
-    multi::separated_list0,
-    sequence::delimited,
-};
 
 /// `v:v:-a-a-[A]`
 #[derive(Clone)]
@@ -259,15 +227,15 @@ impl AstStyle {
             ["opacity", rest @ ..] => TailwindOpacity::parse(rest, arbitrary)?.boxed(),
             ["mix", "blend", rest @ ..] => todo!(),
             // Filters System
-            ["blur", rest @ ..] => todo!(),
-            ["brightness", rest @ ..] => TailwindBrightness::parse(rest, arbitrary)?.boxed(),
-            ["contrast", rest @ ..] => todo!(),
+            ["blur", rest @ ..] => TailwindBlur::parse(rest, arbitrary, false)?.boxed(),
+            ["brightness", rest @ ..] => TailwindBrightness::parse(rest, arbitrary, false)?.boxed(),
+            ["contrast", rest @ ..] => TailwindContrast::parse(rest, arbitrary, false)?.boxed(),
             ["drop", "shadow", rest @ ..] => TailwindShadow::parse_drop(rest, arbitrary)?.boxed(),
-            ["grayscale", rest @ ..] => todo!(),
-            ["hue", "rotate", rest @ ..] => todo!(),
-            ["invert", rest @ ..] => todo!(),
-            ["saturate", rest @ ..] => todo!(),
-            ["sepia", rest @ ..] => todo!(),
+            ["grayscale", rest @ ..] => TailwindGrayscale::parse(rest, arbitrary, false)?.boxed(),
+            ["hue", "rotate", rest @ ..] => TailwindHueRotate::parse(rest, arbitrary, false)?.boxed(),
+            ["invert", rest @ ..] => TailwindInvert::parse(rest, arbitrary, false)?.boxed(),
+            ["saturate", rest @ ..] => TailwindSaturate::parse(rest, arbitrary, false)?.boxed(),
+            ["sepia", rest @ ..] => TailwindSepia::parse(rest, arbitrary, false)?.boxed(),
             ["backdrop", rest @ ..] => Self::backdrop_adaptor(rest, arbitrary)?,
             // Tables System
             ["table", rest @ ..] => Self::table_adaptor(rest, arbitrary)?,
