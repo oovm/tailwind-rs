@@ -1,8 +1,4 @@
 use super::*;
-use crate::parse_f32;
-use tailwind_error::nom::{
-    branch::alt, bytes::complete::tag, character::complete::char, combinator::opt, sequence::tuple, IResult,
-};
 
 impl TailwindFontArbitrary {
     pub fn parse() {}
@@ -74,7 +70,7 @@ impl TailwindLeading {
     }
     #[inline]
     fn arbitrary_percent(input: &str) -> IResult<&str, Self> {
-        let (rest, (f, _)) = tuple((parse_f32, char('%')))(input)?;
+        let (rest, f) = parse_f_percent(input)?;
         Ok((rest, Self::Scale(f / 100.0)))
     }
     #[inline]

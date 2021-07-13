@@ -19,15 +19,18 @@ pub mod transition;
 pub mod typography;
 
 use crate::{
-    css_attributes, parse_i_px_maybe, parse_integer, syntax_error, traits::CssAttribute, ColorResolver, TailwindBrightness,
-    TailwindBuilder, TailwindInstance, TailwindObjectPosition,
+    css_attributes, parse_f32, parse_f_percent, parse_i_px_maybe, parse_integer, syntax_error, traits::CssAttribute,
+    ColorResolver, TailwindBrightness, TailwindBuilder, TailwindInstance, TailwindObjectPosition,
 };
 use std::{
     collections::{BTreeMap, BTreeSet, HashMap},
     fmt::{Debug, Display, Formatter, Write},
     str::FromStr,
 };
-use tailwind_error::Result;
+use tailwind_error::{
+    nom::{branch::alt, bytes::complete::tag, combinator::opt, sequence::tuple, IResult},
+    Result,
+};
 
 #[macro_export]
 macro_rules! syntax_error {

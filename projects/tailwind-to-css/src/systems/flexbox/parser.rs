@@ -1,26 +1,22 @@
 use super::*;
 
 impl TailwindFlexBasis {
-    #[inline]
-    fn parse(_kind: &'static str, _ratio: &'static str) -> Box<dyn TailwindInstance> {
+    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindFlex {
-    #[inline]
     pub fn parse(flex: &str) -> Result<Self> {
         let n = parse_integer(flex)?.1;
         Ok(Self::Percent { grow: n, shrink: n, basis: 0 })
     }
-    #[inline]
     pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailWindGrow {
-    #[inline]
     pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
         match pattern {
             [] if arbitrary.is_empty() => Ok(Self { grow: 0 }),
@@ -29,7 +25,6 @@ impl TailWindGrow {
             _ => syntax_error!("Unknown flex-grow instructions: {}", pattern.join("-")),
         }
     }
-    #[inline]
     pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
         let grow = parse_integer(arbitrary)?.1;
         Ok(Self { grow })
@@ -37,7 +32,6 @@ impl TailWindGrow {
 }
 
 impl TailWindShrink {
-    #[inline]
     pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
         match pattern {
             [] if arbitrary.is_empty() => Ok(Self { shrink: 0 }),
@@ -46,7 +40,6 @@ impl TailWindShrink {
             _ => syntax_error!("Unknown flex-grow instructions: {}", pattern.join("-")),
         }
     }
-    #[inline]
     pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
         let shrink = parse_integer(arbitrary)?.1;
         Ok(Self { shrink })
@@ -77,5 +70,17 @@ impl TailWindOrder {
             order = -order
         }
         Ok(Self { order })
+    }
+}
+
+impl TailwindItems {
+    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+        todo!()
+    }
+}
+
+impl TailwindSelf {
+    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+        todo!()
     }
 }

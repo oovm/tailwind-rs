@@ -147,8 +147,8 @@ impl AstStyle {
             ["gap", rest @ ..] => todo!(),
             ["justify", rest @ ..] => Self::justify_adaptor(rest, arbitrary)?,
             ["content", rest @ ..] => Self::content_adaptor(rest, arbitrary)?,
-            ["items", rest @ ..] => todo!(),
-            ["self", rest @ ..] => todo!(),
+            ["items", rest @ ..] => TailwindItems::parse(rest, arbitrary)?.boxed(),
+            ["self", rest @ ..] => TailwindSelf::parse(rest, arbitrary)?.boxed(),
             // justify catched
             // Spacing System
             [p @ ("p" | "pl" | "pr" | "pm" | "pt" | "px" | "py"), rest @ ..] => {

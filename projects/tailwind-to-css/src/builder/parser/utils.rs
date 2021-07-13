@@ -34,6 +34,11 @@ pub fn parse_f32(input: &str) -> IResult<&str, f32> {
     map_res(recognize(float1), str::parse)(input)
 }
 
+pub fn parse_f_percent(input: &str) -> IResult<&str, f32> {
+    let (rest, (f, _)) = tuple((parse_f32, char('%')))(input)?;
+    Ok((rest, f))
+}
+
 #[test]
 fn test_f32() {
     assert_eq!(parse_f32("0"), Ok(("", 0.0)));
