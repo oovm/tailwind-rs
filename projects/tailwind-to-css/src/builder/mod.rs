@@ -1,6 +1,7 @@
-pub mod parser;
-pub mod setter;
+mod parser;
+mod setter;
 
+pub use self::parser::*;
 use crate::*;
 use log::error;
 use std::{

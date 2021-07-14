@@ -1,7 +1,7 @@
 use super::*;
 
-pub mod display;
-pub mod parser;
+mod display;
+mod parser;
 
 #[doc = include_str!("aspect-ratio.md")]
 #[derive(Copy, Clone, Debug)]

@@ -1,8 +1,10 @@
 [package]
 name = "const-css-color"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Aster <192607617@qq.com>"]
-description = "Nom parser for tailwind instructions"
+description = "Css color parser at compile time"
+repository = "https://github.com/oovm/tailwind-rs"
+documentation = "https://docs.rs/const-css-color"
 readme = "Readme.md"
 license = "MPL-2.0"
 edition = "2021"

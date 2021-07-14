@@ -10,7 +10,6 @@ use std::{
     hash::{Hash, Hasher},
 };
 use tailwind_error::nom::{bytes::complete::tag, IResult};
-use text_utils::indent;
 
 /// Tailwind Parsed Result
 pub type ParsedItem<'a> = IResult<&'a str, Box<dyn TailwindInstance>>;
@@ -44,7 +43,7 @@ pub trait TailwindInstance: Display {
     fn write_css(&self, f: &mut (dyn Write), ctx: &TailwindBuilder) -> Result<()> {
         writeln!(f, "{} {{", self.selectors(ctx))?;
         for item in self.attributes(ctx) {
-            writeln!(f, "{}", indent(item.to_string(), 4))?
+            writeln!(f, "{:indent$}{}", item.to_string(), indent = 4)?
         }
         writeln!(f, "}}")?;
         Ok(())

@@ -1,7 +1,8 @@
-pub mod display;
-pub mod methods;
-pub mod utils;
+mod display;
+mod methods;
+mod utils;
 
+pub use self::utils::*;
 use super::*;
 
 /// `v:v:-a-a-[A]`
@@ -134,17 +135,19 @@ impl AstStyle {
             // https://tailwindcss.com/docs/z-index
             ["z", rest @ ..] => TailWindZIndex::parse(rest, self.negative),
             // Flexbox & Grid
-            ["basis", rest @ ..] => todo!(),
+            ["basis", rest @ ..] => TailwindBasis::parse(rest, arbitrary)?.boxed(),
             ["flex", rest @ ..] => Self::flex_adaptor(rest, arbitrary)?,
             ["grow", rest @ ..] => TailWindGrow::parse(rest, arbitrary)?.boxed(),
             ["shrink", rest @ ..] => TailWindShrink::parse(rest, arbitrary)?.boxed(),
             ["order", rest @ ..] => TailWindOrder::parse(rest, arbitrary, self.negative)?.boxed(),
             ["grid", rest @ ..] => Self::grid_adaptor(rest, arbitrary)?,
             // https://tailwindcss.com/docs/grid-column
-            ["col", rest @ ..] => todo!(),
-            ["row", rest @ ..] => todo!(),
-            ["auto", rest @ ..] => todo!(),
-            ["gap", rest @ ..] => todo!(),
+            ["col", rest @ ..] => TailwindColumn::parse(rest, arbitrary)?.boxed(),
+            ["row", rest @ ..] => TailwindRow::parse(rest, arbitrary)?.boxed(),
+            ["auto", rest @ ..] => TailwindGridAuto::parse(rest, arbitrary)?.boxed(),
+            ["gap", "x", rest @ ..] => TailwindGap::parse_x(rest, arbitrary)?.boxed(),
+            ["gap", "y", rest @ ..] => TailwindGap::parse_y(rest, arbitrary)?.boxed(),
+            ["gap", rest @ ..] => TailwindGap::parse_xy(rest, arbitrary)?.boxed(),
             ["justify", rest @ ..] => Self::justify_adaptor(rest, arbitrary)?,
             ["content", rest @ ..] => Self::content_adaptor(rest, arbitrary)?,
             ["items", rest @ ..] => TailwindItems::parse(rest, arbitrary)?.boxed(),
@@ -203,9 +206,9 @@ impl AstStyle {
             ["normal", "case"] => TailwindTextTransform::None.boxed(),
             // https://tailwindcss.com/docs/text-overflow
             ["truncate"] => TailwindTextOverflow::Truncate.boxed(),
-            ["indent", rest @ ..] => todo!(),
-            ["align", rest @ ..] => todo!(),
-            ["whitespace", rest @ ..] => todo!(),
+            ["indent", rest @ ..] => TailwindIndent::parse(rest, arbitrary)?.boxed(),
+            ["align", rest @ ..] => TailwindAlign::parse(rest, arbitrary)?.boxed(),
+            ["whitespace", rest @ ..] => TailwindWhiteSpace::parse(rest, arbitrary)?.boxed(),
             // break catched
             // content catched
             // Typography System Extension

@@ -2,11 +2,13 @@ mod display;
 mod parser;
 use super::*;
 
+#[derive(Debug, Copy, Clone)]
+enum BasisSize {}
+
 #[doc=include_str!("flex-basis.md")]
 #[derive(Debug, Copy, Clone)]
-pub enum TailwindFlexBasis {
-    Auto,
-    Full,
+pub struct TailwindBasis {
+    size: BasisSize,
 }
 
 #[doc=include_str!("flex-direction.md")]
@@ -60,16 +62,19 @@ pub struct TailwindGridTemplate {
     unit: usize,
 }
 
-#[doc=include_str!("grid-column.md")]
 #[derive(Debug, Copy, Clone)]
-pub struct TailwindColumn {
-    unit: usize,
-}
+enum SpanKind {}
 
 #[doc=include_str!("grid-row.md")]
 #[derive(Debug, Copy, Clone)]
-pub struct TailwindGridRow {
-    unit: usize,
+pub struct TailwindRow {
+    span: SpanKind,
+}
+
+#[doc=include_str!("grid-column.md")]
+#[derive(Debug, Copy, Clone)]
+pub struct TailwindColumn {
+    span: SpanKind,
 }
 
 #[doc=include_str!("grid-auto-flow.md")]
@@ -96,12 +101,17 @@ pub struct TailwindGridAuto {
     layout: bool,
 }
 
+#[derive(Debug, Copy, Clone)]
+enum GapSize {
+    Px(f32),
+    Rem(f32),
+}
+
 #[doc=include_str!("gap.md")]
 #[derive(Debug, Copy, Clone)]
-pub enum TailwindGap {
-    Row,
-    Column,
-    Both,
+pub struct TailwindGap {
+    size: GapSize,
+    axis: Option<bool>,
 }
 
 #[doc=include_str!("justify-content.md")]

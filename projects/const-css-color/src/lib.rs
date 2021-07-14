@@ -1,3 +1,5 @@
+#![feature(const_for)]
+#![feature(const_mut_refs)]
 #![forbid(missing_docs)]
 #![forbid(missing_crate_level_docs)]
 #![forbid(missing_debug_implementations)]

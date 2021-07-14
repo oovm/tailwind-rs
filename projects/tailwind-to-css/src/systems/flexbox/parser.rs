@@ -1,6 +1,18 @@
 use super::*;
 
-impl TailwindFlexBasis {
+impl TailwindBasis {
+    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+        todo!()
+    }
+}
+
+impl TailwindFlexDirection {
+    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+        todo!()
+    }
+}
+
+impl TailwindFlexWrap {
     pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
         todo!()
     }
@@ -73,6 +85,87 @@ impl TailWindOrder {
     }
 }
 
+impl TailwindGridTemplate {
+    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+        todo!()
+    }
+}
+
+impl SpanKind {
+    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+        todo!()
+    }
+}
+
+impl TailwindColumn {
+    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+        todo!()
+    }
+}
+
+impl TailwindRow {
+    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+        todo!()
+    }
+}
+
+impl GapSize {
+    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+        todo!()
+    }
+}
+
+impl TailwindGridFlow {
+    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+        todo!()
+    }
+}
+
+impl TailwindGridAuto {
+    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+        todo!()
+    }
+}
+
+impl TailwindGap {
+    #[inline]
+    pub fn parse_x(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+        Ok(Self { size: GapSize::parse(pattern, arbitrary)?, axis: Some(true) })
+    }
+    #[inline]
+    pub fn parse_y(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+        Ok(Self { size: GapSize::parse(pattern, arbitrary)?, axis: Some(false) })
+    }
+    #[inline]
+    pub fn parse_xy(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+        Ok(Self { size: GapSize::parse(pattern, arbitrary)?, axis: None })
+    }
+}
+
+impl TailwindJustifyContent {
+    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+        todo!()
+    }
+}
+
+impl TailwindJustifyItems {
+    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+        todo!()
+    }
+}
+
+impl TailwindJustifySelf {
+    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+        todo!()
+    }
+}
+
+impl TailwindContent {
+    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+        todo!()
+    }
+}
+
 impl TailwindItems {
     pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
         todo!()
@@ -80,6 +173,24 @@ impl TailwindItems {
 }
 
 impl TailwindSelf {
+    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+        todo!()
+    }
+}
+
+impl TailwindPlaceContent {
+    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+        todo!()
+    }
+}
+
+impl TailwindPlaceItems {
+    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+        todo!()
+    }
+}
+
+impl TailwindPlaceSelf {
     pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
         todo!()
     }

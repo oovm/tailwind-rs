@@ -24,6 +24,9 @@ impl TailwindInstance for TailwindBlur {
 
 impl Display for TailwindBrightness {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        if self.backdrop {
+            f.write_str("backdrop-")?;
+        }
         write!(f, "brightness-{}", self.percent)
     }
 }
@@ -43,7 +46,10 @@ impl TailwindInstance for TailwindBrightness {
 
 impl Display for TailwindContrast {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        if self.backdrop {
+            f.write_str("backdrop-")?;
+        }
+        write!(f, "contrast-{}", self.percent)
     }
 }
 
@@ -51,15 +57,34 @@ impl TailwindInstance for TailwindContrast {}
 
 impl Display for TailwindGrayscale {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        debug_assert!(self.percent <= 100);
+        if self.backdrop {
+            f.write_str("backdrop-")?;
+        }
+        write!(f, "grayscale-{}", self.percent)
     }
 }
 
 impl TailwindInstance for TailwindGrayscale {}
 
+impl Display for TailwindHueRotate {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        if self.backdrop {
+            f.write_str("backdrop-")?;
+        }
+        write!(f, "hue-rotate-{}", self.deg)
+    }
+}
+
+impl TailwindInstance for TailwindHueRotate {}
+
 impl Display for TailwindInvert {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        debug_assert!(self.percent <= 100);
+        if self.backdrop {
+            f.write_str("backdrop-")?;
+        }
+        write!(f, "invert-{}", self.percent)
     }
 }
 
@@ -67,7 +92,10 @@ impl TailwindInstance for TailwindInvert {}
 
 impl Display for TailwindSaturate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        if self.backdrop {
+            f.write_str("backdrop-")?;
+        }
+        write!(f, "saturate-{}", self.percent)
     }
 }
 
@@ -75,7 +103,11 @@ impl TailwindInstance for TailwindSaturate {}
 
 impl Display for TailwindSepia {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        debug_assert!(self.percent <= 100);
+        if self.backdrop {
+            f.write_str("backdrop-")?;
+        }
+        write!(f, "sepia-{}", self.percent)
     }
 }
 

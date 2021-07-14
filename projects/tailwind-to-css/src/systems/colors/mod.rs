@@ -2,7 +2,7 @@ mod builtin;
 mod traits;
 
 use super::*;
-use text_utils::Color;
+use css_color_parser::Color;
 
 #[derive(Clone, Debug)]
 pub struct PaletteSystem {

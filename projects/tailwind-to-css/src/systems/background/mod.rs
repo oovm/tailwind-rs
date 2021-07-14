@@ -1,7 +1,7 @@
 use super::*;
 
-pub mod builder;
-pub mod display;
+mod builder;
+mod display;
 
 #[doc = include_str ! ("aspect-ratio.md")]
 #[derive(Clone, Debug)]

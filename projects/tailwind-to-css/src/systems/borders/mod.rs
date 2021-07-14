@@ -5,6 +5,10 @@ use super::*;
 
 ///
 #[derive(Copy, Clone, Debug)]
+pub struct TailwindRounded {}
+
+///
+#[derive(Copy, Clone, Debug)]
 pub enum TailwindBorderStyle {
     None,
     Solid,

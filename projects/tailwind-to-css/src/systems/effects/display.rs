@@ -10,14 +10,15 @@ impl TailwindInstance for TailwindShadow {}
 
 impl Display for TailwindOpacity {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let normed = self.opacity.min(100);
-        write!(f, "opacity-{}", normed)
+        debug_assert!(self.opacity <= 100);
+        write!(f, "opacity-{}", self.opacity)
     }
 }
 
 impl TailwindInstance for TailwindOpacity {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let opacity = format!("{}", self.opacity.min(100) as f32 / 100.0);
+        debug_assert!(self.opacity <= 100);
+        let opacity = format!("{}", self.opacity as f32 / 100.0);
         css_attributes! {
             "opacity" => opacity
         }

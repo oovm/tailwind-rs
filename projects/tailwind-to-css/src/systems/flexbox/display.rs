@@ -1,12 +1,12 @@
 use super::*;
 
-impl Display for TailwindFlexBasis {
+impl Display for TailwindBasis {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
 
-impl TailwindInstance for TailwindFlexBasis {}
+impl TailwindInstance for TailwindBasis {}
 
 impl Display for TailwindFlexDirection {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -149,13 +149,21 @@ impl TailwindInstance for TailwindGridTemplate {
     }
 }
 
-impl Display for TailwindGridRow {
+impl Display for TailwindColumn {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
 
-impl TailwindInstance for TailwindGridRow {}
+impl TailwindInstance for TailwindColumn {}
+
+impl Display for TailwindRow {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl TailwindInstance for TailwindRow {}
 
 impl Display for TailwindGridAuto {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
