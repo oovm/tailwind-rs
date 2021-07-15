@@ -1,7 +1,5 @@
 use super::*;
 
-use crate::{TailwindBackgroundColor, TailwindRingColor, TailwindTextColor};
-
 impl Default for PaletteSystem {
     fn default() -> Self {
         Self { gradient: false, inner: Default::default() }

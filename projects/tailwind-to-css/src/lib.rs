@@ -3,23 +3,25 @@
 #![forbid(missing_debug_implementations)]
 #![forbid(missing_crate_level_docs)]
 #![doc = include_str!("../readme.md")]
-#![doc(html_logo_url = "https://avatars.githubusercontent.com/u/67109815")]
-#![doc(html_favicon_url = "https://avatars.githubusercontent.com/u/67109815")]
+#![doc(html_logo_url = "https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg")]
+#![doc(html_favicon_url = "https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg")]
 
 extern crate core;
 
 mod builder;
 mod macros;
+mod modules;
 mod systems;
 mod traits;
 
 pub use self::{
     builder::*,
-    systems::{
-        accessibility::*, background::*, borders::*, breakpoints::*, colors::*, effects::*, filters::*, flexbox::*, fonts::*,
-        interactivity::*, layouts::*, preflight::*, sizing::*, spacing::*, tables::*, transforms::*, transition::*,
-        typography::*,
+    modules::{
+        accessibility::*, background::*, borders::*, effects::*, filters::*, flexbox::*, interactivity::*, layouts::*,
+        sizing::*, spacing::*, tables::*, transforms::*, transition::*, typography::*, CssBehavior,
     },
+    systems::{breakpoints::*, colors::*, fonts::*, preflight::*},
     traits::{CssAttribute, ParsedItem, ParsedList, TailwindInstance, TailwindObject},
 };
+pub use systems::{breakpoints::*, colors::*, preflight::*};
 pub use tailwind_error::{Result, TailwindError, TailwindErrorKind};

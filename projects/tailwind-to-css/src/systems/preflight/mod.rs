@@ -1,5 +1,4 @@
-use crate::{Result, TailwindBuilder, TailwindInstance};
-use std::fmt::{Display, Formatter, Write};
+use super::*;
 
 /// https://tailwindcss.com/docs/preflight
 #[derive(Clone, Debug)]

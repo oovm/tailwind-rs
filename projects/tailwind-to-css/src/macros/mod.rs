@@ -6,3 +6,16 @@ macro_rules! css_attributes {
         Iterator::collect(IntoIterator::into_iter([$(CssAttribute::new($k.to_string(), $v.to_string()),)*]))
     }};
 }
+
+#[macro_export]
+macro_rules! syntax_error {
+    ($msg:literal $(,)?) => {
+        Err(tailwind_error::TailwindError::syntax_error($msg.to_string()))
+    };
+    // ($err:expr $(,)?) => {
+    //     Err(TailwindError::from($err))
+    // };
+    ($fmt:expr, $($arg:tt)*) => {
+        Err(tailwind_error::TailwindError::syntax_error(format!($fmt, $($arg)*)))
+    };
+}

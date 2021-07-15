@@ -59,22 +59,18 @@ pub enum TailwindFontVariantNumeric {
 #[derive(Copy, Debug, Clone)]
 pub enum TailwindTracking {
     Normal,
-    Inherit,
-    Initial,
-    Unset,
     Em(f32),
+    Global(CssBehavior),
 }
 
 #[doc = include_str!("line-height.md")]
 #[derive(Copy, Debug, Clone)]
 pub enum TailwindLeading {
     Normal,
-    Inherit,
-    Initial,
-    Unset,
     Unit(usize),
     Scale(f32),
     Rem(f32),
+    Global(CssBehavior),
     // Px(f32),
 }
 

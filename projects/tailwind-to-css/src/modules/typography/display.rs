@@ -104,9 +104,7 @@ impl Display for TailwindTracking {
         f.write_str("tracking-")?;
         match self {
             Self::Normal => write!(f, "normal"),
-            Self::Inherit => write!(f, "inherit"),
-            Self::Initial => write!(f, "initial"),
-            Self::Unset => write!(f, "unset"),
+            Self::Global(g) => write!(f, "{}", g),
             Self::Em(em) => write!(f, "[{}em]", em),
         }
     }
@@ -116,9 +114,6 @@ impl TailwindInstance for TailwindTracking {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         let em = match self {
             Self::Normal => format!("normal"),
-            Self::Inherit => format!("inherit"),
-            Self::Initial => format!("initial"),
-            Self::Unset => format!("unset"),
             Self::Em(em) => format!("{}em", em),
         };
         css_attributes! {

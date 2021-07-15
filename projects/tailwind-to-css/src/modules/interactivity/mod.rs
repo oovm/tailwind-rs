@@ -1,3 +1,5 @@
+mod display;
+mod parser;
 use super::*;
 
 #[doc=include_str!("grid-row.md")]
@@ -36,11 +38,27 @@ pub enum TailwindSnap {}
 
 #[doc=include_str!("grid-row.md")]
 #[derive(Debug, Copy, Clone)]
-pub enum TailwindTorch {}
+pub enum TailwindTorch {
+    Auto,
+    None,
+    PanX,
+    PanL,
+    PanR,
+    PanY,
+    PanU,
+    PanD,
+    PinchZoom,
+    Manipulate,
+}
 
 #[doc=include_str!("grid-row.md")]
 #[derive(Debug, Copy, Clone)]
-pub enum TailwindSelect {}
+pub enum TailwindSelect {
+    None,
+    Text,
+    All,
+    Auto,
+}
 
 #[doc=include_str!("grid-row.md")]
 #[derive(Debug, Copy, Clone)]
