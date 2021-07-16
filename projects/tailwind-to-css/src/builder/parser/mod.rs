@@ -62,7 +62,7 @@ pub struct AstVariant {
 }
 
 impl Display for AstStyle {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -259,18 +259,18 @@ impl AstStyle {
             ["skew", "y", rest @ ..] => TailwindSkew::parse(rest, arbitrary, false, neg)?.boxed(),
             ["origin", rest @ ..] => todo!(),
             // Interactivity System
-            ["accent", rest @ ..] => todo!(),
+            ["accent", rest @ ..] => TailwindAccentColor::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/appearance
-            ["appearance", "none"] => todo!(),
-            ["cursor", rest @ ..] => todo!(),
-            ["caret", rest @ ..] => todo!(),
-            ["pointer", "events", rest @ ..] => todo!(),
-            ["resize", rest @ ..] => todo!(),
-            ["scroll", rest @ ..] => todo!(),
-            ["snap", rest @ ..] => todo!(),
-            ["touch", rest @ ..] => todo!(),
-            ["select", rest @ ..] => todo!(),
-            ["will", "change", rest @ ..] => todo!(),
+            ["appearance", "none"] => TailwindAppearance::None.boxed(),
+            ["cursor", rest @ ..] => TailwindCursor::parse(rest, arbitrary)?.boxed(),
+            ["caret", rest @ ..] => TailwindCaretColor::parse(rest, arbitrary)?.boxed(),
+            ["pointer", "events", rest @ ..] => TailwindPointerEvents::parse(rest, arbitrary)?.boxed(),
+            ["resize", rest @ ..] => TailwindResize::parse(rest, arbitrary)?.boxed(),
+            ["scroll", rest @ ..] => TailwindScroll::parse(rest, arbitrary)?.boxed(),
+            ["snap", rest @ ..] => TailwindSnap::parse(rest, arbitrary)?.boxed(),
+            ["touch", rest @ ..] => TailwindTorch::parse(rest, arbitrary)?.boxed(),
+            ["select", rest @ ..] => TailwindSelect::parse(rest, arbitrary)?.boxed(),
+            ["will", "change", rest @ ..] => TailwindWillChange::parse(rest, arbitrary)?.boxed(),
             // SVG System
             ["fill", rest @ ..] => todo!(),
             ["stroke", rest @ ..] => todo!(),

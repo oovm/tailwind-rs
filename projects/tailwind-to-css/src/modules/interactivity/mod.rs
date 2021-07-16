@@ -51,13 +51,20 @@ pub enum TailwindTorch {
     Manipulate,
 }
 
+#[derive(Debug, Copy, Clone)]
+enum SelectKind {
+    None,
+    Auto,
+    Text,
+    Contain,
+    All,
+    Global(CssBehavior),
+}
+
 #[doc=include_str!("grid-row.md")]
 #[derive(Debug, Copy, Clone)]
-pub enum TailwindSelect {
-    None,
-    Text,
-    All,
-    Auto,
+pub struct TailwindSelect {
+    kind: SelectKind,
 }
 
 #[doc=include_str!("grid-row.md")]

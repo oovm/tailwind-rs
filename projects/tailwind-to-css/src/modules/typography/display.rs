@@ -113,8 +113,9 @@ impl Display for TailwindTracking {
 impl TailwindInstance for TailwindTracking {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         let em = match self {
-            Self::Normal => format!("normal"),
+            Self::Normal => "normal".to_string(),
             Self::Em(em) => format!("{}em", em),
+            Self::Global(g) => format!("{}", g),
         };
         css_attributes! {
             "letter-spacing" => em
@@ -127,9 +128,7 @@ impl Display for TailwindLeading {
         f.write_str("leading-")?;
         match self {
             Self::Normal => write!(f, "normal"),
-            Self::Inherit => write!(f, "inherit"),
-            Self::Initial => write!(f, "initial"),
-            Self::Unset => write!(f, "unset"),
+            Self::Global(g) => write!(f, "{}", g),
             Self::Unit(n) => write!(f, "{}", n),
             Self::Scale(n) => write!(f, "[{}%]", n * 100.0),
             Self::Rem(n) => write!(f, "[{}rem]", n),
@@ -142,9 +141,7 @@ impl TailwindInstance for TailwindLeading {
     fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         let leading = match self {
             TailwindLeading::Normal => {}
-            TailwindLeading::Inherit => {}
-            TailwindLeading::Initial => {}
-            TailwindLeading::Unset => {}
+            TailwindLeading::Global(_) => {}
             TailwindLeading::Unit(_) => {}
             TailwindLeading::Scale(_) => {}
             TailwindLeading::Rem(_) => {} // TailwindLeading::Px(_) => {}
