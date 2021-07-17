@@ -62,8 +62,8 @@ pub struct AstVariant {
 }
 
 impl Display for AstStyle {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "")
     }
 }
 

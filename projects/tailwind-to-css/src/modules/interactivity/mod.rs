@@ -1,6 +1,8 @@
 mod display;
 mod parser;
+
 use super::*;
+use crate::TailwindSizing;
 
 #[doc=include_str!("grid-row.md")]
 #[derive(Debug, Copy, Clone)]
@@ -30,15 +32,20 @@ pub enum TailwindResize {}
 
 #[doc=include_str!("grid-row.md")]
 #[derive(Debug, Copy, Clone)]
+pub struct TailwindScrollSize {
+    wrapper: TailwindSizing,
+}
+
+#[doc=include_str!("grid-row.md")]
+#[derive(Debug, Copy, Clone)]
 pub enum TailwindScroll {}
 
 #[doc=include_str!("grid-row.md")]
 #[derive(Debug, Copy, Clone)]
 pub enum TailwindSnap {}
 
-#[doc=include_str!("grid-row.md")]
 #[derive(Debug, Copy, Clone)]
-pub enum TailwindTorch {
+enum TorchKind {
     Auto,
     None,
     PanX,
@@ -49,6 +56,12 @@ pub enum TailwindTorch {
     PanD,
     PinchZoom,
     Manipulate,
+}
+
+#[doc=include_str!("grid-row.md")]
+#[derive(Debug, Copy, Clone)]
+pub struct TailwindTorch {
+    kind: TorchKind,
 }
 
 #[derive(Debug, Copy, Clone)]

@@ -25,7 +25,7 @@ impl FontSystem {
         new.insert_family("sans", r#"ui-sans-serif"#);
         new.insert_family("serif", r#"ui-serif"#);
         new.insert_family("mono", r#"ui-sans-monospace"#);
-        return new;
+        new
     }
     #[inline]
     pub fn get_size(&self, name: &str) {
@@ -49,7 +49,7 @@ impl FontSystem {
     }
     #[inline]
     fn normalize_family(input: &str) -> Option<Vec<String>> {
-        todo!()
+        Some(vec![input.to_string()])
     }
 }
 
