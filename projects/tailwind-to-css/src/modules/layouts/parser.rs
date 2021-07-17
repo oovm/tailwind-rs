@@ -1,23 +1,31 @@
 use super::*;
 use crate::parse_fraction;
 
-impl TailwindAspect {
-    /// https://tailwindcss.com/docs/aspect-ratio
-    pub fn parse(kind: &[&str], arbitrary: &str) -> Result<Self> {
+impl AspectKind {
+    #[inline]
+    pub fn parse(kind: &[&str]) -> Result<Self> {
         let out = match kind {
-            [] => {
-                let (a, b) = parse_fraction(arbitrary)?.1;
-                Self::Arbitrary(a, b)
-            }
             ["auto"] => Self::Auto,
-            ["square"] => Self::Arbitrary(1, 1),
-            ["video"] => Self::Arbitrary(16, 9),
-            ["inherit"] => todo!(),
-            ["w", _n] => todo!(),
-            ["h", _n] => todo!(),
+            ["square"] => Self::Radio(1, 1),
+            ["video"] => Self::Radio(16, 9),
+            ["inherit"] => Self::Global(CssBehavior::Inherit),
+            ["initial"] => Self::Global(CssBehavior::Initial),
+            ["unset"] => Self::Global(CssBehavior::Unset),
+            [n] => {
+                let (a, b) = parse_fraction(n)?.1;
+                Self::Radio(a, b)
+            }
             _ => return syntax_error!("unknown aspect-ratio elements"),
         };
         Ok(out)
+    }
+}
+
+impl TailwindAspect {
+    /// https://tailwindcss.com/docs/aspect-ratio
+    pub fn parse(kind: &[&str], arbitrary: &str) -> Result<Self> {
+        debug_assert!(arbitrary.is_empty(), "forbidden arbitrary in aspect");
+        Ok(Self { kind: AspectKind::parse(kind)? })
     }
 }
 

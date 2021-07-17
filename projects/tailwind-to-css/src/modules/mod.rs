@@ -9,7 +9,6 @@ pub mod layouts;
 pub mod sizing;
 pub mod spacing;
 pub mod tables;
-pub mod theme;
 pub mod transforms;
 pub mod transition;
 pub mod typography;
