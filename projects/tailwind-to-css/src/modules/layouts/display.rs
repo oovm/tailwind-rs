@@ -32,7 +32,7 @@ impl Display for TailwindContainer {
 
 impl TailwindInstance for TailwindContainer {}
 
-impl Display for LayoutBreakKind {
+impl Display for BreakKind {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::Before => f.write_str("break-before"),
@@ -42,13 +42,13 @@ impl Display for LayoutBreakKind {
     }
 }
 
-impl Display for TailwindLayoutBreak {
+impl Display for TailwindBreakLayout {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}-{}", self.kind, self.info)
     }
 }
 
-impl TailwindInstance for TailwindLayoutBreak {
+impl TailwindInstance for TailwindBreakLayout {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         let class = self.kind.to_string();
         let breaking = self.info.to_string();
@@ -70,13 +70,17 @@ impl TailwindInstance for TailwindColumns {
     }
 }
 
-impl Display for TailwindBoxDecorationBreak {
+// Class
+// Properties
+// box-decoration-clone	box-decoration-break: clone;
+// box-decoration-slice	box-decoration-break: slice;
+impl Display for TailwindBoxDecoration {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
 
-impl TailwindInstance for TailwindBoxDecorationBreak {
+impl TailwindInstance for TailwindBoxDecoration {
     fn id(&self) -> String {
         todo!()
     }

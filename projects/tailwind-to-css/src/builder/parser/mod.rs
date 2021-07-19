@@ -290,11 +290,11 @@ impl AstStyle {
             ["words"] => TailwindBreak::Words.boxed(),
             ["all"] => TailwindBreak::All.boxed(),
             // https://tailwindcss.com/docs/break-before
-            ["before", rest @ ..] => TailwindLayoutBreak::parse_before(rest)?.boxed(),
+            ["before", rest @ ..] => TailwindBreakLayout::parse_before(rest)?.boxed(),
             // https://tailwindcss.com/docs/break-inside
-            ["inside", rest @ ..] => TailwindLayoutBreak::parse_inside(rest)?.boxed(),
+            ["inside", rest @ ..] => TailwindBreakLayout::parse_inside(rest)?.boxed(),
             // https://tailwindcss.com/docs/break-after
-            ["after", rest @ ..] => TailwindLayoutBreak::parse_after(rest)?.boxed(),
+            ["after", rest @ ..] => TailwindBreakLayout::parse_after(rest)?.boxed(),
             _ => return syntax_error!("Unknown break instructions: {}", str.join("-")),
         };
         Ok(out)
@@ -386,8 +386,8 @@ impl AstStyle {
     #[inline]
     fn box_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
-            ["decoration", "clone"] => TailwindBoxDecorationBreak::Clone.boxed(),
-            ["decoration", "slice"] => TailwindBoxDecorationBreak::Clone.boxed(),
+            ["decoration", "clone"] => TailwindBoxDecoration::Clone.boxed(),
+            ["decoration", "slice"] => TailwindBoxDecoration::Clone.boxed(),
             ["border"] => TailwindBoxSizing::Border.boxed(),
             ["content"] => TailwindBoxSizing::Content.boxed(),
             _ => return syntax_error!("Unknown box instructions: {}", str.join("-")),
@@ -411,9 +411,9 @@ impl AstStyle {
             ["wrap", "reverse"] => TailwindFlexWrap::WrapReverse.boxed(),
             ["nowrap"] => TailwindFlexWrap::NoWrap.boxed(),
             // https://tailwindcss.com/docs/flex
-            ["auto"] => TailwindBoxDecorationBreak::Clone.boxed(),
-            ["initial"] => TailwindBoxDecorationBreak::Clone.boxed(),
-            ["none"] => TailwindBoxDecorationBreak::Clone.boxed(),
+            ["auto"] => TailwindBoxDecoration::Clone.boxed(),
+            ["initial"] => TailwindBoxDecoration::Clone.boxed(),
+            ["none"] => TailwindBoxDecoration::Clone.boxed(),
             [n] => TailwindFlex::parse(n)?.boxed(),
             _ => return syntax_error!("Unknown box instructions: {}", str.join("-")),
         };

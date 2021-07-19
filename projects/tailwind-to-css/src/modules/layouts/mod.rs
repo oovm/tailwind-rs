@@ -21,16 +21,22 @@ pub struct TailwindAspect {
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindContainer {}
 
-#[doc = include_str!("columns.md")]
 #[derive(Copy, Clone, Debug)]
-pub enum TailwindColumns {
+enum ColumnKind {
     Auto,
     Columns(u8),
-    Rem(usize),
+    Length(LengthUnit<usize>),
+    // Global(CssBehavior),
+}
+
+#[doc = include_str!("columns.md")]
+#[derive(Copy, Clone, Debug)]
+pub struct TailwindColumns {
+    kind: ColumnKind,
 }
 
 #[derive(Copy, Clone, Debug)]
-enum LayoutBreakKind {
+enum BreakKind {
     Before,
     After,
     Inside,
@@ -38,14 +44,14 @@ enum LayoutBreakKind {
 
 #[doc = include_str!("break.md")]
 #[derive(Clone, Debug)]
-pub struct TailwindLayoutBreak {
-    kind: LayoutBreakKind,
+pub struct TailwindBreakLayout {
+    kind: BreakKind,
     info: String,
 }
 
 /// https://tailwindcss.com/docs/box-sizing
 #[derive(Copy, Clone, Debug)]
-pub enum TailwindBoxDecorationBreak {
+pub enum TailwindBoxDecoration {
     Clone,
     Slice,
 }

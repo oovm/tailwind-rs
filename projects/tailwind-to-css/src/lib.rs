@@ -20,7 +20,7 @@ pub use self::{
         accessibility::*, background::*, borders::*, effects::*, filters::*, flexbox::*, interactivity::*, layouts::*,
         sizing::*, spacing::*, tables::*, transforms::*, transition::*, typography::*,
     },
-    systems::{breakpoints::*, colors::*, css_global::*, fonts::*, preflight::*},
+    systems::{breakpoints::*, colors::*, css_global::*, fonts::*, length::*, preflight::*},
     traits::{CssAttribute, ParsedItem, ParsedList, TailwindInstance, TailwindObject},
 };
 pub use systems::{breakpoints::*, colors::*, preflight::*};
