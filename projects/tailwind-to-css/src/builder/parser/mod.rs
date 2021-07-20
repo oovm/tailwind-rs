@@ -91,7 +91,7 @@ impl AstStyle {
             // Layout System
             ["aspect", rest @ ..] => TailwindAspect::parse(rest, arbitrary)?.boxed(),
             ["container"] => TailwindContainer {}.boxed(),
-            ["columns", rest @ ..] => TailwindColumns::parse(rest)?.boxed(),
+            ["columns", rest @ ..] => TailwindColumns::parse(rest, arbitrary)?.boxed(),
             ["break", rest @ ..] => Self::break_adaptor(rest, arbitrary)?,
             ["box", rest @ ..] => Self::box_adaptor(rest, arbitrary)?,
             // begin https://tailwindcss.com/docs/display

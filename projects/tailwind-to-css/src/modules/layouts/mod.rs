@@ -25,7 +25,7 @@ pub struct TailwindContainer {}
 enum ColumnKind {
     Auto,
     Columns(u8),
-    Length(LengthUnit<usize>),
+    Length(LengthUnit),
     // Global(CssBehavior),
 }
 

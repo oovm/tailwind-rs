@@ -58,15 +58,32 @@ impl TailwindInstance for TailwindBreakLayout {
     }
 }
 
+impl Display for ColumnKind {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Auto => write!(f, "auto"),
+            Self::Columns(n) => write!(f, "{}", n),
+            Self::Length(n) => write!(f, "{}", n),
+        }
+    }
+}
+
 impl Display for TailwindColumns {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        write!(f, "columns-{}", self.kind)
     }
 }
 
 impl TailwindInstance for TailwindColumns {
-    fn id(&self) -> String {
-        todo!()
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        let columns = match self.kind {
+            ColumnKind::Auto => "auto".to_string(),
+            ColumnKind::Columns(n) => format!("{}", n),
+            ColumnKind::Length(n) => format!("{:?}", n),
+        };
+        css_attributes! {
+            "columns" => columns
+        }
     }
 }
 
