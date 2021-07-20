@@ -48,19 +48,28 @@ pub struct TailwindBreakLayout {
     kind: BreakKind,
     info: String,
 }
-
-/// https://tailwindcss.com/docs/box-sizing
 #[derive(Copy, Clone, Debug)]
-pub enum TailwindBoxDecoration {
+enum BoxDecoration {
     Clone,
     Slice,
 }
 
 /// https://tailwindcss.com/docs/box-sizing
 #[derive(Copy, Clone, Debug)]
-pub enum TailwindBoxSizing {
+pub struct TailwindBoxDecoration {
+    kind: BoxDecoration,
+}
+
+#[derive(Copy, Clone, Debug)]
+enum BoxSizing {
     Border,
     Content,
+}
+
+/// https://tailwindcss.com/docs/box-sizing
+#[derive(Copy, Clone, Debug)]
+pub struct TailwindBoxSizing {
+    kind: BoxSizing,
 }
 
 /// https://tailwindcss.com/docs/display
@@ -84,13 +93,17 @@ pub enum TailwindFloat {
     None,
 }
 
-/// https://tailwindcss.com/docs/clear
-#[derive(Copy, Clone, Debug)]
-pub enum TailwindClear {
+enum ClearKind {
     Left,
     Right,
     Both,
     None,
+}
+
+/// https://tailwindcss.com/docs/clear
+#[derive(Copy, Clone, Debug)]
+pub struct TailwindClear {
+    kind: ClearKind,
 }
 
 #[doc = include_str ! ("z-index.md")]

@@ -87,29 +87,53 @@ impl TailwindInstance for TailwindColumns {
     }
 }
 
-// Class
-// Properties
-// box-decoration-clone	box-decoration-break: clone;
-// box-decoration-slice	box-decoration-break: slice;
+impl Display for BoxDecoration {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Clone => f.write_str("clone"),
+            Self::Slice => f.write_str("slice"),
+        }
+    }
+}
+
 impl Display for TailwindBoxDecoration {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        write!(f, "box-decoration-{}", self.kind)
     }
 }
 
 impl TailwindInstance for TailwindBoxDecoration {
-    fn id(&self) -> String {
-        todo!()
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        let decoration = self.kind.to_string();
+        css_attributes! {
+            "box-decoration-break" => decoration
+        }
+    }
+}
+
+impl Display for BoxSizing {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Border => f.write_str("border"),
+            Self::Content => f.write_str("content"),
+        }
     }
 }
 
 impl Display for TailwindBoxSizing {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        write!(f, "box-{}", self.kind)
     }
 }
 
-impl TailwindInstance for TailwindBoxSizing {}
+impl TailwindInstance for TailwindBoxSizing {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        let size = format!("{}-box", self.kind);
+        css_attributes! {
+            "box-sizing" => size
+        }
+    }
+}
 
 impl Display for TailwindDisplay {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -119,13 +143,30 @@ impl Display for TailwindDisplay {
 
 impl TailwindInstance for TailwindDisplay {}
 
-impl Display for TailwindClear {
+impl Display for ClearKind {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        match self {
+            Self::Left => f.write_str("left"),
+            Self::Right => f.write_str("right"),
+            Self::Both => f.write_str("both"),
+            Self::None => f.write_str("none"),
+        }
     }
 }
 
-impl TailwindInstance for TailwindClear {}
+impl Display for TailwindClear {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "clear-{}", self.kind)
+    }
+}
+
+impl TailwindInstance for TailwindClear {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        css_attributes! {
+            "clear" => self.kind
+        }
+    }
+}
 
 impl Display for TailwindIsolation {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
