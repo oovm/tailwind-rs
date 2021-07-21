@@ -208,6 +208,19 @@ impl Display for TailwindOverscroll {
 
 impl TailwindInstance for TailwindOverscroll {}
 
+impl Display for FloatKind {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Left => f.write_str("left"),
+            FloatKind::Right => f.write_str("right"),
+            FloatKind::None => f.write_str("none"),
+        }
+    }
+}
+
+// float-right	float: right;
+// float-left	float: left;
+// float-none	float: none;
 impl Display for TailwindFloat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()

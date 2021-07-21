@@ -1,5 +1,4 @@
 use super::*;
-use crate::parse_fraction;
 
 impl AspectKind {
     #[inline]
@@ -65,7 +64,6 @@ impl ColumnKind {
         let (rest, l) = LengthUnit::parse(input)?;
         Ok((rest, Self::Length(l)))
     }
-
     #[inline(always)]
     fn rem(n: usize) -> ColumnKind {
         Self::Length(LengthUnit::Rem(n as f32))
@@ -134,24 +132,14 @@ impl OverflowKind {
 }
 
 impl TailwindOverflow {
-    #[inline]
-    pub fn parse_x(kind: &[&str]) -> Result<Self> {
+    pub fn parse(kind: &[&str], axis: Option<bool>) -> Result<Self> {
         let kind = OverflowKind::parse(kind)?;
-        Ok(Self { kind, axis: Some(true) })
-    }
-    #[inline]
-    pub fn parse_y(kind: &[&str]) -> Result<Self> {
-        let kind = OverflowKind::parse(kind)?;
-        Ok(Self { kind, axis: Some(false) })
-    }
-    #[inline]
-    pub fn parse_xy(kind: &[&str]) -> Result<Self> {
-        let kind = OverflowKind::parse(kind)?;
-        Ok(Self { kind, axis: None })
+        Ok(Self { kind, axis })
     }
 }
 
 impl OverscrollKind {
+    #[inline]
     pub fn parse(input: &[&str]) -> Result<Self> {
         match input {
             ["auto"] => Ok(Self::Auto),
@@ -163,20 +151,9 @@ impl OverscrollKind {
 }
 
 impl TailwindOverscroll {
-    #[inline]
-    pub fn parse_x(kind: &[&str]) -> Result<Self> {
+    pub fn parse(kind: &[&str], axis: Option<bool>) -> Result<Self> {
         let kind = OverscrollKind::parse(kind)?;
-        Ok(Self { kind, axis: Some(true) })
-    }
-    #[inline]
-    pub fn parse_y(kind: &[&str]) -> Result<Self> {
-        let kind = OverscrollKind::parse(kind)?;
-        Ok(Self { kind, axis: Some(false) })
-    }
-    #[inline]
-    pub fn parse_xy(kind: &[&str]) -> Result<Self> {
-        let kind = OverscrollKind::parse(kind)?;
-        Ok(Self { kind, axis: None })
+        Ok(Self { kind, axis })
     }
 }
 
@@ -205,17 +182,45 @@ impl TailWindZIndex {
     }
 }
 
-impl TailwindClear {
-    /// https://tailwindcss.com/docs/clear
-    #[inline]
-    pub fn parse(kind: &[&str]) -> Result<Self> {
+impl TailwindFloat {
+    /// https://tailwindcss.com/docs/float
+    pub fn parse(kind: &[&str], arbitrary: &str) -> Result<Self> {
+        debug_assert!(arbitrary.is_empty(), "forbidden arbitrary in brightness");
         let out = match kind {
-            ["left"] => Self::Left,
-            ["right"] => Self::Right,
-            ["both"] => Self::Both,
-            ["none"] => Self::None,
-            _ => return syntax_error!("unknown clear elements"),
+            ["left"] => Self { kind: FloatKind::Left },
+            ["right"] => Self { kind: FloatKind::Right },
+            ["none"] => Self { kind: FloatKind::None },
+            _ => return syntax_error!("Unknown float elements: {}", kind.join("-")),
         };
         Ok(out)
     }
+}
+
+impl TailwindClear {
+    /// https://tailwindcss.com/docs/clear
+    pub fn parse(kind: &[&str], arbitrary: &str) -> Result<Self> {
+        debug_assert!(arbitrary.is_empty(), "forbidden arbitrary in brightness");
+        let out = match kind {
+            ["left"] => Self { kind: ClearKind::Left },
+            ["right"] => Self { kind: ClearKind::Right },
+            ["both"] => Self { kind: ClearKind::Both },
+            ["none"] => Self { kind: ClearKind::None },
+            _ => return syntax_error!("Unknown clear elements: {}", kind.join("-")),
+        };
+        Ok(out)
+    }
+}
+
+impl TailwindBoxDecoration {
+    ///
+    pub const Clone: Self = Self { kind: BoxDecoration::Clone };
+    ///
+    pub const Slice: Self = Self { kind: BoxDecoration::Slice };
+}
+
+impl TailwindBoxSizing {
+    ///
+    pub const Border: Self = Self { kind: BoxSizing::Border };
+    ///
+    pub const Content: Self = Self { kind: BoxSizing::Content };
 }

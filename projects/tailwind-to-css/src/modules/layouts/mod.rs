@@ -85,14 +85,20 @@ pub enum TailwindDisplay {
     TableCaption,
 }
 
-/// https://tailwindcss.com/docs/float
 #[derive(Copy, Clone, Debug)]
-pub enum TailwindFloat {
+pub enum FloatKind {
     Left,
     Right,
     None,
 }
 
+/// https://tailwindcss.com/docs/float
+#[derive(Copy, Clone, Debug)]
+pub struct TailwindFloat {
+    kind: FloatKind,
+}
+
+#[derive(Copy, Clone, Debug)]
 enum ClearKind {
     Left,
     Right,

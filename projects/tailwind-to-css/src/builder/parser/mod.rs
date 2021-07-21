@@ -110,8 +110,8 @@ impl AstStyle {
             // list catched
             ["hidden"] => TailwindDisplay::InlineFlex.boxed(),
             // https://tailwindcss.com/docs/float
-            ["float", rest @ ..] => Self::float_adaptor(rest, arbitrary)?,
-            ["clear", rest @ ..] => TailwindClear::parse(rest)?.boxed(),
+            ["float", rest @ ..] => TailwindFloat::parse(rest, arbitrary)?.boxed(),
+            ["clear", rest @ ..] => TailwindClear::parse(rest, arbitrary)?.boxed(),
             ["isolate"] => TailwindIsolation::Isolate.boxed(),
             ["isolation", "auto"] => TailwindIsolation::Auto.boxed(),
             ["object", rest @ ..] => Self::object_adaptor(rest, arbitrary)?,
@@ -387,7 +387,7 @@ impl AstStyle {
     fn box_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             ["decoration", "clone"] => TailwindBoxDecoration::Clone.boxed(),
-            ["decoration", "slice"] => TailwindBoxDecoration::Clone.boxed(),
+            ["decoration", "slice"] => TailwindBoxDecoration::Slice.boxed(),
             ["border"] => TailwindBoxSizing::Border.boxed(),
             ["content"] => TailwindBoxSizing::Content.boxed(),
             _ => return syntax_error!("Unknown box instructions: {}", str.join("-")),
@@ -411,9 +411,9 @@ impl AstStyle {
             ["wrap", "reverse"] => TailwindFlexWrap::WrapReverse.boxed(),
             ["nowrap"] => TailwindFlexWrap::NoWrap.boxed(),
             // https://tailwindcss.com/docs/flex
-            ["auto"] => TailwindBoxDecoration::Clone.boxed(),
-            ["initial"] => TailwindBoxDecoration::Clone.boxed(),
-            ["none"] => TailwindBoxDecoration::Clone.boxed(),
+            ["auto"] => TailwindFlex::Inherit.boxed(),
+            ["initial"] => TailwindFlex::Inherit.boxed(),
+            ["none"] => TailwindFlex::None.boxed(),
             [n] => TailwindFlex::parse(n)?.boxed(),
             _ => return syntax_error!("Unknown box instructions: {}", str.join("-")),
         };
@@ -476,26 +476,15 @@ impl AstStyle {
     #[inline]
     fn table_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
-            // https://tailwindcss.com/docs/display#table
-            [] => TailwindDisplay::Table.boxed(),
-            ["caption"] => TailwindFloat::Left.boxed(),
-            ["right"] => TailwindFloat::Right.boxed(),
-            ["none"] => TailwindFloat::None.boxed(),
+            ["caption"] => TailwindTableLayout::Auto.boxed(),
+            ["right"] => TailwindTableLayout::Auto.boxed(),
+            ["none"] => TailwindTableLayout::Auto.boxed(),
             // https://tailwindcss.com/docs/table-layout
             ["auto"] => TailwindTableLayout::Auto.boxed(),
             ["fixed"] => TailwindTableLayout::Fixed.boxed(),
+            // https://tailwindcss.com/docs/display#table
+            [] => TailwindDisplay::Table.boxed(),
             _ => return syntax_error!("Unknown table instructions: {}", str.join("-")),
-        };
-        Ok(out)
-    }
-    #[inline]
-    fn float_adaptor(str: &[&str], _: &str) -> Result<Box<dyn TailwindInstance>> {
-        let out = match str {
-            // https://tailwindcss.com/docs/float
-            ["left"] => TailwindFloat::Left.boxed(),
-            ["right"] => TailwindFloat::Right.boxed(),
-            ["none"] => TailwindFloat::None.boxed(),
-            _ => return syntax_error!("Unknown float instructions: {}", str.join("-")),
         };
         Ok(out)
     }
@@ -528,9 +517,9 @@ impl AstStyle {
     fn overflow_adaptor(str: &[&str], _: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/overflow
-            ["x", pattern @ ..] => TailwindOverflow::parse_x(pattern)?.boxed(),
-            ["y", pattern @ ..] => TailwindOverflow::parse_y(pattern)?.boxed(),
-            _ => TailwindOverflow::parse_xy(str)?.boxed(),
+            ["x", pattern @ ..] => TailwindOverflow::parse(pattern, Some(true))?.boxed(),
+            ["y", pattern @ ..] => TailwindOverflow::parse(pattern, Some(false))?.boxed(),
+            _ => TailwindOverflow::parse(str, None)?.boxed(),
         };
         Ok(out)
     }
@@ -538,9 +527,9 @@ impl AstStyle {
     fn overscroll_adaptor(str: &[&str], _: &str) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/overscroll-behavior
-            ["x", pattern @ ..] => TailwindOverscroll::parse_x(pattern)?.boxed(),
-            ["y", pattern @ ..] => TailwindOverscroll::parse_y(pattern)?.boxed(),
-            _ => TailwindOverscroll::parse_xy(str)?.boxed(),
+            ["x", pattern @ ..] => TailwindOverscroll::parse(pattern, Some(true))?.boxed(),
+            ["y", pattern @ ..] => TailwindOverscroll::parse(pattern, Some(true))?.boxed(),
+            _ => TailwindOverscroll::parse(str, None)?.boxed(),
         };
         Ok(out)
     }

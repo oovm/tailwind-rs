@@ -1,3 +1,4 @@
+#![allow(non_upper_case_globals)]
 pub mod accessibility;
 pub mod background;
 pub mod borders;
@@ -14,8 +15,9 @@ pub mod transition;
 pub mod typography;
 
 use crate::{
-    css_attributes, parse_f32, parse_f_percent, parse_i_px_maybe, parse_integer, syntax_error, traits::CssAttribute,
-    ColorResolver, CssBehavior, LengthUnit, TailwindBrightness, TailwindBuilder, TailwindInstance, TailwindObjectPosition,
+    css_attributes, parse_f32, parse_f_percent, parse_fraction, parse_i_px_maybe, parse_integer, syntax_error,
+    traits::CssAttribute, ColorResolver, CssBehavior, LengthUnit, TailwindBrightness, TailwindBuilder, TailwindInstance,
+    TailwindObjectPosition,
 };
 use std::{
     collections::{BTreeSet, HashMap},
