@@ -1,6 +1,6 @@
 use super::*;
 
-impl Display for AstVariant {
+impl Display for TailwindVariant {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         if self.not {
             f.write_str("not-")?
@@ -15,7 +15,7 @@ impl Display for AstVariant {
     }
 }
 
-impl Debug for AstStyle {
+impl Debug for TailwindInstruction {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let w = &mut f.debug_struct("TailwindStyle");
         w.field("negative", &self.negative);

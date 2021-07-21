@@ -8,20 +8,20 @@
 
 extern crate core;
 
-mod builder;
-mod css;
+mod parser;
+// mod css;
 mod macros;
 mod modules;
 mod systems;
 mod traits;
 
 pub use self::{
-    builder::*,
     modules::{
         accessibility::*, background::*, borders::*, effects::*, filters::*, flexbox::*, interactivity::*, layouts::*,
         sizing::*, spacing::*, tables::*, transforms::*, transition::*, typography::*,
     },
-    systems::{breakpoints::*, colors::*, css_global::*, fonts::*, length::*, preflight::*},
+    parser::utils::*,
+    systems::{breakpoints::*, builder::*, colors::*, css_global::*, fonts::*, length::*, preflight::*},
     traits::{CssAttribute, ParsedItem, ParsedList, TailwindInstance, TailwindObject},
 };
 pub use systems::{breakpoints::*, colors::*, preflight::*};

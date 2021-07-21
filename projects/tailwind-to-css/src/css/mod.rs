@@ -15,6 +15,7 @@ pub struct CssAttributes {
     normal: BTreeMap<String, String>,
     transforms: BTreeMap<String, String>,
     scoped: BTreeMap<String, CssAttributes>,
+    tw_border_opacity: bool,
 }
 
 impl Default for CssAttributes {

@@ -2,10 +2,11 @@ mod parser;
 mod setter;
 
 pub use self::parser::*;
+// use crate::{css::CssAttributes, *};
 use crate::*;
 use log::error;
 use std::{
-    collections::BTreeSet,
+    collections::{BTreeMap, BTreeSet},
     fmt::{Debug, Display, Formatter, Write},
     str::FromStr,
 };
@@ -21,6 +22,7 @@ use tailwind_error::nom::{
 
 #[derive(Debug)]
 pub struct TailwindBuilder {
+    // pub apply: BTreeMap<String, CssAttributes>,
     pub objects: BTreeSet<Box<dyn TailwindInstance>>,
     pub preflight: PreflightSystem,
     pub screens: BreakPointSystem,
@@ -70,4 +72,6 @@ impl TailwindBuilder {
         }
         Ok(out)
     }
+    pub fn scope() {}
+    pub fn scope_data() {}
 }

@@ -16,8 +16,7 @@ pub mod typography;
 
 use crate::{
     css_attributes, parse_f32, parse_f_percent, parse_fraction, parse_i_px_maybe, parse_integer, syntax_error,
-    traits::CssAttribute, ColorResolver, CssBehavior, LengthUnit, TailwindBrightness, TailwindBuilder, TailwindInstance,
-    TailwindObjectPosition,
+    traits::CssAttribute, ColorResolver, CssBehavior, LengthUnit, TailwindBrightness, TailwindInstance, TailwindObjectPosition,
 };
 use std::{
     collections::{BTreeSet, HashMap},

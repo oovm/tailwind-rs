@@ -1,48 +1,6 @@
 use super::*;
 
-impl AstVariant {
-    /// `(not-)?(ALPHA)(-ALPHA)*`
-    ///
-    /// eg:
-    /// - `not-focus`
-    /// - `not-last-child`
-    pub fn parse(input: &str) -> IResult<&str, Self> {
-        let not = opt(tuple((tag("not"), tag("-"))));
-        let vs = separated_list0(tag("-"), alphanumeric1);
-        let (rest, (not, r)) = tuple((not, vs))(input)?;
-        let names: Vec<_> = r.into_iter().map(|f| f.to_string()).collect();
-        let pseudo = Self::check_pseudo(&names.iter().map(<_>::as_ref).collect::<Vec<_>>());
-        Ok((rest, Self { not: not.is_some(), pseudo, names }))
-    }
-    pub fn parse_many(input: &str) -> IResult<&str, Vec<Self>> {
-        let (rest, out) = many0(tuple((Self::parse, alt((tag("::"), tag(":"))))))(input)?;
-        let mut v = vec![];
-        for (a, s) in out {
-            let mut a = a;
-            if s == "::" {
-                a.pseudo = true
-            }
-            v.push(a)
-        }
-        Ok((rest, v))
-    }
-    #[rustfmt::skip]
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements#index
-    fn check_pseudo(names: &[&str]) -> bool {
-        matches!(names
-            , ["after"]
-            | ["before"]
-            | ["backdrop"]
-            | ["marker"]
-            | ["placeholder"]
-            | ["selection"]
-            | ["first", "line"]
-            | ["first", "litter"]
-            | ["first", "selector", "button"]
-            | ["target", "text"]
-        )
-    }
-}
+
 
 impl AstArbitrary {
     pub fn parse(input: &str) -> IResult<&str, Self> {
@@ -77,11 +35,11 @@ impl AstElement {
     }
 }
 
-impl AstStyle {
+impl TailwindInstruction {
     /// `v:v::-a-a-a-[A]`
     pub fn parse(input: &str) -> IResult<&str, Self> {
         let es = separated_list0(tag("-"), AstElement::parse);
-        let (rest, rhs) = tuple((AstVariant::parse_many, opt(tag("-")), es, AstArbitrary::parse_maybe))(input)?;
+        let (rest, rhs) = tuple((TailwindVariant::parse_many, opt(tag("-")), es, AstArbitrary::parse_maybe))(input)?;
         let (variants, neg, atoms, arbitrary) = rhs;
         Ok((rest, Self { negative: neg.is_some(), variants, elements: atoms, arbitrary }))
     }
@@ -90,7 +48,7 @@ impl AstStyle {
     }
 }
 
-impl AstStyle {
+impl TailwindInstruction {
     #[inline]
     pub fn view_elements(&self) -> Vec<&str> {
         self.elements.iter().map(|s| s.0.as_str()).collect()
@@ -117,22 +75,22 @@ impl AstGroup {
     }
     #[inline]
     fn parse_standalone(input: &str) -> IResult<&str, Self> {
-        let (rest, inner) = AstStyle::parse(input)?;
+        let (rest, inner) = TailwindInstruction::parse(input)?;
         Ok((rest, Self::Standalone { inner }))
     }
     #[inline]
     fn parse_grouped(input: &str) -> IResult<&str, Self> {
-        let lhs = tuple((AstVariant::parse_many, opt(AstElement::parse)));
-        let rhs = delimited(char('('), AstStyle::parse_list, char(')'));
+        let lhs = tuple((TailwindVariant::parse_many, opt(AstElement::parse)));
+        let rhs = delimited(char('('), TailwindInstruction::parse_list, char(')'));
         let (rest, ((variants, elements), inner)) = tuple((lhs, rhs))(input)?;
         Ok((rest, Self::Grouped { variants, elements, inner }))
     }
 
-    pub fn expand(s: Self, buffer: &mut Vec<AstStyle>) {
+    pub fn expand(s: Self, buffer: &mut Vec<TailwindInstruction>) {
         match s {
             Self::Standalone { inner } => buffer.push(inner),
             Self::Grouped { variants: vl, elements: el, inner } => {
-                for AstStyle { negative, variants: vr, elements: er, arbitrary } in inner {
+                for TailwindInstruction { negative, variants: vr, elements: er, arbitrary } in inner {
                     let mut variants = vl.clone();
                     variants.extend(vr.into_iter());
                     let mut elements = match el.clone() {
@@ -140,13 +98,13 @@ impl AstGroup {
                         Some(s) => vec![s],
                     };
                     elements.extend(er.into_iter());
-                    let new = AstStyle { negative, variants, elements, arbitrary };
+                    let new = TailwindInstruction { negative, variants, elements, arbitrary };
                     buffer.push(new);
                 }
             }
         }
     }
-    pub fn expand_list(v: Vec<Self>) -> Vec<AstStyle> {
+    pub fn expand_list(v: Vec<Self>) -> Vec<TailwindInstruction> {
         let mut out = vec![];
         for i in v {
             Self::expand(i, &mut out)
@@ -156,7 +114,7 @@ impl AstGroup {
 }
 
 impl TailwindBuilder {
-    pub fn parse_styles(input: &str) -> Result<Vec<AstStyle>> {
+    pub fn parse_styles(input: &str) -> Result<Vec<TailwindInstruction>> {
         let g = AstGroup::parse_list(input.trim())?.1;
         Ok(AstGroup::expand_list(g))
     }
@@ -165,8 +123,8 @@ impl TailwindBuilder {
 #[test]
 fn test_style() {
     // w-full sm:w-auto text-lg uppercase text-gray-100 bg-purple-800 hover:bg-purple-700 focus:bg-purple-700 focus-visible:ring-4 ring-purple-400 px-6
-    println!("{:#?}", AstStyle::parse("not-hover:sm:text-red-200").unwrap().1);
-    println!("{:#?}", AstStyle::parse_list("w-full sm:w-auto").unwrap().1);
+    println!("{:#?}", TailwindInstruction::parse("not-hover:sm:text-red-200").unwrap().1);
+    println!("{:#?}", TailwindInstruction::parse_list("w-full sm:w-auto").unwrap().1);
 }
 
 #[test]
