@@ -1,12 +1,7 @@
 use super::*;
 
-
 impl<'a> From<ASTVariant<'a>> for TailwindVariant {
-    fn from(_: ASTVariant<'a>) -> Self {
-        Self {
-            not: false,
-            pseudo: false,
-            names: vec![]
-        }
+    fn from(node: ASTVariant<'a>) -> Self {
+        Self::new(&node.names, node.not, node.pseudo)
     }
 }

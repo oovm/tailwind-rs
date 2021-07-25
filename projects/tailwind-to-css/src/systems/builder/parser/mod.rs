@@ -1,12 +1,9 @@
-mod display;
 mod methods;
 mod parser;
 mod utils;
 
 pub use self::utils::*;
 use super::*;
-
-pub struct AstStyle {}
 
 /// https://github.com/tw-in-js/twind/blob/main/src/twind/variants.ts
 #[derive(Debug)]

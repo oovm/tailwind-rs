@@ -1,13 +1,15 @@
 use super::*;
+mod display;
+mod methods;
 mod resolver;
 
 /// `v:v:-a-a-[A]`
-#[derive(Clone)]
+#[derive(Debug, Clone)]
 pub struct TailwindInstruction {
     negative: bool,
     variants: Vec<TailwindVariant>,
     elements: Vec<String>,
-    arbitrary: Option<TailwindArbitrary>,
+    arbitrary: TailwindArbitrary,
 }
 
 #[derive(Debug, Clone)]
@@ -19,11 +21,5 @@ pub struct TailwindVariant {
 
 #[derive(Debug, Clone)]
 pub struct TailwindArbitrary {
-    inner: String,
-}
-
-impl TailwindVariant {
-    pub fn new(names: &[&str], not: bool, pseudo: bool) {
-        Self {}
-    }
+    inner: Option<String>,
 }

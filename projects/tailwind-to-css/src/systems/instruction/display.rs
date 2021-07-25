@@ -15,9 +15,14 @@ impl Display for TailwindVariant {
     }
 }
 
-impl Debug for TailwindInstruction {
+impl Display for TailwindInstruction {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let w = &mut f.debug_struct("TailwindStyle");
+
+        if self.negative {
+            write!(f, "-")?
+        }
+
         w.field("negative", &self.negative);
         let variants: Vec<_> = self.variants.iter().map(|e| e.to_string()).collect();
         w.field("variants", &variants);
@@ -27,5 +32,18 @@ impl Debug for TailwindInstruction {
             w.field("arbitrary", s);
         }
         w.finish()
+    }
+}
+
+impl Display for TailwindArbitrary {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match &self.inner {
+            None => {
+                write!(f, "")
+            }
+            Some(s) => {
+                write!(f, "-[{}]", s)
+            }
+        }
     }
 }
