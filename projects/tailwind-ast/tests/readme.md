@@ -1,0 +1,5 @@
+## Tests
+
+```bash
+wee test
+```

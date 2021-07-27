@@ -8,18 +8,23 @@ mod resolver;
 pub struct TailwindInstruction {
     negative: bool,
     variants: Vec<TailwindVariant>,
-    elements: Vec<String>,
+    elements: TailwindElements,
     arbitrary: TailwindArbitrary,
 }
 
 #[derive(Debug, Clone)]
-pub struct TailwindVariant {
-    not: bool,
-    pseudo: bool,
-    names: Vec<String>,
+pub(crate) struct TailwindVariant {
+    pub(crate) not: bool,
+    pub(crate) pseudo: bool,
+    pub(crate) names: Vec<String>,
 }
 
 #[derive(Debug, Clone)]
-pub struct TailwindArbitrary {
-    inner: Option<String>,
+pub(crate) struct TailwindElements {
+    pub(crate) inner: Vec<String>,
+}
+
+#[derive(Debug, Clone)]
+pub(crate) struct TailwindArbitrary {
+    pub(crate) inner: Option<String>,
 }

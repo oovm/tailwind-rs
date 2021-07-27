@@ -1,8 +1,5 @@
-mod methods;
 mod parser;
-mod utils;
 
-pub use self::utils::*;
 use super::*;
 
 /// https://github.com/tw-in-js/twind/blob/main/src/twind/variants.ts

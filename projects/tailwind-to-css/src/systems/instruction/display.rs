@@ -1,37 +1,33 @@
 use super::*;
 
-impl Display for TailwindVariant {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        if self.not {
-            f.write_str("not-")?
-        }
-        for (i, s) in self.names.iter().enumerate() {
-            f.write_str(s)?;
-            if i + 1 != self.names.len() {
-                f.write_char('-')?
-            }
-        }
-        Ok(())
-    }
-}
-
 impl Display for TailwindInstruction {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let w = &mut f.debug_struct("TailwindStyle");
-
+        for v in &self.variants {
+            write!(f, "{}", v)?
+        }
         if self.negative {
             write!(f, "-")?
         }
+        write!(f, "{}{}", self.elements, self.arbitrary)
+    }
+}
 
-        w.field("negative", &self.negative);
-        let variants: Vec<_> = self.variants.iter().map(|e| e.to_string()).collect();
-        w.field("variants", &variants);
-        let elements: Vec<_> = self.elements.iter().map(|e| &e.0).collect();
-        w.field("elements", &elements);
-        if let Some(s) = &self.arbitrary {
-            w.field("arbitrary", s);
+impl Display for TailwindVariant {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        if self.not {
+            write!(f, "not-")?
         }
-        w.finish()
+        write!(f, "{}", self.names.join("-"))?;
+        match self.pseudo {
+            true => {write!(f, "::")}
+            false => {write!(f, ":")}
+        }
+    }
+}
+
+impl Display for TailwindElements {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.inner.join("-"))
     }
 }
 

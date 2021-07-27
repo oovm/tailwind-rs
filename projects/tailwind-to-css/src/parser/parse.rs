@@ -1,11 +1,6 @@
 use super::*;
 
-
 impl<'a> ASTVariant<'a> {
-    
-}
-
-impl TailwindVariant {
     /// `(not-)?(ALPHA)(-ALPHA)*`
     ///
     /// eg:
@@ -49,3 +44,5 @@ impl TailwindVariant {
         )
     }
 }
+
+impl<'a> AstArbitrary<'a> {}
