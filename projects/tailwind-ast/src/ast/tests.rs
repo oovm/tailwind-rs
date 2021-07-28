@@ -1,19 +1,46 @@
 use super::*;
 
 #[test]
-fn test_style() {
-    // w-full sm:w-auto text-lg uppercase text-gray-100 bg-purple-800 hover:bg-purple-700 focus:bg-purple-700 focus-visible:ring-4 ring-purple-400 px-6
-    println!("{:#?}", TailwindInstruction::parse("not-hover:sm:text-red-200").unwrap().1);
-    println!("{:#?}", TailwindInstruction::parse_list("w-full sm:w-auto").unwrap().1);
+fn test_reference() {
+    let input = AstReference::parse("&").unwrap().1;
+    let output = AstReference {};
+    assert_eq!(input, output);
 }
 
 #[test]
-fn test_group() {
-    println!("{:#?}", AstGroup::parse_list("w(full sm:auto)").unwrap().1);
-    println!("{:#?}", AstGroup::parse_list("not-hover:sm:text-red-200").unwrap().1);
+fn test_arbitrary() {
+    let input = AstArbitrary::parse("-[#FFF]").unwrap().1;
+    let output = AstArbitrary { arbitrary: "#FFF" };
+    assert_eq!(input, output);
 }
 
 #[test]
-fn test_group_expand() {
-    println!("{:#?}", TailwindBuilder::parse_styles("w(full sm:auto)"));
+#[should_panic]
+fn test_arbitrary_bad1() {
+    AstArbitrary::parse("-[]").unwrap();
 }
+
+#[test]
+fn test_variant() {
+    let input = ASTVariant::parse("not-hover:").unwrap().1;
+    let output = vec![ASTVariant { not: true, pseudo: false, names: vec!["hover"] }];
+    assert_eq!(input, output);
+}
+
+// #[test]
+// fn test_style() {
+//     // w-full sm:w-auto text-lg uppercase text-gray-100 bg-purple-800 hover:bg-purple-700 focus:bg-purple-700 focus-visible:ring-4 ring-purple-400 px-6
+//     println!("{:#?}", TailwindInstruction::parse("not-hover:sm:text-red-200").unwrap().1);
+//     println!("{:#?}", TailwindInstruction::parse_list("w-full sm:w-auto").unwrap().1);
+// }
+//
+// #[test]
+// fn test_group() {
+//     println!("{:#?}", AstGroup::parse_list("w(full sm:auto)").unwrap().1);
+//     println!("{:#?}", AstGroup::parse_list("not-hover:sm:text-red-200").unwrap().1);
+// }
+//
+// #[test]
+// fn test_group_expand() {
+//     println!("{:#?}", TailwindBuilder::parse_styles("w(full sm:auto)"));
+// }
