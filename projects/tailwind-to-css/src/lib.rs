@@ -8,7 +8,6 @@
 
 extern crate core;
 
-mod parser;
 // mod css;
 mod macros;
 mod modules;
@@ -20,9 +19,9 @@ pub use self::{
         accessibility::*, background::*, borders::*, effects::*, filters::*, flexbox::*, interactivity::*, layouts::*,
         sizing::*, spacing::*, tables::*, transforms::*, transition::*, typography::*,
     },
-    parser::utils::*,
     systems::{breakpoints::*, builder::*, colors::*, css_global::*, fonts::*, length::*, preflight::*},
     traits::{CssAttribute, ParsedItem, ParsedList, TailwindInstance, TailwindObject},
 };
 pub use systems::{breakpoints::*, colors::*, preflight::*};
+pub use tailwind_ast::::utils::*;
 pub use tailwind_error::{Result, TailwindError, TailwindErrorKind};

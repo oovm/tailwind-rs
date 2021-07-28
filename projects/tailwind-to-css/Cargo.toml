@@ -12,11 +12,14 @@ edition = "2021"
 [dependencies]
 css-color-parser = "0.1.2"
 log = "0.4.14"
+tailwind-ast = {version = "0.1.0", path = "../tailwind-ast"}
 
 [dependencies.tailwind-error]
 version = "1.0.*"
 path = "../tailwind-error"
 features = ["nom"]
+
+
 
 [dev-dependencies]
 

@@ -1,3 +1,54 @@
+use super::*;
+use nom::{
+    branch::alt,
+    character::complete::alphanumeric1,
+    multi::{many0, separated_list0},
+};
+
+impl<'a> ASTVariant<'a> {
+    /// `(not-)?(ALPHA)(-ALPHA)*`
+    ///
+    /// eg:
+    /// - `not-focus`
+    /// - `not-last-child`
+    pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
+        let not = opt(tuple((tag("not"), tag("-"))));
+        let vs = separated_list0(tag("-"), alphanumeric1);
+        let (rest, (not, names)) = tuple((not, vs))(input)?;
+        let pseudo = Self::check_pseudo(&names.iter().map(<_>::as_ref).collect::<Vec<_>>());
+        Ok((rest, Self { not: not.is_some(), pseudo, names }))
+    }
+    /// `var:var::`
+    pub fn parse_many(input: &'a str) -> IResult<&'a str, Vec<Self>> {
+        let (rest, out) = many0(tuple((Self::parse, alt((tag("::"), tag(":"))))))(input)?;
+        let mut v = vec![];
+        for (a, s) in out {
+            let mut a = a;
+            if s == "::" {
+                a.pseudo = true
+            }
+            v.push(a)
+        }
+        Ok((rest, v))
+    }
+    #[rustfmt::skip]
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements#index
+    fn check_pseudo(names: &[&str]) -> bool {
+        matches!(names
+            , ["after"]
+            | ["before"]
+            | ["backdrop"]
+            | ["marker"]
+            | ["placeholder"]
+            | ["selection"]
+            | ["first", "line"]
+            | ["first", "litter"]
+            | ["first", "selector", "button"]
+            | ["target", "text"]
+        )
+    }
+}
+
 impl AstArbitrary {
     pub fn parse(input: &str) -> IResult<&str, Self> {
         let (rest, r) = delimited(char('['), take_till1(|c| c != ']'), char(']'))(input)?;
@@ -114,22 +165,4 @@ impl TailwindBuilder {
         let g = AstGroup::parse_list(input.trim())?.1;
         Ok(AstGroup::expand_list(g))
     }
-}
-
-#[test]
-fn test_style() {
-    // w-full sm:w-auto text-lg uppercase text-gray-100 bg-purple-800 hover:bg-purple-700 focus:bg-purple-700 focus-visible:ring-4 ring-purple-400 px-6
-    println!("{:#?}", TailwindInstruction::parse("not-hover:sm:text-red-200").unwrap().1);
-    println!("{:#?}", TailwindInstruction::parse_list("w-full sm:w-auto").unwrap().1);
-}
-
-#[test]
-fn test_group() {
-    println!("{:#?}", AstGroup::parse_list("w(full sm:auto)").unwrap().1);
-    println!("{:#?}", AstGroup::parse_list("not-hover:sm:text-red-200").unwrap().1);
-}
-
-#[test]
-fn test_group_expand() {
-    println!("{:#?}", TailwindBuilder::parse_styles("w(full sm:auto)"));
 }
