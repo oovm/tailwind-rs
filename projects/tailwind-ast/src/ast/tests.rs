@@ -27,6 +27,31 @@ fn test_variant() {
     assert_eq!(input, output);
 }
 
+#[test]
+fn test_style() {
+    let input = AstStyle::parse("-top-1").unwrap().1;
+    let output = AstStyle {
+        //
+        negative: true,
+        variants: vec![],
+        elements: vec!["top", "1"],
+        arbitrary: None,
+    };
+    assert_eq!(input, output);
+    let input = AstStyle::parse("not-hover:sm:text-red-[200/50]").unwrap().1;
+    let output = AstStyle {
+        //
+        negative: false,
+        variants: vec![
+            ASTVariant { not: true, pseudo: false, names: vec!["hover"] },
+            ASTVariant { not: false, pseudo: false, names: vec!["sm"] },
+        ],
+        elements: vec!["text", "red"],
+        arbitrary: Some("200/50"),
+    };
+    assert_eq!(input, output);
+}
+
 // #[test]
 // fn test_style() {
 //     // w-full sm:w-auto text-lg uppercase text-gray-100 bg-purple-800 hover:bg-purple-700 focus:bg-purple-700 focus-visible:ring-4 ring-purple-400 px-6

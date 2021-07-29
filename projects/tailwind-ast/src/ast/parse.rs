@@ -1,7 +1,7 @@
 use super::*;
 use nom::{
     branch::alt,
-    bytes::complete::take_till1,
+    bytes::complete::{take_till, take_till1},
     character::complete::alphanumeric1,
     multi::{many0, separated_list0},
     sequence::delimited,
@@ -10,14 +10,23 @@ use nom::{
 impl<'a> AstStyle<'a> {
     /// `v:v::-?a-a-a-[A]`
     pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
-        let (rest, (variants, negative, arbitrary)) =
-            tuple((ASTVariant::parse, opt(char('-')), opt(AstArbitrary::parse)))(input)?;
+        let (rest, (variants, negative, elements, arbitrary)) = tuple((
+            ASTVariant::parse,
+            opt(char('-')),
+            AstElements::parse,
+            opt(AstArbitrary::parse),
+        ))(input)?;
 
-        Ok((rest, Self { negative: negative.is_some(), variants, elements: vec![], arbitrary }))
+        Ok((
+            rest,
+            Self {
+                negative: negative.is_some(),
+                variants,
+                elements: elements.elements,
+                arbitrary: arbitrary.map(|s| s.arbitrary),
+            },
+        ))
     }
-
-    #[inline]
-    fn parse_elements() {}
 }
 
 impl<'a> ASTVariant<'a> {
@@ -84,18 +93,26 @@ impl AstReference {
     }
 }
 
-// impl AstElement {
-//     fn parse(input: &str) -> IResult<&str, Self> {
-//         let stop = |c: char| -> bool { matches!(c, ':' | '|' | '[' | ']' | '(' | ')' | ' ') };
-//         let (rest, s) = take_till(stop)(input)?;
-//         Ok((rest, Self(s.to_string())))
-//     }
-// }
-//
-// impl TailwindInstruction {
+impl<'a> AstElements<'a> {
+    /// a(-a)*
+    pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
+        let (rest, (first, other)) = tuple((Self::parse_head, many0(Self::parse_rest)))(input)?;
+        let mut out = vec![first];
+        out.extend(other.into_iter());
+        Ok((rest, Self { elements: out }))
+    }
+    #[inline]
+    fn parse_head(input: &'a str) -> IResult<&'a str, &'a str> {
+        let stop = |c: char| -> bool { matches!(c, ' ' | '-' | '[') };
+        take_till1(stop)(input)
+    }
+    #[inline]
+    fn parse_rest(input: &'a str) -> IResult<&'a str, &'a str> {
+        let (rest, (_, out)) = tuple((char('-'), Self::parse_head))(input)?;
+        Ok((rest, out))
+    }
+}
 
-// }
-//
 // impl TailwindInstruction {
 //     #[inline]
 //     pub fn view_elements(&self) -> Vec<&str> {

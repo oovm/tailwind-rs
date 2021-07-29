@@ -2,7 +2,9 @@ mod parse;
 #[cfg(test)]
 mod tests;
 // mod tests;
-use nom::{bytes::complete::tag, character::complete::char, combinator::opt, sequence::tuple, IResult};
+use nom::{
+    bytes::complete::tag, character::complete::char, combinator::opt, sequence::tuple, IResult,
+};
 
 pub fn parse_tailwind(input: &str) -> AstNode {
     todo!()
@@ -23,12 +25,12 @@ pub enum AstNode<'a> {
 }
 
 ///
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct AstStyle<'a> {
     pub negative: bool,
     pub variants: Vec<ASTVariant<'a>>,
     pub elements: Vec<&'a str>,
-    pub arbitrary: Option<AstArbitrary<'a>>,
+    pub arbitrary: Option<&'a str>,
 }
 
 ///
