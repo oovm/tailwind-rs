@@ -3,6 +3,10 @@ mod display;
 mod methods;
 mod resolver;
 
+pub fn parse_tailwind(input: &str) -> Vec<TailwindInstruction> {
+    todo!()
+}
+
 #[cfg(test)]
 pub fn tw_idempotency(input1: &str, builder: &mut TailwindBuilder) {
     let input2 = &builder.trace(input1);

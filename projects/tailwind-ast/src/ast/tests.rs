@@ -22,13 +22,25 @@ fn test_arbitrary_bad1() {
 
 #[test]
 fn test_variant() {
-    let input = ASTVariant::parse("not-hover:").unwrap().1;
-    let output = vec![ASTVariant { not: true, pseudo: false, names: vec!["hover"] }];
+    let input = ASTVariant::parse("not-hover::").unwrap().1;
+    let output = ASTVariant { not: true, pseudo: true, names: vec!["hover"] };
+    assert_eq!(input, output);
+    let input = ASTVariant::parse("sm:").unwrap().1;
+    let output = ASTVariant { not: false, pseudo: false, names: vec!["sm"] };
     assert_eq!(input, output);
 }
 
 #[test]
 fn test_style() {
+    let input = AstStyle::parse("full").unwrap().1;
+    let output = AstStyle {
+        //
+        negative: false,
+        variants: vec![],
+        elements: vec!["full"],
+        arbitrary: None,
+    };
+    assert_eq!(input, output);
     let input = AstStyle::parse("-top-1").unwrap().1;
     let output = AstStyle {
         //
@@ -48,6 +60,44 @@ fn test_style() {
         ],
         elements: vec!["text", "red"],
         arbitrary: Some("200/50"),
+    };
+    assert_eq!(input, output);
+}
+
+// #[test]
+// #[should_panic]
+// fn test_style_bad1() {
+//     AstStyle::parse(":a-[]").unwrap();
+// }
+
+#[test]
+fn test_group() {
+    let input = AstGroup::parse("w(full sm:auto)").unwrap().1;
+    let output = AstGroup {
+        head: AstStyle { negative: false, variants: vec![], elements: vec!["w"], arbitrary: None },
+        children: vec![
+            AstStyle { negative: false, variants: vec![], elements: vec!["full"], arbitrary: None },
+            AstStyle {
+                negative: false,
+                variants: vec![ASTVariant { not: false, pseudo: false, names: vec!["sm"] }],
+                elements: vec!["auto"],
+                arbitrary: None,
+            },
+        ],
+    };
+    assert_eq!(input, output);
+    let input = AstGroup::parse("rotate(-3 hover:6 md:(3 hover:-6))").unwrap().1;
+    let output = AstGroup {
+        head: AstStyle { negative: false, variants: vec![], elements: vec!["w"], arbitrary: None },
+        children: vec![
+            AstStyle { negative: false, variants: vec![], elements: vec!["full"], arbitrary: None },
+            AstStyle {
+                negative: false,
+                variants: vec![ASTVariant { not: false, pseudo: false, names: vec!["sm"] }],
+                elements: vec!["auto"],
+                arbitrary: None,
+            },
+        ],
     };
     assert_eq!(input, output);
 }

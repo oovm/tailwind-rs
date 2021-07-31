@@ -1,3 +1,4 @@
+mod methods;
 mod parse;
 #[cfg(test)]
 mod tests;
@@ -6,22 +7,19 @@ use nom::{
     bytes::complete::tag, character::complete::char, combinator::opt, sequence::tuple, IResult,
 };
 
-pub fn parse_tailwind(input: &str) -> AstNode {
-    todo!()
+///
+#[derive(Clone, Debug, PartialEq)]
+pub struct AstGroup<'a> {
+    head: AstStyle<'a>,
+    children: Vec<AstGroupItem<'a>>,
 }
 
 ///
-#[derive(Clone, Debug)]
-pub enum AstNode<'a> {
-    Root(Vec<AstNode<'a>>),
+#[derive(Clone, Debug, PartialEq)]
+pub enum AstGroupItem<'a> {
+    Grouped(AstGroup<'a>),
     Styled(AstStyle<'a>),
-    /// `[.]`
-    Arbitrary(AstArbitrary<'a>),
     SelfReference(AstReference),
-    Grouped {
-        variants: Vec<ASTVariant<'a>>,
-        children: Vec<AstNode<'a>>,
-    },
 }
 
 ///

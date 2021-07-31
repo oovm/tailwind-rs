@@ -25,3 +25,7 @@ features = ["nom"]
 
 [features]
 default = []
+
+[package.metadata.wee]
+t = "cargo test"
+p = "cargo publish --allow-dirty"

@@ -1,17 +1,49 @@
 use super::*;
 use nom::{
     branch::alt,
-    bytes::complete::{take_till, take_till1},
-    character::complete::alphanumeric1,
+    bytes::complete::take_till1,
+    character::complete::{alphanumeric1, multispace0, multispace1},
     multi::{many0, separated_list0},
     sequence::delimited,
 };
+
+impl<'a> AstGroupItem<'a> {
+    pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
+        alt((Self::parse_style,))(input)
+    }
+    #[inline]
+    fn parse_style(input: &'a str) -> IResult<&'a str, Self> {
+        AstStyle::parse(input).map(|(rest, ok)| (rest, Self::Styled(ok)))
+    }
+    // #[inline]
+    // fn parse_self(input: &'a str) -> IResult<&'a str, Self> {
+    //     AstReference::parse(input).map(|(rest, ok)| (rest, Self::SelfReference(ok)))
+    // }
+}
+
+impl<'a> AstGroup<'a> {
+    /// `v:a?(a(a b))`
+    pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
+        let (rest, (head, children)) = tuple((AstStyle::parse, Self::parse_many))(input)?;
+        Ok((rest, Self { head, children }))
+    }
+    #[inline]
+    fn parse_many(input: &'a str) -> IResult<&'a str, Vec<AstStyle>> {
+        let head = AstStyle::parse;
+        let rest = many0(tuple((multispace1, AstStyle::parse)));
+        let many = tuple((multispace0, head, rest, multispace0));
+        let (rest, (_, first, other, _)) = delimited(char('('), many, char(')'))(input)?;
+        let mut out = vec![first];
+        out.extend(other.into_iter().map(|s| s.1));
+        Ok((rest, out))
+    }
+}
 
 impl<'a> AstStyle<'a> {
     /// `v:v::-?a-a-a-[A]`
     pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
         let (rest, (variants, negative, elements, arbitrary)) = tuple((
-            ASTVariant::parse,
+            many0(ASTVariant::parse),
             opt(char('-')),
             AstElements::parse,
             opt(AstArbitrary::parse),
@@ -29,20 +61,38 @@ impl<'a> AstStyle<'a> {
     }
 }
 
+impl<'a> AstElements<'a> {
+    /// a(-a)*
+    pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
+        let (rest, (first, other)) = tuple((Self::parse_head, many0(Self::parse_rest)))(input)?;
+        let mut out = vec![first];
+        out.extend(other.into_iter());
+        Ok((rest, Self { elements: out }))
+    }
+    #[inline]
+    fn parse_head(input: &'a str) -> IResult<&'a str, &'a str> {
+        let stop = |c: char| -> bool { matches!(c, ' ' | '-' | '[' | ']' | '(' | ')') };
+        take_till1(stop)(input)
+    }
+    #[inline]
+    fn parse_rest(input: &'a str) -> IResult<&'a str, &'a str> {
+        let (rest, (_, out)) = tuple((char('-'), Self::parse_head))(input)?;
+        Ok((rest, out))
+    }
+}
+
 impl<'a> ASTVariant<'a> {
     /// `(not-)?variant:pseudo::`
     ///
     /// ## Reference
     /// -
-    pub fn parse(input: &'a str) -> IResult<&'a str, Vec<Self>> {
-        let (rest, out) = many0(tuple((Self::parse_one, alt((tag("::"), tag(":"))))))(input)?;
-        let mut v = vec![];
-        for (a, s) in out {
-            let mut a = a;
-            if s == "::" {
-                a.pseudo = true
-            }
-            v.push(a)
+    pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
+        let (rest, (mut v, s)) = tuple((Self::parse_one, alt((tag("::"), tag(":")))))(input)?;
+        if s == "::" {
+            v.pseudo = true
+        }
+        else {
+            v.pseudo = Self::check_pseudo(&v.names.iter().map(<_>::as_ref).collect::<Vec<_>>());
         }
         Ok((rest, v))
     }
@@ -55,8 +105,7 @@ impl<'a> ASTVariant<'a> {
         let not = opt(tuple((tag("not"), tag("-"))));
         let vs = separated_list0(tag("-"), alphanumeric1);
         let (rest, (not, names)) = tuple((not, vs))(input)?;
-        let pseudo = Self::check_pseudo(&names.iter().map(<_>::as_ref).collect::<Vec<_>>());
-        Ok((rest, Self { not: not.is_some(), pseudo, names }))
+        Ok((rest, Self { not: not.is_some(), pseudo: false, names }))
     }
     #[rustfmt::skip]
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements#index
@@ -92,95 +141,3 @@ impl AstReference {
         Ok((rest, Self {}))
     }
 }
-
-impl<'a> AstElements<'a> {
-    /// a(-a)*
-    pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
-        let (rest, (first, other)) = tuple((Self::parse_head, many0(Self::parse_rest)))(input)?;
-        let mut out = vec![first];
-        out.extend(other.into_iter());
-        Ok((rest, Self { elements: out }))
-    }
-    #[inline]
-    fn parse_head(input: &'a str) -> IResult<&'a str, &'a str> {
-        let stop = |c: char| -> bool { matches!(c, ' ' | '-' | '[') };
-        take_till1(stop)(input)
-    }
-    #[inline]
-    fn parse_rest(input: &'a str) -> IResult<&'a str, &'a str> {
-        let (rest, (_, out)) = tuple((char('-'), Self::parse_head))(input)?;
-        Ok((rest, out))
-    }
-}
-
-// impl TailwindInstruction {
-//     #[inline]
-//     pub fn view_elements(&self) -> Vec<&str> {
-//         self.elements.iter().map(|s| s.0.as_str()).collect()
-//     }
-//     #[inline]
-//     pub fn view_arbitrary(&self) -> &str {
-//         match &self.arbitrary {
-//             None => "",
-//             Some(setter) => setter.0.as_str(),
-//         }
-//     }
-//     // TODO
-//     pub fn normalization(self) -> Self {
-//         self
-//     }
-// }
-//
-// impl AstGroup {
-//     pub fn parse(input: &str) -> IResult<&str, Self> {
-//         alt((Self::parse_grouped, Self::parse_standalone))(input)
-//     }
-//     pub fn parse_list(input: &str) -> IResult<&str, Vec<Self>> {
-//         separated_list0(multispace1, Self::parse)(input)
-//     }
-//     #[inline]
-//     fn parse_standalone(input: &str) -> IResult<&str, Self> {
-//         let (rest, inner) = TailwindInstruction::parse(input)?;
-//         Ok((rest, Self::Standalone { inner }))
-//     }
-//     #[inline]
-//     fn parse_grouped(input: &str) -> IResult<&str, Self> {
-//         let lhs = tuple((TailwindVariant::parse_many, opt(AstElement::parse)));
-//         let rhs = delimited(char('('), TailwindInstruction::parse_list, char(')'));
-//         let (rest, ((variants, elements), inner)) = tuple((lhs, rhs))(input)?;
-//         Ok((rest, Self::Grouped { variants, elements, inner }))
-//     }
-//
-//     pub fn expand(s: Self, buffer: &mut Vec<TailwindInstruction>) {
-//         match s {
-//             Self::Standalone { inner } => buffer.push(inner),
-//             Self::Grouped { variants: vl, elements: el, inner } => {
-//                 for TailwindInstruction { negative, variants: vr, elements: er, arbitrary } in inner {
-//                     let mut variants = vl.clone();
-//                     variants.extend(vr.into_iter());
-//                     let mut elements = match el.clone() {
-//                         None => vec![],
-//                         Some(s) => vec![s],
-//                     };
-//                     elements.extend(er.into_iter());
-//                     let new = TailwindInstruction { negative, variants, elements, arbitrary };
-//                     buffer.push(new);
-//                 }
-//             }
-//         }
-//     }
-//     pub fn expand_list(v: Vec<Self>) -> Vec<TailwindInstruction> {
-//         let mut out = vec![];
-//         for i in v {
-//             Self::expand(i, &mut out)
-//         }
-//         out
-//     }
-// }
-//
-// impl TailwindBuilder {
-//     pub fn parse_styles(input: &str) -> Result<Vec<TailwindInstruction>> {
-//         let g = AstGroup::parse_list(input.trim())?.1;
-//         Ok(AstGroup::expand_list(g))
-//     }
-// }
