@@ -7,9 +7,27 @@ use nom::{
     sequence::delimited,
 };
 
+impl<'a> AstGroup<'a> {
+    /// `v:a?(a(a b))`
+    pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
+        let (rest, (head, children)) = tuple((AstStyle::parse, Self::parse_many))(input)?;
+        Ok((rest, Self { head, children }))
+    }
+    #[inline]
+    fn parse_many(input: &'a str) -> IResult<&'a str, Vec<AstGroupItem>> {
+        let head = AstGroupItem::parse;
+        let rest = many0(tuple((multispace1, AstGroupItem::parse)));
+        let many = tuple((multispace0, head, rest, multispace0));
+        let (rest, (_, first, other, _)) = delimited(char('('), many, char(')'))(input)?;
+        let mut out = vec![first];
+        out.extend(other.into_iter().map(|s| s.1));
+        Ok((rest, out))
+    }
+}
+
 impl<'a> AstGroupItem<'a> {
     pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
-        alt((Self::parse_style,))(input)
+        alt((Self::parse_nested, Self::parse_style))(input)
     }
     #[inline]
     fn parse_style(input: &'a str) -> IResult<&'a str, Self> {
@@ -19,23 +37,9 @@ impl<'a> AstGroupItem<'a> {
     // fn parse_self(input: &'a str) -> IResult<&'a str, Self> {
     //     AstReference::parse(input).map(|(rest, ok)| (rest, Self::SelfReference(ok)))
     // }
-}
-
-impl<'a> AstGroup<'a> {
-    /// `v:a?(a(a b))`
-    pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
-        let (rest, (head, children)) = tuple((AstStyle::parse, Self::parse_many))(input)?;
-        Ok((rest, Self { head, children }))
-    }
     #[inline]
-    fn parse_many(input: &'a str) -> IResult<&'a str, Vec<AstStyle>> {
-        let head = AstStyle::parse;
-        let rest = many0(tuple((multispace1, AstStyle::parse)));
-        let many = tuple((multispace0, head, rest, multispace0));
-        let (rest, (_, first, other, _)) = delimited(char('('), many, char(')'))(input)?;
-        let mut out = vec![first];
-        out.extend(other.into_iter().map(|s| s.1));
-        Ok((rest, out))
+    fn parse_nested(input: &'a str) -> IResult<&'a str, Self> {
+        AstGroup::parse(input).map(|(rest, ok)| (rest, Self::Grouped(ok)))
     }
 }
 
@@ -45,7 +49,7 @@ impl<'a> AstStyle<'a> {
         let (rest, (variants, negative, elements, arbitrary)) = tuple((
             many0(ASTVariant::parse),
             opt(char('-')),
-            AstElements::parse,
+            opt(AstElements::parse),
             opt(AstArbitrary::parse),
         ))(input)?;
 
@@ -54,7 +58,7 @@ impl<'a> AstStyle<'a> {
             Self {
                 negative: negative.is_some(),
                 variants,
-                elements: elements.elements,
+                elements: elements.unwrap_or_default().elements,
                 arbitrary: arbitrary.map(|s| s.arbitrary),
             },
         ))

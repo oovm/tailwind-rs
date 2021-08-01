@@ -19,7 +19,7 @@ pub struct AstGroup<'a> {
 pub enum AstGroupItem<'a> {
     Grouped(AstGroup<'a>),
     Styled(AstStyle<'a>),
-    SelfReference(AstReference),
+    // SelfReference(AstReference),
 }
 
 ///
@@ -37,7 +37,7 @@ pub struct AstArbitrary<'a> {
     pub arbitrary: &'a str,
 }
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Default)]
 pub struct AstElements<'a> {
     pub elements: Vec<&'a str>,
 }
