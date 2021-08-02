@@ -26,6 +26,7 @@ impl<'a> AstGroup<'a> {
 }
 
 impl<'a> AstGroupItem<'a> {
+    /// [`AstGroup`] or [`AstStyle`]
     pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
         alt((Self::parse_nested, Self::parse_style))(input)
     }
