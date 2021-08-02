@@ -1,14 +1,8 @@
 use super::*;
-use nom::{
-    branch::alt,
-    bytes::complete::take_till1,
-    character::complete::{alphanumeric1, multispace0, multispace1},
-    multi::{many0, separated_list0},
-    sequence::delimited,
-};
 
 impl<'a> AstGroup<'a> {
     /// `v:a?(a(a b))`
+    #[inline]
     pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
         let (rest, (head, children)) = tuple((AstStyle::parse, Self::parse_many))(input)?;
         Ok((rest, Self { head, children }))
@@ -27,6 +21,7 @@ impl<'a> AstGroup<'a> {
 
 impl<'a> AstGroupItem<'a> {
     /// [`AstGroup`] or [`AstStyle`]
+    #[inline]
     pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
         alt((Self::parse_nested, Self::parse_style))(input)
     }
@@ -46,6 +41,7 @@ impl<'a> AstGroupItem<'a> {
 
 impl<'a> AstStyle<'a> {
     /// `v:v::-?a-a-a-[A]`
+    #[inline]
     pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
         let (rest, (variants, negative, elements, arbitrary)) = tuple((
             many0(ASTVariant::parse),
@@ -68,6 +64,7 @@ impl<'a> AstStyle<'a> {
 
 impl<'a> AstElements<'a> {
     /// a(-a)*
+    #[inline]
     pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
         let (rest, (first, other)) = tuple((Self::parse_head, many0(Self::parse_rest)))(input)?;
         let mut out = vec![first];
@@ -91,6 +88,7 @@ impl<'a> ASTVariant<'a> {
     ///
     /// ## Reference
     /// -
+    #[inline]
     pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
         let (rest, (mut v, s)) = tuple((Self::parse_one, alt((tag("::"), tag(":")))))(input)?;
         if s == "::" {
@@ -106,6 +104,7 @@ impl<'a> ASTVariant<'a> {
     /// eg:
     /// - `not-focus`
     /// - `not-last-child`
+    #[inline]
     fn parse_one(input: &'a str) -> IResult<&'a str, Self> {
         let not = opt(tuple((tag("not"), tag("-"))));
         let vs = separated_list0(tag("-"), alphanumeric1);
@@ -114,7 +113,7 @@ impl<'a> ASTVariant<'a> {
     }
     #[rustfmt::skip]
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements#index
-    fn check_pseudo(names: &[&str]) -> bool {
+    #[inline]    fn check_pseudo(names: &[&str]) -> bool {
         matches!(names
             , ["after"]
             | ["before"]
@@ -132,6 +131,7 @@ impl<'a> ASTVariant<'a> {
 
 impl<'a> AstArbitrary<'a> {
     /// `-[ANY+]`
+    #[inline]
     pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
         let pair = delimited(char('['), take_till1(|c| c == ']'), char(']'));
         let (rest, (_, arbitrary)) = tuple((char('-'), pair))(input)?;
@@ -141,6 +141,7 @@ impl<'a> AstArbitrary<'a> {
 
 impl AstReference {
     /// `&`
+    #[inline]
     pub fn parse(input: &str) -> IResult<&str, Self> {
         let (rest, _) = char('&')(input)?;
         Ok((rest, Self {}))

@@ -174,20 +174,36 @@ fn test_group() {
     assert_eq!(input, output);
 }
 
-// #[test]
-// fn test_style() {
-//     // w-full sm:w-auto text-lg uppercase text-gray-100 bg-purple-800 hover:bg-purple-700 focus:bg-purple-700 focus-visible:ring-4 ring-purple-400 px-6
-//     println!("{:#?}", TailwindInstruction::parse("not-hover:sm:text-red-200").unwrap().1);
-//     println!("{:#?}", TailwindInstruction::parse_list("w-full sm:w-auto").unwrap().1);
-// }
-//
-// #[test]
-// fn test_group() {
-//     println!("{:#?}", AstGroup::parse_list("w(full sm:auto)").unwrap().1);
-//     println!("{:#?}", AstGroup::parse_list("not-hover:sm:text-red-200").unwrap().1);
-// }
-//
-// #[test]
-// fn test_group_expand() {
-//     println!("{:#?}", TailwindBuilder::parse_styles("w(full sm:auto)"));
-// }
+fn check_expand(input: &str, target: &str) {
+    let styles = parse_tailwind(input).unwrap();
+    let v: Vec<_> = styles.iter().map(|s| s.to_string()).collect();
+    let output = v.join(" ");
+    assert_eq!(target, output)
+}
+
+#[test]
+fn test_expand() {
+    check_expand("not-hover:sm:text-red-200", "");
+    check_expand("w(full sm:auto)", "w-full sm:w-auto");
+    check_expand("w(1/2 sm:1/3 lg:1/6) p-2", "w-1/2 sm:w-1/3 lg:w-1/6");
+    check_expand(
+        "rotate(-3 hover:6 md:(3 hover:-6))",
+        "-rotate-3 hover:rotate-6 md:rotate-3 md:hover:-rotate-6",
+    );
+    check_expand(
+        "ring(& pink-700 offset(4 pink-200))",
+        "ring ring-pink-700 ring-offset-4 ring-offset-pink-200",
+    );
+    check_expand(
+        r#"
+              bg-red-500 shadow-xs
+              sm:(
+                bg-red-600
+                shadow-sm
+              )
+              md:(bg-red-700 shadow)
+              lg:(bg-red-800 shadow-xl)
+        "#,
+        "",
+    );
+}

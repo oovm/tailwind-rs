@@ -4,8 +4,31 @@ mod parse;
 #[cfg(test)]
 mod tests;
 use nom::{
-    bytes::complete::tag, character::complete::char, combinator::opt, sequence::tuple, IResult,
+    branch::alt,
+    bytes::complete::{tag, take_till1},
+    character::complete::{alphanumeric1, char, multispace0, multispace1},
+    combinator::opt,
+    error::Error,
+    multi::{many0, separated_list0},
+    sequence::{delimited, tuple},
+    Err, IResult,
 };
+use std::{
+    fmt::{Display, Formatter},
+    ops::{Add, AddAssign},
+};
+///
+pub fn parse_tailwind(input: &str) -> Result<Vec<AstStyle>, Err<Error<&str>>> {
+    let groups = match tuple((multispace0, many0(tuple((AstGroup::parse, multispace0)))))(input) {
+        Ok(o) => o.1.1,
+        Err(e) => return Err(e),
+    };
+    let mut out = vec![];
+    for (g, _) in groups {
+        g.expand(&mut out)
+    }
+    Ok(out)
+}
 
 /// `variant:ast-style(grouped)`
 #[derive(Clone, Debug, PartialEq)]
