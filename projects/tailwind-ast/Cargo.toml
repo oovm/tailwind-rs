@@ -1,6 +1,6 @@
 [package]
 name = "tailwind-ast"
-version = "0.3.0"
+version = "0.3.2"
 authors = ["Aster <192607617@qq.com>"]
 description = "Tailwind ast + parser"
 repository = "https://github.com/oovm/tailwind-rs"

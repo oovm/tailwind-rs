@@ -11,8 +11,8 @@ impl<'a> AstGroup<'a> {
     fn parse_many(input: &'a str) -> IResult<&'a str, Vec<AstGroupItem>> {
         let head = AstGroupItem::parse;
         let rest = many0(tuple((multispace1, AstGroupItem::parse)));
-        let many = tuple((multispace0, head, rest, multispace0));
-        let (rest, (_, first, other, _)) = delimited(char('('), many, char(')'))(input)?;
+        let many = tuple((head, rest));
+        let (rest, (first, other)) = delimited(char('('), many, char(')'))(input.trim())?;
         let mut out = vec![first];
         out.extend(other.into_iter().map(|s| s.1));
         Ok((rest, out))
@@ -23,20 +23,25 @@ impl<'a> AstGroupItem<'a> {
     /// [`AstGroup`] or [`AstStyle`]
     #[inline]
     pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
-        alt((Self::parse_nested, Self::parse_style))(input)
+        let (rest, (head, group)) = tuple((AstStyle::parse, opt(AstGroup::parse_many)))(input)?;
+        let out = match group {
+            None => Self::Styled(head),
+            Some(children) => Self::Grouped(AstGroup { head, children }),
+        };
+        Ok((rest, out))
     }
-    #[inline]
-    fn parse_style(input: &'a str) -> IResult<&'a str, Self> {
-        AstStyle::parse(input).map(|(rest, ok)| (rest, Self::Styled(ok)))
-    }
+    // #[inline]
+    // fn parse_style(input: &'a str) -> IResult<&'a str, Self> {
+    //     AstStyle::parse(input).map(|(rest, ok)| (rest, Self::Styled(ok)))
+    // }
+    // #[inline]
+    // fn parse_nested(input: &'a str) -> IResult<&'a str, Self> {
+    //     AstGroup::parse(input).map(|(rest, ok)| (rest, Self::Grouped(ok)))
+    // }
     // #[inline]
     // fn parse_self(input: &'a str) -> IResult<&'a str, Self> {
     //     AstReference::parse(input).map(|(rest, ok)| (rest, Self::SelfReference(ok)))
     // }
-    #[inline]
-    fn parse_nested(input: &'a str) -> IResult<&'a str, Self> {
-        AstGroup::parse(input).map(|(rest, ok)| (rest, Self::Grouped(ok)))
-    }
 }
 
 impl<'a> AstStyle<'a> {
@@ -73,7 +78,10 @@ impl<'a> AstElements<'a> {
     }
     #[inline]
     fn parse_head(input: &'a str) -> IResult<&'a str, &'a str> {
-        let stop = |c: char| -> bool { matches!(c, ' ' | '-' | '[' | ']' | '(' | ')') };
+        let stop = |c: char| -> bool {
+            // space
+            matches!(c, ' ' | '\n' | '\r' | '-' | '[' | ']' | '(' | ')')
+        };
         take_till1(stop)(input)
     }
     #[inline]

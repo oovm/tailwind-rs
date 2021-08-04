@@ -174,6 +174,7 @@ fn test_group() {
     assert_eq!(input, output);
 }
 
+#[track_caller]
 fn check_expand(input: &str, target: &str) {
     let styles = parse_tailwind(input).unwrap();
     let v: Vec<_> = styles.iter().map(|s| s.to_string()).collect();
@@ -183,9 +184,9 @@ fn check_expand(input: &str, target: &str) {
 
 #[test]
 fn test_expand() {
-    check_expand("not-hover:sm:text-red-200", "");
+    check_expand("not-hover:sm:text-red-200", "not-hover:sm:text-red-200");
     check_expand("w(full sm:auto)", "w-full sm:w-auto");
-    check_expand("w(1/2 sm:1/3 lg:1/6) p-2", "w-1/2 sm:w-1/3 lg:w-1/6");
+    check_expand("w(1/2 sm:1/3 lg:1/6) p-2", "w-1/2 sm:w-1/3 lg:w-1/6 p-2");
     check_expand(
         "rotate(-3 hover:6 md:(3 hover:-6))",
         "-rotate-3 hover:rotate-6 md:rotate-3 md:hover:-rotate-6",
@@ -202,8 +203,8 @@ fn test_expand() {
                 shadow-sm
               )
               md:(bg-red-700 shadow)
-              lg:(bg-red-800 shadow-xl)
+              lg:(bg-red-800 shadow(xl))
         "#,
-        "",
+        "bg-red-500 shadow-xs sm:bg-red-600 sm:shadow-sm sm: md:bg-red-700 md:shadow lg:bg-red-800 lg:shadow-xl",
     );
 }
