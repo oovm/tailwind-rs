@@ -198,13 +198,15 @@ fn test_expand() {
     check_expand(
         r#"
               bg-red-500 shadow-xs
-              sm:(
-                bg-red-600
-                shadow-sm
+              sm:(bg-red-600 shadow-sm)
+              md:(
+                bg-red-700 shadow(md)
               )
-              md:(bg-red-700 shadow)
-              lg:(bg-red-800 shadow(xl))
+              lg:(
+                bg-red-800 
+                shadow(xl)
+              )
         "#,
-        "bg-red-500 shadow-xs sm:bg-red-600 sm:shadow-sm sm: md:bg-red-700 md:shadow lg:bg-red-800 lg:shadow-xl",
+        "bg-red-500 shadow-xs sm:bg-red-600 sm:shadow-sm md:bg-red-700 md:shadow-md lg:bg-red-800 lg:shadow-xl",
     );
 }
