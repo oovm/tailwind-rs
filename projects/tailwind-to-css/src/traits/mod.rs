@@ -2,7 +2,7 @@ pub mod attribute;
 pub mod instance;
 pub mod object;
 
-use crate::Result;
+use crate::{Result, TailwindBuilder};
 use std::{
     cmp::Ordering,
     collections::{BTreeSet, HashSet},

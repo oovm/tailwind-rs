@@ -14,6 +14,7 @@ use std::{
     fmt::{Debug, Display, Formatter, Write},
     str::FromStr,
 };
+use tailwind_ast::*;
 use tailwind_error::nom::{
     branch::alt,
     bytes::complete::tag,

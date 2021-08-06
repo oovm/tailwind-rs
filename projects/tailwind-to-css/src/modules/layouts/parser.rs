@@ -1,4 +1,5 @@
 use super::*;
+use crate::systems::instruction::TailwindArbitrary;
 
 impl AspectKind {
     #[inline]
@@ -22,8 +23,8 @@ impl AspectKind {
 
 impl TailwindAspect {
     /// https://tailwindcss.com/docs/aspect-ratio
-    pub fn parse(kind: &[&str], arbitrary: &str) -> Result<Self> {
-        debug_assert!(arbitrary.is_empty(), "forbidden arbitrary in aspect");
+    pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in aspect");
         Ok(Self { kind: AspectKind::parse(kind)? })
     }
 }
@@ -72,8 +73,8 @@ impl ColumnKind {
 
 impl TailwindColumns {
     /// https://tailwindcss.com/docs/columns
-    pub fn parse(input: &[&str], arbitrary: &str) -> Result<Self> {
-        debug_assert!(arbitrary.is_empty(), "forbidden arbitrary in aspect");
+    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in aspect");
         Ok(Self { kind: ColumnKind::parse(input)? })
     }
 }
@@ -113,7 +114,7 @@ impl TailwindBreakLayout {
 }
 
 impl TailwindObjectPosition {
-    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!("{}", arbitrary)
     }
 }
@@ -132,7 +133,8 @@ impl OverflowKind {
 }
 
 impl TailwindOverflow {
-    pub fn parse(kind: &[&str], axis: Option<bool>) -> Result<Self> {
+    pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary, axis: Option<bool>) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in overflow");
         let kind = OverflowKind::parse(kind)?;
         Ok(Self { kind, axis })
     }
@@ -151,7 +153,8 @@ impl OverscrollKind {
 }
 
 impl TailwindOverscroll {
-    pub fn parse(kind: &[&str], axis: Option<bool>) -> Result<Self> {
+    pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary, axis: Option<bool>) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in overflow");
         let kind = OverscrollKind::parse(kind)?;
         Ok(Self { kind, axis })
     }
@@ -184,8 +187,8 @@ impl TailWindZIndex {
 
 impl TailwindFloat {
     /// https://tailwindcss.com/docs/float
-    pub fn parse(kind: &[&str], arbitrary: &str) -> Result<Self> {
-        debug_assert!(arbitrary.is_empty(), "forbidden arbitrary in brightness");
+    pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in brightness");
         let out = match kind {
             ["left"] => Self { kind: FloatKind::Left },
             ["right"] => Self { kind: FloatKind::Right },
@@ -198,8 +201,8 @@ impl TailwindFloat {
 
 impl TailwindClear {
     /// https://tailwindcss.com/docs/clear
-    pub fn parse(kind: &[&str], arbitrary: &str) -> Result<Self> {
-        debug_assert!(arbitrary.is_empty(), "forbidden arbitrary in brightness");
+    pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in brightness");
         let out = match kind {
             ["left"] => Self { kind: ClearKind::Left },
             ["right"] => Self { kind: ClearKind::Right },

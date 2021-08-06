@@ -1,5 +1,5 @@
 use super::*;
-use crate::parse_i_px_maybe;
+use tailwind_ast::parse_i_px_maybe;
 
 impl TailwindBorderStyle {
     pub fn into_instance(self) -> Box<dyn TailwindInstance> {
@@ -8,14 +8,14 @@ impl TailwindBorderStyle {
 }
 
 impl TailwindRingOffsetWidth {
-    pub fn parse(input: &[&str], arbitrary: &str) -> Result<Self> {
+    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         match input {
             [] => Self::parse_arbitrary(arbitrary),
-            [n] => Self::parse_arbitrary(n),
+            [n] => Self::parse_arbitrary(todo!()),
             _ => syntax_error!("unknown aspect-ratio elements"),
         }
     }
-    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
-        Ok(Self { width: parse_i_px_maybe(arbitrary)?.1 })
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { width: parse_i_px_maybe(todo!())?.1 })
     }
 }

@@ -1,13 +1,13 @@
 use super::*;
 
 impl TailwindBlur {
-    pub fn parse(rest: &[&str], arbitrary: &str, backdrop: bool) -> Result<Self> {
-        debug_assert!(arbitrary.is_empty(), "forbidden arbitrary in blur");
+    pub fn parse(rest: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in blur");
         let px = match rest {
             ["none"] => 0,
             ["sm"] => 4,
             ["base"] => 8,
-            [] if arbitrary.is_empty() => 8,
+            [] if arbitrary.is_none() => 8,
             ["md"] => 12,
             ["lg"] => 16,
             ["xl"] => 24,
@@ -21,8 +21,8 @@ impl TailwindBlur {
 }
 
 impl TailwindBrightness {
-    pub fn parse(rest: &[&str], arbitrary: &str, backdrop: bool) -> Result<Self> {
-        debug_assert!(arbitrary.is_empty(), "forbidden arbitrary in brightness");
+    pub fn parse(rest: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in brightness");
         match rest {
             [n] => Ok(Self { percent: parse_integer(n)?.1, backdrop }),
             _ => syntax_error!("Unknown brightness instructions"),
@@ -31,8 +31,8 @@ impl TailwindBrightness {
 }
 
 impl TailwindContrast {
-    pub fn parse(rest: &[&str], arbitrary: &str, backdrop: bool) -> Result<Self> {
-        debug_assert!(arbitrary.is_empty(), "forbidden arbitrary in contrast");
+    pub fn parse(rest: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in contrast");
         match rest {
             [n] => Ok(Self { percent: parse_integer(n)?.1, backdrop }),
             _ => syntax_error!("Unknown contrast instructions"),
@@ -41,8 +41,8 @@ impl TailwindContrast {
 }
 
 impl TailwindGrayscale {
-    pub fn parse(rest: &[&str], arbitrary: &str, backdrop: bool) -> Result<Self> {
-        debug_assert!(arbitrary.is_empty(), "forbidden arbitrary in grayscale");
+    pub fn parse(rest: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in grayscale");
         match rest {
             [n] => Ok(Self { percent: parse_integer(n)?.1, backdrop }),
             _ => syntax_error!("Unknown grayscale instructions"),
@@ -51,8 +51,8 @@ impl TailwindGrayscale {
 }
 
 impl TailwindHueRotate {
-    pub fn parse(rest: &[&str], arbitrary: &str, backdrop: bool) -> Result<Self> {
-        debug_assert!(arbitrary.is_empty(), "forbidden arbitrary in hue-rotate");
+    pub fn parse(rest: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in hue-rotate");
         match rest {
             [n] => Ok(Self { deg: parse_integer(n)?.1, backdrop }),
             _ => syntax_error!("Unknown hue-rotate instructions"),
@@ -60,8 +60,8 @@ impl TailwindHueRotate {
     }
 }
 impl TailwindInvert {
-    pub fn parse(rest: &[&str], arbitrary: &str, backdrop: bool) -> Result<Self> {
-        debug_assert!(arbitrary.is_empty(), "forbidden invert in grayscale");
+    pub fn parse(rest: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden invert in grayscale");
         match rest {
             [n] => Ok(Self { percent: parse_integer(n)?.1, backdrop }),
             _ => syntax_error!("Unknown invert instructions"),
@@ -69,8 +69,8 @@ impl TailwindInvert {
     }
 }
 impl TailwindSaturate {
-    pub fn parse(rest: &[&str], arbitrary: &str, backdrop: bool) -> Result<Self> {
-        debug_assert!(arbitrary.is_empty(), "forbidden arbitrary in saturate");
+    pub fn parse(rest: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in saturate");
         match rest {
             [n] => Ok(Self { percent: parse_integer(n)?.1, backdrop }),
             _ => syntax_error!("Unknown saturate instructions"),
@@ -78,8 +78,8 @@ impl TailwindSaturate {
     }
 }
 impl TailwindSepia {
-    pub fn parse(rest: &[&str], arbitrary: &str, backdrop: bool) -> Result<Self> {
-        debug_assert!(arbitrary.is_empty(), "forbidden arbitrary in sepia");
+    pub fn parse(rest: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in sepia");
         match rest {
             [n] => Ok(Self { percent: parse_integer(n)?.1, backdrop }),
             _ => syntax_error!("Unknown sepia instructions"),

@@ -1,24 +1,7 @@
-mod parser;
 mod setter;
-
-pub use self::parser::*;
-// use crate::{css::CssAttributes, *};
-use crate::*;
-use log::error;
-use std::{
-    collections::{BTreeMap, BTreeSet},
-    fmt::{Debug, Display, Formatter, Write},
-    str::FromStr,
-};
-use tailwind_error::nom::{
-    branch::alt,
-    bytes::complete::{tag, take_till, take_till1},
-    character::complete::{alphanumeric1, char, digit1, multispace1},
-    combinator::{map_res, opt, recognize},
-    multi::{many0, separated_list0},
-    sequence::{delimited, tuple},
-    IResult,
-};
+use crate::{systems::instruction::TailwindInstruction, *};
+use std::{collections::BTreeSet, fmt::Debug};
+use tailwind_ast::parse_tailwind;
 
 #[derive(Debug)]
 pub struct TailwindBuilder {
@@ -41,7 +24,7 @@ impl TailwindBuilder {
         self.try_trace(style).unwrap()
     }
     pub fn try_trace(&mut self, style: &str) -> Result<String> {
-        let parsed = Self::parse_styles(style)?;
+        let parsed = Self::parse_tailwind(style)?;
         let out: Vec<String> = parsed.iter().map(|s| s.id()).collect();
         for i in parsed.into_iter() {
             self.objects.insert(i.get_instance()?);
@@ -51,7 +34,7 @@ impl TailwindBuilder {
 
     pub fn inline(&self, style: &str) -> BTreeSet<CssAttribute> {
         let mut out = BTreeSet::new();
-        let parsed = match Self::parse_styles(style) {
+        let parsed = match Self::parse_tailwind(style) {
             Ok(o) => o,
             Err(_) => return out,
         };
@@ -74,4 +57,9 @@ impl TailwindBuilder {
     }
     pub fn scope() {}
     pub fn scope_data() {}
+
+    pub fn parse_tailwind(input: &str) -> Result<Vec<TailwindInstruction>> {
+        let styles = parse_tailwind(input)?;
+        Ok(styles.into_iter().map(TailwindInstruction::from).collect())
+    }
 }

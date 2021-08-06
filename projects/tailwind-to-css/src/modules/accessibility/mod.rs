@@ -1,6 +1,8 @@
 #[cfg(test)]
 mod test;
+
 use super::*;
+use crate::TailwindBuilder;
 
 #[doc = include_str!("screen-reader.md")]
 #[derive(Debug)]

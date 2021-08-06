@@ -1,4 +1,6 @@
 use super::*;
+use log::error;
+use std::collections::BTreeSet;
 
 impl Display for TailwindInstruction {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -12,6 +14,20 @@ impl Display for TailwindInstruction {
     }
 }
 
+impl TailwindInstance for TailwindInstruction {
+    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        let mut out = BTreeSet::default();
+        match self.get_instance() {
+            Ok(o) => out.extend(o.attributes(ctx)),
+            Err(e) => {
+                #[cfg(debug_assertions)]
+                error!("{:?}", e)
+            }
+        }
+        out
+    }
+}
+
 impl Display for TailwindVariant {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         if self.not {
@@ -19,8 +35,12 @@ impl Display for TailwindVariant {
         }
         write!(f, "{}", self.names.join("-"))?;
         match self.pseudo {
-            true => {write!(f, "::")}
-            false => {write!(f, ":")}
+            true => {
+                write!(f, "::")
+            }
+            false => {
+                write!(f, ":")
+            }
         }
     }
 }

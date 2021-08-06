@@ -10,12 +10,7 @@ impl<'a> AstGroup<'a> {
     }
     #[inline]
     fn parse_pair(input: &'a str) -> IResult<&'a str, Vec<AstGroupItem>> {
-        let (rest, paired) = delimited(
-            //
-            char('('),
-            take_until_unbalanced('(', ')'),
-            char(')'),
-        )(input)?;
+        let (rest, paired) = delimited_paired('(', ')')(input)?;
         Ok((rest, AstGroupItem::parse_many(paired.trim())?.1))
     }
 }
@@ -163,6 +158,12 @@ impl AstReference {
     pub fn parse(input: &str) -> IResult<&str, Self> {
         let (rest, _) = char('&')(input)?;
         Ok((rest, Self {}))
+    }
+}
+
+fn delimited_paired(opening: char, closing: char) -> impl Fn(&str) -> IResult<&str, &str> {
+    move |input: &str| {
+        delimited(char(opening), take_until_unbalanced(opening, closing), char(closing))(input)
     }
 }
 

@@ -141,7 +141,7 @@ impl TailwindInstruction {
             ["to", rest @ ..] => todo!(),
             // Borders System
             ["rounded", rest @ ..] => todo!(),
-            ["border", rest @ ..] => Self::border_adaptor(rest)?,
+            ["border", rest @ ..] => Self::border_adaptor(rest, arbitrary)?,
             ["divide", rest @ ..] => Self::divide_adaptor(rest, arbitrary)?,
             ["outline", rest @ ..] => Self::outline_adaptor(rest, arbitrary)?,
             ["ring", rest @ ..] => Self::ring_adaptor(rest, arbitrary)?,
@@ -203,7 +203,7 @@ impl TailwindInstruction {
         Ok(instance)
     }
     #[inline]
-    fn break_adaptor(str: &[&str], _: &str) -> Result<Box<dyn TailwindInstance>> {
+    fn break_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/border-style
             ["normal"] => TailwindBreak::Normal.boxed(),
@@ -220,7 +220,7 @@ impl TailwindInstruction {
         Ok(out)
     }
     #[inline]
-    fn border_adaptor(str: &[&str]) -> Result<Box<dyn TailwindInstance>> {
+    fn border_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // border
             // [] => TailwindBorderWidth::parse(),
@@ -247,7 +247,7 @@ impl TailwindInstruction {
         Ok(out)
     }
     #[inline]
-    fn divide_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
+    fn divide_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/divide-width
             ["x"] => todo!(),
@@ -266,7 +266,7 @@ impl TailwindInstruction {
         Ok(out)
     }
     #[inline]
-    fn outline_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
+    fn outline_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/outline-style
             [] => todo!(),
@@ -284,7 +284,7 @@ impl TailwindInstruction {
         Ok(out)
     }
     #[inline]
-    fn ring_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
+    fn ring_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/ring-offset-width
             ["offset", rest @ ..] => TailwindRingOffsetWidth::parse(rest, arbitrary)?.boxed(),
@@ -293,7 +293,7 @@ impl TailwindInstruction {
         Ok(out)
     }
     #[inline]
-    fn shadow_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
+    fn shadow_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/box-shadow
             [] => TailwindShadow::parse_arbitrary(arbitrary)?.boxed(),
@@ -304,7 +304,7 @@ impl TailwindInstruction {
         Ok(out)
     }
     #[inline]
-    fn box_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
+    fn box_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             ["decoration", "clone"] => TailwindBoxDecoration::Clone.boxed(),
             ["decoration", "slice"] => TailwindBoxDecoration::Slice.boxed(),
@@ -315,10 +315,10 @@ impl TailwindInstruction {
         Ok(out)
     }
     #[inline]
-    fn flex_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
+    fn flex_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/display#flex
-            [] if arbitrary.is_empty() => TailwindDisplay::Flex.boxed(),
+            [] if arbitrary.is_none() => TailwindDisplay::Flex.boxed(),
             // https://tailwindcss.com/docs/flex#arbitrary-values
             [] => TailwindFlex::parse_arbitrary(arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/flex-direction
@@ -340,15 +340,15 @@ impl TailwindInstruction {
         Ok(out)
     }
     #[inline]
-    fn grid_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
+    fn grid_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         todo!()
     }
     #[inline]
-    fn justify_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
+    fn justify_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         todo!()
     }
     #[inline]
-    fn content_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
+    fn content_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/align-content
             ["center"] => TailwindContent::Center.boxed(),
@@ -366,11 +366,11 @@ impl TailwindInstruction {
         Ok(out)
     }
     #[inline]
-    fn place_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
+    fn place_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         todo!()
     }
     #[inline]
-    fn list_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
+    fn list_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/list-style-type
             ["none"] => TailwindListStyle::None.boxed(),
@@ -386,15 +386,15 @@ impl TailwindInstruction {
         Ok(out)
     }
     #[inline]
-    fn decoration_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
+    fn decoration_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         todo!()
     }
     #[inline]
-    fn backdrop_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
+    fn backdrop_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         todo!()
     }
     #[inline]
-    fn table_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
+    fn table_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             ["caption"] => TailwindTableLayout::Auto.boxed(),
             ["right"] => TailwindTableLayout::Auto.boxed(),
@@ -410,7 +410,7 @@ impl TailwindInstruction {
     }
 
     #[inline]
-    fn object_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
+    fn object_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/object-fit
             ["contain"] => TailwindObjectFit::Contain.boxed(),
@@ -434,28 +434,28 @@ impl TailwindInstruction {
         Ok(out)
     }
     #[inline]
-    fn overflow_adaptor(str: &[&str], _: &str) -> Result<Box<dyn TailwindInstance>> {
+    fn overflow_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/overflow
-            ["x", pattern @ ..] => TailwindOverflow::parse(pattern, Some(true))?.boxed(),
-            ["y", pattern @ ..] => TailwindOverflow::parse(pattern, Some(false))?.boxed(),
-            _ => TailwindOverflow::parse(str, None)?.boxed(),
+            ["x", pattern @ ..] => TailwindOverflow::parse(pattern, arbitrary, Some(true))?.boxed(),
+            ["y", pattern @ ..] => TailwindOverflow::parse(pattern, arbitrary, Some(false))?.boxed(),
+            _ => TailwindOverflow::parse(str, arbitrary, None)?.boxed(),
         };
         Ok(out)
     }
     #[inline]
-    fn overscroll_adaptor(str: &[&str], _: &str) -> Result<Box<dyn TailwindInstance>> {
+    fn overscroll_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/overscroll-behavior
-            ["x", pattern @ ..] => TailwindOverscroll::parse(pattern, Some(true))?.boxed(),
-            ["y", pattern @ ..] => TailwindOverscroll::parse(pattern, Some(true))?.boxed(),
-            _ => TailwindOverscroll::parse(str, None)?.boxed(),
+            ["x", pattern @ ..] => TailwindOverscroll::parse(pattern, arbitrary, Some(true))?.boxed(),
+            ["y", pattern @ ..] => TailwindOverscroll::parse(pattern, arbitrary, Some(true))?.boxed(),
+            _ => TailwindOverscroll::parse(str, arbitrary, None)?.boxed(),
         };
         Ok(out)
     }
 
     #[inline]
-    fn font_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
+    fn font_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/float
             [s @ ("sans" | "serif" | "mono")] => TailwindFontFamily::new(s).boxed(),
@@ -488,7 +488,7 @@ impl TailwindInstruction {
         Ok(out)
     }
     #[inline]
-    fn text_adaptor(str: &[&str], arbitrary: &str) -> Result<Box<dyn TailwindInstance>> {
+    fn text_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/text-align
             ["left"] => TailwindTextAlignment::Left.boxed(),

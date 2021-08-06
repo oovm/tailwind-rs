@@ -3,8 +3,8 @@ use tailwind_error::TailwindError;
 
 impl TailwindOpacity {
     /// https://tailwindcss.com/docs/opacity
-    pub fn parse(input: &[&str], arbitrary: &str) -> Result<Self> {
-        debug_assert!(arbitrary.is_empty(), "forbidden arbitrary in duration");
+    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in duration");
         match input {
             [n] => Ok(Self { opacity: parse_usize(n)? }),
             _ => syntax_error!("Unknown opacity instructions: {}", input.join("-")),
@@ -45,19 +45,19 @@ impl TailwindBlendKind {
 }
 
 impl TailwindBlendMode {
-    pub fn parse(input: &[&str], arbitrary: &str) -> Result<Self> {
+    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindShadow {
-    pub fn parse_box(input: &[&str], arbitrary: &str) -> Result<Self> {
+    pub fn parse_box(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_drop(input: &[&str], arbitrary: &str) -> Result<Self> {
+    pub fn parse_drop(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }

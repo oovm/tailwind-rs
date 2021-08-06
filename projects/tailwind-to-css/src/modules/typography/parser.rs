@@ -22,7 +22,7 @@ impl TailwindFontSmoothing {
 }
 
 impl TailwindTracking {
-    pub fn parse(input: &[&str], arbitrary: &str) -> Result<Self> {
+    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         match input {
             ["tighter"] => Ok(Self::Em(1.0)),
             ["tight"] => Ok(Self::Em(1.0)),
@@ -33,12 +33,12 @@ impl TailwindTracking {
             ["widest" | "loose"] => Ok(Self::Em(1.0)),
             ["normal"] => Ok(Self::Normal),
             [] => Self::parse_arbitrary(arbitrary),
-            [n] => Self::parse_arbitrary(n),
+            [n] => Self::parse_arbitrary(todo!()),
             _ => syntax_error!("Unknown tracking instructions: {}", input.join("-")),
         }
     }
-    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
-        Ok(Self::parse_em(arbitrary)?.1)
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self::parse_em(todo!())?.1)
     }
     #[inline]
     fn parse_em(input: &str) -> IResult<&str, Self> {
@@ -48,7 +48,7 @@ impl TailwindTracking {
 }
 
 impl TailwindLeading {
-    pub fn parse(input: &[&str], arbitrary: &str) -> Result<Self> {
+    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         match input {
             ["none"] => Ok(Self::Scale(1.0)),
             ["tight"] => Ok(Self::Scale(1.25)),
@@ -60,12 +60,12 @@ impl TailwindLeading {
             // https://developer.mozilla.org/zh-CN/docs/Web/CSS/line-height#normal
             ["normal"] => Ok(Self::Normal),
             [] => Self::parse_arbitrary(arbitrary),
-            [n] => Self::parse_arbitrary(n),
+            [n] => Self::parse_arbitrary(todo!()),
             _ => syntax_error!("Unknown tracking instructions: {}", input.join("-")),
         }
     }
-    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
-        let out = alt((Self::arbitrary_percent, Self::arbitrary_rem, Self::arbitrary_unit))(arbitrary)?;
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        let out = alt((Self::arbitrary_percent, Self::arbitrary_rem, Self::arbitrary_unit))(todo!())?;
         Ok(out.1)
     }
     #[inline]
@@ -91,7 +91,7 @@ impl TailwindLeading {
 }
 
 impl TailwindListStyle {
-    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self::Custom(arbitrary.to_string()))
     }
 }
@@ -120,34 +120,34 @@ impl TailwindFontWeight {
 }
 
 impl TailwindIndent {
-    pub fn parse(input: &[&str], arbitrary: &str) -> Result<Self> {
+    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindAlign {
-    pub fn parse(input: &[&str], arbitrary: &str) -> Result<Self> {
+    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindWhiteSpace {
-    pub fn parse(input: &[&str], arbitrary: &str) -> Result<Self> {
+    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindUnderlineOffset {
-    pub fn parse(input: &[&str], arbitrary: &str) -> Result<Self> {
+    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindContentElement {
-    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }

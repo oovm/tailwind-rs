@@ -1,7 +1,7 @@
 use super::*;
 
 impl SizeKind {
-    pub fn parse(kind: &[&str], arbitrary: &str) -> Result<Self> {
+    pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         match kind {
             [] => Self::parse_arbitrary(arbitrary),
             ["auto"] => Ok(Self::Auto),
@@ -9,7 +9,7 @@ impl SizeKind {
             _ => Self::parse_arbitrary(arbitrary),
         }
     }
-    pub fn parse_arbitrary(_arbitrary: &str) -> Result<Self> {
+    pub fn parse_arbitrary(_arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
@@ -17,21 +17,21 @@ impl SizeKind {
 impl TailwindSpacing {
     /// `(p)(t|r|b|l|x|y)?-(px|n|auto)`
     #[inline]
-    pub fn parse_padding(input: &[&str], p: &str, arbitrary: &str) -> Result<Self> {
+    pub fn parse_padding(input: &[&str], p: &str, arbitrary: &TailwindArbitrary) -> Result<Self> {
         Self::parse_pm(input, p, arbitrary)
     }
     /// `(m)(t|r|b|l|x|y)?-(px|n|auto)`
     #[inline]
-    pub fn parse_margin(input: &[&str], m: &str, arbitrary: &str) -> Result<Self> {
+    pub fn parse_margin(input: &[&str], m: &str, arbitrary: &TailwindArbitrary) -> Result<Self> {
         Self::parse_pm(input, m, arbitrary)
     }
-    fn parse_pm(input: &[&str], pm: &str, arbitrary: &str) -> Result<Self> {
+    fn parse_pm(input: &[&str], pm: &str, arbitrary: &TailwindArbitrary) -> Result<Self> {
         let kind = TailwindSpacingKind::parse_pm(pm)?;
         let size = SizeKind::parse(input, arbitrary)?;
         Ok(Self { kind, size })
     }
     /// `(space)(x|y)-(px|n|reverse)`
-    pub fn parse_space(input: &[&str], kind: char, arbitrary: &str) -> Result<Self> {
+    pub fn parse_space(input: &[&str], kind: char, arbitrary: &TailwindArbitrary) -> Result<Self> {
         let kind = TailwindSpacingKind::parse_space(kind)?;
         let size = SizeKind::parse(input, arbitrary)?;
         Ok(Self { kind, size })

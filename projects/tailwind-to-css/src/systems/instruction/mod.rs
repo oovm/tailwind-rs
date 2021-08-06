@@ -3,10 +3,6 @@ mod display;
 mod methods;
 mod resolver;
 
-pub fn parse_tailwind(input: &str) -> Vec<TailwindInstruction> {
-    todo!()
-}
-
 #[cfg(test)]
 pub fn tw_idempotency(input1: &str, builder: &mut TailwindBuilder) {
     let input2 = &builder.trace(input1);
@@ -23,18 +19,35 @@ pub struct TailwindInstruction {
 }
 
 #[derive(Debug, Clone)]
-pub(crate) struct TailwindVariant {
-    pub(crate) not: bool,
-    pub(crate) pseudo: bool,
-    pub(crate) names: Vec<String>,
+pub struct TailwindVariant {
+    not: bool,
+    pseudo: bool,
+    names: Vec<String>,
 }
 
 #[derive(Debug, Clone)]
-pub(crate) struct TailwindElements {
-    pub(crate) inner: Vec<String>,
+pub struct TailwindElements {
+    inner: Vec<String>,
 }
 
 #[derive(Debug, Clone)]
-pub(crate) struct TailwindArbitrary {
-    pub(crate) inner: Option<String>,
+pub struct TailwindArbitrary {
+    inner: Option<String>,
+}
+
+/// https://github.com/tw-in-js/twind/blob/main/src/twind/variants.ts
+#[derive(Copy, Clone, Debug)]
+pub enum TailwindVariantKind {
+    Dark,
+    Sticky,
+    MotionReduce,
+    MotionSafe,
+    First,
+    Last,
+    Even,
+    Odd,
+    Children,
+    Siblings,
+    Sibling,
+    Override,
 }

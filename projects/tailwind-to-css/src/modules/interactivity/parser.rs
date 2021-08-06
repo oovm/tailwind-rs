@@ -1,82 +1,82 @@
 use super::*;
 
 impl TailwindAccentColor {
-    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindAppearance {
-    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindCursor {
-    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindCaretColor {
-    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindPointerEvents {
-    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindResize {
-    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindScroll {
-    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindSnap {
-    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindTorch {
-    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
@@ -102,17 +102,17 @@ impl SelectKind {
 impl TailwindSelect {
     /// https://tailwindcss.com/docs/user-select
     #[inline]
-    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
-        debug_assert!(arbitrary.is_empty(), "forbidden arbitrary in select");
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in select");
         Ok(Self { kind: SelectKind::parse(pattern)? })
     }
 }
 
 impl TailwindWillChange {
-    pub fn parse(pattern: &[&str], arbitrary: &str) -> Result<Self> {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_arbitrary(arbitrary: &str) -> Result<Self> {
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }

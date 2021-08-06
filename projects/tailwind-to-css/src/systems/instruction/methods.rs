@@ -18,17 +18,25 @@ impl<'a> From<ASTVariant<'a>> for TailwindVariant {
     }
 }
 
+impl From<&str> for TailwindArbitrary {
+    fn from(s: &str) -> Self {
+        Self {
+            inner: match s.is_empty() {
+                true => None,
+                false => Some(s.to_string()),
+            },
+        }
+    }
+}
+
 impl TailwindInstruction {
     #[inline]
     pub fn view_elements(&self) -> Vec<&str> {
-        self.elements.iter().map(|s| s.0.as_str()).collect()
+        self.elements.inner.iter().map(|s| s.as_str()).collect()
     }
     #[inline]
-    pub fn view_arbitrary(&self) -> &str {
-        match &self.arbitrary {
-            None => "",
-            Some(setter) => setter.0.as_str(),
-        }
+    pub fn view_arbitrary(&self) -> &TailwindArbitrary {
+        &self.arbitrary
     }
     // TODO
     pub fn normalization(self) -> Self {
@@ -46,18 +54,34 @@ impl TailwindArbitrary {
         self.inner.is_none()
     }
     #[inline]
-    pub fn as_integer<T>(&self) -> T {
-        let s = self.inner.unwrap_or_default();
-        parse_integer(&s)?.1
+    pub fn as_str(&self) -> &str {
+        match &self.inner {
+            None => "",
+            Some(s) => s.as_str(),
+        }
     }
     #[inline]
-    pub fn as_float(&self) -> f32 {
-        let s = self.inner.unwrap_or_default();
-        parse_f32(&s)?.1
+    pub fn as_integer<T>(&self) -> Result<T>
+    where
+        T: FromStr,
+    {
+        match &self.inner {
+            None => syntax_error!("missing arbitrary"),
+            Some(s) => Ok(parse_integer(s)?.1),
+        }
     }
     #[inline]
-    pub fn as_fraction(&self) -> (usize, usize) {
-        let s = self.inner.unwrap_or_default();
-        parse_fraction(&s)?.1
+    pub fn as_float(&self) -> Result<f32> {
+        match &self.inner {
+            None => syntax_error!("missing arbitrary"),
+            Some(s) => Ok(parse_f32(s)?.1),
+        }
+    }
+    #[inline]
+    pub fn as_fraction(&self) -> Result<(usize, usize)> {
+        match &self.inner {
+            None => syntax_error!("missing arbitrary"),
+            Some(s) => Ok(parse_fraction(s)?.1),
+        }
     }
 }
