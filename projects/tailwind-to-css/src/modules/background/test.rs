@@ -3,7 +3,7 @@ use crate::{tw_idempotency, TailwindBuilder};
 #[test]
 fn build_bg_attach() {
     let builder = TailwindBuilder::default();
-    let out = format!("{:?}", builder.inline("sr-only"));
+    let out = format!("{:?}", builder.try_inline("sr-only"));
     assert_eq!(out, "{aspect-ratio: 1 / 1;}")
 }
 

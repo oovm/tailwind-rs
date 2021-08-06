@@ -37,7 +37,7 @@ pub trait TailwindInstance: Display {
     }
     ///
     fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        BTreeSet::default()
+        Default::default()
     }
     /// write css to buffers
     fn write_css(&self, f: &mut (dyn Write), ctx: &TailwindBuilder) -> Result<()> {

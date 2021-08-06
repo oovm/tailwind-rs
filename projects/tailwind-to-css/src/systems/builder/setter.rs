@@ -14,6 +14,7 @@ impl TailwindBuilder {
 impl Default for TailwindBuilder {
     fn default() -> Self {
         Self {
+            obfuscate: false,
             objects: Default::default(),
             screens: BreakPointSystem::builtin(),
             colors: PaletteSystem::builtin(),

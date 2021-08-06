@@ -33,6 +33,7 @@ impl TailwindInstance for TailwindScreenReader {
                     "clip" => "rect(0,0,0,0)",
                     "white-space" => "nowrap",
                     "border-width" => "0",
+
                 }
             }
             false => {
@@ -45,6 +46,7 @@ impl TailwindInstance for TailwindScreenReader {
                     "overflow" => "visible",
                     "clip" => "auto",
                     "white-space" => "normal",
+
                 }
             }
         }

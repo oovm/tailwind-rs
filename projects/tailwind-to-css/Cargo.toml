@@ -13,11 +13,12 @@ edition = "2021"
 css-color-parser = "0.1.2"
 log = "0.4.14"
 tailwind-ast = {version = "0.4.0", path = "../tailwind-ast"}
+parcel_css = "1.0.0-alpha.16"
 
 [dependencies.tailwind-error]
-version = "1.0.*"
+version = "1.1.*"
 path = "../tailwind-error"
-features = ["nom"]
+features = ["nom","parcel_css"]
 
 
 

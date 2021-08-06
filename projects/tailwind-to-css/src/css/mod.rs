@@ -1,4 +1,7 @@
-use crate::AstStyle;
+mod resolve_normal;
+mod resolve_ring;
+use crate::LengthUnit;
+use css_color_parser::Color;
 use std::{
     collections::BTreeMap,
     fmt::{Display, Formatter},
@@ -15,32 +18,13 @@ pub struct CssAttributes {
     normal: BTreeMap<String, String>,
     transforms: BTreeMap<String, String>,
     scoped: BTreeMap<String, CssAttributes>,
-    tw_border_opacity: bool,
+    ring_resolver: Option<CssRingResolver>,
 }
 
-impl Default for CssAttributes {
-    fn default() -> Self {
-        Self { apply: None, normal: Default::default(), transforms: Default::default(), scoped: Default::default() }
-    }
-}
-
-impl CssAttributes {
-    pub fn insert<S>(&mut self, key: S, value: S)
-    where
-        S: Into<String>,
-    {
-        self.normal.insert(key.into(), value.into());
-    }
-    pub fn transform<S>(&mut self, key: S, value: S)
-    where
-        S: Into<String>,
-    {
-        self.transforms.insert(key.into(), value.into());
-    }
-}
-
-impl Display for CssAttributes {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
+pub struct CssRingResolver {
+    tw_ring_inset: String,
+    tw_ring_offset_width: String,
+    tw_ring_color: String,
+    tw_ring_offset_color: String,
+    tw_ring_shadow: String,
 }
