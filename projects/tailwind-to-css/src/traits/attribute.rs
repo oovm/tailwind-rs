@@ -8,7 +8,7 @@ impl CssAttribute {
 
 impl Debug for CssAttribute {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}: {};", self.key, self.value)
+        write!(f, "{}:{};", self.key, self.value)
     }
 }
 

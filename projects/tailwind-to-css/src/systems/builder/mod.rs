@@ -111,19 +111,17 @@ impl TailwindBuilder {
     #[inline]
     #[track_caller]
     pub fn inline(&self, style: &str) -> String {
-        let mut out = vec![];
-        let set = self.try_inline(style).unwrap();
-        out.extend(set.into_iter());
-        todo!()
+        self.try_inline(style).unwrap()
     }
     /// Safe version of [`TailwindBuilder::inline`]
-    pub fn try_inline(&self, style: &str) -> Result<BTreeSet<CssAttribute>> {
+    pub fn try_inline(&self, style: &str) -> Result<String> {
         let parsed = parse_tailwind(style)?;
-        let mut out = BTreeSet::new();
+        let mut set = BTreeSet::new();
         for item in parsed {
-            out.extend(item.attributes(self))
+            set.extend(item.attributes(self))
         }
-        Ok(out)
+        let vec: Vec<_> = set.into_iter().map(|s| s.to_string()).collect();
+        Ok(vec.join(""))
     }
     /// Bundle all used stylesheets
     #[inline]

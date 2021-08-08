@@ -11,11 +11,11 @@ impl TailwindRingOffsetWidth {
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         match input {
             [] => Self::parse_arbitrary(arbitrary),
-            [n] => Self::parse_arbitrary(todo!()),
+            [n] => Self::parse_arbitrary(&TailwindArbitrary::from(*n)),
             _ => syntax_error!("unknown aspect-ratio elements"),
         }
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { width: parse_i_px_maybe(todo!())?.1 })
+        Ok(Self { width: parse_i_px_maybe(arbitrary.as_str())?.1 })
     }
 }
