@@ -54,7 +54,7 @@ enum BoxDecoration {
     Slice,
 }
 
-/// https://tailwindcss.com/docs/box-sizing
+#[doc = include_str!("box-decoration-break.md")]
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindBoxDecoration {
     kind: BoxDecoration,
@@ -66,7 +66,7 @@ enum BoxSizing {
     Content,
 }
 
-/// https://tailwindcss.com/docs/box-sizing
+#[doc = include_str!("box-sizing.md")]
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindBoxSizing {
     kind: BoxSizing,
