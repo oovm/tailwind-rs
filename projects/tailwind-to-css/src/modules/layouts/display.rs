@@ -143,6 +143,30 @@ impl Display for TailwindDisplay {
 
 impl TailwindInstance for TailwindDisplay {}
 
+impl Display for FloatKind {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Left => f.write_str("left"),
+            Self::Right => f.write_str("right"),
+            Self::None => f.write_str("none"),
+        }
+    }
+}
+
+impl Display for TailwindFloat {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "float-{}", self.kind)
+    }
+}
+
+impl TailwindInstance for TailwindFloat {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        css_attributes! {
+            "float" => self.kind
+        }
+    }
+}
+
 impl Display for ClearKind {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
@@ -168,21 +192,57 @@ impl TailwindInstance for TailwindClear {
     }
 }
 
-impl Display for TailwindIsolation {
+impl Display for Isolation {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        match self {
+            Self::Isolate => f.write_str("left"),
+            Self::Auto => f.write_str("auto"),
+        }
     }
 }
 
-impl TailwindInstance for TailwindIsolation {}
+impl Display for TailwindIsolation {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self.kind {
+            Isolation::Isolate => f.write_str("isolate"),
+            Isolation::Auto => f.write_str("isolation-auto"),
+        }
+    }
+}
+
+impl TailwindInstance for TailwindIsolation {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        css_attributes! {
+            "isolation" => self.kind
+        }
+    }
+}
+
+impl Display for ObjectFit {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Contain => f.write_str("contain"),
+            Self::Cover => f.write_str("cover"),
+            Self::Fill => f.write_str("fill"),
+            Self::ScaleDown => f.write_str("none"),
+            Self::None => f.write_str("scale-down"),
+        }
+    }
+}
 
 impl Display for TailwindObjectFit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        write!(f, "object-{}", self.kind)
     }
 }
 
-impl TailwindInstance for TailwindObjectFit {}
+impl TailwindInstance for TailwindObjectFit {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        css_attributes! {
+            "object-fit" => self.kind
+        }
+    }
+}
 
 impl Display for TailwindObjectPosition {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -192,42 +252,68 @@ impl Display for TailwindObjectPosition {
 
 impl TailwindInstance for TailwindObjectPosition {}
 
+impl Display for Overflow {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Auto => f.write_str("auto"),
+            Self::Hidden => f.write_str("hidden"),
+            Self::Clip => f.write_str("clip"),
+            Self::Visible => f.write_str("visible"),
+            Self::Scroll => f.write_str("scroll"),
+        }
+    }
+}
+
 impl Display for TailwindOverflow {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
 
-impl TailwindInstance for TailwindOverflow {}
-
-impl Display for TailwindOverscroll {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+impl TailwindInstance for TailwindOverflow {
+    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         todo!()
     }
 }
 
-impl TailwindInstance for TailwindOverscroll {}
-
-impl Display for FloatKind {
+impl Display for Overscroll {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::Left => f.write_str("left"),
-            FloatKind::Right => f.write_str("right"),
-            FloatKind::None => f.write_str("none"),
+            Self::Auto => f.write_str("auto"),
+            Self::Contain => f.write_str("contain"),
+            Self::None => f.write_str("none"),
         }
     }
 }
 
-// float-right	float: right;
-// float-left	float: left;
-// float-none	float: none;
-impl Display for TailwindFloat {
+impl Display for TailwindOverscroll {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self.axis {
+            None => write!(f, "overscroll-{}", self.kind),
+            Some(true) => write!(f, "overscroll-x-{}", self.kind),
+            Some(false) => write!(f, "overscroll-y-{}", self.kind),
+        }
+    }
+}
+
+impl TailwindInstance for TailwindOverscroll {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        let class = match self.axis {
+            None => "overscroll-behavior",
+            Some(true) => "overscroll-behavior-x",
+            Some(false) => "overscroll-behavior-y",
+        };
+        css_attributes! {
+            class => self
+        }
+    }
+}
+
+impl Display for PositionKind {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
-
-impl TailwindInstance for TailwindFloat {}
 
 impl Display for TailwindPosition {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -235,7 +321,20 @@ impl Display for TailwindPosition {
     }
 }
 
-impl TailwindInstance for TailwindPosition {}
+impl TailwindInstance for TailwindPosition {
+    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        todo!()
+    }
+}
+
+impl Display for Visibility {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Visible => f.write_str("visible"),
+            Self::Invisible => f.write_str("hidden"),
+        }
+    }
+}
 
 impl Display for TailwindVisibility {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -243,7 +342,11 @@ impl Display for TailwindVisibility {
     }
 }
 
-impl TailwindInstance for TailwindVisibility {}
+impl TailwindInstance for TailwindVisibility {
+    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        todo!()
+    }
+}
 
 impl Display for TailWindZIndex {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {

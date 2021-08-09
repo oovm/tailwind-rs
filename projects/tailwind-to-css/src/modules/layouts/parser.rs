@@ -119,7 +119,7 @@ impl TailwindObjectPosition {
     }
 }
 
-impl OverflowKind {
+impl Overflow {
     pub fn parse(input: &[&str]) -> Result<Self> {
         match input {
             ["auto"] => Ok(Self::Auto),
@@ -135,12 +135,12 @@ impl OverflowKind {
 impl TailwindOverflow {
     pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary, axis: Option<bool>) -> Result<Self> {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary in overflow");
-        let kind = OverflowKind::parse(kind)?;
+        let kind = Overflow::parse(kind)?;
         Ok(Self { kind, axis })
     }
 }
 
-impl OverscrollKind {
+impl Overscroll {
     #[inline]
     pub fn parse(input: &[&str]) -> Result<Self> {
         match input {
@@ -155,33 +155,8 @@ impl OverscrollKind {
 impl TailwindOverscroll {
     pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary, axis: Option<bool>) -> Result<Self> {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary in overflow");
-        let kind = OverscrollKind::parse(kind)?;
+        let kind = Overscroll::parse(kind)?;
         Ok(Self { kind, axis })
-    }
-}
-
-impl TailWindZIndex {
-    pub fn parse(kind: &[&str], neg: bool) -> Box<dyn TailwindInstance> {
-        match kind.len() {
-            1 => {}
-            r => panic!("break-inside expected 1 element but found {} elements", r),
-        }
-        let instance = match kind {
-            ["auto"] => Self::Auto,
-            [r] => Self::parse_number(r, neg).expect("not number"),
-            _ => {
-                panic!("Unknown aspect-ratio pattern")
-            }
-        };
-        Box::new(instance)
-    }
-    #[inline]
-    fn parse_number(input: &str, neg: bool) -> Result<Self> {
-        let n = parse_integer(input)?.1;
-        match neg {
-            true => Ok(Self::Negative(n)),
-            false => Ok(Self::Positive(n)),
-        }
     }
 }
 
@@ -214,8 +189,28 @@ impl TailwindClear {
     }
 }
 
+impl TailwindObjectFit {
+    /// `object-contain`
+    pub const Contain: Self = Self { kind: ObjectFit::Contain };
+    /// `object-cover`
+    pub const Cover: Self = Self { kind: ObjectFit::Cover };
+    /// `object-fill`
+    pub const Fill: Self = Self { kind: ObjectFit::Fill };
+    /// `object-none`
+    pub const None: Self = Self { kind: ObjectFit::None };
+    /// `object-scale-down`
+    pub const ScaleDown: Self = Self { kind: ObjectFit::ScaleDown };
+}
+
+impl TailwindIsolation {
+    /// `isolate`
+    pub const Isolate: Self = Self { kind: Isolation::Isolate };
+    /// `isolation-auto`
+    pub const Auto: Self = Self { kind: Isolation::Auto };
+}
+
 impl TailwindBoxDecoration {
-    ///
+    /// ``
     pub const Clone: Self = Self { kind: BoxDecoration::Clone };
     ///
     pub const Slice: Self = Self { kind: BoxDecoration::Slice };
@@ -226,4 +221,29 @@ impl TailwindBoxSizing {
     pub const Border: Self = Self { kind: BoxSizing::Border };
     ///
     pub const Content: Self = Self { kind: BoxSizing::Content };
+}
+
+impl TailWindZIndex {
+    pub fn parse(kind: &[&str], neg: bool) -> Box<dyn TailwindInstance> {
+        match kind.len() {
+            1 => {}
+            r => panic!("break-inside expected 1 element but found {} elements", r),
+        }
+        let instance = match kind {
+            ["auto"] => Self::Auto,
+            [r] => Self::parse_number(r, neg).expect("not number"),
+            _ => {
+                panic!("Unknown aspect-ratio pattern")
+            }
+        };
+        Box::new(instance)
+    }
+    #[inline]
+    fn parse_number(input: &str, neg: bool) -> Result<Self> {
+        let n = parse_integer(input)?.1;
+        match neg {
+            true => Ok(Self::Negative(n)),
+            false => Ok(Self::Positive(n)),
+        }
+    }
 }

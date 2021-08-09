@@ -92,7 +92,7 @@ pub enum FloatKind {
     None,
 }
 
-/// https://tailwindcss.com/docs/float
+#[doc = include_str!("float.md")]
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindFloat {
     kind: FloatKind,
@@ -106,42 +106,37 @@ enum ClearKind {
     None,
 }
 
-/// https://tailwindcss.com/docs/clear
+#[doc = include_str!("clear.md")]
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindClear {
     kind: ClearKind,
 }
 
-#[doc = include_str ! ("z-index.md")]
 #[derive(Copy, Clone, Debug)]
-pub enum TailWindZIndex {
-    Auto,
-    Positive(usize),
-    Negative(usize),
-}
-
-#[doc = include_str ! ("box-sizing.md")]
-#[derive(Copy, Clone, Debug)]
-pub enum TailWindBoxSizing {
-    Auto,
-    Positive(isize),
-    Negative(isize),
-}
-
-#[derive(Copy, Clone, Debug)]
-pub enum TailwindIsolation {
+enum Isolation {
     Isolate,
     Auto,
 }
 
-/// https://tailwindcss.com/docs/object-fit
+///
 #[derive(Copy, Clone, Debug)]
-pub enum TailwindObjectFit {
+pub struct TailwindIsolation {
+    kind: Isolation,
+}
+
+#[derive(Copy, Clone, Debug)]
+enum ObjectFit {
     Contain,
     Cover,
     Fill,
     None,
     ScaleDown,
+}
+
+/// https://tailwindcss.com/docs/object-fit
+#[derive(Copy, Clone, Debug)]
+pub struct TailwindObjectFit {
+    kind: ObjectFit,
 }
 
 /// https://tailwindcss.com/docs/object-fit
@@ -158,8 +153,9 @@ pub enum TailwindObjectPosition {
     RightBottom,
     Custom { x: String, y: String },
 }
+
 #[derive(Copy, Clone, Debug)]
-enum OverflowKind {
+enum Overflow {
     Auto,
     Hidden,
     Clip,
@@ -170,12 +166,12 @@ enum OverflowKind {
 /// https://tailwindcss.com/docs/overflow#hiding-content-that-overflows
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindOverflow {
-    kind: OverflowKind,
+    kind: Overflow,
     axis: Option<bool>,
 }
 
 #[derive(Copy, Clone, Debug)]
-enum OverscrollKind {
+enum Overscroll {
     Auto,
     Contain,
     None,
@@ -184,13 +180,12 @@ enum OverscrollKind {
 /// https://tailwindcss.com/docs/overscroll-behavior
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindOverscroll {
-    kind: OverscrollKind,
+    kind: Overscroll,
     axis: Option<bool>,
 }
 
-#[doc = include_str ! ("position.md")]
 #[derive(Copy, Clone, Debug)]
-pub enum TailwindPosition {
+enum PositionKind {
     Static,
     Fixed,
     Absolute,
@@ -198,9 +193,35 @@ pub enum TailwindPosition {
     Sticky,
 }
 
-/// https://tailwindcss.com/docs/visibility
+///
+// #[doc = include_str!("position.md")]
 #[derive(Copy, Clone, Debug)]
-pub enum TailwindVisibility {
+pub struct TailwindPosition {
+    kind: PositionKind,
+}
+
+#[derive(Copy, Clone, Debug)]
+enum Visibility {
     Visible,
     Invisible,
+}
+
+/// https://tailwindcss.com/docs/visibility
+#[derive(Copy, Clone, Debug)]
+pub struct TailwindVisibility {
+    kind: Visibility,
+}
+
+#[derive(Copy, Clone, Debug)]
+enum ZIndex {
+    Auto,
+    Positive(usize),
+    Negative(usize),
+}
+
+#[doc = include_str!("z-index.md")]
+#[derive(Copy, Clone, Debug)]
+pub struct TailWindZIndex {
+    index: ZIndex,
+    neg: bool,
 }
