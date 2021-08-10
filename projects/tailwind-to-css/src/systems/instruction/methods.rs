@@ -84,4 +84,11 @@ impl TailwindArbitrary {
             Some(s) => Ok(parse_fraction(s)?.1),
         }
     }
+    #[inline]
+    pub fn as_length(&self) -> Result<LengthUnit> {
+        match &self.inner {
+            None => syntax_error!("missing arbitrary"),
+            Some(s) => Ok(LengthUnit::parse(s)?.1),
+        }
+    }
 }

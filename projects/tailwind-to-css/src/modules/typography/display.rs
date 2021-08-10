@@ -80,51 +80,63 @@ impl TailwindInstance for TailwindFontWeight {
     }
 }
 
-// Class
-// Properties
-// normal-nums	font-variant-numeric: normal;
-// ordinal	font-variant-numeric: ordinal;
-// slashed-zero	font-variant-numeric: slashed-zero;
-// lining-nums	font-variant-numeric: lining-nums;
-// oldstyle-nums	font-variant-numeric: oldstyle-nums;
-// proportional-nums	font-variant-numeric: proportional-nums;
-// tabular-nums	font-variant-numeric: tabular-nums;
-// diagonal-fractions	font-variant-numeric: diagonal-fractions;
-// stacked-fractions	font-variant-numeric: stacked-fractions;
-impl Display for TailwindFontVariantNumeric {
+impl Display for FontVariantNumeric {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        match self {
+            Self::Normal => f.write_str("normal"),
+            Self::Ordinal => f.write_str("ordinal"),
+            Self::SlashedZero => f.write_str("slashed-zero"),
+            Self::Lining => f.write_str("lining-nums"),
+            Self::OldStyle => f.write_str("oldstyle-nums"),
+            Self::Proportional => f.write_str("proportional-nums"),
+            Self::Tabular => f.write_str("tabular-nums"),
+            Self::DiagonalFractions => f.write_str("diagonal-fractions"),
+            Self::StackedFractions => f.write_str("stacked-fractions"),
+        }
     }
 }
 
-impl TailwindInstance for TailwindFontVariantNumeric {}
+impl Display for TailwindFontVariantNumeric {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match &self.kind {
+            FontVariantNumeric::Normal => write!(f, "normal-nums"),
+            _ => write!(f, "{}", self.kind),
+        }
+    }
+}
+
+impl TailwindInstance for TailwindFontVariantNumeric {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        css_attributes! {
+            "font-variant-numeric" => self.kind
+        }
+    }
+}
 
 impl Display for Tracking {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        match self {
+            Self::Normal => write!(f, "normal"),
+            Self::Global(g) => write!(f, "{}", g),
+            Self::Length(l) => write!(f, "[{}]", l),
+        }
     }
 }
 
 impl Display for TailwindTracking {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.write_str("tracking-")?;
-        match self {
-            Self::Normal => write!(f, "normal"),
-            Self::Global(g) => write!(f, "{}", g),
-            Self::Length(em) => write!(f, "[{}]", em),
-        }
+        write!(f, "tracking-{}", self.kind)
     }
 }
 
 impl TailwindInstance for TailwindTracking {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let em = match self {
-            Self::Normal => "normal".to_string(),
-            Self::Length(em) => format!("{}em", em),
-            Self::Global(g) => format!("{}", g),
+        let spacing = match self.kind {
+            Tracking::Length(n) => format!("{}", n),
+            _ => self.kind.to_string(),
         };
         css_attributes! {
-            "letter-spacing" => em
+            "letter-spacing" => spacing
         }
     }
 }

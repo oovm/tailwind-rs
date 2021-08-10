@@ -42,9 +42,8 @@ pub struct TailwindFontWeight {
     weight: usize,
 }
 
-#[doc = include_str!("font-variant-numeric.md")]
 #[derive(Copy, Debug, Clone)]
-pub enum TailwindFontVariantNumeric {
+enum FontVariantNumeric {
     Normal,
     Ordinal,
     SlashedZero,
@@ -54,6 +53,12 @@ pub enum TailwindFontVariantNumeric {
     Tabular,
     DiagonalFractions,
     StackedFractions,
+}
+
+#[doc = include_str!("font-variant-numeric.md")]
+#[derive(Copy, Debug, Clone)]
+pub struct TailwindFontVariantNumeric {
+    kind: FontVariantNumeric,
 }
 
 #[derive(Copy, Debug, Clone)]
@@ -120,6 +125,7 @@ pub struct TailwindTextColor {
     pub(crate) color: ColorResolver,
 }
 
+#[derive(Debug, Copy, Clone)]
 enum TextDecoration {
     Underline,
     Overline,
@@ -128,7 +134,7 @@ enum TextDecoration {
 }
 
 #[doc = include_str!("text-decoration.md")]
-#[derive(Debug, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub struct TailwindTextDecoration {
     kind: TextDecoration,
 }

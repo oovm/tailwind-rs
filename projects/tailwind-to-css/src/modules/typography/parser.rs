@@ -46,18 +46,60 @@ impl TailwindTracking {
             ["inherit"] => Ok(Self::Inherit),
             ["initial"] => Ok(Self::Initial),
             ["unset"] => Ok(Self::Unset),
-            [n] => Self::parse_n(n),
+            [] => Self::parse_arbitrary(arbitrary),
+            [n] => Self::parse_arbitrary(&TailwindArbitrary::from(*n)),
             _ => syntax_error!("Unknown tracking instructions: {}", input.join("-")),
         }
+    }
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: Tracking::Length(arbitrary.as_length()?) })
     }
     #[inline(always)]
     pub(crate) fn em(n: f32) -> Result<Self> {
         Ok(Self { kind: Tracking::Length(LengthUnit::Em(n)) })
     }
-    #[inline(always)]
-    pub(crate) fn parse_n(n: &str) -> Result<Self> {
-        Ok(Self { kind: Tracking::Length(LengthUnit::parse(n)?.1) })
-    }
+}
+
+// normal-nums	font-variant-numeric: normal;
+// ordinal	font-variant-numeric: ordinal;
+// slashed-zero	font-variant-numeric: slashed-zero;
+// lining-nums	font-variant-numeric: lining-nums;
+// oldstyle-nums	font-variant-numeric: oldstyle-nums;
+// proportional-nums	font-variant-numeric: proportional-nums;
+impl TailwindFontVariantNumeric {
+    ///
+    pub const Normal: Self = Self { kind: FontVariantNumeric::Normal };
+    ///
+    pub const Ordinal: Self = Self { kind: FontVariantNumeric::Ordinal };
+    ///
+    pub const SlashedZero: Self = Self { kind: FontVariantNumeric::SlashedZero };
+    ///
+    pub const Lining: Self = Self { kind: FontVariantNumeric::Lining };
+    ///
+    pub const OldStyle: Self = Self { kind: FontVariantNumeric::OldStyle };
+    ///
+    pub const Proportional: Self = Self { kind: FontVariantNumeric::Proportional };
+    /// `tabular-nums`
+    pub const Tabular: Self = Self { kind: FontVariantNumeric::Tabular };
+    /// `diagonal-fractions`
+    pub const DiagonalFractions: Self = Self { kind: FontVariantNumeric::DiagonalFractions };
+    /// `stacked-fractions`
+    pub const StackedFractions: Self = Self { kind: FontVariantNumeric::StackedFractions };
+}
+
+// underline	text-decoration-line: underline;
+// overline	text-decoration-line: overline;
+// line-through	text-decoration-line: line-through;
+// no-underline	text-decoration-line: none;
+impl TailwindTextDecoration {
+    ///
+    pub const Normal: Self = Self { kind: TextDecoration::Underline };
+    ///
+    pub const Ordinal: Self = Self { kind: TextDecoration::Ordinal };
+    ///
+    pub const SlashedZero: Self = Self { kind: TextDecoration::SlashedZero };
+    ///
+    pub const Lining: Self = Self { kind: TextDecoration::Lining };
 }
 
 impl TailwindLeading {
@@ -112,7 +154,7 @@ impl TailwindListStyle {
 impl TailwindFontSize {
     #[inline]
     pub fn new(size: f32, height: f32) -> Self {
-        Self { size: TailwindTracking::Em(size), height: TailwindLeading::Rem(height) }
+        Self { size: TailwindTracking::em(size).unwrap(), height: TailwindLeading::Rem(height) }
     }
 }
 
