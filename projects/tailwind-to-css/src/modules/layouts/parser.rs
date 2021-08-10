@@ -1,5 +1,5 @@
 use super::*;
-use crate::systems::instruction::TailwindArbitrary;
+use crate::TailwindArbitrary;
 
 impl AspectKind {
     #[inline]
@@ -209,11 +209,31 @@ impl TailwindIsolation {
     pub const Auto: Self = Self { kind: Isolation::Auto };
 }
 
+impl TailwindPosition {
+    /// `static`
+    pub const Static: Self = Self { kind: PositionKind::Static };
+    /// `fixed`
+    pub const Fixed: Self = Self { kind: PositionKind::Fixed };
+    /// `absolute`
+    pub const Absolute: Self = Self { kind: PositionKind::Absolute };
+    /// `relative`
+    pub const Relative: Self = Self { kind: PositionKind::Relative };
+    /// `sticky`
+    pub const Sticky: Self = Self { kind: PositionKind::Sticky };
+}
+
 impl TailwindBoxDecoration {
     /// ``
     pub const Clone: Self = Self { kind: BoxDecoration::Clone };
     ///
     pub const Slice: Self = Self { kind: BoxDecoration::Slice };
+}
+
+impl TailwindVisibility {
+    /// `visible`
+    pub const Visible: Self = Self { kind: Visibility::Visible };
+    /// `invisible`
+    pub const Invisible: Self = Self { kind: Visibility::Invisible };
 }
 
 impl TailwindBoxSizing {
@@ -224,26 +244,17 @@ impl TailwindBoxSizing {
 }
 
 impl TailWindZIndex {
-    pub fn parse(kind: &[&str], neg: bool) -> Box<dyn TailwindInstance> {
-        match kind.len() {
-            1 => {}
-            r => panic!("break-inside expected 1 element but found {} elements", r),
+    pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary, neg: bool) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in z-index");
+        match kind {
+            ["auto"] => Ok(Self { kind: ZIndex::Auto, neg }),
+            [r] => Self::parse_number(r, neg),
+            _ => syntax_error!("Unknown contrast instructions"),
         }
-        let instance = match kind {
-            ["auto"] => Self::Auto,
-            [r] => Self::parse_number(r, neg).expect("not number"),
-            _ => {
-                panic!("Unknown aspect-ratio pattern")
-            }
-        };
-        Box::new(instance)
     }
     #[inline]
     fn parse_number(input: &str, neg: bool) -> Result<Self> {
         let n = parse_integer(input)?.1;
-        match neg {
-            true => Ok(Self::Negative(n)),
-            false => Ok(Self::Positive(n)),
-        }
+        Ok(Self { kind: ZIndex::Unit(n), neg })
     }
 }

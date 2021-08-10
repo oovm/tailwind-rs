@@ -215,13 +215,12 @@ pub struct TailwindVisibility {
 #[derive(Copy, Clone, Debug)]
 enum ZIndex {
     Auto,
-    Positive(usize),
-    Negative(usize),
+    Unit(usize),
 }
 
 #[doc = include_str!("z-index.md")]
 #[derive(Copy, Clone, Debug)]
 pub struct TailWindZIndex {
-    index: ZIndex,
+    kind: ZIndex,
     neg: bool,
 }

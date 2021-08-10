@@ -50,10 +50,8 @@ impl Display for TailwindBreakLayout {
 
 impl TailwindInstance for TailwindBreakLayout {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let class = self.kind.to_string();
-        let breaking = self.info.to_string();
         css_attributes! {
-            class => breaking
+            self.kind => self.info
         }
     }
 }
@@ -266,13 +264,24 @@ impl Display for Overflow {
 
 impl Display for TailwindOverflow {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        match self.axis {
+            None => write!(f, "overflow-{}", self.kind),
+            Some(true) => write!(f, "overflow-x-{}", self.kind),
+            Some(false) => write!(f, "overflow-y-{}", self.kind),
+        }
     }
 }
 
 impl TailwindInstance for TailwindOverflow {
-    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        todo!()
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        let class = match self.axis {
+            None => "overflow",
+            Some(true) => "overflow-x",
+            Some(false) => "overflow-y",
+        };
+        css_attributes! {
+            class => self
+        }
     }
 }
 
@@ -311,19 +320,28 @@ impl TailwindInstance for TailwindOverscroll {
 
 impl Display for PositionKind {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        match self {
+            Self::Static => f.write_str("static"),
+            Self::Fixed => f.write_str("fixed"),
+            Self::Absolute => f.write_str("absolute"),
+            Self::Relative => f.write_str("relative"),
+            Self::Sticky => f.write_str("sticky"),
+        }
     }
 }
 
 impl Display for TailwindPosition {
+    #[inline]
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        Display::fmt(&self.kind, f)
     }
 }
 
 impl TailwindInstance for TailwindPosition {
-    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        todo!()
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        css_attributes! {
+            "position" => self
+        }
     }
 }
 
@@ -350,26 +368,23 @@ impl TailwindInstance for TailwindVisibility {
 
 impl Display for TailWindZIndex {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Positive(n) => write!(f, "z-{}", n),
-            Self::Negative(n) => write!(f, "-z-{}", n),
-            Self::Auto => write!(f, "z-auto"),
+        match self.kind {
+            ZIndex::Auto => write!(f, "w-auto"),
+            ZIndex::Unit(n) if self.neg => write!(f, "-w-{}", n),
+            ZIndex::Unit(n) => write!(f, "w-{}", n),
         }
     }
 }
 
 impl TailwindInstance for TailWindZIndex {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        match self {
-            Self::Positive(n) => css_attributes! {
-                "z-index" => &n.to_string()
-            },
-            Self::Negative(n) => css_attributes! {
-                "z-index" => &(-(*n as isize)).to_string()
-            },
-            Self::Auto => css_attributes! {
-                "z-index" => "auto"
-            },
+        let index = match self.kind {
+            ZIndex::Auto => "auto".to_string(),
+            ZIndex::Unit(n) if self.neg => format!("-{}", n),
+            ZIndex::Unit(n) => format!("{}", n),
+        };
+        css_attributes! {
+            "z-index" => index
         }
     }
 }

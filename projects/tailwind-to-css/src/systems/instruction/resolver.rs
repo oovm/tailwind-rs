@@ -44,16 +44,16 @@ impl TailwindInstruction {
             ["relative"] => TailwindPosition::Relative.boxed(),
             ["sticky"] => TailwindPosition::Sticky.boxed(),
             // https://tailwindcss.com/docs/top-right-bottom-left
-            ["inset", rest @ ..] => TailWindZIndex::parse(rest, self.negative),
-            ["top", rest @ ..] => TailWindZIndex::parse(rest, self.negative),
-            ["right", rest @ ..] => TailWindZIndex::parse(rest, self.negative),
-            ["buttom", rest @ ..] => TailWindZIndex::parse(rest, self.negative),
-            ["left", rest @ ..] => TailWindZIndex::parse(rest, self.negative),
+            ["inset", rest @ ..] => todo!(),
+            ["top", rest @ ..] => todo!(),
+            ["right", rest @ ..] => todo!(),
+            ["buttom", rest @ ..] => todo!(),
+            ["left", rest @ ..] => todo!(),
             // https://tailwindcss.com/docs/visibility
             ["visible"] => TailwindVisibility::Visible.boxed(),
             ["invisible"] => TailwindVisibility::Invisible.boxed(),
             // https://tailwindcss.com/docs/z-index
-            ["z", rest @ ..] => TailWindZIndex::parse(rest, self.negative),
+            ["z", rest @ ..] => TailWindZIndex::parse(rest, arbitrary, self.negative)?.boxed(),
             // Flexbox & Grid
             ["basis", rest @ ..] => TailwindBasis::parse(rest, arbitrary)?.boxed(),
             ["flex", rest @ ..] => Self::flex_adaptor(rest, arbitrary)?,
