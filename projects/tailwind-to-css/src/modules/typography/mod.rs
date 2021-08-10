@@ -56,12 +56,17 @@ pub enum TailwindFontVariantNumeric {
     StackedFractions,
 }
 
+#[derive(Copy, Debug, Clone)]
+enum Tracking {
+    Normal,
+    Length(LengthUnit),
+    Global(CssBehavior),
+}
+
 #[doc = include_str!("letter-spacing.md")]
 #[derive(Copy, Debug, Clone)]
-pub enum TailwindTracking {
-    Normal,
-    Em(f32),
-    Global(CssBehavior),
+pub struct TailwindTracking {
+    kind: Tracking,
 }
 
 #[doc = include_str!("line-height.md")]
@@ -84,20 +89,29 @@ pub enum TailwindListStyle {
     Custom(String),
 }
 
-#[doc = include_str!("list-style-position.md")]
 #[derive(Copy, Debug, Clone)]
-pub enum TailwindListStylePosition {
+enum ListStylePosition {
     Inside,
     Outside,
 }
 
-#[doc = include_str!("text-align.md")]
-#[derive(Debug, Clone)]
-pub enum TailwindTextAlignment {
+#[doc = include_str!("list-style-position.md")]
+#[derive(Copy, Debug, Clone)]
+pub struct TailwindListStylePosition {
+    kind: ListStylePosition,
+}
+#[derive(Copy, Debug, Clone)]
+enum TextAlignment {
     Left,
     Center,
     Right,
     Justify,
+}
+
+#[doc = include_str!("text-align.md")]
+#[derive(Debug, Clone)]
+pub struct TailwindTextAlignment {
+    kind: TextAlignment,
 }
 
 #[doc = include_str!("text-color.md")]
@@ -106,13 +120,17 @@ pub struct TailwindTextColor {
     pub(crate) color: ColorResolver,
 }
 
-#[doc = include_str!("text-decoration.md")]
-#[derive(Debug, Clone)]
-pub enum TailwindTextDecoration {
+enum TextDecoration {
     Underline,
     Overline,
     ThroughLine,
     None,
+}
+
+#[doc = include_str!("text-decoration.md")]
+#[derive(Debug, Clone)]
+pub struct TailwindTextDecoration {
+    kind: TextDecoration,
 }
 
 #[doc = include_str!("text-decoration-color.md")]
@@ -121,9 +139,7 @@ pub struct TailwindDecorationColor {
     pub(crate) color: ColorResolver,
 }
 
-#[doc = include_str!("text-decoration-style.md")]
-#[derive(Debug, Clone)]
-pub enum TailwindDecorationStyle {
+enum DecorationStyle {
     /// <p style="text-decoration-line:underline;text-decoration-style:solid;">The quick brown fox jumps over the lazy dog.</p>
     Solid,
     /// <p style="text-decoration-line:underline;text-decoration-style:double;">The quick brown fox jumps over the lazy dog.</p>
@@ -134,6 +150,12 @@ pub enum TailwindDecorationStyle {
     Dashed,
     /// <p style="text-decoration-line:underline;text-decoration-style:wavy;">The quick brown fox jumps over the lazy dog.</p>
     Wavy,
+}
+
+#[doc = include_str!("text-decoration-style.md")]
+#[derive(Debug, Clone)]
+pub struct TailwindDecorationStyle {
+    kind: DecorationStyle,
 }
 
 #[doc = include_str!("text-decoration-thickness.md")]

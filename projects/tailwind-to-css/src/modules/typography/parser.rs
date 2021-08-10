@@ -22,28 +22,41 @@ impl TailwindFontSmoothing {
 }
 
 impl TailwindTracking {
+    /// `tracking-normal`
+    pub const Normal: Self = Self { kind: Tracking::Normal };
+    /// `tracking-inherit`
+    pub const Inherit: Self = Self { kind: Tracking::Global(CssBehavior::Inherit) };
+    /// `tracking-initial`
+    pub const Initial: Self = Self { kind: Tracking::Global(CssBehavior::Initial) };
+    /// `tracking-unset`
+    pub const Unset: Self = Self { kind: Tracking::Global(CssBehavior::Unset) };
+    /// https://tailwindcss.com/docs/letter-spacing
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in tracking");
         match input {
-            ["tighter"] => Ok(Self::Em(1.0)),
-            ["tight"] => Ok(Self::Em(1.0)),
+            ["tighter"] => Self::em(-0.05),
+            ["tight"] => Self::em(-0.025),
             // different from tailwind.js
-            ["none"] => Ok(Self::Em(1.0)),
-            ["wide"] => Ok(Self::Em(1.0)),
-            ["wider" | "relaxed"] => Ok(Self::Em(1.0)),
-            ["widest" | "loose"] => Ok(Self::Em(1.0)),
+            ["none"] => Self::em(0.0),
+            ["wide"] => Self::em(0.025),
+            ["wider" | "relaxed"] => Self::em(0.05),
+            ["widest" | "loose"] => Self::em(0.1),
+            // https://developer.mozilla.org/zh-CN/docs/Web/CSS/letter-spacing#%E5%80%BC
             ["normal"] => Ok(Self::Normal),
-            [] => Self::parse_arbitrary(arbitrary),
-            [n] => Self::parse_arbitrary(todo!()),
+            ["inherit"] => Ok(Self::Inherit),
+            ["initial"] => Ok(Self::Initial),
+            ["unset"] => Ok(Self::Unset),
+            [n] => Self::parse_n(n),
             _ => syntax_error!("Unknown tracking instructions: {}", input.join("-")),
         }
     }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self::parse_em(todo!())?.1)
+    #[inline(always)]
+    pub(crate) fn em(n: f32) -> Result<Self> {
+        Ok(Self { kind: Tracking::Length(LengthUnit::Em(n)) })
     }
-    #[inline]
-    fn parse_em(input: &str) -> IResult<&str, Self> {
-        let (rest, (em, _)) = tuple((parse_integer, opt(tag("em"))))(input)?;
-        Ok((rest, Self::Em(em)))
+    #[inline(always)]
+    pub(crate) fn parse_n(n: &str) -> Result<Self> {
+        Ok(Self { kind: Tracking::Length(LengthUnit::parse(n)?.1) })
     }
 }
 

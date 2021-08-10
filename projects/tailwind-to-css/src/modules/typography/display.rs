@@ -99,13 +99,19 @@ impl Display for TailwindFontVariantNumeric {
 
 impl TailwindInstance for TailwindFontVariantNumeric {}
 
+impl Display for Tracking {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
 impl Display for TailwindTracking {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.write_str("tracking-")?;
         match self {
             Self::Normal => write!(f, "normal"),
             Self::Global(g) => write!(f, "{}", g),
-            Self::Em(em) => write!(f, "[{}em]", em),
+            Self::Length(em) => write!(f, "[{}]", em),
         }
     }
 }
@@ -114,7 +120,7 @@ impl TailwindInstance for TailwindTracking {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         let em = match self {
             Self::Normal => "normal".to_string(),
-            Self::Em(em) => format!("{}em", em),
+            Self::Length(em) => format!("{}em", em),
             Self::Global(g) => format!("{}", g),
         };
         css_attributes! {

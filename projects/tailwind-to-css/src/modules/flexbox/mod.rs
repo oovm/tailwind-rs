@@ -52,7 +52,8 @@ pub struct TailWindShrink {
 #[doc=include_str!("order.md")]
 #[derive(Debug, Copy, Clone)]
 pub struct TailWindOrder {
-    order: isize,
+    order: usize,
+    negative: bool,
 }
 
 #[doc=include_str!("grid-template-columns.md")]

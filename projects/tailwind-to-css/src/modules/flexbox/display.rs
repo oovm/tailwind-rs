@@ -108,17 +108,21 @@ impl TailwindInstance for TailWindShrink {
 
 impl Display for TailWindOrder {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        if self.order.is_negative() {
+        if self.negative {
             f.write_char('-')?
         }
-        write!(f, "order-{}", self.order.abs())
+        write!(f, "order-{}", self.order)
     }
 }
 
 impl TailwindInstance for TailWindOrder {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        let order = match self.negative {
+            true => format!("-{}", self.order),
+            false => format!("{}", self.order),
+        };
         css_attributes! {
-            "order" => self.order
+            "order" => order
         }
     }
 }

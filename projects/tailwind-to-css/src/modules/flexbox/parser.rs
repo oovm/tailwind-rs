@@ -30,58 +30,44 @@ impl TailwindFlex {
 
 impl TailWindGrow {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in flex-grow");
         match pattern {
-            [] if arbitrary.is_none() => Ok(Self { grow: 0 }),
-            [] => Self::parse_arbitrary(arbitrary),
+            [] => Ok(Self { grow: 0 }),
             [n] => Ok(Self { grow: parse_integer(n)?.1 }),
-            _ => syntax_error!("Unknown flex-grow instructions: {}", pattern.join("-")),
+            _ => syntax_error!("Unknown grow instructions: {}", pattern.join("-")),
         }
-    }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let grow = parse_integer(todo!())?.1;
-        Ok(Self { grow })
     }
 }
 
 impl TailWindShrink {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in flex-shrink");
         match pattern {
-            [] if arbitrary.is_none() => Ok(Self { shrink: 0 }),
-            [] => Self::parse_arbitrary(arbitrary),
+            [] => Ok(Self { shrink: 0 }),
             [n] => Ok(Self { shrink: parse_integer(n)?.1 }),
-            _ => syntax_error!("Unknown flex-grow instructions: {}", pattern.join("-")),
+            _ => syntax_error!("Unknown shrink instructions: {}", pattern.join("-")),
         }
-    }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let shrink = parse_integer(todo!())?.1;
-        Ok(Self { shrink })
     }
 }
 
 impl TailWindOrder {
-    pub const NONE: Self = Self { order: 0 };
-    pub const FIRST: Self = Self { order: 9999 };
-    pub const LAST: Self = Self { order: -9999 };
+    /// `order-none`
+    pub const NONE: Self = Self { order: 0, negative: false };
+    /// `order-first`
+    pub const FIRST: Self = Self { order: 9999, negative: false };
+    /// `order-last`
+    pub const LAST: Self = Self { order: 9999, negative: true };
     #[inline]
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in order");
         let out = match pattern {
-            [] if arbitrary.is_none() => Self { order: 0 },
-            [] => Self::parse_arbitrary(arbitrary, negative)?,
             ["none"] => Self::NONE,
             ["first"] => Self::FIRST,
             ["last"] => Self::LAST,
-            [n] => Self::parse_arbitrary(todo!(), negative)?,
-            _ => return syntax_error!("Unknown flex-order instructions: {}", pattern.join("-")),
+            [n] => Self { order: parse_integer(n)?.1, negative },
+            _ => return syntax_error!("Unknown order instructions: {}", pattern.join("-")),
         };
         Ok(out)
-    }
-    #[inline]
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
-        let mut order: isize = parse_integer(todo!())?.1;
-        if negative {
-            order = -order
-        }
-        Ok(Self { order })
     }
 }
 
