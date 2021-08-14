@@ -22,6 +22,6 @@ use std::{
 };
 use tailwind_ast::{parse_f32, parse_f_percent, parse_fraction, parse_i_px_maybe, parse_integer};
 use tailwind_error::{
-    nom::{branch::alt, bytes::complete::tag, combinator::opt, sequence::tuple, IResult},
+    nom::{branch::alt, bytes::complete::tag, sequence::tuple, IResult},
     Result,
 };

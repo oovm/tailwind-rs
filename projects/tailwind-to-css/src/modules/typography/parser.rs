@@ -87,19 +87,33 @@ impl TailwindFontVariantNumeric {
     pub const StackedFractions: Self = Self { kind: FontVariantNumeric::StackedFractions };
 }
 
-// underline	text-decoration-line: underline;
-// overline	text-decoration-line: overline;
-// line-through	text-decoration-line: line-through;
-// no-underline	text-decoration-line: none;
 impl TailwindTextDecoration {
-    ///
-    pub const Normal: Self = Self { kind: TextDecoration::Underline };
-    ///
-    pub const Ordinal: Self = Self { kind: TextDecoration::Ordinal };
-    ///
-    pub const SlashedZero: Self = Self { kind: TextDecoration::SlashedZero };
-    ///
-    pub const Lining: Self = Self { kind: TextDecoration::Lining };
+    /// `underline`
+    pub const Underline: Self = Self { kind: TextDecoration::Underline };
+    /// `overline`
+    pub const Overline: Self = Self { kind: TextDecoration::Overline };
+    /// `line-through`
+    pub const ThroughLine: Self = Self { kind: TextDecoration::ThroughLine };
+    /// `no-underline`
+    pub const None: Self = Self { kind: TextDecoration::None };
+}
+
+impl TailwindListStylePosition {
+    /// `list-inside`
+    pub const Inside: Self = Self { kind: ListStylePosition::Inside };
+    /// `list-outside`
+    pub const Outside: Self = Self { kind: ListStylePosition::Outside };
+}
+
+impl TailwindTextAlignment {
+    /// `list-inside`
+    pub const Left: Self = Self { kind: TextAlignment::Left };
+    /// `list-outside`
+    pub const Right: Self = Self { kind: TextAlignment::Right };
+    /// `list-inside`
+    pub const Center: Self = Self { kind: TextAlignment::Center };
+    /// `list-outside`
+    pub const Justify: Self = Self { kind: TextAlignment::Justify };
 }
 
 impl TailwindLeading {

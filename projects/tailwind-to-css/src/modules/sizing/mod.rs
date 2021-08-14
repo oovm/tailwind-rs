@@ -27,24 +27,17 @@ enum LengthUnit {
     Percent(f32),
 }
 
-/// https://tailwindcss.com/docs/height
 #[derive(Copy, Clone, Debug)]
-pub enum TailwindSizingKind {
-    #[doc = include_str!("min-height.md")]
+enum TailwindSizingKind {
     Width,
-    #[doc = include_str!("min-height.md")]
     MinWidth,
-    #[doc = include_str!("min-height.md")]
     MaxWidth,
-    #[doc = include_str!("min-height.md")]
     Height,
-    #[doc = include_str!("min-height.md")]
     MinHeight,
-    #[doc = include_str!("min-height.md")]
     MaxHeight,
 }
 
-/// https://tailwindcss.com/docs/height
+#[doc = include_str!("sizing.md")]
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindSizing {
     kind: TailwindSizingKind,

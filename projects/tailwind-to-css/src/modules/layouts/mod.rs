@@ -48,6 +48,7 @@ pub struct TailwindBreakLayout {
     kind: BreakKind,
     info: String,
 }
+
 #[derive(Copy, Clone, Debug)]
 enum BoxDecoration {
     Clone,

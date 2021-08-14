@@ -145,21 +145,17 @@ pub struct TailwindDecorationColor {
     pub(crate) color: ColorResolver,
 }
 
+#[derive(Debug, Copy, Clone)]
 enum DecorationStyle {
-    /// <p style="text-decoration-line:underline;text-decoration-style:solid;">The quick brown fox jumps over the lazy dog.</p>
     Solid,
-    /// <p style="text-decoration-line:underline;text-decoration-style:double;">The quick brown fox jumps over the lazy dog.</p>
     Double,
-    /// <p style="text-decoration-line:underline;text-decoration-style:dotted;">The quick brown fox jumps over the lazy dog.</p>
     Dotted,
-    /// <p style="text-decoration-line:underline;text-decoration-style:dashed;">The quick brown fox jumps over the lazy dog.</p>
     Dashed,
-    /// <p style="text-decoration-line:underline;text-decoration-style:wavy;">The quick brown fox jumps over the lazy dog.</p>
     Wavy,
 }
 
 #[doc = include_str!("text-decoration-style.md")]
-#[derive(Debug, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub struct TailwindDecorationStyle {
     kind: DecorationStyle,
 }

@@ -7,9 +7,6 @@ impl Display for TailwindBorderStyle {
 }
 
 impl TailwindInstance for TailwindBorderStyle {
-    fn selectors(&self, ctx: &TailwindBuilder) -> String {
-        todo!()
-    }
     fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         todo!()
     }
@@ -29,7 +26,11 @@ impl Display for TailwindOutlineStyle {
     }
 }
 
-impl TailwindInstance for TailwindOutlineStyle {}
+impl TailwindInstance for TailwindOutlineStyle {
+    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        todo!()
+    }
+}
 
 impl Display for TailwindRingOffsetWidth {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -37,4 +38,8 @@ impl Display for TailwindRingOffsetWidth {
     }
 }
 
-impl TailwindInstance for TailwindRingOffsetWidth {}
+impl TailwindInstance for TailwindRingOffsetWidth {
+    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        todo!()
+    }
+}
