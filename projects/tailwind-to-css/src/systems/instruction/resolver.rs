@@ -341,11 +341,31 @@ impl TailwindInstruction {
     }
     #[inline]
     fn grid_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        todo!()
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after place");
+        let out = match str {
+            // https://tailwindcss.com/docs/grid-template-rows
+            ["rows", rest @ ..] => TailwindListStyle::None.boxed(),
+            // https://tailwindcss.com/docs/grid-auto-flow
+            ["flow", rest @ ..] => TailwindListStyle::None.boxed(),
+            // https://tailwindcss.com/docs/place-self
+            ["self", rest @ ..] => TailwindListStyle::None.boxed(),
+            _ => return syntax_error!("Unknown list instructions: {}", str.join("-")),
+        };
+        Ok(out)
     }
     #[inline]
     fn justify_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        todo!()
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after justify");
+        let out = match str {
+            // https://tailwindcss.com/docs/justify-content
+            ["content", rest @ ..] => TailwindListStyle::None.boxed(),
+            // https://tailwindcss.com/docs/justify-items
+            ["items", rest @ ..] => TailwindListStyle::None.boxed(),
+            // https://tailwindcss.com/docs/justify-self
+            ["self", rest @ ..] => TailwindListStyle::None.boxed(),
+            _ => return syntax_error!("Unknown justify instructions: {}", str.join("-")),
+        };
+        Ok(out)
     }
     #[inline]
     fn content_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
@@ -367,7 +387,17 @@ impl TailwindInstruction {
     }
     #[inline]
     fn place_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        todo!()
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after place");
+        let out = match str {
+            // https://tailwindcss.com/docs/place-content
+            ["content", rest @ ..] => TailwindListStyle::None.boxed(),
+            // https://tailwindcss.com/docs/place-items
+            ["items", rest @ ..] => TailwindListStyle::None.boxed(),
+            // https://tailwindcss.com/docs/place-self
+            ["self", rest @ ..] => TailwindListStyle::None.boxed(),
+            _ => return syntax_error!("Unknown list instructions: {}", str.join("-")),
+        };
+        Ok(out)
     }
     #[inline]
     fn list_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
@@ -387,11 +417,31 @@ impl TailwindInstruction {
     }
     #[inline]
     fn decoration_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        todo!()
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after justify");
+        let out = match str {
+            // https://tailwindcss.com/docs/justify-content
+            ["content", rest @ ..] => TailwindListStyle::None.boxed(),
+            // https://tailwindcss.com/docs/justify-items
+            ["items", rest @ ..] => TailwindListStyle::None.boxed(),
+            // https://tailwindcss.com/docs/justify-self
+            ["self", rest @ ..] => TailwindListStyle::None.boxed(),
+            _ => return syntax_error!("Unknown justify instructions: {}", str.join("-")),
+        };
+        Ok(out)
     }
     #[inline]
     fn backdrop_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        todo!()
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after justify");
+        let out = match str {
+            // https://tailwindcss.com/docs/justify-content
+            ["content", rest @ ..] => TailwindListStyle::None.boxed(),
+            // https://tailwindcss.com/docs/justify-items
+            ["items", rest @ ..] => TailwindListStyle::None.boxed(),
+            // https://tailwindcss.com/docs/justify-self
+            ["self", rest @ ..] => TailwindListStyle::None.boxed(),
+            _ => return syntax_error!("Unknown justify instructions: {}", str.join("-")),
+        };
+        Ok(out)
     }
     #[inline]
     fn table_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {

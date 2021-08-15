@@ -1,6 +1,6 @@
 mod systems;
 
-use tailwind_css::{TailwindBuilder, TailwindObject};
+use tailwind_css::TailwindBuilder;
 
 #[test]
 fn ready() {

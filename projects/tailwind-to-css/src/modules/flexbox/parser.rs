@@ -30,7 +30,7 @@ impl TailwindFlex {
 
 impl TailWindGrow {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in flex-grow");
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after flex-grow");
         match pattern {
             [] => Ok(Self { grow: 0 }),
             [n] => Ok(Self { grow: parse_integer(n)?.1 }),
@@ -41,7 +41,7 @@ impl TailWindGrow {
 
 impl TailWindShrink {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in flex-shrink");
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after flex-shrink");
         match pattern {
             [] => Ok(Self { shrink: 0 }),
             [n] => Ok(Self { shrink: parse_integer(n)?.1 }),
@@ -59,7 +59,7 @@ impl TailWindOrder {
     pub const LAST: Self = Self { order: 9999, negative: true };
     #[inline]
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in order");
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after order");
         let out = match pattern {
             ["none"] => Self::NONE,
             ["first"] => Self::FIRST,

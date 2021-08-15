@@ -1,7 +1,22 @@
 use super::*;
 
-impl LengthUnit {
-    pub fn get_attribute(&self, is_width: bool) -> String {
+impl Display for SizingUnit {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Min => write!(f, "min"),
+            Self::Max => write!(f, "max"),
+            Self::Fit => write!(f, "fit"),
+            Self::Auto => write!(f, "auto"),
+            Self::Full => write!(f, "full"),
+            Self::Screen => write!(f, "screen"),
+            Self::Fraction(numerator, denominator) => write!(f, "{}/{}", numerator, denominator),
+            Self::Length(x) => write!(f, "[{}]", x),
+        }
+    }
+}
+
+impl SizingUnit {
+    fn get_attribute(&self, is_width: bool) -> String {
         let is_width = match is_width {
             true => "vw",
             false => "vh",
@@ -10,36 +25,11 @@ impl LengthUnit {
             Self::Min => format!("min-content"),
             Self::Max => format!("max-content"),
             Self::Fit => format!("fit-content"),
-            Self::Full => format!("100%"),
             Self::Auto => format!("auto"),
+            Self::Full => format!("100%"),
             Self::Screen => format!("100{}", is_width),
-            Self::Px(n) => format!("{}px", n),
-            Self::Rem(n) => format!("{}rem", n),
-            Self::Unit(n) => format!("{}rem", *n as f32 / 4.0),
-            Self::Fraction(numerator, denominator) => format!("{}%", Self::Percent(*numerator as f32 / *denominator as f32)),
-            Self::Percent(percent) => format!("{}%", 100.0 * percent),
-        }
-    }
-}
-
-impl Display for LengthUnit {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Min => f.write_str("min"),
-            Self::Max => f.write_str("max"),
-            Self::Fit => f.write_str("fit"),
-            Self::Screen => f.write_str("screen"),
-            Self::Full => f.write_str("full"),
-            Self::Auto => f.write_str("auto"),
-            Self::Px(px) => match px {
-                n if n.eq(&0.0) => f.write_char('0'),
-                n if n.eq(&1.0) => f.write_str("px"),
-                _ => f.write_str("{}px"),
-            },
-            Self::Unit(n) => write!(f, "{}", n),
-            Self::Fraction(a, b) => write!(f, "{}/{}", a, b),
-            Self::Rem(rem) => write!(f, "{}rem", rem),
-            Self::Percent(p) => write!(f, "{}%", (p * 100.0).round()),
+            Self::Fraction(numerator, denominator) => format!("{}%", *numerator as f32 / *denominator as f32),
+            Self::Length(x) => format!("{}", x),
         }
     }
 }

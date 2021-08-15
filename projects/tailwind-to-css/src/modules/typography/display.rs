@@ -141,31 +141,31 @@ impl TailwindInstance for TailwindTracking {
     }
 }
 
-impl Display for TailwindLeading {
+impl Display for Leading {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.write_str("leading-")?;
         match self {
             Self::Normal => write!(f, "normal"),
+            Self::Length(n) => write!(f, "[{}]", n),
             Self::Global(g) => write!(f, "{}", g),
-            Self::Unit(n) => write!(f, "{}", n),
-            Self::Scale(n) => write!(f, "[{}%]", n * 100.0),
-            Self::Rem(n) => write!(f, "[{}rem]", n),
-            // Self::Px(n) => write!(f, "[{}px]", n),
         }
     }
 }
 
+impl Display for TailwindLeading {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "leading-{}", self.kind)
+    }
+}
+
 impl TailwindInstance for TailwindLeading {
-    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let leading = match self {
-            TailwindLeading::Normal => {}
-            TailwindLeading::Global(_) => {}
-            TailwindLeading::Unit(_) => {}
-            TailwindLeading::Scale(_) => {}
-            TailwindLeading::Rem(_) => {} // TailwindLeading::Px(_) => {}
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        let leading = match self.kind {
+            Leading::Normal => "normal".to_string(),
+            Leading::Length(n) => n.to_string(),
+            Leading::Global(g) => g.to_string(),
         };
         css_attributes! {
-            "line-height" => ""
+            "line-height" => leading
         }
     }
 }

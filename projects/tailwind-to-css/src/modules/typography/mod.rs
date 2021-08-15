@@ -74,15 +74,17 @@ pub struct TailwindTracking {
     kind: Tracking,
 }
 
+#[derive(Copy, Debug, Clone)]
+enum Leading {
+    Normal,
+    Length(LengthUnit),
+    Global(CssBehavior),
+}
+
 #[doc = include_str!("line-height.md")]
 #[derive(Copy, Debug, Clone)]
-pub enum TailwindLeading {
-    Normal,
-    Unit(usize),
-    Scale(f32),
-    Rem(f32),
-    Global(CssBehavior),
-    // Px(f32),
+pub struct TailwindLeading {
+    kind: Leading,
 }
 
 #[doc = include_str!("list-style-type.md")]

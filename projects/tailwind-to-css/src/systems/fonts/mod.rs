@@ -28,7 +28,7 @@ impl FontSystem {
         new
     }
     #[inline]
-    pub fn get_size(&self, name: &str) {
+    pub fn get_size(&self, _name: &str) {
         todo!()
     }
     #[inline]

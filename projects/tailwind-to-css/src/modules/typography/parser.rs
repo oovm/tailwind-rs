@@ -32,7 +32,7 @@ impl TailwindTracking {
     pub const Unset: Self = Self { kind: Tracking::Global(CssBehavior::Unset) };
     /// https://tailwindcss.com/docs/letter-spacing
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in tracking");
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after tracking");
         match input {
             ["tighter"] => Self::em(-0.05),
             ["tight"] => Self::em(-0.025),
@@ -117,45 +117,43 @@ impl TailwindTextAlignment {
 }
 
 impl TailwindLeading {
-    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        match input {
-            ["none"] => Ok(Self::Scale(1.0)),
-            ["tight"] => Ok(Self::Scale(1.25)),
-            ["snug"] => Ok(Self::Scale(1.375)),
+    /// `leading-normal`
+    pub const Normal: Self = Self { kind: Leading::Normal };
+    /// https://tailwindcss.com/docs/line-height
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        match pattern {
+            ["none"] => Self::scale(1.0),
+            ["tight"] => Self::scale(1.25),
+            ["snug"] => Self::scale(1.375),
             // different from tailwind.js
-            ["wide"] => Ok(Self::Scale(1.5)),
-            ["wider" | "relaxed"] => Ok(Self::Scale(1.625)),
-            ["widest" | "loose"] => Ok(Self::Scale(2.0)),
+            ["wide"] => Self::scale(1.5),
+            ["wider" | "relaxed"] => Self::scale(1.625),
+            ["widest" | "loose"] => Self::scale(2.0),
             // https://developer.mozilla.org/zh-CN/docs/Web/CSS/line-height#normal
             ["normal"] => Ok(Self::Normal),
             [] => Self::parse_arbitrary(arbitrary),
-            [n] => Self::parse_arbitrary(todo!()),
-            _ => syntax_error!("Unknown tracking instructions: {}", input.join("-")),
+            [n] => Self::parse_arbitrary(&TailwindArbitrary::from(*n)),
+            _ => syntax_error!("Unknown leading instructions: {}", pattern.join("-")),
         }
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let out = alt((Self::arbitrary_percent, Self::arbitrary_rem, Self::arbitrary_unit))(todo!())?;
-        Ok(out.1)
+        Self::maybe_no_unit(arbitrary).or_else(|_| Self::maybe_length(arbitrary))
     }
     #[inline]
-    fn arbitrary_percent(input: &str) -> IResult<&str, Self> {
-        let (rest, f) = parse_f_percent(input)?;
-        Ok((rest, Self::Scale(f / 100.0)))
+    fn maybe_no_unit(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Self::rem(arbitrary.as_float()? / 4.0)
     }
     #[inline]
-    fn arbitrary_unit(input: &str) -> IResult<&str, Self> {
-        let (rest, u) = parse_integer(input)?;
-        Ok((rest, Self::Unit(u)))
+    fn maybe_length(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Self::rem(arbitrary.as_float()? / 4.0)
     }
-    // #[inline]
-    // fn arbitrary_px(input: &str) -> IResult<&str, Self> {
-    //     let (rest, (f, _)) = tuple((parse_f32, tag("px")))(input)?;
-    //     Ok((rest, Self::Px(f)))
-    // }
-    #[inline]
-    fn arbitrary_rem(input: &str) -> IResult<&str, Self> {
-        let (rest, (f, _)) = tuple((parse_f32, tag("rem")))(input)?;
-        Ok((rest, Self::Rem(f)))
+    #[inline(always)]
+    fn scale(x: f32) -> Result<Self> {
+        Ok(Self { kind: Leading::Length(LengthUnit::Percent(x * 100.0)) })
+    }
+    #[inline(always)]
+    fn rem(x: f32) -> Result<Self> {
+        Ok(Self { kind: Leading::Length(LengthUnit::Rem(x)) })
     }
 }
 
@@ -168,7 +166,7 @@ impl TailwindListStyle {
 impl TailwindFontSize {
     #[inline]
     pub fn new(size: f32, height: f32) -> Self {
-        Self { size: TailwindTracking::em(size).unwrap(), height: TailwindLeading::Rem(height) }
+        Self { size: TailwindTracking::em(size).unwrap(), height: TailwindLeading::rem(height).unwrap() }
     }
 }
 

@@ -24,7 +24,7 @@ impl AspectKind {
 impl TailwindAspect {
     /// https://tailwindcss.com/docs/aspect-ratio
     pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in aspect");
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after aspect");
         Ok(Self { kind: AspectKind::parse(kind)? })
     }
 }
@@ -74,7 +74,7 @@ impl ColumnKind {
 impl TailwindColumns {
     /// https://tailwindcss.com/docs/columns
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in aspect");
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after aspect");
         Ok(Self { kind: ColumnKind::parse(input)? })
     }
 }
@@ -134,7 +134,7 @@ impl Overflow {
 
 impl TailwindOverflow {
     pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary, axis: Option<bool>) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in overflow");
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after overflow");
         let kind = Overflow::parse(kind)?;
         Ok(Self { kind, axis })
     }
@@ -154,7 +154,7 @@ impl Overscroll {
 
 impl TailwindOverscroll {
     pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary, axis: Option<bool>) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in overflow");
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after overflow");
         let kind = Overscroll::parse(kind)?;
         Ok(Self { kind, axis })
     }
@@ -163,7 +163,7 @@ impl TailwindOverscroll {
 impl TailwindFloat {
     /// https://tailwindcss.com/docs/float
     pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in brightness");
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after brightness");
         let out = match kind {
             ["left"] => Self { kind: FloatKind::Left },
             ["right"] => Self { kind: FloatKind::Right },
@@ -177,7 +177,7 @@ impl TailwindFloat {
 impl TailwindClear {
     /// https://tailwindcss.com/docs/clear
     pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in brightness");
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after brightness");
         let out = match kind {
             ["left"] => Self { kind: ClearKind::Left },
             ["right"] => Self { kind: ClearKind::Right },
@@ -245,7 +245,7 @@ impl TailwindBoxSizing {
 
 impl TailWindZIndex {
     pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary, neg: bool) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in z-index");
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after z-index");
         match kind {
             ["auto"] => Ok(Self { kind: ZIndex::Auto, neg }),
             [r] => Self::parse_number(r, neg),

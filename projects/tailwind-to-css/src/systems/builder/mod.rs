@@ -66,7 +66,9 @@ impl TailwindBuilder {
     /// ```
     #[inline]
     #[track_caller]
-    pub fn scope(&self, style: &str) {}
+    pub fn scope(&self, style: &str) {
+        let _id = style;
+    }
     /// Safe version of [`TailwindBuilder::scope`]
     pub fn try_scope() {}
 

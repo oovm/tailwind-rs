@@ -103,7 +103,7 @@ impl TailwindSelect {
     /// https://tailwindcss.com/docs/user-select
     #[inline]
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary in select");
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after select");
         Ok(Self { kind: SelectKind::parse(pattern)? })
     }
 }
