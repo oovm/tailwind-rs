@@ -135,7 +135,7 @@ impl TailwindInstruction {
             ["prose"] => todo!(),
             // Backgrounds System
             // FIXME: https://tailwindcss.com/docs/background-blend-mode
-            ["bg", rest @ ..] => todo!(),
+            ["bg", rest @ ..] => Self::bg_adaptor(rest, arbitrary)?,
             ["from", rest @ ..] => todo!(),
             ["via", rest @ ..] => todo!(),
             ["to", rest @ ..] => todo!(),
@@ -216,6 +216,22 @@ impl TailwindInstruction {
             // https://tailwindcss.com/docs/break-after
             ["after", rest @ ..] => TailwindBreakLayout::parse_after(rest)?.boxed(),
             _ => return syntax_error!("Unknown break instructions: {}", str.join("-")),
+        };
+        Ok(out)
+    }
+    #[inline]
+    fn bg_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+        let out = match str {
+            // https://tailwindcss.com/docs/background-attachment
+            ["fixed"] => TailwindBackgroundAttachment::Fixed.boxed(),
+            ["local"] => TailwindBackgroundAttachment::Local.boxed(),
+            ["scroll"] => TailwindBackgroundAttachment::Scroll.boxed(),
+            // https://tailwindcss.com/docs/background-clip
+            ["clip", "border"] => TailwindBackgroundClip::Border.boxed(),
+            ["clip", "padding"] => TailwindBackgroundClip::Padding.boxed(),
+            ["clip", "content"] => TailwindBackgroundClip::Content.boxed(),
+            ["clip", "text"] => TailwindBackgroundClip::Text.boxed(),
+            _ => return syntax_error!("Unknown border instructions: {}", str.join("-")),
         };
         Ok(out)
     }

@@ -37,3 +37,12 @@ impl TailwindInstance for TailwindBackgroundAttachment {
         }
     }
 }
+
+impl TailwindBackgroundAttachment {
+    /// `bg-fixed`
+    pub const Fixed: Self = Self { kind: AttachmentKind::Fixed };
+    /// `bg-local`
+    pub const Local: Self = Self { kind: AttachmentKind::Local };
+    /// `bg-scroll`
+    pub const Scroll: Self = Self { kind: AttachmentKind::Scroll };
+}

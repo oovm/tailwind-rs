@@ -54,6 +54,7 @@ impl TailwindInstance for TailwindScreenReader {
 }
 
 impl TailwindScreenReader {
+    /// https://tailwindcss.com/docs/screen-readers
     #[inline]
     pub fn new(sr_only: bool) -> Self {
         Self { sr_only }

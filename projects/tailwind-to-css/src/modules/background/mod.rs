@@ -1,31 +1,12 @@
 use super::*;
 mod attachment;
 mod builder;
+mod clip;
 mod display;
 #[cfg(test)]
 mod test;
 
-pub use self::attachment::TailwindBackgroundAttachment;
-
-// Background Clip
-// Utilities for controlling the bounding box of an element's background.
-//
-// ​
-// Quick reference
-// Class
-// Properties
-// bg-clip-border	background-clip: border-box;
-// bg-clip-padding	background-clip: padding-box;
-// bg-clip-content	background-clip: content-box;
-// bg-clip-text	background-clip: text;
-#[derive(Copy, Clone, Debug)]
-enum BackgroundClip {}
-
-// https://tailwindcss.com/docs/background-clip
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindBackgroundClip {
-    kind: BackgroundClip,
-}
+pub use self::{attachment::TailwindBackgroundAttachment, clip::TailwindBackgroundClip};
 
 #[doc = include_str ! ("aspect-ratio.md")]
 #[derive(Clone, Debug)]
