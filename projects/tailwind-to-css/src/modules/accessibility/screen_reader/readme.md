@@ -1,4 +1,9 @@
-use crate::{tw_idempotency, TailwindBuilder};
+Utilities for improving accessibility with screen readers.
+
+## Example
+
+```rust
+use tailwind_css::TailwindBuilder;
 
 #[test]
 fn build_screen_reader() {
@@ -10,15 +15,13 @@ fn build_screen_reader() {
     );
     let out = builder.inline("not-sr-only");
     assert_eq!(
-        //
         out,
         "clip:auto;height:auto;margin:0;overflow:visible;padding:0;position:static;white-space:normal;width:auto;"
     );
 }
+```
 
-#[test]
-fn id_screen_reader() {
-    let mut builder = TailwindBuilder::default();
-    tw_idempotency("sr-only", &mut builder);
-    tw_idempotency("not-sr-only", &mut builder);
-}
+## Reference
+
+- [screen-readers](https://tailwindcss.com/docs/screen-readers)
+- [screen-readers/cn](https://tailwindcss.com/docs/screen-readers)
