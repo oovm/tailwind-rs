@@ -231,6 +231,10 @@ impl TailwindInstruction {
             ["clip", "padding"] => TailwindBackgroundClip::Padding.boxed(),
             ["clip", "content"] => TailwindBackgroundClip::Content.boxed(),
             ["clip", "text"] => TailwindBackgroundClip::Text.boxed(),
+            // https://tailwindcss.com/docs/background-origin
+            ["clip", "padding"] => TailwindBackgroundOrigin::Padding.boxed(),
+            ["clip", "content"] => TailwindBackgroundClip::Content.boxed(),
+            ["clip", "text"] => TailwindBackgroundClip::Text.boxed(),
             _ => return syntax_error!("Unknown border instructions: {}", str.join("-")),
         };
         Ok(out)
