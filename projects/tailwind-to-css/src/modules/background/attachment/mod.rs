@@ -17,9 +17,9 @@ enum AttachmentKind {
 impl Display for AttachmentKind {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::Scroll => f.write_str("scroll"),
-            Self::Fixed => f.write_str("fixed"),
-            Self::Local => f.write_str("local"),
+            Self::Scroll => write!(f, "scroll"),
+            Self::Fixed => write!(f, "fixed"),
+            Self::Local => write!(f, "local"),
         }
     }
 }

@@ -1,7 +1,7 @@
-use crate::{css_attributes, CssAttribute, TailwindBuilder, TailwindInstance};
+use crate::{css_attributes, CssAttribute, CssBehavior, TailwindBuilder, TailwindInstance};
 use std::{
     collections::BTreeSet,
-    fmt::{Debug, Display, Formatter, Write},
+    fmt::{Debug, Display, Formatter},
 };
 
 #[doc = include_str!("readme.md")]
@@ -16,7 +16,7 @@ enum BackgroundClip {
     Padding,
     Content,
     Text,
-    Global(CssAttribute),
+    Global(CssBehavior),
 }
 
 impl Display for BackgroundClip {

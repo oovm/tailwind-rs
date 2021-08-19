@@ -1,35 +1,53 @@
-use crate::{CssAttribute, TailwindInstance};
-use std::fmt::{Display, Formatter};
+use crate::{css_attributes, CssAttribute, CssBehavior, TailwindBuilder, TailwindInstance};
+use std::{
+    collections::BTreeSet,
+    fmt::{Display, Formatter},
+};
 
 #[derive(Copy, Clone, Debug)]
 enum BackgroundOrigin {
     Border,
     Padding,
     Content,
+    Global(CssBehavior),
 }
 
-// https://tailwindcss.com/docs/background-origin
+#[doc = include_str!("readme.md")]
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindBackgroundOrigin {
     kind: BackgroundOrigin,
 }
 
-// bg-origin-border	background-origin: border-box;
-// bg-origin-padding	background-origin: padding-box;
-// bg-origin-content	background-origin: content-box;
 impl Display for BackgroundOrigin {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        match self {
+            Self::Border => write!(f, "border"),
+            Self::Padding => write!(f, "padding"),
+            Self::Content => write!(f, "content"),
+            Self::Global(g) => write!(f, "{}", g),
+        }
     }
 }
 
 impl Display for TailwindBackgroundOrigin {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        write!(f, "bg-origin-{}", self.kind)
     }
 }
 
-impl TailwindInstance for TailwindBackgroundOrigin {}
+impl TailwindInstance for TailwindBackgroundOrigin {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        let clip = match &self.kind {
+            BackgroundOrigin::Border => "border-box".to_string(),
+            BackgroundOrigin::Padding => "padding-box".to_string(),
+            BackgroundOrigin::Content => "content-box".to_string(),
+            BackgroundOrigin::Global(g) => g.to_string(),
+        };
+        css_attributes! {
+            "background-clip" => clip
+        }
+    }
+}
 
 impl TailwindBackgroundOrigin {
     /// `bg-clip-border`

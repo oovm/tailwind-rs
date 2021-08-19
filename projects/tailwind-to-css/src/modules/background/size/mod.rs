@@ -1,4 +1,4 @@
-use crate::{css_attributes, CssAttribute, CssBehavior, TailwindBuilder, TailwindInstance};
+use crate::{css_attributes, CssAttribute, TailwindBuilder, TailwindInstance};
 use std::{
     collections::BTreeSet,
     fmt::{Display, Formatter},
@@ -12,7 +12,7 @@ enum BackgroundRepeat {
     Round,
     Space,
     None,
-    Global(CssBehavior),
+    Global(CssAttribute),
 }
 
 #[doc = include_str!("readme.md")]
