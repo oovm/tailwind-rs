@@ -1,6 +1,6 @@
 # Tailwind to Css
 
-**Tailwind style tracer + compiler!**
+**Tailwind style tracer, JIT + AOT compiler!**
 
 ```rust
 use tailwind_css::TailwindBuilder;

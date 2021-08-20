@@ -1,17 +1,6 @@
 use super::*;
 use tailwind_error::TailwindError;
 
-impl TailwindOpacity {
-    /// https://tailwindcss.com/docs/opacity
-    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after duration");
-        match input {
-            [n] => Ok(Self { opacity: parse_usize(n)? }),
-            _ => syntax_error!("Unknown opacity instructions: {}", input.join("-")),
-        }
-    }
-}
-
 impl TailwindBlendMode {}
 
 impl FromStr for TailwindBlendMode {

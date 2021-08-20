@@ -5,6 +5,7 @@ mod clip;
 mod display;
 mod origin;
 mod repeat;
+mod size;
 #[cfg(test)]
 mod test;
 
