@@ -1,4 +1,5 @@
 mod display;
+mod from_str;
 mod methods;
 mod parse;
 #[cfg(test)]
