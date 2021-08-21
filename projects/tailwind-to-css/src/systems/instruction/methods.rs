@@ -1,4 +1,5 @@
 use super::*;
+use css_color::Srgb;
 use tailwind_ast::{parse_f32, parse_fraction, parse_integer, ASTVariant, AstStyle};
 
 impl<'a> From<AstStyle<'a>> for TailwindInstruction {
@@ -89,6 +90,13 @@ impl TailwindArbitrary {
         match &self.inner {
             None => syntax_error!("missing arbitrary"),
             Some(s) => Ok(LengthUnit::parse(s)?.1),
+        }
+    }
+    #[inline]
+    pub fn as_color(&self) -> Result<Srgb> {
+        match &self.inner {
+            None => syntax_error!("missing arbitrary"),
+            Some(s) => Ok(Srgb::from_str(s)?),
         }
     }
 }

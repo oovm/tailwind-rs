@@ -148,7 +148,7 @@ impl TailwindInstruction {
             // Effects System
             ["shadow", rest @ ..] => Self::shadow_adaptor(rest, arbitrary)?,
             ["opacity", rest @ ..] => TailwindOpacity::parse(rest, arbitrary)?.boxed(),
-            ["mix", "blend", rest @ ..] => todo!(),
+            ["mix", "blend", rest @ ..] => TailwindBlend::parse(rest, arbitrary)?.boxed(),
             // Filters System
             ["blur", rest @ ..] => TailwindBlur::parse(rest, arbitrary, false)?.boxed(),
             ["brightness", rest @ ..] => TailwindBrightness::parse(rest, arbitrary, false)?.boxed(),
@@ -232,10 +232,23 @@ impl TailwindInstruction {
             ["clip", "content"] => TailwindBackgroundClip::Content.boxed(),
             ["clip", "text"] => TailwindBackgroundClip::Text.boxed(),
             // https://tailwindcss.com/docs/background-origin
-            ["clip", "padding"] => TailwindBackgroundOrigin::Padding.boxed(),
-            ["clip", "content"] => TailwindBackgroundClip::Content.boxed(),
-            ["clip", "text"] => TailwindBackgroundClip::Text.boxed(),
-            _ => return syntax_error!("Unknown border instructions: {}", str.join("-")),
+            ["origin", "padding"] => TailwindBackgroundOrigin::Padding.boxed(),
+            ["origin", "content"] => TailwindBackgroundOrigin::Content.boxed(),
+            ["origin", "border"] => TailwindBackgroundOrigin::Border.boxed(),
+            // https://tailwindcss.com/docs/background-repeat
+            ["repeat"] => TailwindBackgroundRepeat::Repeat.boxed(),
+            ["no", "repeat"] | ["repeat", "none"] => TailwindBackgroundRepeat::None.boxed(),
+            ["repeat", "x"] => TailwindBackgroundRepeat::RepeatX.boxed(),
+            ["repeat", "y"] => TailwindBackgroundRepeat::RepeatY.boxed(),
+            ["repeat", "round"] => TailwindBackgroundRepeat::Round.boxed(),
+            ["repeat", "space"] => TailwindBackgroundRepeat::Space.boxed(),
+            // https://tailwindcss.com/docs/background-size
+            ["auto"] => TailwindBackgroundSize::Auto.boxed(),
+            ["cover"] => TailwindBackgroundSize::Cover.boxed(),
+            ["contain"] => TailwindBackgroundSize::Contain.boxed(),
+            // https://tailwindcss.com/docs/background-blend-mode
+            ["blend", rest @ ..] => TailwindBackgroundBlend::parse(rest, arbitrary).boxed(),
+            _ => return syntax_error!("Unknown bg instructions: {}", str.join("-")),
         };
         Ok(out)
     }

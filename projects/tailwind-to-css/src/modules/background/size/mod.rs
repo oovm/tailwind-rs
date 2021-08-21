@@ -45,9 +45,9 @@ impl TailwindInstance for TailwindBackgroundSize {
 
 impl TailwindBackgroundSize {
     /// `bg-auto`
-    pub const Repeat: Self = Self { kind: BackgroundSize::Auto };
+    pub const Auto: Self = Self { kind: BackgroundSize::Auto };
     /// `bg-cover`
-    pub const RepeatX: Self = Self { kind: BackgroundSize::Cover };
+    pub const Cover: Self = Self { kind: BackgroundSize::Cover };
     /// `bg-contain`
-    pub const RepeatY: Self = Self { kind: BackgroundSize::Contain };
+    pub const Contain: Self = Self { kind: BackgroundSize::Contain };
 }

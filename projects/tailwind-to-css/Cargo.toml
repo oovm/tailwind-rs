@@ -10,7 +10,7 @@ license = "MPL-2.0"
 edition = "2021"
 
 [dependencies]
-css-color-parser = "0.1.2"
+css-color = "0.2.4"
 log = "0.4.14"
 tailwind-ast = {version = "0.4.0", path = "../tailwind-ast"}
 parcel_css = "1.0.0-alpha.16"

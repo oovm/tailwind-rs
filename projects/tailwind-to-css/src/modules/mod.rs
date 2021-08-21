@@ -14,6 +14,7 @@ pub mod transforms;
 pub mod transition;
 pub mod typography;
 
+pub use self::effects::*;
 use crate::*;
 use std::{
     collections::{BTreeSet, HashMap},

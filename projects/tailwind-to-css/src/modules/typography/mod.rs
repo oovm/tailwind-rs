@@ -124,7 +124,7 @@ pub struct TailwindTextAlignment {
 #[doc = include_str!("text-color.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindTextColor {
-    pub(crate) color: ColorResolver,
+    pub(crate) color: TailwindColor,
 }
 
 #[derive(Debug, Copy, Clone)]
@@ -144,7 +144,7 @@ pub struct TailwindTextDecoration {
 #[doc = include_str!("text-decoration-color.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindDecorationColor {
-    pub(crate) color: ColorResolver,
+    pub(crate) color: TailwindColor,
 }
 
 #[derive(Debug, Copy, Clone)]

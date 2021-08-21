@@ -9,8 +9,8 @@ pub struct TailwindBuilder {
     pub obfuscate: bool,
     pub objects: BTreeSet<Box<dyn TailwindInstance>>,
     pub preflight: PreflightSystem,
+    pub palettes: PaletteSystem,
     pub screens: BreakPointSystem,
-    pub colors: PaletteSystem,
     pub fonts: FontSystem,
 }
 

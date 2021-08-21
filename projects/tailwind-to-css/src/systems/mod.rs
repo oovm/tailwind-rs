@@ -9,7 +9,6 @@ pub mod preflight;
 pub mod processor;
 
 use crate::*;
-use css_color_parser::Color;
 use parcel_css::stylesheet::{MinifyOptions, ParserOptions, PrinterOptions, StyleSheet};
 use std::{
     collections::{BTreeMap, HashMap, HashSet},

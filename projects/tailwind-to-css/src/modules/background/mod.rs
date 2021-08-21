@@ -11,13 +11,13 @@ mod test;
 
 pub use self::{
     attachment::TailwindBackgroundAttachment, clip::TailwindBackgroundClip, origin::TailwindBackgroundOrigin,
-    repeat::TailwindBackgroundRepeat,
+    repeat::TailwindBackgroundRepeat, size::TailwindBackgroundSize,
 };
 
 #[doc = include_str ! ("aspect-ratio.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindBackgroundColor {
-    pub(crate) color: ColorResolver,
+    pub(crate) color: TailwindColor,
 }
 
 // https://tailwindcss.com/docs/background-origin

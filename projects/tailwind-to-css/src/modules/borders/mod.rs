@@ -37,7 +37,7 @@ pub struct TailwindOutlineWidth {
 ///
 #[derive(Clone, Debug)]
 pub struct TailwindOutlineColor {
-    pub(crate) color: ColorResolver,
+    pub(crate) color: TailwindColor,
 }
 
 ///
@@ -66,7 +66,7 @@ pub enum TailwindRingWidth {
 ///
 #[derive(Clone, Debug)]
 pub struct TailwindRingColor {
-    pub(crate) color: ColorResolver,
+    pub(crate) color: TailwindColor,
 }
 
 ///
@@ -78,5 +78,5 @@ pub struct TailwindRingOffsetWidth {
 ///
 #[derive(Clone, Debug)]
 pub struct TailwindRingOffsetColor {
-    pub(crate) color: ColorResolver,
+    pub(crate) color: TailwindColor,
 }
