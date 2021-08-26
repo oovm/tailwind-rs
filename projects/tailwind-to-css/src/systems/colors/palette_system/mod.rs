@@ -5,6 +5,12 @@ pub struct PaletteSystem {
     inner: HashMap<String, Palette>,
 }
 
+impl Default for PaletteSystem {
+    fn default() -> Self {
+        Self { inner: Default::default() }
+    }
+}
+
 impl PaletteSystem {
     /// Builtin palettes
     /// https://tailwindcss.com/docs/customizing-colors
@@ -33,6 +39,13 @@ impl PaletteSystem {
         new.register("pink".to_string(), Palette::pink());
         new.register("rose".to_string(), Palette::rose());
         return new;
+    }
+
+    pub fn get_color(&self, name: &str, weight: usize) -> Result<Srgb> {
+        match self.inner.get(name) {
+            Some(p) => p.get_color(weight),
+            None => syntax_error!("no such palette"),
+        }
     }
 
     #[inline]

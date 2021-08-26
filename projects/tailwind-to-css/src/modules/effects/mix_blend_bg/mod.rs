@@ -1,8 +1,4 @@
-use crate::{css_attributes, CssAttribute, Result, TailwindArbitrary, TailwindBlend, TailwindBuilder, TailwindInstance};
-use std::{
-    collections::BTreeSet,
-    fmt::{Display, Formatter, Write},
-};
+use super::*;
 
 #[derive(Clone, Debug)]
 pub struct TailwindBackgroundBlend {
@@ -22,7 +18,7 @@ impl TailwindInstance for TailwindBackgroundBlend {
         }
     }
 }
-// bg-blend-lighten	background-blend-mode: lighten;
+
 impl TailwindBackgroundBlend {
     /// https://tailwindcss.com/docs/background-blend-mode
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {

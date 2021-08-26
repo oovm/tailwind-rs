@@ -1,3 +1,5 @@
+#[cfg(feature = "css-color")]
+mod for_css_color;
 #[cfg(feature = "docx-rs")]
 mod for_docx;
 #[cfg(feature = "git2")]

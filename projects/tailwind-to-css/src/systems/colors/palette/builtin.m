@@ -5,14 +5,14 @@ getColorMap[color_] := <|
     "map" -> Cases[color, {XMLElement["div", {__}, {n_}], XMLElement["div", {__}, {a_}]} :> {n, a}, Infinity]
 |>;
 asMarkdown = StringRiffle[TemplateApply["<span style=\"color:`2`\">`1`</span>", #]& /@ #map, ",\n    ///"]&;
-asRust = StringRiffle[TemplateApply["colors.insert(`1`,Color::from_str(\"`2`\").unwrap())", #]& /@ #map, ";\n        "]&;
+asRust = StringRiffle[TemplateApply["colors.insert(`1`,Srgb::from_str(\"`2`\").unwrap())", #]& /@ #map, ";\n        "]&;
 buildFunction = TemplateApply["\
     /// ## `Name`
     ///`asMarkdown`
     pub fn `name`() -> Self {
         let mut colors = BTreeMap::default();
 		`asRust`;
-        Self { inner: colors }
+        Self { gradient: true, key_points: colors }
     }
 ",
     <|
@@ -39,9 +39,9 @@ impl Palette {
 }], "\n"];
 
 
-TemplateApply["new.register(\"`1`\".to_string(), Palette::`1`());", {ToLowerCase@#name}]& /@ colors;
-StringRiffle[%, "\n"] // CopyToClipboard
+reg = TemplateApply["new.register(\"`1`\".to_string(), Palette::`1`());", {ToLowerCase@#name}]& /@ colors;
+StringRiffle[reg, "\n"] // CopyToClipboard;
 
 
-    SetDirectory@NotebookDirectory[];
+SetDirectory@NotebookDirectory[];
 Export["builtin.rs", codegen, "Text"]

@@ -18,7 +18,7 @@ parcel_css = "1.0.0-alpha.16"
 [dependencies.tailwind-error]
 version = "1.1.*"
 path = "../tailwind-error"
-features = ["nom","parcel_css"]
+features = ["nom","parcel_css", "css-color"]
 
 
 

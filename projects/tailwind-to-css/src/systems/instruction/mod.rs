@@ -32,7 +32,7 @@ pub struct TailwindElements {
 
 #[derive(Debug, Clone)]
 pub struct TailwindArbitrary {
-    inner: Option<String>,
+    inner: String,
 }
 
 /// https://github.com/tw-in-js/twind/blob/main/src/twind/variants.ts

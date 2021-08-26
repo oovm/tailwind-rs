@@ -3,11 +3,27 @@ use super::*;
 #[derive(Clone, Debug)]
 pub enum TailwindColor {
     Transparent,
-    /// https://developer.mozilla.org/zh-CN/docs/Web/CSS/color_value
     Current,
     RGB(Srgb),
     Themed(String, usize),
     Global(CssBehavior),
+}
+
+struct ColorWrapper(Srgb);
+
+impl Display for ColorWrapper {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "#{:02X?}",
+            &[
+                (255.0 * self.0.red) as u8,
+                (255.0 * self.0.green) as u8,
+                (255.0 * self.0.blue) as u8,
+                (255.0 * self.0.alpha) as u8
+            ]
+        )
+    }
 }
 
 impl Display for TailwindColor {
@@ -15,27 +31,34 @@ impl Display for TailwindColor {
         match self {
             Self::Transparent => write!(f, "none"),
             Self::Current => write!(f, "current"),
-            Self::RGB(c) => write!(f, "[#{:02X?}]", &[c.red, c.green, c.blue, c.alpha]),
+            Self::RGB(c) => write!(f, "[{}]", ColorWrapper(*c)),
             Self::Themed(name, weight) => write!(f, "{}-{}", name, weight),
             Self::Global(g) => write!(f, "{}", g),
         }
     }
 }
 
+impl ColorWrapper {}
+
+#[allow(non_upper_case_globals)]
 impl TailwindColor {
+    ///
+    pub const Black: Self = Self::RGB(Srgb { red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0 });
+    ///
+    pub const White: Self = Self::RGB(Srgb { red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0 });
     /// https://developer.mozilla.org/zh-CN/docs/Web/CSS/color_value
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         let out = match pattern {
             ["none"] | ["transparent"] => Self::Transparent,
-            ["black"] => Self::RGB(TailwindColor { r: 0, g: 0, b: 0, a: 1.0 }),
-            ["white"] => Self::RGB(TailwindColor { r: 255, g: 255, b: 255, a: 1.0 }),
+            ["black"] => Self::Black,
+            ["white"] => Self::White,
             ["current"] => Self::Current,
             ["inherit"] => Self::Global(CssBehavior::Inherit),
             ["initial"] => Self::Global(CssBehavior::Initial),
             ["unset"] => Self::Global(CssBehavior::Unset),
-            [] => Self::parse_arbitrary(arbitrary),
-            [name, weight] => Self::parse_themed(name, weight),
-            _ => syntax_error!("Unknown color pattern: {}", pattern.join("-")),
+            [] => return Self::parse_arbitrary(arbitrary),
+            [name, weight] => return Self::parse_themed(name, weight),
+            _ => return syntax_error!("Unknown color pattern: {}", pattern.join("-")),
         };
         Ok(out)
     }
@@ -47,7 +70,7 @@ impl TailwindColor {
     pub fn parse_themed(name: &str, weight: &str) -> Result<TailwindColor> {
         let name = name.to_string();
         let weight = TailwindArbitrary::from(weight).as_integer()?;
-        Ok(Self::Themed { name, weight })
+        Ok(Self::Themed(name, weight))
     }
     /// get class of `<color>`
     ///
@@ -62,15 +85,13 @@ impl TailwindColor {
     #[inline]
     pub fn get_properties(&self, ctx: &TailwindBuilder) -> String {
         match self {
-            Self::Transparent => format!( "transparent"),
-            Self::Current => format!( "currentColor"),
-            Self::RGB(c) => format!( "#{:02X?}", &[c.red, c.green, c.blue, c.alpha]),
-            Self::Global(g) => format!( "{}", g),
-            Self::Themed(name, weight) => {
-                ctx.palettes.get(name)
-
-
-                format!("{}-{}", name, weight)
+            Self::Transparent => format!("transparent"),
+            Self::Current => format!("currentColor"),
+            Self::RGB(c) => format!("#{:02X?}", &[c.red, c.green, c.blue, c.alpha]),
+            Self::Global(g) => format!("{}", g),
+            Self::Themed(name, weight) => match ctx.palettes.get_color(name, *weight) {
+                Ok(c) => ColorWrapper(c).to_string(),
+                Err(_) => "currentColor".to_string(),
             },
         }
     }

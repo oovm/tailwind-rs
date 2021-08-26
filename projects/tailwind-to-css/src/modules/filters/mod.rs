@@ -1,3 +1,5 @@
+// mod brightness;
+
 mod display;
 mod parser;
 #[cfg(test)]

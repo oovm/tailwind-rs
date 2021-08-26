@@ -247,7 +247,7 @@ impl TailwindInstruction {
             ["cover"] => TailwindBackgroundSize::Cover.boxed(),
             ["contain"] => TailwindBackgroundSize::Contain.boxed(),
             // https://tailwindcss.com/docs/background-blend-mode
-            ["blend", rest @ ..] => TailwindBackgroundBlend::parse(rest, arbitrary).boxed(),
+            ["blend", rest @ ..] => TailwindBackgroundBlend::parse(rest, arbitrary)?.boxed(),
             _ => return syntax_error!("Unknown bg instructions: {}", str.join("-")),
         };
         Ok(out)
@@ -579,12 +579,12 @@ impl TailwindInstruction {
             ["right"] => TailwindTextAlignment::Right.boxed(),
             ["justify"] => TailwindTextAlignment::Justify.boxed(),
             // https://tailwindcss.com/docs/text-color
-            ["inherit"] => TailwindTextColor::INHERIT.boxed(),
-            ["current"] => TailwindTextColor::CURRENT.boxed(),
-            ["transparent"] => TailwindTextColor::TRANSPARENT.boxed(),
-            ["black"] => TailwindTextColor::BLACK.boxed(),
-            ["white"] => TailwindTextColor::WHITE.boxed(),
-            [color, weight] => TailwindTextColor::parse(color, weight)?.boxed(),
+            // ["inherit"] => TailwindTextColor::INHERIT.boxed(),
+            // ["current"] => TailwindTextColor::CURRENT.boxed(),
+            // ["transparent"] => TailwindTextColor::TRANSPARENT.boxed(),
+            // ["black"] => TailwindTextColor::BLACK.boxed(),
+            // ["white"] => TailwindTextColor::WHITE.boxed(),
+            // [color, weight] => TailwindTextColor::parse(color, weight)?.boxed(),
             _ => return syntax_error!("Unknown text instructions: {}", str.join("-")),
         };
         Ok(out)

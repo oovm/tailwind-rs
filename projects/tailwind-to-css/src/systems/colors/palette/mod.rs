@@ -12,3 +12,18 @@ pub struct Palette {
     /// unit: px
     key_points: BTreeMap<usize, Srgb>,
 }
+
+impl Palette {
+    ///
+    pub fn get_color(&self, weight: usize) -> Result<Srgb> {
+        match self.key_points.get(&weight) {
+            Some(s) => Ok(s.clone()),
+            None if self.gradient => {
+                syntax_error!("TODO")
+            }
+            None => {
+                syntax_error!("TODO")
+            }
+        }
+    }
+}

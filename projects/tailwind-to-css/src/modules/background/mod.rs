@@ -1,33 +1,28 @@
-use super::*;
 mod attachment;
-mod builder;
 mod clip;
-mod display;
+mod color;
+mod gradient;
 mod origin;
+mod position;
 mod repeat;
 mod size;
 #[cfg(test)]
 mod test;
 
 pub use self::{
-    attachment::TailwindBackgroundAttachment, clip::TailwindBackgroundClip, origin::TailwindBackgroundOrigin,
-    repeat::TailwindBackgroundRepeat, size::TailwindBackgroundSize,
+    attachment::TailwindBackgroundAttachment,
+    clip::TailwindBackgroundClip,
+    color::TailwindBackgroundColor,
+    gradient::{TailwindFrom, TailwindTo, TailwindVia},
+    origin::TailwindBackgroundOrigin,
+    repeat::TailwindBackgroundRepeat,
+    size::TailwindBackgroundSize,
 };
-
-#[doc = include_str ! ("aspect-ratio.md")]
-#[derive(Clone, Debug)]
-pub struct TailwindBackgroundColor {
-    pub(crate) color: TailwindColor,
-}
-
-// https://tailwindcss.com/docs/background-origin
-#[derive(Clone, Debug)]
-pub struct TailwindBackgroundPosition {
-    position: TailwindObjectPosition,
-}
-
-#[doc = include_str ! ("aspect-ratio.md")]
-#[derive(Clone, Debug)]
-pub struct TailwindBackgroundBrightness {
-    brightness: TailwindBrightness,
-}
+use crate::{
+    css_attributes, CssAttribute, Result, TailwindArbitrary, TailwindBrightness, TailwindBuilder, TailwindColor,
+    TailwindInstance, TailwindObjectPosition,
+};
+use std::{
+    collections::BTreeSet,
+    fmt::{Display, Formatter},
+};

@@ -8,7 +8,7 @@ impl<'a> From<AstStyle<'a>> for TailwindInstruction {
             negative: node.negative,
             variants: node.variants.into_iter().map(|s| s.into()).collect(),
             elements: TailwindElements { inner: node.elements.into_iter().map(|s| s.to_string()).collect() },
-            arbitrary: TailwindArbitrary { inner: node.arbitrary.map(|s| s.to_string()) },
+            arbitrary: TailwindArbitrary { inner: node.arbitrary.unwrap_or_default().to_string() },
         }
     }
 }
@@ -21,12 +21,7 @@ impl<'a> From<ASTVariant<'a>> for TailwindVariant {
 
 impl From<&str> for TailwindArbitrary {
     fn from(s: &str) -> Self {
-        Self {
-            inner: match s.is_empty() {
-                true => None,
-                false => Some(s.to_string()),
-            },
-        }
+        Self { inner: s.to_string() }
     }
 }
 
@@ -48,55 +43,37 @@ impl TailwindInstruction {
 impl TailwindArbitrary {
     #[inline]
     pub fn is_some(&self) -> bool {
-        self.inner.is_some()
+        self.inner.is_empty()
     }
     #[inline]
     pub fn is_none(&self) -> bool {
-        self.inner.is_none()
+        !self.inner.is_empty()
     }
     #[inline]
     pub fn as_str(&self) -> &str {
-        match &self.inner {
-            None => "",
-            Some(s) => s.as_str(),
-        }
+        self.inner.as_str()
     }
     #[inline]
     pub fn as_integer<T>(&self) -> Result<T>
     where
         T: FromStr,
     {
-        match &self.inner {
-            None => syntax_error!("missing arbitrary"),
-            Some(s) => Ok(parse_integer(s)?.1),
-        }
+        Ok(parse_integer(&self.inner)?.1)
     }
     #[inline]
     pub fn as_float(&self) -> Result<f32> {
-        match &self.inner {
-            None => syntax_error!("missing arbitrary"),
-            Some(s) => Ok(parse_f32(s)?.1),
-        }
+        Ok(parse_f32(&self.inner)?.1)
     }
     #[inline]
     pub fn as_fraction(&self) -> Result<(usize, usize)> {
-        match &self.inner {
-            None => syntax_error!("missing arbitrary"),
-            Some(s) => Ok(parse_fraction(s)?.1),
-        }
+        Ok(parse_fraction(&self.inner)?.1)
     }
     #[inline]
     pub fn as_length(&self) -> Result<LengthUnit> {
-        match &self.inner {
-            None => syntax_error!("missing arbitrary"),
-            Some(s) => Ok(LengthUnit::parse(s)?.1),
-        }
+        Ok(LengthUnit::parse(&self.inner)?.1)
     }
     #[inline]
     pub fn as_color(&self) -> Result<Srgb> {
-        match &self.inner {
-            None => syntax_error!("missing arbitrary"),
-            Some(s) => Ok(Srgb::from_str(s)?),
-        }
+        Ok(Srgb::from_str(&self.inner)?)
     }
 }
