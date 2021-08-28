@@ -2,7 +2,7 @@ use crate::{tw_idempotency, TailwindBuilder};
 
 #[test]
 fn build_bg_attach() {
-    let builder = TailwindBuilder::default();
+    let mut builder = TailwindBuilder::default();
     let out = builder.inline("bg-scroll");
     assert_eq!(out, "background-attachment:scroll;");
 }
@@ -17,7 +17,7 @@ fn id_bg_attach() {
 
 #[test]
 fn build_bg_clip() {
-    let builder = TailwindBuilder::default();
+    let mut builder = TailwindBuilder::default();
     let out = builder.inline("bg-clip-content");
     assert_eq!(out, "background-clip:content-box;");
 }
@@ -32,7 +32,7 @@ fn id_bg_clip() {
 
 #[test]
 fn build_bg_color() {
-    let builder = TailwindBuilder::default();
+    let mut builder = TailwindBuilder::default();
     let out = builder.inline("bg-inherit");
     assert_eq!(out, "background-clip:content-box;");
 }
@@ -47,7 +47,7 @@ fn id_bg_color() {
 
 #[test]
 fn build_bg_origin() {
-    let builder = TailwindBuilder::default();
+    let mut builder = TailwindBuilder::default();
     let out = builder.inline("bg-origin-content");
     assert_eq!(out, "background-clip:content-box;");
 }

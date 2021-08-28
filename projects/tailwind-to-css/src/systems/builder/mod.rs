@@ -97,6 +97,7 @@ impl TailwindBuilder {
     ///
     ///
     /// # Returns
+    /// **Not all instructions can be inline, if not, it will fall back to trace mode**
     ///
     /// - Anonymous style sheets, which can be placed inside `style` tags
     ///
@@ -112,14 +113,18 @@ impl TailwindBuilder {
     /// ```
     #[inline]
     #[track_caller]
-    pub fn inline(&self, style: &str) -> String {
+    pub fn inline(&mut self, style: &str) -> String {
         self.try_inline(style).unwrap()
     }
     /// Safe version of [`TailwindBuilder::inline`]
-    pub fn try_inline(&self, style: &str) -> Result<String> {
+    pub fn try_inline(&mut self, style: &str) -> Result<String> {
         let parsed = parse_tailwind(style)?;
         let mut set = BTreeSet::new();
         for item in parsed {
+            // match item.inlineable() {
+            //     true => {}
+            //     false => {}
+            // }
             set.extend(item.attributes(self))
         }
         let vec: Vec<_> = set.into_iter().map(|s| s.to_string()).collect();

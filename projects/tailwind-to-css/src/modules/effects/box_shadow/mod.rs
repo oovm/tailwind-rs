@@ -1,6 +1,5 @@
 use crate::{Result, TailwindArbitrary, TailwindInstance};
 use std::fmt::{Display, Formatter};
-use tailwind_ast::parse_integer;
 
 #[derive(Copy, Clone, Debug)]
 enum ShadowKind {
@@ -39,9 +38,4 @@ impl TailwindShadow {
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-}
-
-#[inline(always)]
-fn parse_usize(deg: &str) -> Result<usize> {
-    Ok(parse_integer(deg)?.1)
 }

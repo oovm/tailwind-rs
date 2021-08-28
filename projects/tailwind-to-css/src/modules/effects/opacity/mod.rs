@@ -1,8 +1,4 @@
-use crate::{css_attributes, syntax_error, CssAttribute, Result, TailwindArbitrary, TailwindBuilder, TailwindInstance};
-use std::{
-    collections::BTreeSet,
-    fmt::{Display, Formatter},
-};
+use super::*;
 
 #[doc = include_str!("readme.md")]
 #[derive(Copy, Clone, Debug)]

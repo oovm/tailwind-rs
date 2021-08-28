@@ -1,33 +1,34 @@
 use super::*;
-
 ///
 #[derive(Copy, Clone, Debug)]
-pub struct TailwindDivideStyle {
+pub struct TailwindOutlineStyle {
     kind: BorderStyle,
 }
 
-impl Display for TailwindDivideStyle {
+impl Display for TailwindOutlineStyle {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "divide-{}", self.kind)
-    }
-}
-
-impl TailwindInstance for TailwindDivideStyle {
-    fn inlineable(&self) -> bool {
-        false
-    }
-    fn selectors(&self, _: &TailwindBuilder) -> String {
-        // format!(".divide-{} > * + *", self.kind)
-        format!(".divide-{}>:not([hidden])~:not([hidden])", self.kind)
-    }
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        css_attributes! {
-            "border-style" => self.kind
+        match self.kind {
+            BorderStyle::Solid => write!(f, "outline"),
+            _ => write!(f, "outline-{}", self.kind),
         }
     }
 }
 
-impl TailwindDivideStyle {
+impl TailwindInstance for TailwindOutlineStyle {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        match self.kind {
+            BorderStyle::None => css_attributes! {
+                "outline" => "2px solid transparent",
+                "outline-offset" => "2px",
+            },
+            _ => css_attributes! {
+                "outline-style" => self.kind
+            },
+        }
+    }
+}
+
+impl TailwindOutlineStyle {
     /// `tracking-solid`
     pub const Solid: Self = Self { kind: BorderStyle::Solid };
     /// `tracking-dashed`

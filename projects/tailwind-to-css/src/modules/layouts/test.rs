@@ -46,7 +46,7 @@ fn id_box_sizing() {
 
 #[test]
 fn build_display() {
-    let builder = TailwindBuilder::default();
+    let mut builder = TailwindBuilder::default();
     let out = builder.inline("flex");
     assert_eq!(out, "box-sizing:border-box;");
     let out = builder.inline("hidden");

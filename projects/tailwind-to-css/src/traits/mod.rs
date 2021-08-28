@@ -23,7 +23,10 @@ pub trait TailwindInstance: Display {
     fn id(&self) -> String {
         format!("{}", self)
     }
-
+    /// used to deduplication and marking
+    fn inlineable(&self) -> bool {
+        true
+    }
     fn boxed(self) -> Box<dyn TailwindInstance>
     where
         Self: Sized,

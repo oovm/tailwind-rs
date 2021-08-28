@@ -2,7 +2,7 @@ use crate::{tw_idempotency, TailwindBuilder};
 
 #[test]
 fn build_screen_reader() {
-    let builder = TailwindBuilder::default();
+    let mut builder = TailwindBuilder::default();
     let out = builder.inline("sr-only");
     assert_eq!(
         out,

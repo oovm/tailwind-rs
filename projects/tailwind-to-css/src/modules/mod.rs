@@ -1,4 +1,5 @@
 #![allow(non_upper_case_globals)]
+#![allow(clippy::enum_variant_names)]
 pub mod accessibility;
 pub mod background;
 pub mod borders;

@@ -2,17 +2,22 @@ mod border_color;
 mod border_radius;
 mod border_style;
 mod border_width;
-mod display;
 mod divide_color;
 mod divide_style;
 mod divide_width;
-mod parser;
+mod outline_style;
+mod ring_offset_width;
+#[cfg(test)]
+mod test;
 
 pub use self::{
     border_color::TailwindBorderColor, border_radius::TailwindRounded, border_style::TailwindBorderStyle,
-    border_width::TailwindBorderWidth, divide_style::TailwindDivideStyle,
+    border_width::TailwindBorderWidth, divide_style::TailwindDivideStyle, outline_style::TailwindOutlineStyle,
+    ring_offset_width::TailwindRingOffsetWidth,
 };
-use crate::{syntax_error, CssAttribute, Result, TailwindArbitrary, TailwindBuilder, TailwindColor, TailwindInstance};
+use crate::{
+    css_attributes, syntax_error, CssAttribute, Result, TailwindArbitrary, TailwindBuilder, TailwindColor, TailwindInstance,
+};
 use std::{
     collections::BTreeSet,
     fmt::{Display, Formatter},
@@ -50,17 +55,6 @@ pub struct TailwindOutlineWidth {
 
 ///
 #[derive(Copy, Clone, Debug)]
-pub enum TailwindOutlineStyle {
-    None,
-    Solid,
-    Dashed,
-    Dotted,
-    Double,
-    Hidden,
-}
-
-///
-#[derive(Copy, Clone, Debug)]
 pub struct TailwindOutlineOffset {
     offset: usize, // Hidden,
 }
@@ -75,12 +69,6 @@ pub enum TailwindRingWidth {
 #[derive(Clone, Debug)]
 pub struct TailwindRingColor {
     pub(crate) color: TailwindColor,
-}
-
-///
-#[derive(Clone, Debug)]
-pub struct TailwindRingOffsetWidth {
-    width: usize,
 }
 
 ///
