@@ -1,11 +1,4 @@
 use super::*;
-use tailwind_ast::parse_i_px_maybe;
-
-impl TailwindBorderStyle {
-    pub fn into_instance(self) -> Box<dyn TailwindInstance> {
-        Box::new(self)
-    }
-}
 
 impl TailwindRingOffsetWidth {
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {

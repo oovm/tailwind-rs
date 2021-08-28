@@ -19,7 +19,6 @@ use crate::*;
 use std::{
     collections::{BTreeSet, HashMap},
     fmt::{Debug, Display, Formatter, Write},
-    str::FromStr,
 };
 use tailwind_ast::{parse_fraction, parse_i_px_maybe, parse_integer};
 use tailwind_error::{

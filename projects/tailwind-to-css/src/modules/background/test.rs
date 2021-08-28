@@ -29,3 +29,33 @@ fn id_bg_clip() {
     tw_idempotency("bg-clip-text", &mut builder);
     tw_idempotency("bg-clip-content bg-clip-text", &mut builder);
 }
+
+#[test]
+fn build_bg_color() {
+    let builder = TailwindBuilder::default();
+    let out = builder.inline("bg-inherit");
+    assert_eq!(out, "background-clip:content-box;");
+}
+
+#[test]
+fn id_bg_color() {
+    let mut builder = TailwindBuilder::default();
+    tw_idempotency("bg-clip-content", &mut builder);
+    tw_idempotency("bg-clip-text", &mut builder);
+    tw_idempotency("bg-clip-content bg-clip-text", &mut builder);
+}
+
+#[test]
+fn build_bg_origin() {
+    let builder = TailwindBuilder::default();
+    let out = builder.inline("bg-origin-content");
+    assert_eq!(out, "background-clip:content-box;");
+}
+
+#[test]
+fn id_bg_origin() {
+    let mut builder = TailwindBuilder::default();
+    tw_idempotency("bg-clip-content", &mut builder);
+    tw_idempotency("bg-clip-text", &mut builder);
+    tw_idempotency("bg-clip-content bg-clip-text", &mut builder);
+}

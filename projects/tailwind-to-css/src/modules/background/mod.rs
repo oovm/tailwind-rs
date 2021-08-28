@@ -18,10 +18,7 @@ pub use self::{
     repeat::TailwindBackgroundRepeat,
     size::TailwindBackgroundSize,
 };
-use crate::{
-    css_attributes, CssAttribute, Result, TailwindArbitrary, TailwindBrightness, TailwindBuilder, TailwindColor,
-    TailwindInstance, TailwindObjectPosition,
-};
+use crate::{css_attributes, CssAttribute, TailwindBuilder, TailwindColor, TailwindInstance, TailwindObjectPosition};
 use std::{
     collections::BTreeSet,
     fmt::{Display, Formatter},

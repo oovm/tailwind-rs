@@ -1,43 +1,27 @@
+mod border_color;
+mod border_radius;
+mod border_style;
+mod border_width;
 mod display;
+mod divide_color;
+mod divide_style;
+mod divide_width;
 mod parser;
 
-use super::*;
-
-///
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindRounded {}
-
-///
-#[derive(Copy, Clone, Debug)]
-pub enum TailwindBorderStyle {
-    None,
-    Solid,
-    Dashed,
-    Dotted,
-    Double,
-    Hidden,
-}
-///
-#[derive(Copy, Clone, Debug)]
-pub enum TailwindDivideStyle {
-    None,
-    Solid,
-    Dashed,
-    Dotted,
-    Double,
-    // Hidden,
-}
-
+pub use self::{
+    border_color::TailwindBorderColor, border_radius::TailwindRounded, border_style::TailwindBorderStyle,
+    border_width::TailwindBorderWidth,
+};
+use crate::{syntax_error, CssAttribute, Result, TailwindArbitrary, TailwindBuilder, TailwindColor, TailwindInstance};
+use std::{
+    collections::BTreeSet,
+    fmt::{Display, Formatter},
+};
+use tailwind_ast::parse_i_px_maybe;
 ///
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindOutlineWidth {
     width: usize,
-}
-
-///
-#[derive(Clone, Debug)]
-pub struct TailwindOutlineColor {
-    pub(crate) color: TailwindColor,
 }
 
 ///

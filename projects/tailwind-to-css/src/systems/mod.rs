@@ -11,7 +11,7 @@ pub mod processor;
 use crate::*;
 use parcel_css::stylesheet::{MinifyOptions, ParserOptions, PrinterOptions, StyleSheet};
 use std::{
-    collections::{BTreeMap, HashMap, HashSet},
+    collections::{HashMap, HashSet},
     fmt::{Debug, Display, Formatter, Write},
     str::FromStr,
 };
