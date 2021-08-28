@@ -10,7 +10,7 @@ mod parser;
 
 pub use self::{
     border_color::TailwindBorderColor, border_radius::TailwindRounded, border_style::TailwindBorderStyle,
-    border_width::TailwindBorderWidth,
+    border_width::TailwindBorderWidth, divide_style::TailwindDivideStyle,
 };
 use crate::{syntax_error, CssAttribute, Result, TailwindArbitrary, TailwindBuilder, TailwindColor, TailwindInstance};
 use std::{
@@ -18,6 +18,30 @@ use std::{
     fmt::{Display, Formatter},
 };
 use tailwind_ast::parse_i_px_maybe;
+
+#[derive(Copy, Clone, Debug)]
+enum BorderStyle {
+    None,
+    Solid,
+    Dashed,
+    Dotted,
+    Double,
+    Hidden,
+}
+
+impl Display for BorderStyle {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Solid => write!(f, "solid"),
+            Self::Dashed => write!(f, "dashed"),
+            Self::Dotted => write!(f, "dotted"),
+            Self::Double => write!(f, "double"),
+            Self::Hidden => write!(f, "hidden"),
+            Self::None => write!(f, "none"),
+        }
+    }
+}
+
 ///
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindOutlineWidth {

@@ -2,13 +2,14 @@ use super::*;
 
 impl SizingUnit {
     pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        let px = |x| Ok(Self::Length(LengthUnit::Em(x)));
         match kind {
             ["min"] => Ok(Self::Min),
             ["max"] => Ok(Self::Max),
             ["auto"] => Ok(Self::Auto),
             ["full"] => Ok(Self::Full),
-            ["0"] => Self::px(0.0),
-            ["px"] => Self::px(1.0),
+            ["0"] => px(0.0),
+            ["px"] => px(1.0),
             [n] => Self::parse_arbitrary(&TailwindArbitrary::from(*n)),
             [] => Self::parse_arbitrary(arbitrary),
             _ => syntax_error!("Unknown sizing instructions: {}", kind.join("-")),
@@ -23,20 +24,13 @@ impl SizingUnit {
     }
     #[inline]
     fn maybe_no_unit(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Self::rem(arbitrary.as_float()? / 4.0)
+        let rem = |x| Ok(Self::Length(LengthUnit::Em(x)));
+        rem(arbitrary.as_float()? / 4.0)
     }
     #[inline]
     fn maybe_fraction(arbitrary: &TailwindArbitrary) -> Result<Self> {
         let (a, b) = arbitrary.as_fraction()?;
         Ok(Self::Fraction(a, b))
-    }
-    #[inline(always)]
-    fn rem(x: f32) -> Result<Self> {
-        Ok(Self::Length(LengthUnit::Em(x)))
-    }
-    #[inline(always)]
-    fn px(x: f32) -> Result<Self> {
-        Ok(Self::Length(LengthUnit::Px(x)))
     }
 }
 

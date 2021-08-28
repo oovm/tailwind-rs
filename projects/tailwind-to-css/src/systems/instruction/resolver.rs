@@ -259,12 +259,12 @@ impl TailwindInstruction {
             // [] => TailwindBorderWidth::parse(),
 
             // https://tailwindcss.com/docs/border-style
-            ["solid"] => TailwindBorderStyle::Solid.into_instance(),
-            ["dashed"] => TailwindBorderStyle::Dashed.into_instance(),
-            ["dotted"] => TailwindBorderStyle::Dotted.into_instance(),
-            ["double"] => TailwindBorderStyle::Double.into_instance(),
-            ["hidden"] => TailwindBorderStyle::Hidden.into_instance(),
-            ["none"] => TailwindBorderStyle::None.into_instance(),
+            ["solid"] => TailwindBorderStyle::Solid.boxed(),
+            ["dashed"] => TailwindBorderStyle::Dashed.boxed(),
+            ["dotted"] => TailwindBorderStyle::Dotted.boxed(),
+            ["double"] => TailwindBorderStyle::Double.boxed(),
+            ["hidden"] => TailwindBorderStyle::Hidden.boxed(),
+            ["none"] => TailwindBorderStyle::None.boxed(),
             // https://tailwindcss.com/docs/border-collapse
             ["collapse"] => TailwindBorderCollapse::Collapse.into_instance(),
             ["separate"] => TailwindBorderCollapse::Separate.into_instance(),

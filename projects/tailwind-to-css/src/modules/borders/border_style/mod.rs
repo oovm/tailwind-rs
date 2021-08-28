@@ -1,4 +1,5 @@
 use super::*;
+use crate::css_attributes;
 
 ///
 #[derive(Copy, Clone, Debug)]
@@ -6,51 +7,33 @@ pub struct TailwindBorderStyle {
     kind: BorderStyle,
 }
 
-#[derive(Copy, Clone, Debug)]
-enum BorderStyle {
-    None,
-    Solid,
-    Dashed,
-    Dotted,
-    Double,
-    Hidden,
-}
 
-// border-solid	border-style: solid;
-// border-dashed	border-style: dashed;
-// border-dotted	border-style: dotted;
-// border-double	border-style: double;
-// border-hidden	border-style: hidden;
-// border-none	border-style: none;
+
 impl Display for TailwindBorderStyle {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        write!(f, "border-{}", self.kind)
     }
 }
 
 impl TailwindInstance for TailwindBorderStyle {
-    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        todo!()
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        css_attributes! {
+            "border-style" => self.kind
+        }
     }
 }
 
-// border-solid	border-style: solid;
-// border-dashed	border-style: dashed;
-// border-dotted	border-style: dotted;
-// border-double	border-style: double;
-// border-hidden	border-style: hidden;
-// border-none	border-style: none;
 impl TailwindBorderStyle {
-    /// `tracking-normal`
-    pub const Normal: Self = Self { kind: BorderStyle::None };
-    /// `tracking-inherit`
-    pub const Inherit: Self = Self { kind: BorderStyle::None };
-    /// `tracking-initial`
-    pub const Initial: Self = Self { kind: BorderStyle::None };
-    /// `tracking-unset`
-    pub const Unset: Self = Self { kind: BorderStyle::None };
-    /// `tracking-initial`
-    pub const Initial: Self = Self { kind: BorderStyle::None };
-    /// `tracking-unset`
-    pub const Unset: Self = Self { kind: BorderStyle::None };
+    /// `tracking-solid`
+    pub const Solid: Self = Self { kind: BorderStyle::Solid };
+    /// `tracking-dashed`
+    pub const Dashed: Self = Self { kind: BorderStyle::Dashed };
+    /// `tracking-dotted`
+    pub const Dotted: Self = Self { kind: BorderStyle::Dotted };
+    /// `tracking-double`
+    pub const Double: Self = Self { kind: BorderStyle::Double };
+    /// `tracking-hidden`
+    pub const Hidden: Self = Self { kind: BorderStyle::Hidden };
+    /// `tracking-none`
+    pub const None: Self = Self { kind: BorderStyle::None };
 }
