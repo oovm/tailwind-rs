@@ -1,16 +1,15 @@
 mod basis;
 mod display;
+mod grow;
 mod parser;
+mod shrink;
+
 use super::*;
 
-#[derive(Debug, Copy, Clone)]
-enum BasisSize {}
+pub use self::{basis::TailwindBasis, grow::TailWindGrow, shrink::TailWindShrink};
 
-#[doc=include_str!("flex-basis.md")]
-#[derive(Debug, Copy, Clone)]
-pub struct TailwindBasis {
-    size: BasisSize,
-}
+use crate::TailwindInstance;
+use std::fmt::{Display, Formatter};
 
 #[doc=include_str!("flex-direction.md")]
 #[derive(Debug, Copy, Clone)]
@@ -36,18 +35,6 @@ pub enum TailwindFlex {
     Inherit,
     Auto { grow: usize, shrink: usize },
     Percent { grow: usize, shrink: usize, basis: usize },
-}
-
-#[doc=include_str!("flex-grow.md")]
-#[derive(Debug, Copy, Clone)]
-pub struct TailWindGrow {
-    grow: usize,
-}
-
-#[doc=include_str!("flex-shrink.md")]
-#[derive(Debug, Copy, Clone)]
-pub struct TailWindShrink {
-    shrink: usize,
 }
 
 #[doc=include_str!("order.md")]

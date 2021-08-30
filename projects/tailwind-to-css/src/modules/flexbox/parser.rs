@@ -1,11 +1,5 @@
 use super::*;
 
-impl TailwindBasis {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
-    }
-}
-
 impl TailwindFlexDirection {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
@@ -25,28 +19,6 @@ impl TailwindFlex {
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
-    }
-}
-
-impl TailWindGrow {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after flex-grow");
-        match pattern {
-            [] => Ok(Self { grow: 0 }),
-            [n] => Ok(Self { grow: parse_integer(n)?.1 }),
-            _ => syntax_error!("Unknown grow instructions: {}", pattern.join("-")),
-        }
-    }
-}
-
-impl TailWindShrink {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after flex-shrink");
-        match pattern {
-            [] => Ok(Self { shrink: 0 }),
-            [n] => Ok(Self { shrink: parse_integer(n)?.1 }),
-            _ => syntax_error!("Unknown shrink instructions: {}", pattern.join("-")),
-        }
     }
 }
 

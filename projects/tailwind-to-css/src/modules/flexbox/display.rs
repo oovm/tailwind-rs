@@ -1,13 +1,5 @@
 use super::*;
 
-impl Display for TailwindBasis {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-impl TailwindInstance for TailwindBasis {}
-
 impl Display for TailwindFlexDirection {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.write_str("flex-")?;
@@ -77,34 +69,6 @@ impl Display for TailwindFlex {
 }
 
 impl TailwindInstance for TailwindFlex {}
-
-impl Display for TailWindGrow {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "grow-{}", self.grow)
-    }
-}
-
-impl TailwindInstance for TailWindGrow {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        css_attributes! {
-            "flex-grow" => self.grow
-        }
-    }
-}
-
-impl Display for TailWindShrink {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "shrink-{}", self.shrink)
-    }
-}
-
-impl TailwindInstance for TailWindShrink {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        css_attributes! {
-            "flex-shrink" => self.shrink
-        }
-    }
-}
 
 impl Display for TailWindOrder {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
