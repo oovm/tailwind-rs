@@ -1,3 +1,4 @@
+mod basis;
 mod display;
 mod parser;
 use super::*;

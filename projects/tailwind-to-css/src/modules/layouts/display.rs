@@ -1,29 +1,5 @@
 use super::*;
 
-impl Display for AspectKind {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Auto => write!(f, "auto"),
-            Self::Radio(a, b) => write!(f, "{}/{}", a, b),
-            Self::Global(g) => write!(f, "{}", g),
-        }
-    }
-}
-
-impl Display for TailwindAspect {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "aspect-{}", self.kind)
-    }
-}
-
-impl TailwindInstance for TailwindAspect {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        css_attributes! {
-            "aspect-ratio" => self.kind
-        }
-    }
-}
-
 impl Display for TailwindContainer {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()

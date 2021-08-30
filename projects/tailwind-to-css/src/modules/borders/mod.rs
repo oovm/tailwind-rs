@@ -22,7 +22,6 @@ use std::{
     collections::BTreeSet,
     fmt::{Display, Formatter},
 };
-use tailwind_ast::parse_i_px_maybe;
 
 #[derive(Copy, Clone, Debug)]
 enum BorderStyle {

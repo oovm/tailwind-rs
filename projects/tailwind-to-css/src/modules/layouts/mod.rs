@@ -1,21 +1,11 @@
 use super::*;
+mod aspect_ratio;
 mod display;
 mod parser;
 #[cfg(test)]
 mod test;
 
-#[derive(Copy, Clone, Debug)]
-enum AspectKind {
-    Auto,
-    Radio(usize, usize),
-    Global(CssBehavior),
-}
-
-#[doc = include_str!("aspect-ratio.md")]
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindAspect {
-    kind: AspectKind,
-}
+pub use self::aspect_ratio::TailwindAspect;
 
 #[doc = include_str!("container.md")]
 #[derive(Copy, Clone, Debug)]
