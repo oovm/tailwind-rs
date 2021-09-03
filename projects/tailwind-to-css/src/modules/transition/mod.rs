@@ -1,5 +1,10 @@
+mod animate;
+mod delay;
 mod display;
+mod duration;
+mod ease;
 mod parser;
+mod trans;
 use super::*;
 
 #[doc = include_str!("scale.md")]

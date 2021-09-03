@@ -7,6 +7,7 @@ enum BasisSize {
     Max,
     Min,
     Fit,
+    Content,
     Full,
     Unit(usize),
     Length(LengthUnit),
@@ -28,6 +29,7 @@ impl Display for BasisSize {
             Self::Max => write!(f, "max"),
             Self::Min => write!(f, "min"),
             Self::Fit => write!(f, "fit"),
+            Self::Content => write!(f, "content"),
             Self::Unit(n) => write!(f, "{}", n),
             Self::Length(n) if n.is_fraction() => write!(f, "{}", n.get_class()),
             Self::Length(n) => write!(f, "{}", n.get_class_arbitrary()),
@@ -41,24 +43,7 @@ impl Display for TailwindBasis {
         write!(f, "basis-{}", self.kind)
     }
 }
-/// * 指定<'width'> */
-// flex-basis: 10em;
-// flex-basis: 3px;
-// flex-basis: auto;
-//
-// /* 固有的尺寸关键词 */
-// flex-basis: fill;
-// flex-basis: max-content;
-// flex-basis: min-content;
-// flex-basis: fit-content;
-//
-// /* 在flex item内容上的自动尺寸 */
-// flex-basis: content;
-//
-// /* 全局数值 */
-// flex-basis: inherit;
-// flex-basis: initial;
-// flex-basis: unset;
+
 impl BasisSize {
     pub fn get_properties(&self) -> String {
         match self {
@@ -67,6 +52,7 @@ impl BasisSize {
             BasisSize::Max => "max-content".to_string(),
             BasisSize::Min => "min-content".to_string(),
             BasisSize::Fit => "fit-content".to_string(),
+            BasisSize::Content => "content".to_string(),
             BasisSize::Full => "100%".to_string(),
             BasisSize::Unit(n) => format!("{}rem", *n as f32 / 4.0),
             BasisSize::Length(n) => n.get_properties(),
@@ -76,8 +62,10 @@ impl BasisSize {
 }
 
 impl TailwindInstance for TailwindBasis {
-    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        todo!()
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        css_attributes! {
+            "flex-basis" => self.kind.get_properties()
+        }
     }
 }
 
@@ -85,23 +73,33 @@ impl TailwindBasis {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         match pattern {
             ["auto"] => Ok(Self { kind: BasisSize::Auto }),
+            ["fill"] => Ok(Self { kind: BasisSize::Fill }),
+            ["min"] => Ok(Self { kind: BasisSize::Min }),
+            ["max"] => Ok(Self { kind: BasisSize::Max }),
+            ["fit"] => Ok(Self { kind: BasisSize::Fit }),
+            ["content"] => Ok(Self { kind: BasisSize::Content }),
+            ["inherit"] => Ok(Self { kind: BasisSize::Global(CssBehavior::Inherit) }),
+            ["initial"] => Ok(Self { kind: BasisSize::Global(CssBehavior::Initial) }),
+            ["unset"] => Ok(Self { kind: BasisSize::Global(CssBehavior::Unset) }),
             ["full"] => Ok(Self { kind: BasisSize::Full }),
             [n] => {
                 let a = TailwindArbitrary::from(*n);
-
-                maybe_unit().or_else(|_: TailwindError| maybe_frac())
+                Self::maybe_frac(&a).or_else(|_| Self::maybe_unit(&a))
             }
-            [] => {
-                todo!()
-            }
+            [] => Self::parse_arbitrary(arbitrary),
             _ => syntax_error!("Unknown basis instructions"),
         }
     }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) {}
-    fn maybe_unit(arbitrary: &TailwindArbitrary) -> Result<TailwindBasis> {
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Self::maybe_length(arbitrary).or_else(|_| Self::maybe_frac(arbitrary)).or_else(|_| Self::maybe_unit(arbitrary))
+    }
+    fn maybe_unit(arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self { kind: BasisSize::Unit(arbitrary.as_integer()?) })
     }
-    fn maybe_frac(arbitrary: &TailwindArbitrary) -> Result<TailwindBasis> {
+    fn maybe_length(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: BasisSize::Length(arbitrary.as_length()?) })
+    }
+    fn maybe_frac(arbitrary: &TailwindArbitrary) -> Result<Self> {
         let (a, b) = arbitrary.as_fraction()?;
         Ok(Self { kind: BasisSize::Length(LengthUnit::Fraction(a, b)) })
     }
