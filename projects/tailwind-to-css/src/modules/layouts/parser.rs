@@ -46,7 +46,7 @@ impl ColumnKind {
 impl TailwindColumns {
     /// https://tailwindcss.com/docs/columns
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after aspect");
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after columns");
         Ok(Self { kind: ColumnKind::parse(input)? })
     }
 }
@@ -135,7 +135,7 @@ impl TailwindOverscroll {
 impl TailwindFloat {
     /// https://tailwindcss.com/docs/float
     pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after brightness");
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after float");
         let out = match kind {
             ["left"] => Self { kind: FloatKind::Left },
             ["right"] => Self { kind: FloatKind::Right },
