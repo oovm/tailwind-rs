@@ -1,32 +1,16 @@
 mod animate;
 mod delay;
-mod display;
 mod duration;
 mod ease;
-mod parser;
+#[cfg(test)]
+mod test;
 mod trans;
-use super::*;
 
-#[doc = include_str!("scale.md")]
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindTransition {}
-
-#[doc = include_str!("scale.md")]
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindDuration {
-    ms: usize,
-}
-
-#[doc = include_str!("scale.md")]
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindEase {}
-
-#[doc = include_str!("scale.md")]
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindDelay {
-    ms: usize,
-}
-
-#[doc = include_str!("scale.md")]
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindAnimate {}
+pub use self::{
+    animate::TailwindAnimate, delay::TailwindDelay, duration::TailwindDuration, ease::TailwindEase, trans::TailwindTransition,
+};
+use crate::{css_attributes, syntax_error, CssAttribute, Result, TailwindArbitrary, TailwindBuilder, TailwindInstance};
+use std::{
+    collections::BTreeSet,
+    fmt::{Display, Formatter},
+};
