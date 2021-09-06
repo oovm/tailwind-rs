@@ -1,78 +1,51 @@
+use std::{
+    collections::BTreeSet,
+    fmt::{Display, Formatter, Write},
+};
+
+use tailwind_ast::parse_integer;
+
+use crate::{
+    css_attributes, syntax_error, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary, TailwindBuilder,
+    TailwindInstance,
+};
+
+pub use self::{
+    basis::TailwindBasis,
+    flex::TailwindFlex,
+    flex_direction::TailwindFlexDirection,
+    flex_wrap::TailwindFlexWrap,
+    grow::TailWindGrow,
+    order::TailWindOrder,
+    place_content::TailwindPlaceContent,
+    place_item::TailwindPlaceItems,
+    place_self::TailwindPlaceSelf,
+    shrink::TailWindShrink,
+    span::{TailwindColumn, TailwindRow},
+};
+
 mod basis;
 mod display;
+mod flex;
+mod flex_direction;
+mod flex_wrap;
 mod grow;
 mod justify_content;
 mod justify_item;
 mod justify_self;
+mod order;
 mod parser;
 mod place_content;
 mod place_item;
 mod place_self;
 mod shrink;
-
-use super::*;
-
-pub use self::{
-    basis::TailwindBasis, grow::TailWindGrow, place_content::TailwindPlaceContent, place_item::TailwindPlaceItems,
-    place_self::TailwindPlaceSelf, shrink::TailWindShrink,
-};
-
-use crate::{Result, TailwindArbitrary, TailwindInstance};
-use std::fmt::{Display, Formatter};
-
-#[doc=include_str!("flex-direction.md")]
-#[derive(Debug, Copy, Clone)]
-pub enum TailwindFlexDirection {
-    Row,
-    RowReverse,
-    Column,
-    ColumnReverse,
-}
-
-#[doc=include_str!("flex-wrap.md")]
-#[derive(Debug, Copy, Clone)]
-pub enum TailwindFlexWrap {
-    Wrap,
-    WrapReverse,
-    NoWrap,
-}
-
-#[doc=include_str!("flex.md")]
-#[derive(Debug, Copy, Clone)]
-pub enum TailwindFlex {
-    None,
-    Inherit,
-    Auto { grow: usize, shrink: usize },
-    Percent { grow: usize, shrink: usize, basis: usize },
-}
-
-#[doc=include_str!("order.md")]
-#[derive(Debug, Copy, Clone)]
-pub struct TailWindOrder {
-    order: usize,
-    negative: bool,
-}
+mod span;
 
 #[doc=include_str!("grid-template-columns.md")]
 #[derive(Debug, Copy, Clone)]
 pub struct TailwindGridTemplate {
     row: bool,
     unit: usize,
-}
-
-#[derive(Debug, Copy, Clone)]
-enum SpanKind {}
-
-#[doc=include_str!("grid-row.md")]
-#[derive(Debug, Copy, Clone)]
-pub struct TailwindRow {
-    span: SpanKind,
-}
-
-#[doc=include_str!("grid-column.md")]
-#[derive(Debug, Copy, Clone)]
-pub struct TailwindColumn {
-    span: SpanKind,
 }
 
 #[doc=include_str!("grid-auto-flow.md")]

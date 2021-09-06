@@ -9,7 +9,7 @@ pub enum TailwindJustifySelf {
     Stretch,
 }
 impl Display for TailwindJustifySelf {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -17,7 +17,7 @@ impl Display for TailwindJustifySelf {
 impl TailwindInstance for TailwindJustifySelf {}
 
 impl TailwindJustifySelf {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse(_pattern: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }

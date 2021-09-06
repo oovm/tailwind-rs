@@ -1,82 +1,82 @@
 use super::*;
 
 impl TailwindAccentColor {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse(_pattern: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse_arbitrary(_arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindAppearance {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse(_pattern: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse_arbitrary(_arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindCursor {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse(_pattern: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse_arbitrary(_arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindCaretColor {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse(_pattern: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse_arbitrary(_arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindPointerEvents {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse(_pattern: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse_arbitrary(_arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindResize {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse(_pattern: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse_arbitrary(_arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindScroll {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse(_pattern: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse_arbitrary(_arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindSnap {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse(_pattern: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse_arbitrary(_arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindTorch {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse(_pattern: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse_arbitrary(_arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
@@ -109,10 +109,10 @@ impl TailwindSelect {
 }
 
 impl TailwindWillChange {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse(_pattern: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse_arbitrary(_arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }

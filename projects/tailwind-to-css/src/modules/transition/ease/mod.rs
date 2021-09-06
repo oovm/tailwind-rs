@@ -5,7 +5,7 @@ use super::*;
 pub struct TailwindEase {}
 
 impl Display for TailwindEase {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }

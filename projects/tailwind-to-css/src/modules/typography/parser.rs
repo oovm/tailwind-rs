@@ -187,34 +187,34 @@ impl TailwindFontWeight {
 }
 
 impl TailwindIndent {
-    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse(_input: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindAlign {
-    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse(_input: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindWhiteSpace {
-    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse(_input: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindUnderlineOffset {
-    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse(_input: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse_arbitrary(_arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
 
 impl TailwindContentElement {
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse_arbitrary(_arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }

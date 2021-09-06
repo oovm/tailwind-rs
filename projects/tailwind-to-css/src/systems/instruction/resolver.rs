@@ -44,11 +44,11 @@ impl TailwindInstruction {
             ["relative"] => TailwindPosition::Relative.boxed(),
             ["sticky"] => TailwindPosition::Sticky.boxed(),
             // https://tailwindcss.com/docs/top-right-bottom-left
-            ["inset", rest @ ..] => todo!(),
-            ["top", rest @ ..] => todo!(),
-            ["right", rest @ ..] => todo!(),
-            ["buttom", rest @ ..] => todo!(),
-            ["left", rest @ ..] => todo!(),
+            ["inset", _rest @ ..] => todo!(),
+            ["top", _rest @ ..] => todo!(),
+            ["right", _rest @ ..] => todo!(),
+            ["buttom", _rest @ ..] => todo!(),
+            ["left", _rest @ ..] => todo!(),
             // https://tailwindcss.com/docs/visibility
             ["visible"] => TailwindVisibility::Visible.boxed(),
             ["invisible"] => TailwindVisibility::Invisible.boxed(),
@@ -134,9 +134,9 @@ impl TailwindInstruction {
             // Backgrounds System
             // FIXME: https://tailwindcss.com/docs/background-blend-mode
             ["bg", rest @ ..] => Self::bg_adaptor(rest, arbitrary)?,
-            ["from", rest @ ..] => todo!(),
-            ["via", rest @ ..] => todo!(),
-            ["to", rest @ ..] => todo!(),
+            ["from", _rest @ ..] => todo!(),
+            ["via", _rest @ ..] => todo!(),
+            ["to", _rest @ ..] => todo!(),
             // Borders System
             ["rounded", rest @ ..] => TailwindRounded::parse(rest, arbitrary)?.boxed(),
             ["border", rest @ ..] => Self::border_adaptor(rest, arbitrary)?,
@@ -161,21 +161,21 @@ impl TailwindInstruction {
             // Tables System
             ["table", rest @ ..] => Self::table_adaptor(rest, arbitrary)?,
             // Transitions System
-            ["transition", rest @ ..] => todo!(),
+            ["transition", _rest @ ..] => todo!(),
             ["duration", rest @ ..] => TailwindDuration::parse(rest, arbitrary)?.boxed(),
-            ["ease", rest @ ..] => todo!(),
+            ["ease", _rest @ ..] => todo!(),
             ["delay", rest @ ..] => TailwindDelay::parse(rest, arbitrary)?.boxed(),
-            ["animate", rest @ ..] => todo!(),
+            ["animate", _rest @ ..] => todo!(),
             // Transforms System
             ["scale", "x", rest @ ..] => TailwindScale::parse(rest, arbitrary, Some(true), neg)?.boxed(),
             ["scale", "y", rest @ ..] => TailwindScale::parse(rest, arbitrary, Some(false), neg)?.boxed(),
             ["scale", rest @ ..] => TailwindScale::parse(rest, arbitrary, None, neg)?.boxed(),
             ["rotate", rest @ ..] => TailwindRotate::parse(rest, arbitrary, neg)?.boxed(),
-            ["translate", "x", rest @ ..] => todo!(),
-            ["translate", "y", rest @ ..] => todo!(),
+            ["translate", "x", _rest @ ..] => todo!(),
+            ["translate", "y", _rest @ ..] => todo!(),
             ["skew", "x", rest @ ..] => TailwindSkew::parse(rest, arbitrary, true, neg)?.boxed(),
             ["skew", "y", rest @ ..] => TailwindSkew::parse(rest, arbitrary, false, neg)?.boxed(),
-            ["origin", rest @ ..] => todo!(),
+            ["origin", _rest @ ..] => todo!(),
             // Interactivity System
             ["accent", rest @ ..] => TailwindAccentColor::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/appearance
@@ -190,8 +190,8 @@ impl TailwindInstruction {
             ["select", rest @ ..] => TailwindSelect::parse(rest, arbitrary)?.boxed(),
             ["will", "change", rest @ ..] => TailwindWillChange::parse(rest, arbitrary)?.boxed(),
             // SVG System
-            ["fill", rest @ ..] => todo!(),
-            ["stroke", rest @ ..] => todo!(),
+            ["fill", _rest @ ..] => todo!(),
+            ["stroke", _rest @ ..] => todo!(),
             // Accessibility System
             ["sr", "only"] => TailwindScreenReader::new(true).boxed(),
             ["not", "sr", "only"] => TailwindScreenReader::new(false).boxed(),
@@ -201,7 +201,7 @@ impl TailwindInstruction {
         Ok(instance)
     }
     #[inline]
-    fn break_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+    fn break_adaptor(str: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/border-style
             ["normal"] => TailwindBreak::Normal.boxed(),
@@ -251,7 +251,7 @@ impl TailwindInstruction {
         Ok(out)
     }
     #[inline]
-    fn border_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+    fn border_adaptor(str: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // border
             // [] => TailwindBorderWidth::parse(),
@@ -278,13 +278,13 @@ impl TailwindInstruction {
         Ok(out)
     }
     #[inline]
-    fn divide_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+    fn divide_adaptor(str: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/divide-width
             ["x"] => todo!(),
-            ["x", n] => todo!(),
+            ["x", _n] => todo!(),
             ["y"] => todo!(),
-            ["y", n] => todo!(),
+            ["y", _n] => todo!(),
             // https://tailwindcss.com/docs/divide-style
             ["solid"] => TailwindDivideStyle::Solid.boxed(),
             ["dashed"] => TailwindDivideStyle::Dashed.boxed(),
@@ -297,7 +297,7 @@ impl TailwindInstruction {
         Ok(out)
     }
     #[inline]
-    fn outline_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+    fn outline_adaptor(str: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/outline-style
             [] => todo!(),
@@ -307,9 +307,9 @@ impl TailwindInstruction {
             ["double"] => TailwindOutlineStyle::Double.boxed(),
             ["hidden"] => TailwindOutlineStyle::Hidden.boxed(),
             // https://tailwindcss.com/docs/outline-offset
-            ["offset", n] => todo!(),
+            ["offset", _n] => todo!(),
             // https://tailwindcss.com/docs/outline-width
-            [n] => todo!(),
+            [_n] => todo!(),
             _ => return syntax_error!("Unknown outline instructions: {}", str.join("-")),
         };
         Ok(out)
@@ -335,7 +335,7 @@ impl TailwindInstruction {
         Ok(out)
     }
     #[inline]
-    fn box_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+    fn box_adaptor(str: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             ["decoration", "clone"] => TailwindBoxDecoration::Clone.boxed(),
             ["decoration", "slice"] => TailwindBoxDecoration::Slice.boxed(),
@@ -375,11 +375,11 @@ impl TailwindInstruction {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary after place");
         let out = match str {
             // https://tailwindcss.com/docs/grid-template-rows
-            ["rows", rest @ ..] => TailwindListStyle::None.boxed(),
+            ["rows", _rest @ ..] => TailwindListStyle::None.boxed(),
             // https://tailwindcss.com/docs/grid-auto-flow
-            ["flow", rest @ ..] => TailwindListStyle::None.boxed(),
+            ["flow", _rest @ ..] => TailwindListStyle::None.boxed(),
             // https://tailwindcss.com/docs/place-self
-            ["self", rest @ ..] => TailwindListStyle::None.boxed(),
+            ["self", _rest @ ..] => TailwindListStyle::None.boxed(),
             _ => return syntax_error!("Unknown list instructions: {}", str.join("-")),
         };
         Ok(out)
@@ -389,11 +389,11 @@ impl TailwindInstruction {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary after justify");
         let out = match str {
             // https://tailwindcss.com/docs/justify-content
-            ["content", rest @ ..] => TailwindListStyle::None.boxed(),
+            ["content", _rest @ ..] => TailwindListStyle::None.boxed(),
             // https://tailwindcss.com/docs/justify-items
-            ["items", rest @ ..] => TailwindListStyle::None.boxed(),
+            ["items", _rest @ ..] => TailwindListStyle::None.boxed(),
             // https://tailwindcss.com/docs/justify-self
-            ["self", rest @ ..] => TailwindListStyle::None.boxed(),
+            ["self", _rest @ ..] => TailwindListStyle::None.boxed(),
             _ => return syntax_error!("Unknown justify instructions: {}", str.join("-")),
         };
         Ok(out)
@@ -422,9 +422,9 @@ impl TailwindInstruction {
             // https://tailwindcss.com/docs/place-content
             ["content", rest @ ..] => TailwindPlaceContent::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/place-items
-            ["items", rest @ ..] => TailwindListStyle::None.boxed(),
+            ["items", _rest @ ..] => TailwindListStyle::None.boxed(),
             // https://tailwindcss.com/docs/place-self
-            ["self", rest @ ..] => TailwindListStyle::None.boxed(),
+            ["self", _rest @ ..] => TailwindListStyle::None.boxed(),
             _ => return syntax_error!("Unknown list instructions: {}", str.join("-")),
         };
         Ok(out)
@@ -450,11 +450,11 @@ impl TailwindInstruction {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary after justify");
         let out = match str {
             // https://tailwindcss.com/docs/justify-content
-            ["content", rest @ ..] => TailwindListStyle::None.boxed(),
+            ["content", _rest @ ..] => TailwindListStyle::None.boxed(),
             // https://tailwindcss.com/docs/justify-items
-            ["items", rest @ ..] => TailwindListStyle::None.boxed(),
+            ["items", _rest @ ..] => TailwindListStyle::None.boxed(),
             // https://tailwindcss.com/docs/justify-self
-            ["self", rest @ ..] => TailwindListStyle::None.boxed(),
+            ["self", _rest @ ..] => TailwindListStyle::None.boxed(),
             _ => return syntax_error!("Unknown justify instructions: {}", str.join("-")),
         };
         Ok(out)
@@ -464,17 +464,17 @@ impl TailwindInstruction {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary after justify");
         let out = match str {
             // https://tailwindcss.com/docs/justify-content
-            ["content", rest @ ..] => TailwindListStyle::None.boxed(),
+            ["content", _rest @ ..] => TailwindListStyle::None.boxed(),
             // https://tailwindcss.com/docs/justify-items
-            ["items", rest @ ..] => TailwindListStyle::None.boxed(),
+            ["items", _rest @ ..] => TailwindListStyle::None.boxed(),
             // https://tailwindcss.com/docs/justify-self
-            ["self", rest @ ..] => TailwindListStyle::None.boxed(),
+            ["self", _rest @ ..] => TailwindListStyle::None.boxed(),
             _ => return syntax_error!("Unknown justify instructions: {}", str.join("-")),
         };
         Ok(out)
     }
     #[inline]
-    fn table_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+    fn table_adaptor(str: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             ["caption"] => TailwindTableLayout::Auto.boxed(),
             ["right"] => TailwindTableLayout::Auto.boxed(),
@@ -535,7 +535,7 @@ impl TailwindInstruction {
     }
 
     #[inline]
-    fn font_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+    fn font_adaptor(str: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/float
             [s @ ("sans" | "serif" | "mono")] => TailwindFontFamily::new(s).boxed(),
@@ -568,7 +568,7 @@ impl TailwindInstruction {
         Ok(out)
     }
     #[inline]
-    fn text_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+    fn text_adaptor(str: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/text-align
             ["left"] => TailwindTextAlignment::Left.boxed(),

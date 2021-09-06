@@ -1,7 +1,7 @@
 use super::*;
 
 impl Display for TailwindFontArbitrary {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -9,7 +9,7 @@ impl Display for TailwindFontArbitrary {
 impl TailwindInstance for TailwindFontArbitrary {}
 
 impl Display for TailwindFontSize {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -57,7 +57,7 @@ impl TailwindInstance for TailwindFontSmoothing {
 }
 
 impl Display for TailwindFontStyle {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -171,7 +171,7 @@ impl TailwindInstance for TailwindLeading {
 }
 
 impl Display for TailwindListStyle {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -179,7 +179,7 @@ impl Display for TailwindListStyle {
 impl TailwindInstance for TailwindListStyle {}
 
 impl Display for TailwindListStylePosition {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -187,7 +187,7 @@ impl Display for TailwindListStylePosition {
 impl TailwindInstance for TailwindListStylePosition {}
 
 impl Display for TailwindTextAlignment {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -195,7 +195,7 @@ impl Display for TailwindTextAlignment {
 impl TailwindInstance for TailwindTextAlignment {}
 
 impl Display for TailwindTextColor {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -203,7 +203,7 @@ impl Display for TailwindTextColor {
 impl TailwindInstance for TailwindTextColor {}
 
 impl Display for TailwindTextDecoration {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -211,7 +211,7 @@ impl Display for TailwindTextDecoration {
 impl TailwindInstance for TailwindTextDecoration {}
 
 impl Display for TailwindDecorationColor {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -219,7 +219,7 @@ impl Display for TailwindDecorationColor {
 impl TailwindInstance for TailwindDecorationColor {}
 
 impl Display for TailwindDecorationStyle {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -227,7 +227,7 @@ impl Display for TailwindDecorationStyle {
 impl TailwindInstance for TailwindDecorationStyle {}
 
 impl Display for TailwindDecorationThickness {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -235,7 +235,7 @@ impl Display for TailwindDecorationThickness {
 impl TailwindInstance for TailwindDecorationThickness {}
 
 impl Display for TailwindUnderlineOffset {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -243,7 +243,7 @@ impl Display for TailwindUnderlineOffset {
 impl TailwindInstance for TailwindUnderlineOffset {}
 
 impl Display for TailwindTextTransform {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -257,7 +257,7 @@ impl Display for TailwindTextTransform {
 impl TailwindInstance for TailwindTextTransform {}
 
 impl Display for TailwindTextOverflow {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -272,7 +272,7 @@ impl Display for TailwindTextOverflow {
 impl TailwindInstance for TailwindTextOverflow {}
 
 impl Display for TailwindIndent {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -280,7 +280,7 @@ impl Display for TailwindIndent {
 impl TailwindInstance for TailwindIndent {}
 
 impl Display for TailwindAlign {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -288,7 +288,7 @@ impl Display for TailwindAlign {
 impl TailwindInstance for TailwindAlign {}
 
 impl Display for TailwindWhiteSpace {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -296,7 +296,7 @@ impl Display for TailwindWhiteSpace {
 impl TailwindInstance for TailwindWhiteSpace {}
 
 impl Display for TailwindBreak {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -304,7 +304,7 @@ impl Display for TailwindBreak {
 impl TailwindInstance for TailwindBreak {}
 
 impl Display for TailwindContentElement {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }

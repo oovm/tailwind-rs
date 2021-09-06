@@ -5,8 +5,13 @@ mod border_width;
 mod divide_color;
 mod divide_style;
 mod divide_width;
+mod outline_offset;
 mod outline_style;
+mod outline_width;
+mod ring_color;
+mod ring_offset_color;
 mod ring_offset_width;
+mod ring_width;
 #[cfg(test)]
 mod test;
 
@@ -44,34 +49,4 @@ impl Display for BorderStyle {
             Self::None => write!(f, "none"),
         }
     }
-}
-
-///
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindOutlineWidth {
-    width: usize,
-}
-
-///
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindOutlineOffset {
-    offset: usize, // Hidden,
-}
-
-///
-#[derive(Clone, Debug)]
-pub enum TailwindRingWidth {
-    Inset,
-}
-
-///
-#[derive(Clone, Debug)]
-pub struct TailwindRingColor {
-    pub(crate) color: TailwindColor,
-}
-
-///
-#[derive(Clone, Debug)]
-pub struct TailwindRingOffsetColor {
-    pub(crate) color: TailwindColor,
 }

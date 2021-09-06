@@ -1,7 +1,7 @@
 use super::*;
 
 impl Display for TailwindContainer {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -110,7 +110,7 @@ impl TailwindInstance for TailwindBoxSizing {
 }
 
 impl Display for TailwindDisplay {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -219,7 +219,7 @@ impl TailwindInstance for TailwindObjectFit {
 }
 
 impl Display for TailwindObjectPosition {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -331,13 +331,13 @@ impl Display for Visibility {
 }
 
 impl Display for TailwindVisibility {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
 
 impl TailwindInstance for TailwindVisibility {
-    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         todo!()
     }
 }

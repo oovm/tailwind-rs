@@ -29,13 +29,13 @@ impl Display for TailwindShadow {
 impl TailwindInstance for TailwindShadow {}
 
 impl TailwindShadow {
-    pub fn parse_box(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse_box(_input: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_drop(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse_drop(_input: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse_arbitrary(_arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }

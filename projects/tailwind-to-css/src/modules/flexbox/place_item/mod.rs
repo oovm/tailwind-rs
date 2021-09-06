@@ -9,7 +9,7 @@ pub enum TailwindPlaceItems {
     Stretch,
 }
 impl Display for TailwindPlaceItems {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -17,7 +17,7 @@ impl Display for TailwindPlaceItems {
 impl TailwindInstance for TailwindPlaceItems {}
 
 impl TailwindPlaceItems {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse(_pattern: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
