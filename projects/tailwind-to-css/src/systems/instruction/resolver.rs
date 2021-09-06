@@ -423,7 +423,7 @@ impl TailwindInstruction {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary after place");
         let out = match str {
             // https://tailwindcss.com/docs/place-content
-            ["content", rest @ ..] => TailwindListStyle::None.boxed(),
+            ["content", rest @ ..] => TailwindPlaceContent::None.boxed(),
             // https://tailwindcss.com/docs/place-items
             ["items", rest @ ..] => TailwindListStyle::None.boxed(),
             // https://tailwindcss.com/docs/place-self

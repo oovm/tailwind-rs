@@ -1,7 +1,13 @@
 mod basis;
 mod display;
 mod grow;
+mod justify_content;
+mod justify_item;
+mod justify_self;
 mod parser;
+mod place_content;
+mod place_item;
+mod place_self;
 mod shrink;
 
 use super::*;
@@ -103,7 +109,7 @@ pub struct TailwindGap {
     axis: Option<bool>,
 }
 
-#[doc=include_str!("justify-content.md")]
+#[doc=include_str!("readme.md")]
 #[derive(Debug, Copy, Clone)]
 pub enum TailwindJustifyContent {
     Start,
@@ -114,7 +120,7 @@ pub enum TailwindJustifyContent {
     Evenly,
 }
 
-#[doc=include_str!("justify-items.md")]
+#[doc=include_str!("readme.md")]
 #[derive(Debug, Copy, Clone)]
 pub enum TailwindJustifyItems {
     Start,
@@ -123,7 +129,7 @@ pub enum TailwindJustifyItems {
     Stretch,
 }
 
-#[doc=include_str!("justify-self.md")]
+#[doc=include_str!("readme.md")]
 #[derive(Debug, Copy, Clone)]
 pub enum TailwindJustifySelf {
     Auto,
@@ -165,7 +171,7 @@ pub enum TailwindSelf {
     Stretch,
 }
 
-#[doc=include_str!("place-content.md")]
+#[doc=include_str!("readme.md")]
 #[derive(Debug, Copy, Clone)]
 pub enum TailwindPlaceContent {
     // Auto,
@@ -177,7 +183,7 @@ pub enum TailwindPlaceContent {
     Evenly,
 }
 
-#[doc=include_str!("place-items.md")]
+#[doc=include_str!("readme.md")]
 #[derive(Debug, Copy, Clone)]
 pub enum TailwindPlaceItems {
     Auto,
@@ -187,7 +193,7 @@ pub enum TailwindPlaceItems {
     Stretch,
 }
 
-#[doc=include_str!("place-self.md")]
+#[doc=include_str!("readme.md")]
 #[derive(Debug, Copy, Clone)]
 pub enum TailwindPlaceSelf {
     Auto,
