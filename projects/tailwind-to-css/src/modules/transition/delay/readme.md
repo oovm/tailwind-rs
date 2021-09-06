@@ -1,4 +1,4 @@
-Utilities for scaling elements with transform.
+Utilities for controlling the delay of CSS transitions.
 
 ## Example
 
@@ -6,14 +6,14 @@ Utilities for scaling elements with transform.
 use tailwind_css::TailwindBuilder;
 
 #[test]
-fn build_scale() {
-    let builder = TailwindBuilder::default();
-    let out = format!("{:?}", builder.inline("scale-0"));
-    assert_eq!(out, "{transform: scale(0);}")
+fn build_delay() {
+    let mut builder = TailwindBuilder::default();
+    let out = builder.inline("delay-1000");
+    assert_eq!(out, "transition-delay:1000ms;");
 }
 ```
 
 ## Reference
 
-- [scale](https://tailwindcss.com/docs/scale)
-- [scale/cn](https://tailwindcss.cn/docs/scale)
+- [transition-delay](https://tailwindcss.com/docs/transition-delay)
+- [transition-delay/cn](https://tailwindcss.cn/docs/transition-delay)

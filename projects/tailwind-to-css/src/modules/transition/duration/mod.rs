@@ -25,7 +25,10 @@ impl TailwindDuration {
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary after duration");
         match input {
-            [n] => Ok(Self { ms: parse_usize(n)? }),
+            [n] => {
+                let a = TailwindArbitrary::from(*n);
+                Ok(Self { ms: a.as_integer()? })
+            }
             _ => syntax_error!("Unknown duration instructions: {}", input.join("-")),
         }
     }

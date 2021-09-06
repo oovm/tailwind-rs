@@ -1,10 +1,10 @@
 use crate::{tw_idempotency, TailwindBuilder};
 
 #[test]
-fn build_rounded() {
+fn build_delay() {
     let mut builder = TailwindBuilder::default();
-    let out = builder.inline("rounded-full");
-    assert_eq!(out, "background-attachment:scroll;");
+    let out = builder.inline("delay-1000");
+    assert_eq!(out, "transition-delay:1000ms;");
 }
 
 #[test]
@@ -13,4 +13,11 @@ fn id_rounded() {
     tw_idempotency("bg-local", &mut builder);
     tw_idempotency("bg-fixed", &mut builder);
     tw_idempotency("bg-local bg-fixed", &mut builder);
+}
+
+#[test]
+fn build_duration() {
+    let mut builder = TailwindBuilder::default();
+    let out = builder.inline("duration-1000");
+    assert_eq!(out, "transition-duration:1000ms;");
 }

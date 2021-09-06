@@ -43,11 +43,11 @@ impl TailwindInstruction {
 impl TailwindArbitrary {
     #[inline]
     pub fn is_some(&self) -> bool {
-        self.inner.is_empty()
+        !self.inner.is_empty()
     }
     #[inline]
     pub fn is_none(&self) -> bool {
-        !self.inner.is_empty()
+        self.inner.is_empty()
     }
     #[inline]
     pub fn as_str(&self) -> &str {
