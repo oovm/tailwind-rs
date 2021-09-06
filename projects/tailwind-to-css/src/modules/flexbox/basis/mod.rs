@@ -85,7 +85,7 @@ impl TailwindBasis {
             [n] => {
                 let a = TailwindArbitrary::from(*n);
                 Self::maybe_frac(&a).or_else(|_| Self::maybe_unit(&a))
-            }
+            },
             [] => Self::parse_arbitrary(arbitrary),
             _ => syntax_error!("Unknown basis instructions"),
         }

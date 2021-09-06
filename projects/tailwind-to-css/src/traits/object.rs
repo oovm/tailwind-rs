@@ -36,7 +36,7 @@ impl TailwindObject {
                     }
                 }
                 Ok((rest, Self::new(id, out)))
-            }
+            },
             Err(e) => Err(e),
         }
     }

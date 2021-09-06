@@ -11,34 +11,34 @@ impl From<Error> for TailwindError {
                     error.file = Some(o)
                 }
                 error
-            }
+            },
             Error::IoError(io) => Self::from(io),
             Error::BadCall(_, _, _) => {
                 unimplemented!()
-            }
+            },
             Error::InvalidFunctionName(r) => {
                 // TODO: name
                 let mut error = Self::runtime_error(&format!("Invalid function name"));
                 error.range = get_range(&r);
                 error
-            }
+            },
             Error::BadValue(_) => {
                 unimplemented!()
-            }
+            },
             Error::BadArgument(_, _) => {
                 unimplemented!()
-            }
+            },
             Error::BadArguments(_, _) => {
                 unimplemented!()
-            }
+            },
             Error::BadRange(_) => {
                 unimplemented!()
-            }
+            },
             Error::ParseError(e) => Self::from(e),
             Error::UndefinedVariable(name) => Self::undefined_variable(name),
             Error::AtError(_, _) => {
                 unimplemented!()
-            }
+            },
             Error::S(s) => Self::runtime_error(s),
         }
     }

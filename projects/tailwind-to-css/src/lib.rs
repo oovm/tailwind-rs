@@ -18,9 +18,7 @@ pub use self::{
         accessibility::*, background::*, borders::*, effects::*, filters::*, flexbox::*, interactivity::*, layouts::*,
         sizing::*, spacing::*, tables::*, transforms::*, transition::*, typography::*,
     },
-    systems::{
-        breakpoints::*, builder::*, colors::*, css_global::*, fonts::*, instruction::*, length::*, preflight::*, processor::*,
-    },
+    systems::{breakpoints::*, builder::*, colors::*, css_global::*, fonts::*, instruction::*, length::*, preflight::*},
     traits::{CssAttribute, ParsedItem, ParsedList, TailwindInstance, TailwindObject},
 };
 pub use tailwind_error::{Result, TailwindError, TailwindErrorKind};

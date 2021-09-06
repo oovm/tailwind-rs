@@ -1,6 +1,6 @@
 mod methods;
 
-use super::*;
+use parcel_css::stylesheet::{MinifyOptions, ParserOptions, PrinterOptions, StyleSheet};
 
 ///
 #[derive(Clone, Debug)]

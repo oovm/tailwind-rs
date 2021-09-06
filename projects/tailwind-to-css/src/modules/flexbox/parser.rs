@@ -100,24 +100,6 @@ impl TailwindGap {
     }
 }
 
-impl TailwindJustifyContent {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
-    }
-}
-
-impl TailwindJustifyItems {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
-    }
-}
-
-impl TailwindJustifySelf {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
-    }
-}
-
 impl TailwindContent {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
@@ -131,24 +113,6 @@ impl TailwindItems {
 }
 
 impl TailwindSelf {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
-    }
-}
-
-impl TailwindPlaceContent {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
-    }
-}
-
-impl TailwindPlaceItems {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
-    }
-}
-
-impl TailwindPlaceSelf {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }

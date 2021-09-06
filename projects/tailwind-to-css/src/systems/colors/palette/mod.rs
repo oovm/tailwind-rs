@@ -20,10 +20,10 @@ impl Palette {
             Some(s) => Ok(s.clone()),
             None if self.gradient => {
                 syntax_error!("TODO")
-            }
+            },
             None => {
                 syntax_error!("TODO")
-            }
+            },
         }
     }
 }

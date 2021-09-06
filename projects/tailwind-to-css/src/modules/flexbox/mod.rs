@@ -12,9 +12,12 @@ mod shrink;
 
 use super::*;
 
-pub use self::{basis::TailwindBasis, grow::TailWindGrow, shrink::TailWindShrink};
+pub use self::{
+    basis::TailwindBasis, grow::TailWindGrow, place_content::TailwindPlaceContent, place_item::TailwindPlaceItems,
+    place_self::TailwindPlaceSelf, shrink::TailWindShrink,
+};
 
-use crate::TailwindInstance;
+use crate::{Result, TailwindArbitrary, TailwindInstance};
 use std::fmt::{Display, Formatter};
 
 #[doc=include_str!("flex-direction.md")]
@@ -109,36 +112,6 @@ pub struct TailwindGap {
     axis: Option<bool>,
 }
 
-#[doc=include_str!("readme.md")]
-#[derive(Debug, Copy, Clone)]
-pub enum TailwindJustifyContent {
-    Start,
-    End,
-    Center,
-    Between,
-    Around,
-    Evenly,
-}
-
-#[doc=include_str!("readme.md")]
-#[derive(Debug, Copy, Clone)]
-pub enum TailwindJustifyItems {
-    Start,
-    End,
-    Center,
-    Stretch,
-}
-
-#[doc=include_str!("readme.md")]
-#[derive(Debug, Copy, Clone)]
-pub enum TailwindJustifySelf {
-    Auto,
-    Start,
-    End,
-    Center,
-    Stretch,
-}
-
 #[doc=include_str!("align-content.md")]
 #[derive(Debug, Copy, Clone)]
 pub enum TailwindContent {
@@ -164,38 +137,6 @@ pub enum TailwindItems {
 #[doc=include_str!("align-self.md")]
 #[derive(Debug, Copy, Clone)]
 pub enum TailwindSelf {
-    Auto,
-    Start,
-    End,
-    Center,
-    Stretch,
-}
-
-#[doc=include_str!("readme.md")]
-#[derive(Debug, Copy, Clone)]
-pub enum TailwindPlaceContent {
-    // Auto,
-    Start,
-    End,
-    Center,
-    Between,
-    Around,
-    Evenly,
-}
-
-#[doc=include_str!("readme.md")]
-#[derive(Debug, Copy, Clone)]
-pub enum TailwindPlaceItems {
-    Auto,
-    Start,
-    End,
-    Center,
-    Stretch,
-}
-
-#[doc=include_str!("readme.md")]
-#[derive(Debug, Copy, Clone)]
-pub enum TailwindPlaceSelf {
     Auto,
     Start,
     End,

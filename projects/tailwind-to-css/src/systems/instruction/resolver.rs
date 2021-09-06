@@ -74,12 +74,10 @@ impl TailwindInstruction {
             ["self", rest @ ..] => TailwindSelf::parse(rest, arbitrary)?.boxed(),
             // justify catched
             // Spacing System
-            [p @ ("p" | "pl" | "pr" | "pm" | "pt" | "px" | "py"), rest @ ..] => {
-                TailwindSpacing::parse_padding(rest, p, arbitrary)?.boxed()
-            }
-            [m @ ("m" | "ml" | "mr" | "mm" | "mt" | "mx" | "my"), rest @ ..] => {
-                TailwindSpacing::parse_margin(rest, m, arbitrary)?.boxed()
-            }
+            [p @ ("p" | "pl" | "pr" | "pm" | "pt" | "px" | "py"), rest @ ..] =>
+                TailwindSpacing::parse_padding(rest, p, arbitrary)?.boxed(),
+            [m @ ("m" | "ml" | "mr" | "mm" | "mt" | "mx" | "my"), rest @ ..] =>
+                TailwindSpacing::parse_margin(rest, m, arbitrary)?.boxed(),
             ["space", "x", rest @ ..] => TailwindSpacing::parse_space(rest, 'x', arbitrary)?.boxed(),
             ["space", "y", rest @ ..] => TailwindSpacing::parse_space(rest, 'y', arbitrary)?.boxed(),
             // Sizing System
@@ -420,10 +418,9 @@ impl TailwindInstruction {
     }
     #[inline]
     fn place_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after place");
         let out = match str {
             // https://tailwindcss.com/docs/place-content
-            ["content", rest @ ..] => TailwindPlaceContent::None.boxed(),
+            ["content", rest @ ..] => TailwindPlaceContent::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/place-items
             ["items", rest @ ..] => TailwindListStyle::None.boxed(),
             // https://tailwindcss.com/docs/place-self

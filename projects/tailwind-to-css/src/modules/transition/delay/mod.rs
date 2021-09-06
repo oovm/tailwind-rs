@@ -28,7 +28,7 @@ impl TailwindDelay {
             [n] => {
                 let a = TailwindArbitrary::from(*n);
                 Ok(Self { ms: a.as_integer()? })
-            }
+            },
             _ => syntax_error!("Unknown delay instructions: {}", input.join("-")),
         }
     }

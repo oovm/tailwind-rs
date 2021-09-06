@@ -28,7 +28,7 @@ impl TailwindDuration {
             [n] => {
                 let a = TailwindArbitrary::from(*n);
                 Ok(Self { ms: a.as_integer()? })
-            }
+            },
             _ => syntax_error!("Unknown duration instructions: {}", input.join("-")),
         }
     }

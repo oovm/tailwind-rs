@@ -57,13 +57,13 @@ impl Display for TailwindFlex {
             Self::None => f.write_str("none"),
             Self::Inherit => {
                 todo!()
-            }
+            },
             Self::Auto { .. } => {
                 todo!()
-            }
+            },
             Self::Percent { .. } => {
                 todo!()
-            }
+            },
         }
     }
 }
@@ -149,30 +149,6 @@ impl Display for TailwindGap {
 
 impl TailwindInstance for TailwindGap {}
 
-impl Display for TailwindJustifyContent {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-impl TailwindInstance for TailwindJustifyContent {}
-
-impl Display for TailwindJustifyItems {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-impl TailwindInstance for TailwindJustifyItems {}
-
-impl Display for TailwindJustifySelf {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-impl TailwindInstance for TailwindJustifySelf {}
-
 impl Display for TailwindContent {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
@@ -196,27 +172,3 @@ impl Display for TailwindSelf {
 }
 
 impl TailwindInstance for TailwindSelf {}
-
-impl Display for TailwindPlaceContent {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-impl TailwindInstance for TailwindPlaceContent {}
-
-impl Display for TailwindPlaceItems {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-impl TailwindInstance for TailwindPlaceItems {}
-
-impl Display for TailwindPlaceSelf {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-impl TailwindInstance for TailwindPlaceSelf {}

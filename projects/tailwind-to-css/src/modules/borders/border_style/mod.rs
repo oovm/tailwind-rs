@@ -7,8 +7,6 @@ pub struct TailwindBorderStyle {
     kind: BorderStyle,
 }
 
-
-
 impl Display for TailwindBorderStyle {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "border-{}", self.kind)

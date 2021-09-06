@@ -143,33 +143,33 @@ impl Display for TailwindErrorKind {
         match self {
             Self::IOError(e) => {
                 write!(f, "{}", e)
-            }
+            },
             Self::FormatError(e) => {
                 write!(f, "{}", e)
-            }
+            },
             Self::SyntaxError(msg) => {
                 f.write_str("SyntaxError: ")?;
                 f.write_str(msg)
-            }
+            },
             Self::TypeMismatch(msg) => {
                 f.write_str("TypeError: ")?;
                 f.write_str(msg)
-            }
+            },
             Self::RuntimeError(msg) => {
                 f.write_str("RuntimeError: ")?;
                 f.write_str(msg)
-            }
+            },
             Self::UndefinedVariable { name } => {
                 write!(f, "RuntimeError: Variable {} not found in scope", name)
-            }
+            },
             Self::Incomplete => {
                 f.write_str("InternalError: ")?;
                 f.write_str("Parsing incomplete!")
-            }
+            },
             Self::Unreachable => {
                 f.write_str("InternalError: ")?;
                 f.write_str("Entered unreachable code!")
-            }
+            },
         }
     }
 }

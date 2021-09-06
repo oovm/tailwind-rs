@@ -8,10 +8,10 @@ impl From<Error> for TailwindError {
             Error::IO(e) => TailwindErrorKind::IOError(e),
             Error::Cli(_) => {
                 unimplemented!()
-            }
+            },
             Error::Serde(_) => {
                 unimplemented!()
-            }
+            },
         };
         Self { kind: Box::new(kind), level: DiagnosticLevel::None, file: None, range: None }
     }

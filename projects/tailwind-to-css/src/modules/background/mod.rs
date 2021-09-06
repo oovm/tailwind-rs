@@ -1,13 +1,9 @@
-mod attachment;
-mod clip;
-mod color;
-mod gradient;
-mod origin;
-mod position;
-mod repeat;
-mod size;
-#[cfg(test)]
-mod test;
+use std::{
+    collections::BTreeSet,
+    fmt::{Display, Formatter},
+};
+
+use crate::{css_attributes, CssAttribute, TailwindBuilder, TailwindColor, TailwindInstance, TailwindObjectPosition};
 
 pub use self::{
     attachment::TailwindBackgroundAttachment,
@@ -18,8 +14,14 @@ pub use self::{
     repeat::TailwindBackgroundRepeat,
     size::TailwindBackgroundSize,
 };
-use crate::{css_attributes, CssAttribute, TailwindBuilder, TailwindColor, TailwindInstance, TailwindObjectPosition};
-use std::{
-    collections::BTreeSet,
-    fmt::{Display, Formatter},
-};
+
+mod attachment;
+mod clip;
+mod color;
+mod gradient;
+mod origin;
+mod position;
+mod repeat;
+mod size;
+#[cfg(test)]
+mod test;

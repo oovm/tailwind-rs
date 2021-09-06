@@ -20,7 +20,7 @@ where
         let msg = match e {
             ErrorVariant::ParsingError { positives, negatives } => {
                 format!("Positive attempts: {:?}\nNegative attempts: {:?}", positives, negatives)
-            }
+            },
             ErrorVariant::CustomError { message } => message,
         };
         Self::syntax_error(msg)

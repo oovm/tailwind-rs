@@ -35,7 +35,7 @@ impl TailwindInstance for TailwindScreenReader {
                     "border-width" => "0",
 
                 }
-            }
+            },
             false => {
                 css_attributes! {
                     "position" => "static",
@@ -48,7 +48,7 @@ impl TailwindInstance for TailwindScreenReader {
                     "white-space" => "normal",
 
                 }
-            }
+            },
         }
     }
 }

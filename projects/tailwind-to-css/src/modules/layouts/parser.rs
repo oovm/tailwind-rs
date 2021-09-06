@@ -22,7 +22,7 @@ impl ColumnKind {
             [name] => {
                 debug_assert!(!name.contains('%'), "forbidden use percent");
                 alt((Self::parse_length, Self::parse_columns))(name)?.1
-            }
+            },
             _ => return syntax_error!("Unknown column instructions: {}", input.join("-")),
         };
         Ok(out)
@@ -57,9 +57,8 @@ impl TailwindBreakLayout {
         let kind = BreakKind::Before;
         let info = input.join("-");
         match input {
-            ["auto"] | ["avoid"] | ["all"] | ["avoid", "page"] | ["page"] | ["left"] | ["right"] | ["column"] => {
-                Ok(Self { kind, info })
-            }
+            ["auto"] | ["avoid"] | ["all"] | ["avoid", "page"] | ["page"] | ["left"] | ["right"] | ["column"] =>
+                Ok(Self { kind, info }),
             _ => syntax_error!("Unknown break-before instructions: {}", info),
         }
     }
@@ -68,9 +67,8 @@ impl TailwindBreakLayout {
         let kind = BreakKind::After;
         let info = input.join("-");
         match input {
-            ["auto"] | ["avoid"] | ["all"] | ["avoid", "page"] | ["page"] | ["left"] | ["right"] | ["column"] => {
-                Ok(Self { kind, info })
-            }
+            ["auto"] | ["avoid"] | ["all"] | ["avoid", "page"] | ["page"] | ["left"] | ["right"] | ["column"] =>
+                Ok(Self { kind, info }),
             _ => syntax_error!("Unknown break-after instructions: {}", info),
         }
     }

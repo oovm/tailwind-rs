@@ -47,7 +47,7 @@ impl AspectKind {
             [n] => {
                 let (a, b) = parse_fraction(n)?.1;
                 Self::Radio(a, b)
-            }
+            },
             _ => return syntax_error!("unknown aspect-ratio elements"),
         };
         Ok(out)

@@ -22,7 +22,7 @@ impl TailwindInstance for TailwindInstruction {
             Err(e) => {
                 #[cfg(debug_assertions)]
                 error!("{:?}", e)
-            }
+            },
         }
         out
     }
@@ -37,10 +37,10 @@ impl Display for TailwindVariant {
         match self.pseudo {
             true => {
                 write!(f, "::")
-            }
+            },
             false => {
                 write!(f, ":")
-            }
+            },
         }
     }
 }
@@ -56,10 +56,10 @@ impl Display for TailwindArbitrary {
         match self.inner.is_empty() {
             true => {
                 write!(f, "")
-            }
+            },
             false => {
                 write!(f, "-[{}]", self.inner)
-            }
+            },
         }
     }
 }

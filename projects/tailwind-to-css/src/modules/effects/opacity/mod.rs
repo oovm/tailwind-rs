@@ -31,7 +31,7 @@ impl TailwindOpacity {
             [n] => {
                 let a = TailwindArbitrary::from(*n);
                 Ok(Self { opacity: a.as_integer()? })
-            }
+            },
             _ => syntax_error!("Unknown opacity instructions: {}", input.join("-")),
         }
     }
