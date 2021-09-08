@@ -34,14 +34,6 @@ impl Display for TailwindGridAuto {
 
 impl TailwindInstance for TailwindGridAuto {}
 
-impl Display for TailwindGap {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-impl TailwindInstance for TailwindGap {}
-
 impl Display for TailwindContent {
     fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()

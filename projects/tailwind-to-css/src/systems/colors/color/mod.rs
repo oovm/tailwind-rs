@@ -56,8 +56,8 @@ impl TailwindColor {
             ["inherit"] => Self::Global(CssBehavior::Inherit),
             ["initial"] => Self::Global(CssBehavior::Initial),
             ["unset"] => Self::Global(CssBehavior::Unset),
-            [] => return Self::parse_arbitrary(arbitrary),
-            [name, weight] => return Self::parse_themed(name, weight),
+            [] => Self::parse_arbitrary(arbitrary)?,
+            [name, weight] => Self::parse_themed(name, weight)?,
             _ => return syntax_error!("Unknown color pattern: {}", pattern.join("-")),
         };
         Ok(out)
