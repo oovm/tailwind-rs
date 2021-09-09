@@ -1,9 +1,12 @@
 use super::*;
 mod aspect_ratio;
+mod columns;
+mod container;
 mod display;
 mod parser;
 #[cfg(test)]
 mod test;
+mod z_index;
 
 pub use self::aspect_ratio::TailwindAspect;
 

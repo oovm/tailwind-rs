@@ -12,12 +12,6 @@ impl TailwindGridFlow {
     }
 }
 
-impl TailwindGridAuto {
-    pub fn parse(_pattern: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
-    }
-}
-
 impl TailwindContent {
     pub fn parse(_pattern: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
