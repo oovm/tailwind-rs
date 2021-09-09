@@ -1,4 +1,13 @@
-use super::*;
+pub use self::{aspect_ratio::TailwindAspect, columns::TailwindColumns, container::TailwindContainer, z_index::TailWindZIndex};
+use crate::{
+    css_attributes, syntax_error, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary, TailwindBuilder,
+    TailwindInstance,
+};
+use std::{
+    collections::BTreeSet,
+    fmt::{Debug, Display, Formatter},
+};
+
 mod aspect_ratio;
 mod columns;
 mod container;
@@ -7,26 +16,6 @@ mod parser;
 #[cfg(test)]
 mod test;
 mod z_index;
-
-pub use self::aspect_ratio::TailwindAspect;
-
-#[doc = include_str!("container.md")]
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindContainer {}
-
-#[derive(Copy, Clone, Debug)]
-enum ColumnKind {
-    Auto,
-    Columns(u8),
-    Length(LengthUnit),
-    // Global(CssBehavior),
-}
-
-#[doc = include_str!("columns.md")]
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindColumns {
-    kind: ColumnKind,
-}
 
 #[derive(Copy, Clone, Debug)]
 enum BreakKind {
@@ -204,17 +193,4 @@ enum Visibility {
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindVisibility {
     kind: Visibility,
-}
-
-#[derive(Copy, Clone, Debug)]
-enum ZIndex {
-    Auto,
-    Unit(usize),
-}
-
-#[doc = include_str!("z-index.md")]
-#[derive(Copy, Clone, Debug)]
-pub struct TailWindZIndex {
-    kind: ZIndex,
-    neg: bool,
 }

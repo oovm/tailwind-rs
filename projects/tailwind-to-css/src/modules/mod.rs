@@ -21,8 +21,5 @@ use std::{
     collections::{BTreeSet, HashMap},
     fmt::{Debug, Display, Formatter},
 };
-use tailwind_ast::{parse_fraction, parse_i_px_maybe, parse_integer};
-use tailwind_error::{
-    nom::{branch::alt, IResult},
-    Result,
-};
+use tailwind_ast::{parse_i_px_maybe, parse_integer};
+use tailwind_error::{nom::IResult, Result};

@@ -32,35 +32,6 @@ impl TailwindInstance for TailwindBreakLayout {
     }
 }
 
-impl Display for ColumnKind {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Auto => write!(f, "auto"),
-            Self::Columns(n) => write!(f, "{}", n),
-            Self::Length(n) => write!(f, "{}", n),
-        }
-    }
-}
-
-impl Display for TailwindColumns {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "columns-{}", self.kind)
-    }
-}
-
-impl TailwindInstance for TailwindColumns {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let columns = match self.kind {
-            ColumnKind::Auto => "auto".to_string(),
-            ColumnKind::Columns(n) => format!("{}", n),
-            ColumnKind::Length(n) => format!("{:?}", n),
-        };
-        css_attributes! {
-            "columns" => columns
-        }
-    }
-}
-
 impl Display for BoxDecoration {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
@@ -339,28 +310,5 @@ impl Display for TailwindVisibility {
 impl TailwindInstance for TailwindVisibility {
     fn attributes(&self, _ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         todo!()
-    }
-}
-
-impl Display for TailWindZIndex {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self.kind {
-            ZIndex::Auto => write!(f, "w-auto"),
-            ZIndex::Unit(n) if self.neg => write!(f, "-w-{}", n),
-            ZIndex::Unit(n) => write!(f, "w-{}", n),
-        }
-    }
-}
-
-impl TailwindInstance for TailWindZIndex {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let index = match self.kind {
-            ZIndex::Auto => "auto".to_string(),
-            ZIndex::Unit(n) if self.neg => format!("-{}", n),
-            ZIndex::Unit(n) => format!("{}", n),
-        };
-        css_attributes! {
-            "z-index" => index
-        }
     }
 }

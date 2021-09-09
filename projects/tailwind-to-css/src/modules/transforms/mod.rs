@@ -1,48 +1,19 @@
-mod display;
+use std::{
+    collections::BTreeSet,
+    fmt::{Debug, Display, Formatter},
+};
+
+use crate::{
+    css_attributes, syntax_error, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary, TailwindBuilder,
+    TailwindInstance, TailwindObjectPosition,
+};
+
+pub use self::{
+    origin::TailwindOrigin, rotate::TailwindRotate, scale::TailwindScale, skew::TailwindSkew, translate::TailwindTranslate,
+};
+
 mod origin;
-mod parser;
 mod rotate;
 mod scale;
 mod skew;
 mod translate;
-
-use super::*;
-
-#[doc = include_str!("scale.md")]
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindScale {
-    neg: bool,
-    scale: usize,
-    axis: Option<bool>,
-}
-
-#[doc = include_str!("rotate.md")]
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindRotate {
-    neg: bool,
-    deg: usize,
-}
-
-#[derive(Copy, Clone, Debug)]
-enum TranslateSize {}
-
-#[doc = include_str!("translate.md")]
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindTranslate {
-    size: TranslateSize,
-    axis: Option<bool>,
-}
-
-#[doc = include_str!("skew.md")]
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindSkew {
-    neg: bool,
-    deg: usize,
-    axis: bool,
-}
-
-#[doc = include_str!("transform-origin.md")]
-#[derive(Clone, Debug)]
-pub struct TailwindOrigin {
-    wrapper: TailwindObjectPosition,
-}

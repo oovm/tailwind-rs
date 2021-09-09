@@ -45,7 +45,7 @@ impl AspectKind {
             ["initial"] => Self::Global(CssBehavior::Initial),
             ["unset"] => Self::Global(CssBehavior::Unset),
             [n] => {
-                let (a, b) = parse_fraction(n)?.1;
+                let (a, b) = TailwindArbitrary::from(*n).as_fraction()?;
                 Self::Radio(a, b)
             },
             _ => return syntax_error!("unknown aspect-ratio elements"),
