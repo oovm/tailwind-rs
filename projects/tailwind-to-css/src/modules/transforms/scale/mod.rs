@@ -1,14 +1,19 @@
+use std::fmt::Write;
+
 use super::*;
 
 #[doc = include_str!("readme.md")]
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindScale {
-    neg: bool,
+    negative: bool,
     scale: usize,
     axis: Option<bool>,
 }
 impl Display for TailwindScale {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        if self.negative {
+            f.write_char('-')?
+        }
         match self.axis {
             None => write!(f, "scale-{}", self.scale),
             Some(true) => write!(f, "scale-x-{}", self.scale),
@@ -36,7 +41,7 @@ impl TailwindScale {
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary, axis: Option<bool>, neg: bool) -> Result<Self> {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary");
         match input {
-            [n] => Ok(Self { neg, scale: TailwindArbitrary::from(*n).as_integer()?, axis }),
+            [n] => Ok(Self { negative: neg, scale: TailwindArbitrary::from(*n).as_integer()?, axis }),
             _ => syntax_error!("Unknown scale instructions: {}", input.join("-")),
         }
     }

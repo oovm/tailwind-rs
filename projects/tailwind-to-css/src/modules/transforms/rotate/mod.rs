@@ -26,7 +26,7 @@ impl TailwindRotate {
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary, neg: bool) -> Result<Self> {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary");
         match input {
-            [n] => Ok(Self { neg, deg: TailwindArbitrary::from(*n).as_integer()?, axis }),
+            [n] => Ok(Self { neg, deg: TailwindArbitrary::from(*n).as_integer()? }),
             _ => syntax_error!("Unknown rotate instructions: {}", input.join("-")),
         }
     }

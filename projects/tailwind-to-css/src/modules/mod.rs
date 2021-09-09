@@ -22,4 +22,4 @@ use std::{
     fmt::{Debug, Display, Formatter},
 };
 use tailwind_ast::{parse_i_px_maybe, parse_integer};
-use tailwind_error::{nom::IResult, Result};
+use tailwind_error::Result;

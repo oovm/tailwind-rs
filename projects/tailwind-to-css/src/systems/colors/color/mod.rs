@@ -85,8 +85,8 @@ impl TailwindColor {
     #[inline]
     pub fn get_properties(&self, ctx: &TailwindBuilder) -> String {
         match self {
-            Self::Transparent => format!("transparent"),
-            Self::Current => format!("currentColor"),
+            Self::Transparent => "transparent".to_string(),
+            Self::Current => "currentColor".to_string(),
             Self::RGB(c) => format!("#{:02X?}", &[c.red, c.green, c.blue, c.alpha]),
             Self::Global(g) => format!("{}", g),
             Self::Themed(name, weight) => match ctx.palettes.get_color(name, *weight) {

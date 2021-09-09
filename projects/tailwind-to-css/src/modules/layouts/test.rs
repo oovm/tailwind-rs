@@ -62,6 +62,7 @@ fn id_float() {
     tw_idempotency("float-left float-right float-none", &mut builder);
 }
 
+#[test]
 fn id_clear() {
     let mut builder = TailwindBuilder::default();
     tw_idempotency("float-left float-right", &mut builder);

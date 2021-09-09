@@ -18,7 +18,8 @@ impl Display for ColumnKind {
         match self {
             Self::Auto => write!(f, "auto"),
             Self::Columns(n) => write!(f, "{}", n),
-            Self::Length(n) => write!(f, "{}", n),
+            Self::Length(n) => write!(f, "[{}]", n),
+            Self::Global(g) => write!(f, "{}", g),
         }
     }
 }
@@ -35,6 +36,7 @@ impl TailwindInstance for TailwindColumns {
             ColumnKind::Auto => "auto".to_string(),
             ColumnKind::Columns(n) => format!("{}", n),
             ColumnKind::Length(n) => format!("{:?}", n),
+            ColumnKind::Global(g) => format!("{}", g),
         };
         css_attributes! {
             "columns" => columns
@@ -43,50 +45,40 @@ impl TailwindInstance for TailwindColumns {
 }
 impl ColumnKind {
     #[inline]
-    pub fn parse(input: &[&str]) -> Result<Self> {
+    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        let rem = |n: usize| Self::Length(LengthUnit::Rem(n as f32));
         let out = match input {
             ["auto"] => Self::Auto,
-            ["3xs"] => Self::rem(16),
-            ["2xs"] => Self::rem(18),
-            ["xs"] => Self::rem(20),
-            ["sm"] => Self::rem(24),
-            ["md"] => Self::rem(28),
-            ["lg"] => Self::rem(32),
-            ["xl"] => Self::rem(36),
-            ["2xl"] => Self::rem(42),
-            ["3xl"] => Self::rem(48),
-            ["4xl"] => Self::rem(56),
-            ["5xl"] => Self::rem(64),
-            ["6xl"] => Self::rem(72),
-            ["7xl"] => Self::rem(80),
+            ["3xs"] => rem(16),
+            ["2xs"] => rem(18),
+            ["xs"] => rem(20),
+            ["sm"] => rem(24),
+            ["md"] => rem(28),
+            ["lg"] => rem(32),
+            ["xl"] => rem(36),
+            ["2xl"] => rem(42),
+            ["3xl"] => rem(48),
+            ["4xl"] => rem(56),
+            ["5xl"] => rem(64),
+            ["6xl"] => rem(72),
+            ["7xl"] => rem(80),
             [name] => {
                 debug_assert!(!name.contains('%'), "forbidden use percent");
-                alt((Self::parse_length, Self::parse_columns))(name)?.1
+                let a = TailwindArbitrary::from(*name);
+                let maybe_unit = || -> Result<Self> { Ok(Self::Columns(a.as_integer()?)) };
+                let maybe_length = || -> Result<Self> { Ok(Self::Length(a.as_length()?)) };
+                maybe_unit().or_else(|_| maybe_length())?
             },
+            [] => Self::Length(arbitrary.as_length()?),
             _ => return syntax_error!("Unknown column instructions: {}", input.join("-")),
         };
         Ok(out)
-    }
-    #[inline]
-    fn parse_columns(input: &str) -> IResult<&str, Self> {
-        let (rest, i) = parse_integer(input)?;
-        Ok((rest, Self::Columns(i)))
-    }
-    #[inline]
-    fn parse_length(input: &str) -> IResult<&str, Self> {
-        let (rest, l) = LengthUnit::parse(input)?;
-        Ok((rest, Self::Length(l)))
-    }
-    #[inline(always)]
-    fn rem(n: usize) -> ColumnKind {
-        Self::Length(LengthUnit::Rem(n as f32))
     }
 }
 
 impl TailwindColumns {
     /// https://tailwindcss.com/docs/columns
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after columns");
-        Ok(Self { kind: ColumnKind::parse(input)? })
+        Ok(Self { kind: ColumnKind::parse(input, arbitrary)? })
     }
 }

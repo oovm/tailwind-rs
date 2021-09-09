@@ -40,13 +40,11 @@ impl TailWindZIndex {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary after z-index");
         match kind {
             ["auto"] => Ok(Self { kind: ZIndex::Auto, neg }),
-            [r] => Self::parse_number(r, neg),
-            _ => syntax_error!("Unknown contrast instructions"),
+            [n] => {
+                let a = TailwindArbitrary::from(*n);
+                Ok(Self { kind: ZIndex::Unit(a.as_integer()?), neg })
+            },
+            _ => syntax_error!("Unknown z-index instructions"),
         }
-    }
-    #[inline]
-    fn parse_number(input: &str, neg: bool) -> Result<Self> {
-        let n = parse_integer(input)?.1;
-        Ok(Self { kind: ZIndex::Unit(n), neg })
     }
 }

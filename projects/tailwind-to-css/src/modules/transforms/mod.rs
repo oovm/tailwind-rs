@@ -4,8 +4,8 @@ use std::{
 };
 
 use crate::{
-    css_attributes, syntax_error, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary, TailwindBuilder,
-    TailwindInstance, TailwindObjectPosition,
+    css_attributes, syntax_error, CssAttribute, Result, TailwindArbitrary, TailwindBuilder, TailwindInstance,
+    TailwindObjectPosition,
 };
 
 pub use self::{
