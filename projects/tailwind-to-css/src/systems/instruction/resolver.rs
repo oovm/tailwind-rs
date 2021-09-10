@@ -388,13 +388,12 @@ impl TailwindInstruction {
     fn justify_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary after justify");
         let out = match str {
-            // https://tailwindcss.com/docs/justify-content
-            ["content", _rest @ ..] => TailwindListStyle::None.boxed(),
             // https://tailwindcss.com/docs/justify-items
-            ["items", _rest @ ..] => TailwindListStyle::None.boxed(),
+            ["items", rest @ ..] => TailwindJustifyItems::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/justify-self
-            ["self", _rest @ ..] => TailwindListStyle::None.boxed(),
-            _ => return syntax_error!("Unknown justify instructions: {}", str.join("-")),
+            ["items", rest @ ..] => TailwindJustifySelf::parse(rest, arbitrary)?.boxed(),
+            // https://tailwindcss.com/docs/justify-content
+            _ => TailwindJustifyContent::parse(str, arbitrary)?.boxed(),
         };
         Ok(out)
     }

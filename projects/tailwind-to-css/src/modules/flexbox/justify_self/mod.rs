@@ -19,12 +19,12 @@ pub struct TailwindJustifySelf {
 impl Display for JustifySelf {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            JustifySelf::Auto => write!(f, "auto"),
-            JustifySelf::Start => write!(f, "start"),
-            JustifySelf::End => write!(f, "end"),
-            JustifySelf::Center => write!(f, "center"),
-            JustifySelf::Stretch => write!(f, "stretch"),
-            JustifySelf::Global(g) => write!(f, "{}", g),
+            Self::Auto => write!(f, "auto"),
+            Self::Start => write!(f, "start"),
+            Self::End => write!(f, "end"),
+            Self::Center => write!(f, "center"),
+            Self::Stretch => write!(f, "stretch"),
+            Self::Global(g) => write!(f, "{}", g),
         }
     }
 }
@@ -53,7 +53,7 @@ impl TailwindJustifySelf {
             ["end"] => JustifySelf::End,
             ["center"] => JustifySelf::Center,
             ["stretch"] => JustifySelf::Stretch,
-            _ => return syntax_error!("Unknown contrast instructions: {}", pattern.join("-")),
+            _ => return syntax_error!("Unknown justify-self instructions: {}", pattern.join("-")),
         };
         Ok(Self { kind })
     }
