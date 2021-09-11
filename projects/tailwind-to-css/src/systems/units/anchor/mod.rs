@@ -15,13 +15,6 @@ pub enum AnchorPoint {
     Global(CssBehavior),
 }
 
-pub struct TailwindOrigin {
-    kind: AnchorPoint,
-}
-
-// transform-origin: inherit;
-// transform-origin: initial;
-// transform-origin: unset;
 impl AnchorPoint {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         let out = match pattern {
@@ -34,8 +27,8 @@ impl AnchorPoint {
             ["1"] | ["left", "bottom"] | ["bottom", "left"] => Self::LeftBottom,
             ["2"] | ["bottom"] => Self::Bottom,
             ["3"] | ["right", "bottom"] | ["bottom", "right"] => Self::RightBottom,
-            [] => Self::parse_arbitrary(arbitrary)?,
-            _ => syntax_error!("Unknown object instructions: {}", pattern.join("-"))?,
+            [] if arbitrary.is_some() => Self::parse_arbitrary(arbitrary)?,
+            _ => return syntax_error!("Unknown anchor-point instructions: {}", pattern.join("-")),
         };
         Ok(out)
     }

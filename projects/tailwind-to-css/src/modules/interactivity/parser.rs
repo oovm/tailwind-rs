@@ -72,15 +72,6 @@ impl TailwindSnap {
     }
 }
 
-impl TailwindTorch {
-    pub fn parse(_pattern: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
-    }
-    pub fn parse_arbitrary(_arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
-    }
-}
-
 impl SelectKind {
     /// https://developer.mozilla.org/zh-CN/docs/Web/CSS/user-select
     pub fn parse(pattern: &[&str]) -> Result<Self> {

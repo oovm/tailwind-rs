@@ -1,4 +1,7 @@
-pub use self::{aspect_ratio::TailwindAspect, columns::TailwindColumns, container::TailwindContainer, z_index::TailWindZIndex};
+pub use self::{
+    aspect_ratio::TailwindAspect, columns::TailwindColumns, container::TailwindContainer,
+    object_position::TailwindObjectPosition, z_index::TailWindZIndex,
+};
 use crate::{
     css_attributes, syntax_error, AnchorPoint, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary,
     TailwindBuilder, TailwindInstance,

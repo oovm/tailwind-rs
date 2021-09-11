@@ -176,7 +176,7 @@ impl TailwindInstruction {
             ["translate", "y", _rest @ ..] => todo!(),
             ["skew", "x", rest @ ..] => TailwindSkew::parse(rest, arbitrary, true, neg)?.boxed(),
             ["skew", "y", rest @ ..] => TailwindSkew::parse(rest, arbitrary, false, neg)?.boxed(),
-            ["origin", _rest @ ..] => todo!(),
+            ["origin", rest @ ..] => TailwindOrigin::parse(rest, arbitrary)?.boxed(),
             // Interactivity System
             ["accent", rest @ ..] => TailwindAccentColor::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/appearance
@@ -490,8 +490,8 @@ impl TailwindInstruction {
     }
 
     #[inline]
-    fn object_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        let out = match str {
+    fn object_adaptor(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+        let out = match pattern {
             // https://tailwindcss.com/docs/object-fit
             ["contain"] => TailwindObjectFit::Contain.boxed(),
             ["cover"] => TailwindObjectFit::Cover.boxed(),
@@ -499,17 +499,7 @@ impl TailwindInstruction {
             ["none"] => TailwindObjectFit::None.boxed(),
             ["scale", "down"] => TailwindObjectFit::ScaleDown.boxed(),
             // https://tailwindcss.com/docs/object-position
-            ["7"] | ["left", "top"] => AnchorPoint::LeftTop.boxed(),
-            ["8"] | ["top"] => AnchorPoint::Bottom.boxed(),
-            ["9"] | ["right", "top"] => AnchorPoint::Bottom.boxed(),
-            ["4"] | ["left"] => AnchorPoint::Bottom.boxed(),
-            ["5"] | ["center"] => AnchorPoint::Bottom.boxed(),
-            ["6"] | ["right"] => AnchorPoint::Bottom.boxed(),
-            ["1"] | ["left", "buttom"] => AnchorPoint::Bottom.boxed(),
-            ["2"] | ["buttom"] => AnchorPoint::Bottom.boxed(),
-            ["3"] | ["right", "buttom"] => AnchorPoint::Bottom.boxed(),
-            [] => AnchorPoint::parse_arbitrary(arbitrary)?.boxed(),
-            _ => return syntax_error!("Unknown object instructions: {}", str.join("-")),
+            _ => TailwindObjectPosition::parse(pattern, arbitrary)?.boxed(),
         };
         Ok(out)
     }
