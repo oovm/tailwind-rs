@@ -189,13 +189,13 @@ impl TailwindInstance for TailwindObjectFit {
     }
 }
 
-impl Display for TailwindObjectPosition {
+impl Display for AnchorPoint {
     fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
 
-impl TailwindInstance for TailwindObjectPosition {}
+impl TailwindInstance for AnchorPoint {}
 
 impl Display for Overflow {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {

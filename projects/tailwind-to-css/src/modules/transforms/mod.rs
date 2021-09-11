@@ -3,10 +3,7 @@ use std::{
     fmt::{Debug, Display, Formatter},
 };
 
-use crate::{
-    css_attributes, syntax_error, CssAttribute, Result, TailwindArbitrary, TailwindBuilder, TailwindInstance,
-    TailwindObjectPosition,
-};
+use crate::{css_attributes, syntax_error, CssAttribute, Result, TailwindArbitrary, TailwindBuilder, TailwindInstance};
 
 pub use self::{
     origin::TailwindOrigin, rotate::TailwindRotate, scale::TailwindScale, skew::TailwindSkew, translate::TailwindTranslate,

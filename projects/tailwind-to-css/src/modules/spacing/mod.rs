@@ -1,6 +1,9 @@
+use super::*;
+
 mod builder;
 mod display;
-use super::*;
+#[cfg(test)]
+mod test;
 
 #[derive(Copy, Clone, Debug)]
 pub enum SizeKind {

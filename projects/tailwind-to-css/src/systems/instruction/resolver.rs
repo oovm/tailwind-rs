@@ -72,6 +72,7 @@ impl TailwindInstruction {
             ["content", rest @ ..] => Self::content_adaptor(rest, arbitrary)?,
             ["items", rest @ ..] => TailwindItems::parse(rest, arbitrary)?.boxed(),
             ["self", rest @ ..] => TailwindSelf::parse(rest, arbitrary)?.boxed(),
+            ["place", rest @ ..] => Self::place_adaptor(rest, arbitrary)?,
             // justify catched
             // Spacing System
             [p @ ("p" | "pl" | "pr" | "pm" | "pt" | "px" | "py"), rest @ ..] =>
@@ -391,7 +392,7 @@ impl TailwindInstruction {
             // https://tailwindcss.com/docs/justify-items
             ["items", rest @ ..] => TailwindJustifyItems::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/justify-self
-            ["items", rest @ ..] => TailwindJustifySelf::parse(rest, arbitrary)?.boxed(),
+            ["self", rest @ ..] => TailwindJustifySelf::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/justify-content
             _ => TailwindJustifyContent::parse(str, arbitrary)?.boxed(),
         };
@@ -421,10 +422,10 @@ impl TailwindInstruction {
             // https://tailwindcss.com/docs/place-content
             ["content", rest @ ..] => TailwindPlaceContent::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/place-items
-            ["items", _rest @ ..] => TailwindListStyle::None.boxed(),
+            ["items", rest @ ..] => TailwindPlaceItems::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/place-self
-            ["self", _rest @ ..] => TailwindListStyle::None.boxed(),
-            _ => return syntax_error!("Unknown list instructions: {}", str.join("-")),
+            ["self", rest @ ..] => TailwindPlaceSelf::parse(rest, arbitrary)?.boxed(),
+            _ => return syntax_error!("Unknown place instructions: {}", str.join("-")),
         };
         Ok(out)
     }
@@ -498,16 +499,16 @@ impl TailwindInstruction {
             ["none"] => TailwindObjectFit::None.boxed(),
             ["scale", "down"] => TailwindObjectFit::ScaleDown.boxed(),
             // https://tailwindcss.com/docs/object-position
-            ["7"] | ["left", "top"] => TailwindObjectPosition::LeftTop.boxed(),
-            ["8"] | ["top"] => TailwindObjectPosition::Bottom.boxed(),
-            ["9"] | ["right", "top"] => TailwindObjectPosition::Bottom.boxed(),
-            ["4"] | ["left"] => TailwindObjectPosition::Bottom.boxed(),
-            ["5"] | ["center"] => TailwindObjectPosition::Bottom.boxed(),
-            ["6"] | ["right"] => TailwindObjectPosition::Bottom.boxed(),
-            ["1"] | ["left", "buttom"] => TailwindObjectPosition::Bottom.boxed(),
-            ["2"] | ["buttom"] => TailwindObjectPosition::Bottom.boxed(),
-            ["3"] | ["right", "buttom"] => TailwindObjectPosition::Bottom.boxed(),
-            [] => TailwindObjectPosition::parse_arbitrary(arbitrary)?.boxed(),
+            ["7"] | ["left", "top"] => AnchorPoint::LeftTop.boxed(),
+            ["8"] | ["top"] => AnchorPoint::Bottom.boxed(),
+            ["9"] | ["right", "top"] => AnchorPoint::Bottom.boxed(),
+            ["4"] | ["left"] => AnchorPoint::Bottom.boxed(),
+            ["5"] | ["center"] => AnchorPoint::Bottom.boxed(),
+            ["6"] | ["right"] => AnchorPoint::Bottom.boxed(),
+            ["1"] | ["left", "buttom"] => AnchorPoint::Bottom.boxed(),
+            ["2"] | ["buttom"] => AnchorPoint::Bottom.boxed(),
+            ["3"] | ["right", "buttom"] => AnchorPoint::Bottom.boxed(),
+            [] => AnchorPoint::parse_arbitrary(arbitrary)?.boxed(),
             _ => return syntax_error!("Unknown object instructions: {}", str.join("-")),
         };
         Ok(out)

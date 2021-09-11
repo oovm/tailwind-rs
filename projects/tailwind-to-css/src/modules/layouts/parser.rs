@@ -33,12 +33,6 @@ impl TailwindBreakLayout {
     }
 }
 
-impl TailwindObjectPosition {
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!("{}", arbitrary)
-    }
-}
-
 impl Overflow {
     pub fn parse(input: &[&str]) -> Result<Self> {
         match input {

@@ -1,10 +1,11 @@
+use crate::AnchorPoint;
+
 use super::*;
 
-#[doc = include_str!("readme.md")]
-#[derive(Clone, Debug)]
 pub struct TailwindOrigin {
-    wrapper: TailwindObjectPosition,
+    kind: AnchorPoint,
 }
+
 impl Display for TailwindOrigin {
     fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()

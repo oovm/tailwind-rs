@@ -1,7 +1,7 @@
 pub use self::{aspect_ratio::TailwindAspect, columns::TailwindColumns, container::TailwindContainer, z_index::TailWindZIndex};
 use crate::{
-    css_attributes, syntax_error, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary, TailwindBuilder,
-    TailwindInstance,
+    css_attributes, syntax_error, AnchorPoint, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary,
+    TailwindBuilder, TailwindInstance,
 };
 use std::{
     collections::BTreeSet,
@@ -12,6 +12,7 @@ mod aspect_ratio;
 mod columns;
 mod container;
 mod display;
+mod object_position;
 mod parser;
 #[cfg(test)]
 mod test;
@@ -120,21 +121,6 @@ enum ObjectFit {
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindObjectFit {
     kind: ObjectFit,
-}
-
-/// https://tailwindcss.com/docs/object-fit
-#[derive(Clone, Debug)]
-pub enum TailwindObjectPosition {
-    LeftTop,
-    Top,
-    RightTop,
-    Left,
-    Center,
-    Right,
-    LeftBottom,
-    Bottom,
-    RightBottom,
-    Custom { x: String, y: String },
 }
 
 #[derive(Copy, Clone, Debug)]
