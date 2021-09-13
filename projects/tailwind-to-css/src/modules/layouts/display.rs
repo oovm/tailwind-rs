@@ -291,24 +291,3 @@ impl TailwindInstance for TailwindPosition {
         }
     }
 }
-
-impl Display for Visibility {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Visible => f.write_str("visible"),
-            Self::Invisible => f.write_str("hidden"),
-        }
-    }
-}
-
-impl Display for TailwindVisibility {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-impl TailwindInstance for TailwindVisibility {
-    fn attributes(&self, _ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        todo!()
-    }
-}

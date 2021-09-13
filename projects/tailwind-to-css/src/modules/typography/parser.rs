@@ -87,16 +87,6 @@ impl TailwindFontVariantNumeric {
     pub const StackedFractions: Self = Self { kind: FontVariantNumeric::StackedFractions };
 }
 
-impl TailwindTextDecoration {
-    /// `underline`
-    pub const Underline: Self = Self { kind: TextDecoration::Underline };
-    /// `overline`
-    pub const Overline: Self = Self { kind: TextDecoration::Overline };
-    /// `line-through`
-    pub const ThroughLine: Self = Self { kind: TextDecoration::ThroughLine };
-    /// `no-underline`
-    pub const None: Self = Self { kind: TextDecoration::None };
-}
 
 impl TailwindListStylePosition {
     /// `list-inside`

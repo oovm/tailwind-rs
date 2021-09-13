@@ -1,14 +1,16 @@
-pub use self::{
-    aspect_ratio::TailwindAspect, columns::TailwindColumns, container::TailwindContainer,
-    object_position::TailwindObjectPosition, z_index::TailWindZIndex,
+use std::{
+    collections::BTreeSet,
+    fmt::{Debug, Display, Formatter},
 };
+
 use crate::{
     css_attributes, syntax_error, AnchorPoint, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary,
     TailwindBuilder, TailwindInstance,
 };
-use std::{
-    collections::BTreeSet,
-    fmt::{Debug, Display, Formatter},
+
+pub use self::{
+    aspect_ratio::TailwindAspect, columns::TailwindColumns, container::TailwindContainer,
+    object_position::TailwindObjectPosition, visible::TailwindVisibility, z_index::TailWindZIndex,
 };
 
 mod aspect_ratio;
@@ -19,6 +21,7 @@ mod object_position;
 mod parser;
 #[cfg(test)]
 mod test;
+mod visible;
 mod z_index;
 
 #[derive(Copy, Clone, Debug)]
@@ -170,16 +173,4 @@ enum PositionKind {
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindPosition {
     kind: PositionKind,
-}
-
-#[derive(Copy, Clone, Debug)]
-enum Visibility {
-    Visible,
-    Invisible,
-}
-
-/// https://tailwindcss.com/docs/visibility
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindVisibility {
-    kind: Visibility,
 }

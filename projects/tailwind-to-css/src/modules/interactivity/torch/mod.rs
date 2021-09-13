@@ -1,5 +1,4 @@
 use super::*;
-use std::fmt::Write;
 
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
@@ -14,7 +13,6 @@ impl TailwindTorch {
                 debug_assert!(arbitrary.is_some(), "missing arbitrary after torch");
                 arbitrary.to_string()
             },
-
             _ => {
                 let input = pattern.join("-");
                 debug_assert!(check_valid(&input), "missing arbitrary after torch");
@@ -32,7 +30,7 @@ impl Display for TailwindTorch {
 }
 
 impl TailwindInstance for TailwindTorch {
-    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         css_attributes! {
             "touch-action" => self.kind
         }

@@ -202,37 +202,6 @@ impl Display for TailwindTextColor {
 
 impl TailwindInstance for TailwindTextColor {}
 
-impl Display for TailwindTextDecoration {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-impl TailwindInstance for TailwindTextDecoration {}
-
-impl Display for TailwindDecorationColor {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-impl TailwindInstance for TailwindDecorationColor {}
-
-impl Display for TailwindDecorationStyle {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-impl TailwindInstance for TailwindDecorationStyle {}
-
-impl Display for TailwindDecorationThickness {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-impl TailwindInstance for TailwindDecorationThickness {}
 
 impl Display for TailwindUnderlineOffset {
     fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {

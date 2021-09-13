@@ -1,21 +1,25 @@
 #![allow(non_upper_case_globals)]
 #![allow(clippy::enum_variant_names)]
-pub mod accessibility;
-pub mod background;
-pub mod borders;
-pub mod effects;
-pub mod filters;
-pub mod flexbox;
-pub mod interactivity;
-pub mod layouts;
-pub mod sizing;
-pub mod spacing;
-pub mod tables;
-pub mod transforms;
-pub mod transition;
-pub mod typography;
+mod accessibility;
+mod background;
+mod borders;
+mod effects;
+mod filters;
+mod flexbox;
+mod interactivity;
+mod layouts;
+mod sizing;
+mod spacing;
+mod tables;
+mod transforms;
+mod transition;
+mod typography;
 
-pub use self::effects::*;
+pub use self::{
+    accessibility::*, background::*, borders::*, effects::*, filters::*, flexbox::*, interactivity::*, layouts::*, sizing::*,
+    spacing::*, tables::*, transforms::*, transition::*, typography::*,
+};
+
 use crate::*;
 use std::{
     collections::{BTreeSet, HashMap},

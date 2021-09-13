@@ -14,10 +14,7 @@ mod systems;
 mod traits;
 
 pub use self::{
-    modules::{
-        accessibility::*, background::*, borders::*, effects::*, filters::*, flexbox::*, interactivity::*, layouts::*,
-        sizing::*, spacing::*, tables::*, transforms::*, transition::*, typography::*,
-    },
+    modules::*,
     systems::*,
     traits::{CssAttribute, ParsedItem, ParsedList, TailwindInstance, TailwindObject},
 };

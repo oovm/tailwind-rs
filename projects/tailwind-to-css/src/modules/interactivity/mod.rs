@@ -2,6 +2,7 @@ mod display;
 mod parser;
 mod torch;
 
+pub use self::torch::TailwindTorch;
 use super::*;
 use crate::TailwindSizing;
 

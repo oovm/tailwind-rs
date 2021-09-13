@@ -1,6 +1,8 @@
+mod decoration;
 mod display;
 mod parser;
 
+pub use self::decoration::*;
 use super::*;
 
 /// font that unknown at parsing time
@@ -125,52 +127,6 @@ pub struct TailwindTextAlignment {
 #[derive(Debug, Clone)]
 pub struct TailwindTextColor {
     pub(crate) color: TailwindColor,
-}
-
-#[derive(Debug, Copy, Clone)]
-enum TextDecoration {
-    Underline,
-    Overline,
-    ThroughLine,
-    None,
-}
-
-#[doc = include_str!("text-decoration.md")]
-#[derive(Debug, Copy, Clone)]
-pub struct TailwindTextDecoration {
-    kind: TextDecoration,
-}
-
-#[doc = include_str!("text-decoration-color.md")]
-#[derive(Debug, Clone)]
-pub struct TailwindDecorationColor {
-    pub(crate) color: TailwindColor,
-}
-
-#[derive(Debug, Copy, Clone)]
-enum DecorationStyle {
-    Solid,
-    Double,
-    Dotted,
-    Dashed,
-    Wavy,
-}
-
-#[doc = include_str!("text-decoration-style.md")]
-#[derive(Debug, Copy, Clone)]
-pub struct TailwindDecorationStyle {
-    kind: DecorationStyle,
-}
-
-#[doc = include_str!("text-decoration-thickness.md")]
-#[derive(Debug, Clone)]
-pub enum TailwindDecorationThickness {
-    /// <p style="text-decoration-line:underline;text-decoration-thickness:auto;">The quick brown fox jumps over the lazy dog.</p>
-    Auto,
-    /// <p style="text-decoration-line:underline;text-decoration-thickness:from-font;">The quick brown fox jumps over the lazy dog.</p>
-    FromFont,
-    /// <p style="text-decoration-line:underline;text-decoration-thickness:2px;">The quick brown fox jumps over the lazy dog.</p>
-    Unit(usize),
 }
 
 #[doc = include_str!("text-underline-offset.md")]

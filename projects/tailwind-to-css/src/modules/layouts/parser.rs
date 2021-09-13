@@ -143,13 +143,6 @@ impl TailwindBoxDecoration {
     pub const Slice: Self = Self { kind: BoxDecoration::Slice };
 }
 
-impl TailwindVisibility {
-    /// `visible`
-    pub const Visible: Self = Self { kind: Visibility::Visible };
-    /// `invisible`
-    pub const Invisible: Self = Self { kind: Visibility::Invisible };
-}
-
 impl TailwindBoxSizing {
     ///
     pub const Border: Self = Self { kind: BoxSizing::Border };

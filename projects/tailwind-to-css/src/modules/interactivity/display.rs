@@ -64,14 +64,6 @@ impl Display for TailwindSnap {
 
 impl TailwindInstance for TailwindSnap {}
 
-impl Display for TailwindTorch {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-impl TailwindInstance for TailwindTorch {}
-
 impl Display for TailwindSelect {
     fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
