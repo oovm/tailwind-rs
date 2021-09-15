@@ -1,7 +1,7 @@
 use super::*;
 
 #[derive(Debug, Copy, Clone)]
-pub(super) enum DecorationStyle {
+enum DecorationStyle {
     Solid,
     Double,
     Dotted,
@@ -12,11 +12,28 @@ pub(super) enum DecorationStyle {
 #[doc = include_str!("text-decoration-style.md")]
 #[derive(Debug, Copy, Clone)]
 pub struct TailwindDecorationStyle {
-    kind: DecorationStyle,
+    kind: &'static str,
+}
+// decoration-solid	text-decoration-style: solid;
+// decoration-double	text-decoration-style: double;
+// decoration-dotted	text-decoration-style: dotted;
+// decoration-dashed	text-decoration-style: dashed;
+// decoration-wavy	text-decoration-style: wavy;
+
+impl Display for DecorationStyle {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Solid => f.write_str(),
+            DecorationStyle::Double => {},
+            DecorationStyle::Dotted => {},
+            DecorationStyle::Dashed => {},
+            DecorationStyle::Wavy => {},
+        }
+    }
 }
 
 impl Display for TailwindDecorationStyle {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }

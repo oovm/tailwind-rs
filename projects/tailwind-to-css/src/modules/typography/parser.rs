@@ -87,7 +87,6 @@ impl TailwindFontVariantNumeric {
     pub const StackedFractions: Self = Self { kind: FontVariantNumeric::StackedFractions };
 }
 
-
 impl TailwindListStylePosition {
     /// `list-inside`
     pub const Inside: Self = Self { kind: ListStylePosition::Inside };

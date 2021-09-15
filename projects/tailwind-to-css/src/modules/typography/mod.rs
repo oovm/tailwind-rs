@@ -3,8 +3,15 @@ mod display;
 mod parser;
 
 pub use self::decoration::*;
-use super::*;
 
+use crate::{
+    css_attributes, syntax_error, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary, TailwindBuilder,
+    TailwindInstance,
+};
+use std::{
+    collections::BTreeSet,
+    fmt::{Display, Formatter},
+};
 /// font that unknown at parsing time
 #[derive(Debug, Clone)]
 pub enum TailwindFontArbitrary {

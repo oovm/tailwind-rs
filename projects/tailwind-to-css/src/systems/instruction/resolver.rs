@@ -116,7 +116,7 @@ impl TailwindInstruction {
             ["line", "through"] => TailwindTextDecoration::ThroughLine.boxed(),
             ["no", "underline"] => TailwindTextDecoration::None.boxed(),
             // https://tailwindcss.com/docs/text-decoration-color
-            ["decoration", rest @ ..] => Self::decoration_adaptor(rest, arbitrary)?,
+            ["decoration", rest @ ..] => decoration_adaptor(rest, arbitrary)?,
             ["underline", "offset", rest @ ..] => TailwindUnderlineOffset::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/text-transform
             ["uppercase"] => TailwindTextTransform::Uppercase.boxed(),
@@ -445,20 +445,7 @@ impl TailwindInstruction {
         };
         Ok(out)
     }
-    #[inline]
-    fn decoration_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after justify");
-        let out = match str {
-            // https://tailwindcss.com/docs/justify-content
-            ["content", _rest @ ..] => TailwindListStyle::None.boxed(),
-            // https://tailwindcss.com/docs/justify-items
-            ["items", _rest @ ..] => TailwindListStyle::None.boxed(),
-            // https://tailwindcss.com/docs/justify-self
-            ["self", _rest @ ..] => TailwindListStyle::None.boxed(),
-            _ => return syntax_error!("Unknown justify instructions: {}", str.join("-")),
-        };
-        Ok(out)
-    }
+
     #[inline]
     fn backdrop_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary after justify");
