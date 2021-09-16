@@ -1,6 +1,6 @@
 [package]
 name = "tailwind-css"
-version = "0.8.0"
+version = "0.8.1"
 authors = ["Aster <192607617@qq.com>"]
 description = "Compile tailwind short instructions to css"
 repository = "https://github.com/oovm/tailwind-rs"
@@ -14,7 +14,6 @@ css-color = "0.2.4"
 log = "0.4.14"
 tailwind-ast = { version = "0.4.0", path = "../tailwind-ast" }
 nom = "7.1.0"
-#parcel_css = "1.0.0-alpha.16"
 
 [dependencies.tailwind-error]
 version = "1.1.*"

@@ -12,7 +12,6 @@ enum TextDecoration {
     Overline,
     ThroughLine,
     None,
-    Ar,
 }
 
 impl Display for TextDecoration {

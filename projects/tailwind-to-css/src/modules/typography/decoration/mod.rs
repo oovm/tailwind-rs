@@ -10,23 +10,11 @@ pub use self::{color::TailwindDecorationColor, line::TailwindDecorationLine};
 mod color;
 mod line;
 mod style;
+#[cfg(test)]
+mod test;
 mod thickness;
 
-// decoration-inherit	text-decoration-color: inherit;
-// decoration-current	text-decoration-color: currentColor;
-// decoration-transparent	text-decoration-color: transparent;
-// decoration-black	text-decoration-color: #000;
-// decoration-white	text-decoration-color: #fff;
-// decoration-slate-50	text-decoration-color: #f8fafc;
-
-// decoration-auto	text-decoration-thickness: auto;
-// decoration-from-font	text-decoration-thickness: from-font;
-// decoration-0	text-decoration-thickness: 0px;
-// decoration-1	text-decoration-thickness: 1px;
-// decoration-2	text-decoration-thickness: 2px;
-// decoration-4	text-decoration-thickness: 4px;
-// decoration-8	text-decoration-thickness: 8px;
-
+#[derive(Debug, Clone)]
 pub struct TailwindDecoration {
     arbitrary: String,
 }
@@ -51,8 +39,14 @@ impl TailwindDecoration {
                 debug_assert!(arbitrary.is_some());
                 color(TailwindColor::parse_arbitrary(arbitrary)?)
             },
+            ["color", rest] => {
+                let a = TailwindArbitrary::from(*rest);
+                color(TailwindColor::parse_arbitrary(&a)?)
+            },
             // https://tailwindcss.com/docs/text-decoration-color
             [theme, weight] => color(TailwindColor::parse_themed(theme, weight)?),
+            // https://tailwindcss.com/docs/text-decoration-thickness
+            [n] => TailwindDecorationThickness::parse(n)?.boxed(),
             [] => {
                 debug_assert!(arbitrary.is_some());
                 TailwindDecoration { arbitrary: arbitrary.to_string() }.boxed()
@@ -65,8 +59,14 @@ impl TailwindDecoration {
 
 impl Display for TailwindDecoration {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        write!(f, "decoration-[{}]", self.arbitrary)
     }
 }
 
-impl TailwindInstance for TailwindDecoration {}
+impl TailwindInstance for TailwindDecoration {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        css_attributes! {
+            "text-decoration" => self.arbitrary
+        }
+    }
+}

@@ -14,8 +14,14 @@ impl From<TailwindColor> for TailwindDecorationColor {
 
 impl Display for TailwindDecorationColor {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        write!(f, "decoration-{}", self.color.get_class())
     }
 }
 
-impl TailwindInstance for TailwindDecorationColor {}
+impl TailwindInstance for TailwindDecorationColor {
+    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        css_attributes! {
+            "text-decoration-color" => self.color.get_properties(ctx)
+        }
+    }
+}

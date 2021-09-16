@@ -1,14 +1,17 @@
 use super::*;
 
 #[doc = include_str!("text-decoration-style.md")]
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Clone)]
 pub struct TailwindDecorationStyle {
-    kind: &'static str,
+    kind: String,
 }
 
-impl From<&'static str> for TailwindDecorationStyle {
-    fn from(kind: &'static str) -> Self {
-        Self { kind }
+impl<T> From<T> for TailwindDecorationStyle
+where
+    T: Into<String>,
+{
+    fn from(kind: T) -> Self {
+        Self { kind: kind.into() }
     }
 }
 
