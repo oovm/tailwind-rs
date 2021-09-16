@@ -111,12 +111,12 @@ impl TailwindInstruction {
             ["leading", rest @ ..] => TailwindLeading::parse(rest, arbitrary)?.boxed(),
             ["list", rest @ ..] => Self::list_adaptor(rest, arbitrary)?,
             // https://tailwindcss.com/docs/text-decoration
-            ["underline"] => TailwindTextDecoration::Underline.boxed(),
-            ["overline"] => TailwindTextDecoration::Overline.boxed(),
-            ["line", "through"] => TailwindTextDecoration::ThroughLine.boxed(),
-            ["no", "underline"] => TailwindTextDecoration::None.boxed(),
+            ["underline"] => TailwindDecorationLine::Underline.boxed(),
+            ["overline"] => TailwindDecorationLine::Overline.boxed(),
+            ["line", "through"] => TailwindDecorationLine::ThroughLine.boxed(),
+            ["no", "underline"] => TailwindDecorationLine::None.boxed(),
             // https://tailwindcss.com/docs/text-decoration-color
-            ["decoration", rest @ ..] => decoration_adaptor(rest, arbitrary)?,
+            ["decoration", rest @ ..] => TailwindDecoration::parse(rest, arbitrary)?,
             ["underline", "offset", rest @ ..] => TailwindUnderlineOffset::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/text-transform
             ["uppercase"] => TailwindTextTransform::Uppercase.boxed(),

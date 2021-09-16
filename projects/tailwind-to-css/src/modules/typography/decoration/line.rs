@@ -2,7 +2,7 @@ use super::*;
 
 #[doc = include_str!("text-decoration.md")]
 #[derive(Debug, Copy, Clone)]
-pub struct TailwindTextDecoration {
+pub struct TailwindDecorationLine {
     kind: TextDecoration,
 }
 
@@ -12,6 +12,7 @@ enum TextDecoration {
     Overline,
     ThroughLine,
     None,
+    Ar,
 }
 
 impl Display for TextDecoration {
@@ -25,13 +26,13 @@ impl Display for TextDecoration {
     }
 }
 
-impl Display for TailwindTextDecoration {
+impl Display for TailwindDecorationLine {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         Display::fmt(&self.kind, f)
     }
 }
 
-impl TailwindInstance for TailwindTextDecoration {
+impl TailwindInstance for TailwindDecorationLine {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         let line = match self.kind {
             TextDecoration::Underline => "underline",
@@ -45,7 +46,7 @@ impl TailwindInstance for TailwindTextDecoration {
     }
 }
 
-impl TailwindTextDecoration {
+impl TailwindDecorationLine {
     /// `underline`
     pub const Underline: Self = Self { kind: TextDecoration::Underline };
     /// `overline`

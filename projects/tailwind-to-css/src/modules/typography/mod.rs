@@ -6,7 +6,7 @@ pub use self::decoration::*;
 
 use crate::{
     css_attributes, syntax_error, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary, TailwindBuilder,
-    TailwindInstance,
+    TailwindColor, TailwindInstance,
 };
 use std::{
     collections::BTreeSet,
@@ -133,7 +133,7 @@ pub struct TailwindTextAlignment {
 #[doc = include_str!("text-color.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindTextColor {
-    pub(crate) color: TailwindColor,
+    color: TailwindColor,
 }
 
 #[doc = include_str!("text-underline-offset.md")]
