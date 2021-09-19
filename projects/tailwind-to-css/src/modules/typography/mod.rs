@@ -1,7 +1,9 @@
 mod decoration;
 mod display;
+mod font;
 mod leading;
 mod parser;
+mod text;
 mod tracking;
 
 pub use self::decoration::*;
@@ -117,25 +119,6 @@ enum ListStylePosition {
 #[derive(Copy, Debug, Clone)]
 pub struct TailwindListStylePosition {
     kind: ListStylePosition,
-}
-#[derive(Copy, Debug, Clone)]
-enum TextAlignment {
-    Left,
-    Center,
-    Right,
-    Justify,
-}
-
-#[doc = include_str!("text-align.md")]
-#[derive(Debug, Clone)]
-pub struct TailwindTextAlignment {
-    kind: TextAlignment,
-}
-
-#[doc = include_str!("text-color.md")]
-#[derive(Debug, Clone)]
-pub struct TailwindTextColor {
-    color: TailwindColor,
 }
 
 #[doc = include_str!("text-underline-offset.md")]

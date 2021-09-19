@@ -19,6 +19,7 @@ mod container;
 mod display;
 mod object_position;
 mod parser;
+mod position;
 #[cfg(test)]
 mod test;
 mod visible;

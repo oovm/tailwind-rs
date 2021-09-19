@@ -3,10 +3,7 @@ use std::{
     fmt::{Debug, Display, Formatter},
 };
 
-use crate::{
-    css_attributes, syntax_error, AnchorPoint, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary,
-    TailwindBuilder, TailwindInstance,
-};
+use crate::{css_attributes, CssAttribute, CssBehavior, TailwindBuilder, TailwindInstance};
 
 pub use self::{border_collapse::TailwindBorderCollapse, table_layout::TailwindTableLayout};
 

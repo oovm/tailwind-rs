@@ -140,7 +140,7 @@ impl TailwindInstruction {
             ["to", _rest @ ..] => todo!(),
             // Borders System
             ["rounded", rest @ ..] => TailwindRounded::parse(rest, arbitrary)?.boxed(),
-            ["border", rest @ ..] => Self::border_adaptor(rest, arbitrary)?,
+            ["border", rest @ ..] => TailwindBorder::parse(rest, arbitrary)?,
             ["divide", rest @ ..] => Self::divide_adaptor(rest, arbitrary)?,
             ["outline", rest @ ..] => Self::outline_adaptor(rest, arbitrary)?,
             ["ring", rest @ ..] => Self::ring_adaptor(rest, arbitrary)?,

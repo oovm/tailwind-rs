@@ -1,31 +1,45 @@
 use super::*;
 
-#[doc = include_str ! ("readme.md")]
 #[derive(Copy, Clone, Debug)]
-pub enum TailwindTableLayout {
+enum TableLayout {
     Auto,
     Fixed,
+    Global(CssBehavior),
+}
+
+#[doc = include_str!("readme.md")]
+#[derive(Copy, Clone, Debug)]
+pub struct TailwindTableLayout {
+    kind: TableLayout,
+}
+
+impl Display for TableLayout {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Auto => write!(f, "auto"),
+            Self::Fixed => write!(f, "fixed"),
+            Self::Global(g) => write!(f, "{}", g),
+        }
+    }
 }
 
 impl Display for TailwindTableLayout {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let text = match self {
-            Self::Auto => "table-auto",
-            Self::Fixed => "table-fixed",
-        };
-        f.write_str(text)
+        write!(f, "table-{}", self.kind)
     }
 }
 
 impl TailwindInstance for TailwindTableLayout {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        match self {
-            Self::Auto => css_attributes! {
-                "table-layout" => "auto"
-            },
-            Self::Fixed => css_attributes! {
-                "table-layout" => "fixed"
-            },
+        css_attributes! {
+            "table-layout" => self.kind
         }
     }
+}
+
+impl TailwindTableLayout {
+    /// `table-auto`
+    pub const Auto: Self = Self { kind: TableLayout::Auto };
+    /// `table-fixed`
+    pub const Fixed: Self = Self { kind: TableLayout::Fixed };
 }
