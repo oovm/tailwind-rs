@@ -1,4 +1,4 @@
-use super::*;
+use crate::modules::borders::*;
 ///
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindOutlineStyle {

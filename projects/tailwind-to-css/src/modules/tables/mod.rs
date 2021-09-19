@@ -1,18 +1,17 @@
-mod builder;
-mod parser;
+use std::{
+    collections::BTreeSet,
+    fmt::{Debug, Display, Formatter},
+};
 
-use super::*;
+use crate::{
+    css_attributes, syntax_error, AnchorPoint, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary,
+    TailwindBuilder, TailwindInstance,
+};
 
-#[doc = include_str ! ("border-collapse.md")]
-#[derive(Copy, Clone, Debug)]
-pub enum TailwindBorderCollapse {
-    Collapse,
-    Separate,
-}
+pub use self::{border_collapse::TailwindBorderCollapse, table_layout::TailwindTableLayout};
 
-#[doc = include_str ! ("table-layout.md")]
-#[derive(Copy, Clone, Debug)]
-pub enum TailwindTableLayout {
-    Auto,
-    Fixed,
-}
+mod border_collapse;
+mod table_layout;
+
+#[cfg(test)]
+mod test;

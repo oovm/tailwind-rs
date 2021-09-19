@@ -1,5 +1,4 @@
-use super::*;
-use crate::css_attributes;
+use crate::{css_attributes, modules::borders::*};
 
 ///
 #[derive(Copy, Clone, Debug)]

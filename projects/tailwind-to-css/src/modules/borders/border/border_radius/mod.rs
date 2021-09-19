@@ -1,5 +1,4 @@
-use super::*;
-use crate::{css_attributes, LengthUnit};
+use crate::{css_attributes, modules::borders::*, LengthUnit};
 #[derive(Copy, Clone, Debug)]
 enum RoundedKind {
     Rounded,

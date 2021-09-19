@@ -1,4 +1,4 @@
-use super::*;
+use crate::modules::borders::*;
 
 ///
 #[derive(Clone, Debug)]

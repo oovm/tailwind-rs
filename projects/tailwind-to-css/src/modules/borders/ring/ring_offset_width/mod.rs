@@ -1,5 +1,4 @@
 use super::*;
-use crate::LengthUnit;
 
 ///
 #[derive(Copy, Clone, Debug)]
