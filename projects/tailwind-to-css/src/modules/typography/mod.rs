@@ -6,7 +6,7 @@ mod parser;
 mod text;
 mod tracking;
 
-pub use self::decoration::*;
+pub use self::{decoration::*, text::*};
 
 use crate::{
     css_attributes, syntax_error, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary, TailwindBuilder,
@@ -126,15 +126,6 @@ pub struct TailwindListStylePosition {
 pub enum TailwindUnderlineOffset {
     Auto,
     Unit(usize),
-}
-
-#[doc = include_str!("text-transform.md")]
-#[derive(Debug, Clone)]
-pub enum TailwindTextTransform {
-    Uppercase,
-    Lowercase,
-    Capitalize,
-    None,
 }
 
 #[doc = include_str!("text-overflow.md")]

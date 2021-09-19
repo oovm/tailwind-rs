@@ -17,11 +17,7 @@ where
 
 impl Display for TailwindBorderCollapse {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self.kind.as_str() {
-            "" => {},
-            _ => {},
-        }
-        write!(f, "border-{}", self.kind)
+        write!(f, "border-collapse-{}", self.kind)
     }
 }
 

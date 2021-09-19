@@ -9,15 +9,15 @@ use crate::{
 };
 
 pub use self::{
-    aspect_ratio::TailwindAspect, columns::TailwindColumns, container::TailwindContainer,
-    object_position::TailwindObjectPosition, visible::TailwindVisibility, z_index::TailWindZIndex,
+    aspect_ratio::TailwindAspect, columns::TailwindColumns, container::TailwindContainer, object::*,
+    position::TailwindPosition, visible::TailwindVisibility, z_index::TailWindZIndex,
 };
 
 mod aspect_ratio;
 mod columns;
 mod container;
 mod display;
-mod object_position;
+mod object;
 mod parser;
 mod position;
 #[cfg(test)]
@@ -158,20 +158,4 @@ enum Overscroll {
 pub struct TailwindOverscroll {
     kind: Overscroll,
     axis: Option<bool>,
-}
-
-#[derive(Copy, Clone, Debug)]
-enum PositionKind {
-    Static,
-    Fixed,
-    Absolute,
-    Relative,
-    Sticky,
-}
-
-///
-// #[doc = include_str!("position.md")]
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindPosition {
-    kind: PositionKind,
 }

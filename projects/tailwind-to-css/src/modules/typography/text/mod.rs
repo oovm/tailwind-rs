@@ -1,6 +1,6 @@
 use super::*;
 
-pub use self::{text_align::TailwindTextAlignment, text_color::TailwindTextColor};
+pub use self::{text_align::TailwindTextAlignment, text_color::TailwindTextColor, text_transform::TailwindTextTransform};
 
 mod text_align;
 mod text_color;

@@ -123,19 +123,6 @@ impl TailwindIsolation {
     pub const Auto: Self = Self { kind: Isolation::Auto };
 }
 
-impl TailwindPosition {
-    /// `static`
-    pub const Static: Self = Self { kind: PositionKind::Static };
-    /// `fixed`
-    pub const Fixed: Self = Self { kind: PositionKind::Fixed };
-    /// `absolute`
-    pub const Absolute: Self = Self { kind: PositionKind::Absolute };
-    /// `relative`
-    pub const Relative: Self = Self { kind: PositionKind::Relative };
-    /// `sticky`
-    pub const Sticky: Self = Self { kind: PositionKind::Sticky };
-}
-
 impl TailwindBoxDecoration {
     /// ``
     pub const Clone: Self = Self { kind: BoxDecoration::Clone };

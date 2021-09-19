@@ -94,17 +94,6 @@ impl TailwindListStylePosition {
     pub const Outside: Self = Self { kind: ListStylePosition::Outside };
 }
 
-impl TailwindTextAlignment {
-    /// `list-inside`
-    pub const Left: Self = Self { kind: TextAlignment::Left };
-    /// `list-outside`
-    pub const Right: Self = Self { kind: TextAlignment::Right };
-    /// `list-inside`
-    pub const Center: Self = Self { kind: TextAlignment::Center };
-    /// `list-outside`
-    pub const Justify: Self = Self { kind: TextAlignment::Justify };
-}
-
 impl TailwindLeading {
     /// `leading-normal`
     pub const Normal: Self = Self { kind: Leading::Normal };

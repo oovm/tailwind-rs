@@ -202,7 +202,6 @@ impl Display for TailwindTextColor {
 
 impl TailwindInstance for TailwindTextColor {}
 
-
 impl Display for TailwindUnderlineOffset {
     fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
@@ -210,20 +209,6 @@ impl Display for TailwindUnderlineOffset {
 }
 
 impl TailwindInstance for TailwindUnderlineOffset {}
-
-impl Display for TailwindTextTransform {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-// Class
-// Properties
-// uppercase	text-transform: uppercase;
-// lowercase	text-transform: lowercase;
-// capitalize	text-transform: capitalize;
-// normal-case	text-transform: none;
-impl TailwindInstance for TailwindTextTransform {}
 
 impl Display for TailwindTextOverflow {
     fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {

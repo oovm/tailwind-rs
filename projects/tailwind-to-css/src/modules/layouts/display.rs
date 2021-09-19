@@ -265,29 +265,9 @@ impl TailwindInstance for TailwindOverscroll {
     }
 }
 
-impl Display for PositionKind {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Static => f.write_str("static"),
-            Self::Fixed => f.write_str("fixed"),
-            Self::Absolute => f.write_str("absolute"),
-            Self::Relative => f.write_str("relative"),
-            Self::Sticky => f.write_str("sticky"),
-        }
-    }
-}
-
 impl Display for TailwindPosition {
     #[inline]
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         Display::fmt(&self.kind, f)
-    }
-}
-
-impl TailwindInstance for TailwindPosition {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        css_attributes! {
-            "position" => self
-        }
     }
 }
