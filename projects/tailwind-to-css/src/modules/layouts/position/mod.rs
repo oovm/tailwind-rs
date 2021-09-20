@@ -1,8 +1,7 @@
 use super::*;
 
-///
-// #[doc = include_str!("position.md")]
-#[derive(Copy, Clone, Debug)]
+#[doc = include_str!("readme.md")]
+#[derive(Clone, Debug)]
 pub struct TailwindPosition {
     kind: String,
 }
@@ -13,6 +12,21 @@ where
 {
     fn from(kind: T) -> Self {
         Self { kind: kind.into() }
+    }
+}
+
+impl Display for TailwindPosition {
+    #[inline]
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        Display::fmt(&self.kind, f)
+    }
+}
+
+impl TailwindInstance for TailwindPosition {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        css_attributes! {
+            "position" => self.kind
+        }
     }
 }
 

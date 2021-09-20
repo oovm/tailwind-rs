@@ -103,19 +103,6 @@ impl TailwindClear {
     }
 }
 
-impl TailwindObjectFit {
-    /// `object-contain`
-    pub const Contain: Self = Self { kind: ObjectFit::Contain };
-    /// `object-cover`
-    pub const Cover: Self = Self { kind: ObjectFit::Cover };
-    /// `object-fill`
-    pub const Fill: Self = Self { kind: ObjectFit::Fill };
-    /// `object-none`
-    pub const None: Self = Self { kind: ObjectFit::None };
-    /// `object-scale-down`
-    pub const ScaleDown: Self = Self { kind: ObjectFit::ScaleDown };
-}
-
 impl TailwindIsolation {
     /// `isolate`
     pub const Isolate: Self = Self { kind: Isolation::Isolate };

@@ -116,21 +116,6 @@ pub struct TailwindIsolation {
 }
 
 #[derive(Copy, Clone, Debug)]
-enum ObjectFit {
-    Contain,
-    Cover,
-    Fill,
-    None,
-    ScaleDown,
-}
-
-/// https://tailwindcss.com/docs/object-fit
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindObjectFit {
-    kind: ObjectFit,
-}
-
-#[derive(Copy, Clone, Debug)]
 enum Overflow {
     Auto,
     Hidden,

@@ -163,32 +163,6 @@ impl TailwindInstance for TailwindIsolation {
     }
 }
 
-impl Display for ObjectFit {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Contain => f.write_str("contain"),
-            Self::Cover => f.write_str("cover"),
-            Self::Fill => f.write_str("fill"),
-            Self::ScaleDown => f.write_str("none"),
-            Self::None => f.write_str("scale-down"),
-        }
-    }
-}
-
-impl Display for TailwindObjectFit {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "object-{}", self.kind)
-    }
-}
-
-impl TailwindInstance for TailwindObjectFit {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        css_attributes! {
-            "object-fit" => self.kind
-        }
-    }
-}
-
 impl Display for AnchorPoint {
     fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
@@ -262,12 +236,5 @@ impl TailwindInstance for TailwindOverscroll {
         css_attributes! {
             class => self
         }
-    }
-}
-
-impl Display for TailwindPosition {
-    #[inline]
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        Display::fmt(&self.kind, f)
     }
 }

@@ -34,15 +34,11 @@ impl TailwindInstruction {
             ["clear", rest @ ..] => TailwindClear::parse(rest, arbitrary)?.boxed(),
             ["isolate"] => TailwindIsolation::Isolate.boxed(),
             ["isolation", "auto"] => TailwindIsolation::Auto.boxed(),
-            ["object", rest @ ..] => Self::object_adaptor(rest, arbitrary)?,
+            ["object", rest @ ..] => object_adaptor(rest, arbitrary)?,
             ["overflow", rest @ ..] => Self::overflow_adaptor(rest, arbitrary)?,
             ["overscroll", rest @ ..] => Self::overscroll_adaptor(rest, arbitrary)?,
-            // begin https://tailwindcss.com/docs/position
-            ["static"] => TailwindPosition::Static.boxed(),
-            ["fixed"] => TailwindPosition::Fixed.boxed(),
-            ["absolute"] => TailwindPosition::Absolute.boxed(),
-            ["relative"] => TailwindPosition::Relative.boxed(),
-            ["sticky"] => TailwindPosition::Sticky.boxed(),
+            // https://tailwindcss.com/docs/position#header
+            [s @ ("static" | "fixed" | "absolute" | "relative" | "sticky")] => TailwindPosition::from(*s).boxed(),
             // https://tailwindcss.com/docs/top-right-bottom-left
             ["inset", _rest @ ..] => todo!(),
             ["top", _rest @ ..] => todo!(),
@@ -119,10 +115,10 @@ impl TailwindInstruction {
             ["decoration", rest @ ..] => TailwindDecoration::parse(rest, arbitrary)?,
             ["underline", "offset", rest @ ..] => TailwindUnderlineOffset::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/text-transform
-            ["uppercase"] => TailwindTextTransform::Uppercase.boxed(),
-            ["lowercase"] => TailwindTextTransform::Lowercase.boxed(),
-            ["capitalize"] => TailwindTextTransform::Capitalize.boxed(),
-            ["normal", "case"] => TailwindTextTransform::None.boxed(),
+            ["uppercase"] => TailwindTextTransform::from("uppercase").boxed(),
+            ["lowercase"] => TailwindTextTransform::from("lowercase").boxed(),
+            ["capitalize"] => TailwindTextTransform::from("capitalize").boxed(),
+            ["normal", "case"] => TailwindTextTransform::from("none").boxed(),
             // https://tailwindcss.com/docs/text-overflow
             ["truncate"] => TailwindTextOverflow::Truncate.boxed(),
             ["indent", rest @ ..] => TailwindIndent::parse(rest, arbitrary)?.boxed(),
@@ -450,20 +446,6 @@ impl TailwindInstruction {
         Ok(out)
     }
 
-    #[inline]
-    fn object_adaptor(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        let out = match pattern {
-            // https://tailwindcss.com/docs/object-fit
-            ["contain"] => TailwindObjectFit::Contain.boxed(),
-            ["cover"] => TailwindObjectFit::Cover.boxed(),
-            ["fill"] => TailwindObjectFit::Fill.boxed(),
-            ["none"] => TailwindObjectFit::None.boxed(),
-            ["scale", "down"] => TailwindObjectFit::ScaleDown.boxed(),
-            // https://tailwindcss.com/docs/object-position
-            _ => TailwindObjectPosition::parse(pattern, arbitrary)?.boxed(),
-        };
-        Ok(out)
-    }
     #[inline]
     fn overflow_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
