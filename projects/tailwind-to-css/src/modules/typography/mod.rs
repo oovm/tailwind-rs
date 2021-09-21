@@ -16,57 +16,6 @@ use std::{
     collections::BTreeSet,
     fmt::{Display, Formatter},
 };
-/// font that unknown at parsing time
-#[derive(Debug, Clone)]
-pub enum TailwindFontArbitrary {
-    Unsolved,
-}
-
-// #[doc = include_str!("font-family.md")]
-#[derive(Debug, Clone)]
-pub struct TailwindFontFamily {
-    name: String,
-}
-
-// #[doc = include_str!("font-size.md")]
-#[derive(Copy, Debug, Clone)]
-pub struct TailwindFontSize {
-    size: TailwindTracking,
-    height: TailwindLeading,
-}
-
-// #[doc = include_str!("font-smoothing.md")]
-#[derive(Debug, Clone)]
-pub enum TailwindFontSmoothing {
-    Normal,
-    Subpixel,
-}
-
-// #[doc = include_str!("font-style.md")]
-#[derive(Debug, Clone)]
-pub enum TailwindFontStyle {
-    Italic,
-    Normal,
-}
-
-// #[doc = include_str!("font-weight.md")]
-#[derive(Debug, Clone)]
-pub struct TailwindFontWeight {
-    weight: usize,
-}
-
-#[derive(Copy, Debug, Clone)]
-enum FontVariantNumeric {
-    Normal,
-    Ordinal,
-    SlashedZero,
-    Lining,
-    OldStyle,
-    Proportional,
-    Tabular,
-    DiagonalFractions,
-    StackedFractions,
-}
 
 #[derive(Copy, Debug, Clone)]
 enum Tracking {
