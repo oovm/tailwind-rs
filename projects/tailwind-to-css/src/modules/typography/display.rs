@@ -31,39 +31,6 @@ impl TailwindInstance for TailwindFontFamily {
 
 impl TailwindInstance for TailwindFontSize {}
 
-impl Display for TailwindFontSmoothing {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let text = match self {
-            Self::Normal => "antialiased",
-            Self::Subpixel => "subpixel-antialiased",
-        };
-        f.write_str(text)
-    }
-}
-
-impl TailwindInstance for TailwindFontSmoothing {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        match self {
-            Self::Normal => css_attributes! {
-                "-webkit-font-smoothing" => "antialiased",
-                "-moz-osx-font-smoothing" => "grayscale",
-            },
-            Self::Subpixel => css_attributes! {
-                "-webkit-font-smoothing" => "auto",
-                "-moz-osx-font-smoothing" => "auto",
-            },
-        }
-    }
-}
-
-impl Display for TailwindFontStyle {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-impl TailwindInstance for TailwindFontStyle {}
-
 impl Display for TailwindFontWeight {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let text = match self.weight {

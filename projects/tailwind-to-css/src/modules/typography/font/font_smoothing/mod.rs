@@ -1,56 +1,82 @@
 use super::*;
 
-// #[doc = include_str!("font-smoothing.md")]
 #[derive(Debug, Clone)]
-pub enum TailwindFontSmoothing {
-    Normal,
+enum FontSmoothing {
+    Antialias,
     Subpixel,
+    Standard(String),
+    Length(LengthUnit),
 }
 
-impl<T> From<T> for TailwindFontVariantNumeric
+#[doc = include_str!("readme.md")]
+#[derive(Debug, Clone)]
+pub struct TailwindFontSmoothing {
+    kind: FontSmoothing,
+}
+
+impl<T> From<T> for TailwindFontSmoothing
 where
     T: Into<String>,
 {
     fn from(kind: T) -> Self {
-        Self { kind: kind.into() }
+        Self { kind: FontSmoothing::Standard(kind.into()) }
     }
 }
 
-impl Display for TailwindFontVariantNumeric {
+impl Display for TailwindFontSmoothing {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "object-{}", self.kind)
-    }
-}
-
-impl TailwindInstance for TailwindFontVariantNumeric {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        css_attributes! {
-            "object-fit" => self.kind
+        match &self.kind {
+            FontSmoothing::Antialias => write!(f, "antialiased"),
+            FontSmoothing::Subpixel => write!(f, "subpixel-antialiased"),
+            FontSmoothing::Standard(s) => write!(f, "font-smoothing-{}", s),
+            FontSmoothing::Length(s) => write!(f, "font-smoothing-[{}]", s),
         }
     }
 }
 
-impl TailwindFontVariantNumeric {
-    /// https://tailwindcss.com/docs/object-fit
+impl TailwindInstance for TailwindFontSmoothing {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        match &self.kind {
+            FontSmoothing::Antialias => css_attributes! {
+                "-webkit-font-smoothing" => "antialiased",
+                "-moz-osx-font-smoothing" => "grayscale",
+            },
+            FontSmoothing::Subpixel => css_attributes! {
+                "-webkit-font-smoothing" => "auto",
+                "-moz-osx-font-smoothing" => "auto",
+            },
+            FontSmoothing::Standard(s) => css_attributes! {
+                "font-smooth" => s,
+            },
+            FontSmoothing::Length(s) => css_attributes! {
+                "font-smooth" => s.get_properties(),
+            },
+        }
+    }
+}
+
+impl TailwindFontSmoothing {
+    /// https://tailwindcss.com/docs/font-smoothing
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after object");
-        let kind = pattern.join("-");
-        debug_assert!(Self::check_valid(&kind));
+        let kind = match pattern {
+            ["antialiased"] => FontSmoothing::Antialias,
+            ["subpixel", "antialiased"] | ["subpixel"] => FontSmoothing::Subpixel,
+            [n] if Self::check_valid(n) => FontSmoothing::Standard(n.to_string()),
+            [n] => {
+                let l = TailwindArbitrary::from(*n).as_length()?;
+                FontSmoothing::Length(l)
+            },
+            [] => {
+                debug_assert!(arbitrary.is_some());
+                FontSmoothing::Length(arbitrary.as_length()?)
+            },
+            _ => return syntax_error!("Unknown font-smoothing instructions: {}", pattern.join("-")),
+        };
         Ok(Self { kind })
     }
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit#syntax
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-smooth#syntax
     pub fn check_valid(mode: &str) -> bool {
-        let set = BTreeSet::from_iter(vec![
-            "contain",
-            "cover",
-            "fill",
-            "none",
-            "scale-down",
-            "inherit",
-            "initial",
-            "revert",
-            "unset",
-        ]);
+        let set = BTreeSet::from_iter(vec!["auto", "never", "always", "inherit", "initial", "revert", "unset"]);
         set.contains(mode)
     }
 }
