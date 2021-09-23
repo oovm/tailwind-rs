@@ -1,26 +1,5 @@
 use super::*;
 
-impl TailwindFontArbitrary {
-    pub fn parse() {}
-}
-
-impl TailwindFontFamily {
-    #[inline]
-    pub fn new(input: &str) -> Self {
-        Self { name: input.to_string() }
-    }
-}
-
-impl TailwindFontSmoothing {
-    #[inline]
-    pub fn new(subpixel: bool) -> Self {
-        match subpixel {
-            true => Self::Subpixel,
-            false => Self::Normal,
-        }
-    }
-}
-
 impl TailwindTracking {
     /// `tracking-normal`
     pub const Normal: Self = Self { kind: Tracking::Normal };
@@ -58,33 +37,6 @@ impl TailwindTracking {
     pub(crate) fn em(n: f32) -> Result<Self> {
         Ok(Self { kind: Tracking::Length(LengthUnit::Em(n)) })
     }
-}
-
-// normal-nums	font-variant-numeric: normal;
-// ordinal	font-variant-numeric: ordinal;
-// slashed-zero	font-variant-numeric: slashed-zero;
-// lining-nums	font-variant-numeric: lining-nums;
-// oldstyle-nums	font-variant-numeric: oldstyle-nums;
-// proportional-nums	font-variant-numeric: proportional-nums;
-impl TailwindFontVariantNumeric {
-    ///
-    pub const Normal: Self = Self { kind: FontVariantNumeric::Normal };
-    ///
-    pub const Ordinal: Self = Self { kind: FontVariantNumeric::Ordinal };
-    ///
-    pub const SlashedZero: Self = Self { kind: FontVariantNumeric::SlashedZero };
-    ///
-    pub const Lining: Self = Self { kind: FontVariantNumeric::Lining };
-    ///
-    pub const OldStyle: Self = Self { kind: FontVariantNumeric::OldStyle };
-    ///
-    pub const Proportional: Self = Self { kind: FontVariantNumeric::Proportional };
-    /// `tabular-nums`
-    pub const Tabular: Self = Self { kind: FontVariantNumeric::Tabular };
-    /// `diagonal-fractions`
-    pub const DiagonalFractions: Self = Self { kind: FontVariantNumeric::DiagonalFractions };
-    /// `stacked-fractions`
-    pub const StackedFractions: Self = Self { kind: FontVariantNumeric::StackedFractions };
 }
 
 impl TailwindListStylePosition {
@@ -138,29 +90,6 @@ impl TailwindLeading {
 impl TailwindListStyle {
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self::Custom(arbitrary.to_string()))
-    }
-}
-
-impl TailwindFontSize {
-    #[inline]
-    pub fn new(size: f32, height: f32) -> Self {
-        Self { size: TailwindTracking::em(size).unwrap(), height: TailwindLeading::rem(height).unwrap() }
-    }
-}
-
-impl TailwindFontWeight {
-    pub const THIN: Self = Self { weight: 100 };
-    pub const EXTRA_LIGHT: Self = Self { weight: 200 };
-    pub const LIGHT: Self = Self { weight: 300 };
-    pub const NORMAL: Self = Self { weight: 400 };
-    pub const MEDIUM: Self = Self { weight: 500 };
-    pub const SEMI_BOLD: Self = Self { weight: 600 };
-    pub const BOLD: Self = Self { weight: 700 };
-    pub const EXTRA_BOLD: Self = Self { weight: 800 };
-    pub const BLACK: Self = Self { weight: 900 };
-    #[inline]
-    pub fn new(weight: usize) -> Self {
-        Self { weight }
     }
 }
 

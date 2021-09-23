@@ -5,7 +5,9 @@ mod font_style;
 mod font_variant_numeric;
 mod font_weight;
 
-pub use self::{font_family::TailwindFontFamily, font_variant_numeric::TailwindFontVariantNumeric};
+pub use self::{
+    font_family::TailwindFontFamily, font_style::TailwindFontStyle, font_variant_numeric::TailwindFontVariantNumeric,
+};
 
 use super::*;
 

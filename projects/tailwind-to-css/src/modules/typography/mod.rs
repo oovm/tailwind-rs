@@ -6,7 +6,7 @@ mod parser;
 mod text;
 mod tracking;
 
-pub use self::{decoration::*, text::*};
+pub use self::{decoration::*, font::*, text::*};
 
 use crate::{
     css_attributes, syntax_error, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary, TailwindBuilder,

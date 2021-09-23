@@ -1,6 +1,6 @@
 use super::*;
 
-// #[doc = include_str!("font-variant-numeric.md")]
+#[doc = include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindFontVariantNumeric {
     kind: String,
