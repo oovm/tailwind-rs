@@ -46,15 +46,10 @@ impl TailwindInstance for TailwindFontStyle {
     }
 }
 
-// italic	font-style: italic;
-// not-italic	font-style: normal;
 impl TailwindFontStyle {
-    /// https://tailwindcss.com/docs/object-fit
+    /// https://tailwindcss.com/docs/font-style
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after object");
-        let kind = pattern.join("-");
-        debug_assert!(Self::check_valid(&kind));
-        Ok(Self { kind })
+        todo!()
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-style#syntax
     pub fn check_valid(mode: &str) -> bool {

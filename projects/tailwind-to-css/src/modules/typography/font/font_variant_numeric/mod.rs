@@ -1,5 +1,10 @@
 use super::*;
 
+enum FontVariantNumeric {
+    Standard(String),
+    Arbitrary(String),
+}
+
 #[doc = include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindFontVariantNumeric {
@@ -37,14 +42,18 @@ impl TailwindFontVariantNumeric {
         debug_assert!(Self::check_valid(&kind));
         Ok(Self { kind })
     }
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit#syntax
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-variant-numeric#syntax
     pub fn check_valid(mode: &str) -> bool {
         let set = BTreeSet::from_iter(vec![
-            "contain",
-            "cover",
-            "fill",
-            "none",
-            "scale-down",
+            "normal",
+            "ordinal",
+            "slashed-zero",
+            "lining-nums",
+            "oldstyle-nums",
+            "proportional-nums",
+            "tabular-nums",
+            "diagonal-fractions",
+            "stacked-fractions",
             "inherit",
             "initial",
             "revert",

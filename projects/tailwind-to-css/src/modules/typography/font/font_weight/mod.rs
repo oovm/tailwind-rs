@@ -22,13 +22,6 @@ impl TailwindInstance for TailwindFontWeight {
     }
 }
 
-impl TailwindFontSize {
-    #[inline]
-    pub fn new(size: f32, height: f32) -> Self {
-        Self { size: TailwindTracking::em(size).unwrap(), height: TailwindLeading::rem(height).unwrap() }
-    }
-}
-
 impl TailwindFontWeight {
     pub const THIN: Self = Self { weight: 100 };
     pub const EXTRA_LIGHT: Self = Self { weight: 200 };

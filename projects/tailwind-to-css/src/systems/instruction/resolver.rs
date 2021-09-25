@@ -85,11 +85,11 @@ impl TailwindInstruction {
             ["min", "h", rest @ ..] => TailwindSizing::parse_width_min(rest, arbitrary)?.boxed(),
             ["max", "h", rest @ ..] => TailwindSizing::parse_width_max(rest, arbitrary)?.boxed(),
             // Typography System
-            ["font", rest @ ..] => Self::font_adaptor(rest, arbitrary)?,
+            ["font", rest @ ..] => font_adaptor(rest, arbitrary)?,
             ["text", rest @ ..] => Self::text_adaptor(rest, arbitrary)?,
             // begin https://tailwindcss.com/docs/font-variant-numeric
-            ["antialiased"] => TailwindFontSmoothing::new(false).boxed(),
-            ["subpixel", "antialiased"] => TailwindFontSmoothing::new(true).boxed(),
+            ["antialiased"] => TailwindFontSmoothing::from("todo").boxed(),
+            ["subpixel", "antialiased"] => TailwindFontSmoothing::from("todo").boxed(),
             ["italic"] => TailwindFontStyle::from("italic").boxed(),
             ["not", "italic"] => TailwindFontStyle::from("normal").boxed(),
             // https://tailwindcss.com/docs/font-variant-numeric
