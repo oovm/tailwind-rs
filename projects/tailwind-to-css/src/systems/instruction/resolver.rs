@@ -86,7 +86,7 @@ impl TailwindInstruction {
             ["max", "h", rest @ ..] => TailwindSizing::parse_width_max(rest, arbitrary)?.boxed(),
             // Typography System
             ["font", rest @ ..] => font_adaptor(rest, arbitrary)?,
-            ["text", rest @ ..] => Self::text_adaptor(rest, arbitrary)?,
+            ["text", rest @ ..] => text_adaptor(rest, arbitrary)?,
             // begin https://tailwindcss.com/docs/font-variant-numeric
             ["antialiased"] => TailwindFontSmoothing::from("todo").boxed(),
             ["subpixel", "antialiased"] => TailwindFontSmoothing::from("todo").boxed(),
@@ -463,26 +463,6 @@ impl TailwindInstruction {
             ["x", pattern @ ..] => TailwindOverscroll::parse(pattern, arbitrary, Some(true))?.boxed(),
             ["y", pattern @ ..] => TailwindOverscroll::parse(pattern, arbitrary, Some(true))?.boxed(),
             _ => TailwindOverscroll::parse(str, arbitrary, None)?.boxed(),
-        };
-        Ok(out)
-    }
-
-    #[inline]
-    fn text_adaptor(str: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        let out = match str {
-            // https://tailwindcss.com/docs/text-align
-            ["left"] => TailwindTextAlignment::Left.boxed(),
-            ["center"] => TailwindTextAlignment::Center.boxed(),
-            ["right"] => TailwindTextAlignment::Right.boxed(),
-            ["justify"] => TailwindTextAlignment::Justify.boxed(),
-            // https://tailwindcss.com/docs/text-color
-            // ["inherit"] => TailwindTextColor::INHERIT.boxed(),
-            // ["current"] => TailwindTextColor::CURRENT.boxed(),
-            // ["transparent"] => TailwindTextColor::TRANSPARENT.boxed(),
-            // ["black"] => TailwindTextColor::BLACK.boxed(),
-            // ["white"] => TailwindTextColor::WHITE.boxed(),
-            // [color, weight] => TailwindTextColor::parse(color, weight)?.boxed(),
-            _ => return syntax_error!("Unknown text instructions: {}", str.join("-")),
         };
         Ok(out)
     }

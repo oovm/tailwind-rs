@@ -73,44 +73,11 @@ impl Display for TailwindListStylePosition {
 
 impl TailwindInstance for TailwindListStylePosition {}
 
-impl Display for TailwindTextAlignment {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-impl TailwindInstance for TailwindTextAlignment {}
-
-impl Display for TailwindTextColor {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-impl TailwindInstance for TailwindTextColor {}
-
 impl Display for TailwindUnderlineOffset {
     fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
-
-impl TailwindInstance for TailwindUnderlineOffset {}
-
-impl Display for TailwindTextOverflow {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-// Class
-// Properties
-// truncate	overflow: hidden;
-// text-overflow: ellipsis;
-// white-space: nowrap;
-// text-ellipsis	text-overflow: ellipsis;
-// text-clip	text-overflow: clip;
-impl TailwindInstance for TailwindTextOverflow {}
 
 impl Display for TailwindIndent {
     fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {

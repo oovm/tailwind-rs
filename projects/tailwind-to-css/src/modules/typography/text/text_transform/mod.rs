@@ -1,5 +1,4 @@
 use super::*;
-use std::fmt::Write;
 
 #[doc = include_str!("readme.md")]
 #[derive(Debug, Clone)]

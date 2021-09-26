@@ -1,6 +1,7 @@
 mod decoration;
 mod display;
 mod font;
+mod indent;
 mod leading;
 mod parser;
 mod text;
@@ -69,14 +70,6 @@ pub struct TailwindListStylePosition {
 pub enum TailwindUnderlineOffset {
     Auto,
     Unit(usize),
-}
-
-#[doc = include_str!("text-overflow.md")]
-#[derive(Debug, Clone)]
-pub enum TailwindTextOverflow {
-    Truncate,
-    Ellipsis,
-    Clip,
 }
 
 #[doc = include_str!("text-indent.md")]
