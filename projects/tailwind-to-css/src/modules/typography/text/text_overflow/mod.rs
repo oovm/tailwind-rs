@@ -1,3 +1,5 @@
+use std::fmt::Write;
+
 use super::*;
 
 #[doc = include_str!("readme.md")]
@@ -12,22 +14,51 @@ enum TextOverflow {
     Standard(String),
     Arbitrary(String),
 }
-impl TailwindInstance for TailwindUnderlineOffset {}
 
 impl Display for TailwindTextOverflow {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match &self.kind {
+            TextOverflow::Truncate => write!(f, "truncate"),
+            TextOverflow::Standard(s) => write!(f, "font-overflow-{}", s),
+            TextOverflow::Arbitrary(s) => write!(f, "font-overflow-[{}]", s),
+        }
+    }
+}
+
+impl TailwindInstance for TailwindTextOverflow {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        let align = match &self.kind {
+            TextOverflow::Truncate =>
+                return css_attributes! {
+                    "overflow" => "hidden",
+                    "text-overflow" => "ellipsis",
+                    "white-space" => "nowrap",
+                },
+            TextOverflow::Standard(s) => s.to_string(),
+            TextOverflow::Arbitrary(s) => s.to_string(),
+        };
+        css_attributes! {
+            "text-overflow" => align
+        }
     }
 }
 
 impl TailwindTextOverflow {
     /// `truncate`
-    pub const Border: Self = Self { kind: TextOverflow::Truncate };
+    pub const Truncate: Self = Self { kind: TextOverflow::Truncate };
     /// https://tailwindcss.com/docs/text-overflow
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after text-transform");
-        let kind = pattern.join("-");
-        debug_assert!(Self::check_valid(&kind));
+        let kind = match pattern {
+            [] => {
+                debug_assert!(arbitrary.is_some());
+                TextOverflow::Arbitrary(arbitrary.to_string())
+            },
+            _ => {
+                let input = pattern.join("-");
+                debug_assert!(Self::check_valid(&input));
+                TextOverflow::Standard(input)
+            },
+        };
         Ok(Self { kind })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-overflow#syntax

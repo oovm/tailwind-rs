@@ -37,7 +37,7 @@ impl TailwindInstance for TailwindTextAlignment {
             TextAlignment::Arbitrary(s) => s,
         };
         css_attributes! {
-            "font-align" => align
+            "text-align" => align
         }
     }
 }

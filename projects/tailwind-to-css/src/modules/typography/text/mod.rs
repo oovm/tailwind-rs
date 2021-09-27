@@ -13,6 +13,9 @@ pub fn text_adaptor(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<B
         // https://tailwindcss.com/docs/text-align
         [s @ ("left" | "center" | "right" | "justify")] => TailwindTextAlignment::from(*s).boxed(),
         ["align", rest @ ..] => TailwindTextAlignment::parse(rest, arbitrary)?.boxed(),
+        // https://tailwindcss.com/docs/text-overflow
+        [s @ ("ellipsis" | "clip")] => TailwindTextAlignment::from(*s).boxed(),
+        ["overflow", rest @ ..] => TailwindTextAlignment::parse(rest, arbitrary)?.boxed(),
         // https://tailwindcss.com/docs/text-color
         _ => {
             let color = TailwindColor::parse(pattern, arbitrary)?;
