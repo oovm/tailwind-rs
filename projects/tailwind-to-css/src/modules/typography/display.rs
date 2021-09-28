@@ -19,7 +19,7 @@ impl Display for TailwindTracking {
 impl TailwindInstance for TailwindTracking {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         let spacing = match self.kind {
-            Tracking::Length(n) => format!("{}", n),
+            Tracking::Length(n) => n.get_properties(),
             _ => self.kind.to_string(),
         };
         css_attributes! {
@@ -32,7 +32,7 @@ impl Display for Leading {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::Normal => write!(f, "normal"),
-            Self::Length(n) => write!(f, "[{}]", n),
+            Self::Length(n) => write!(f, "{}", n.get_class_arbitrary()),
             Self::Global(g) => write!(f, "{}", g),
         }
     }
@@ -48,7 +48,7 @@ impl TailwindInstance for TailwindLeading {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         let leading = match self.kind {
             Leading::Normal => "normal".to_string(),
-            Leading::Length(n) => n.to_string(),
+            Leading::Length(n) => n.get_properties(),
             Leading::Global(g) => g.to_string(),
         };
         css_attributes! {
@@ -72,12 +72,6 @@ impl Display for TailwindListStylePosition {
 }
 
 impl TailwindInstance for TailwindListStylePosition {}
-
-impl Display for TailwindUnderlineOffset {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
 
 impl Display for TailwindIndent {
     fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {

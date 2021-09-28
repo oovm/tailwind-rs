@@ -18,7 +18,7 @@ impl Display for ColumnKind {
         match self {
             Self::Auto => write!(f, "auto"),
             Self::Columns(n) => write!(f, "{}", n),
-            Self::Length(n) => write!(f, "[{}]", n),
+            Self::Length(n) => write!(f, "{}", n.get_class_arbitrary()),
             Self::Global(g) => write!(f, "{}", g),
         }
     }
@@ -35,7 +35,7 @@ impl TailwindInstance for TailwindColumns {
         let columns = match self.kind {
             ColumnKind::Auto => "auto".to_string(),
             ColumnKind::Columns(n) => format!("{}", n),
-            ColumnKind::Length(n) => format!("{:?}", n),
+            ColumnKind::Length(n) => n.get_properties(),
             ColumnKind::Global(g) => format!("{}", g),
         };
         css_attributes! {

@@ -6,8 +6,9 @@ mod leading;
 mod parser;
 mod text;
 mod tracking;
+mod underline_offset;
 
-pub use self::{decoration::*, font::*, text::*};
+pub use self::{decoration::*, font::*, text::*, underline_offset::TailwindUnderlineOffset};
 
 use crate::{
     css_attributes, syntax_error, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary, TailwindBuilder,
@@ -63,13 +64,6 @@ enum ListStylePosition {
 #[derive(Copy, Debug, Clone)]
 pub struct TailwindListStylePosition {
     kind: ListStylePosition,
-}
-
-#[doc = include_str!("text-underline-offset.md")]
-#[derive(Debug, Clone)]
-pub enum TailwindUnderlineOffset {
-    Auto,
-    Unit(usize),
 }
 
 #[doc = include_str!("text-indent.md")]

@@ -1,5 +1,3 @@
-use std::fmt::Write;
-
 use super::*;
 
 #[doc = include_str!("readme.md")]

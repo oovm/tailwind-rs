@@ -27,7 +27,7 @@ impl Display for Thickness {
             Thickness::Auto => write!(f, "auto"),
             Thickness::FromFont => write!(f, "from-font"),
             Thickness::Unit(n) => write!(f, "{}", n),
-            Thickness::Length(n) => write!(f, "[{}]", n),
+            Thickness::Length(n) => write!(f, "{}", n.get_class_arbitrary()),
             Thickness::Global(g) => write!(f, "thick-{}", g),
         }
     }
@@ -45,7 +45,7 @@ impl TailwindInstance for TailwindDecorationThickness {
             Thickness::Auto => "auto".to_string(),
             Thickness::FromFont => "auto".to_string(),
             Thickness::Unit(n) => format!("{}px", n),
-            Thickness::Length(n) => format!("{}", n),
+            Thickness::Length(n) => n.get_properties(),
             Thickness::Global(g) => format!("{}", g),
         };
         css_attributes! {
