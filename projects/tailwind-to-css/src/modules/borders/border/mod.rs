@@ -31,7 +31,6 @@ impl TailwindBorder {
             ["black"] => color(TailwindColor::Black),
             ["white"] => color(TailwindColor::White),
             [] => TailwindBorder { arbitrary: arbitrary.to_string() }.boxed(),
-
             _ => return syntax_error!("Unknown border instructions: {}", str.join("-")),
         };
         Ok(out)

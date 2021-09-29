@@ -1,5 +1,3 @@
-use std::fmt::Write;
-
 use super::*;
 
 #[doc = include_str!("readme.md")]
@@ -45,10 +43,28 @@ impl TailwindInstance for TailwindUnderlineOffset {
 }
 
 impl TailwindUnderlineOffset {
-    pub fn parse(_input: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
+    /// https://tailwindcss.com/docs/text-underline-offset
+    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        match input {
+            ["auto"] => Ok(Self { kind: UnderlineOffset::Auto }),
+            [] => Self::parse_arbitrary(arbitrary),
+            [n] => {
+                let a = TailwindArbitrary::from(*n);
+                Self::parse_arbitrary(&a)
+            },
+            _ => syntax_error!("Unknown opacity instructions: {}", input.join("-")),
+        }
     }
-    pub fn parse_arbitrary(_arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
+    /// https://tailwindcss.com/docs/text-underline-offset#arbitrary-values
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Self::maybe_no_unit(arbitrary).or_else(|_| Self::maybe_length(arbitrary))
+    }
+    fn maybe_length(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        let n = arbitrary.as_length()?;
+        Ok(Self { kind: UnderlineOffset::Length(n) })
+    }
+    fn maybe_no_unit(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        let n = arbitrary.as_integer()?;
+        Ok(Self { kind: UnderlineOffset::Unit(n) })
     }
 }

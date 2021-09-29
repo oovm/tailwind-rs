@@ -1,3 +1,4 @@
+mod align;
 mod decoration;
 mod display;
 mod font;
@@ -8,7 +9,10 @@ mod text;
 mod tracking;
 mod underline_offset;
 
-pub use self::{decoration::*, font::*, text::*, underline_offset::TailwindUnderlineOffset};
+pub use self::{
+    align::TailwindAlign, decoration::*, font::*, leading::TailwindLeading, text::*, tracking::TailwindTracking,
+    underline_offset::TailwindUnderlineOffset,
+};
 
 use crate::{
     css_attributes, syntax_error, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary, TailwindBuilder,
@@ -18,32 +22,6 @@ use std::{
     collections::BTreeSet,
     fmt::{Display, Formatter},
 };
-
-#[derive(Copy, Debug, Clone)]
-enum Tracking {
-    Normal,
-    Length(LengthUnit),
-    Global(CssBehavior),
-}
-
-#[doc = include_str!("letter-spacing.md")]
-#[derive(Copy, Debug, Clone)]
-pub struct TailwindTracking {
-    kind: Tracking,
-}
-
-#[derive(Copy, Debug, Clone)]
-enum Leading {
-    Normal,
-    Length(LengthUnit),
-    Global(CssBehavior),
-}
-
-#[doc = include_str!("line-height.md")]
-#[derive(Copy, Debug, Clone)]
-pub struct TailwindLeading {
-    kind: Leading,
-}
 
 #[doc = include_str!("list-style-type.md")]
 #[derive(Debug, Clone)]
@@ -72,19 +50,6 @@ pub enum TailwindIndent {
     Px(f32),
     Unit(f32),
     Percent(f32),
-}
-
-#[doc = include_str!("vertical-align.md")]
-#[derive(Debug, Clone)]
-pub enum TailwindAlign {
-    Baseline,
-    Top,
-    Middle,
-    Bottom,
-    TextTop,
-    TextBottom,
-    Sub,
-    Super,
 }
 
 #[doc = include_str!("whitespace.md")]
