@@ -24,14 +24,6 @@ impl Display for TailwindIndent {
 
 impl TailwindInstance for TailwindIndent {}
 
-impl Display for TailwindAlign {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-impl TailwindInstance for TailwindAlign {}
-
 impl Display for TailwindWhiteSpace {
     fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
