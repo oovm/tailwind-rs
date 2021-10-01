@@ -8,7 +8,7 @@ enum ClearKind {
     None,
 }
 
-#[doc = include_str!("clear.md")]
+#[doc = include_str!("readme.md")]
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindClear {
     kind: ClearKind,

@@ -9,8 +9,14 @@ use crate::{
 };
 
 pub use self::{
-    aspect_ratio::TailwindAspect, columns::TailwindColumns, container::TailwindContainer, object::*,
-    position::TailwindPosition, visible::TailwindVisibility, z_index::TailWindZIndex,
+    aspect_ratio::TailwindAspect,
+    breaking::{after::TailwindBreakAfter, before::TailwindBreakBefore, inside::TailwindBreakInside},
+    columns::TailwindColumns,
+    container::TailwindContainer,
+    object::*,
+    position::TailwindPosition,
+    visible::TailwindVisibility,
+    z_index::TailWindZIndex,
 };
 
 mod aspect_ratio;

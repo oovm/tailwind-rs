@@ -28,7 +28,7 @@ impl TailwindInstance for TailwindVisibility {
         let visibility = match self.kind {
             Visibility::Visible => "visible",
             Visibility::Invisible => "hidden",
-            Visibility::Global(g) => g.to_string(),
+            Visibility::Global(g) => g.to_string().as_str(),
         };
         css_attributes! {
             "visibility" => visibility
