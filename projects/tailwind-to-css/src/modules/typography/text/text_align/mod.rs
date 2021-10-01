@@ -1,15 +1,15 @@
 use super::*;
 
-#[derive(Debug, Clone)]
-enum TextAlignment {
-    Standard(String),
-    Arbitrary(String),
-}
 
 #[doc = include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindTextAlignment {
     kind: TextAlignment,
+}
+#[derive(Debug, Clone)]
+enum TextAlignment {
+    Standard(String),
+    Arbitrary(String),
 }
 
 impl<T> From<T> for TailwindTextAlignment

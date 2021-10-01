@@ -15,20 +15,27 @@ impl TailwindInstruction {
             ["break", rest @ ..] => Self::break_adaptor(rest, arbitrary)?,
             ["box", rest @ ..] => Self::box_adaptor(rest, arbitrary)?,
             // begin https://tailwindcss.com/docs/display
-            ["block"] => TailwindDisplay::Block.boxed(),
-            ["inline", "block"] => TailwindDisplay::InlineBlock.boxed(),
-            ["inline"] => TailwindDisplay::InlineFlex.boxed(),
-            // flex catched
-            ["inline", "flex"] => TailwindDisplay::InlineFlex.boxed(),
-            // table catched
-            ["inline", "table"] => TailwindDisplay::InlineFlex.boxed(),
-            // table catched
-            ["flow", "root"] => TailwindDisplay::InlineFlex.boxed(),
-            // grid catched
-            ["inline", "grid"] => TailwindDisplay::InlineFlex.boxed(),
-            ["contents"] => TailwindDisplay::InlineFlex.boxed(),
-            // list catched
-            ["hidden"] => TailwindDisplay::InlineFlex.boxed(),
+            ["block"] => TailwindDisplay::from("block").boxed(),
+            ["inline", "block"] => TailwindDisplay::from("inline-block").boxed(),
+            ["inline"] => TailwindDisplay::from("inline").boxed(),
+            ["flex"] => TailwindDisplay::from("flex").boxed(),
+            ["inline", "flex"] => TailwindDisplay::from("inline-flex").boxed(),
+            ["table"] => TailwindDisplay::from("table").boxed(),
+            ["inline", "table"] => TailwindDisplay::from("inline-table").boxed(),
+            ["table", "caption"] => TailwindDisplay::from("table-caption").boxed(),
+            ["table", "cell"] => TailwindDisplay::from("table-cell").boxed(),
+            ["table", "column"] => TailwindDisplay::from("table-column").boxed(),
+            ["table", "column", "group"] => TailwindDisplay::from("table-column-group").boxed(),
+            ["table", "footer", "group"] => TailwindDisplay::from("table-footer-group").boxed(),
+            ["table", "header", "group"] => TailwindDisplay::from("table-header-group").boxed(),
+            ["table", "row", "group"] => TailwindDisplay::from("table-row-group").boxed(),
+            ["table", "row"] => TailwindDisplay::from("table-row").boxed(),
+            ["flow", "root"] => TailwindDisplay::from("flow-root").boxed(),
+            ["grid"] => TailwindDisplay::from("grid").boxed(),
+            ["inline", "grid"] => TailwindDisplay::from("inline-grid").boxed(),
+            ["contents"] => TailwindDisplay::from("contents").boxed(),
+            ["list", "item"] => TailwindDisplay::from("inline-grid").boxed(),
+            ["hidden"] => TailwindDisplay::from("hidden").boxed(),
             // https://tailwindcss.com/docs/float
             ["float", rest @ ..] => TailwindFloat::parse(rest, arbitrary)?.boxed(),
             ["clear", rest @ ..] => TailwindClear::parse(rest, arbitrary)?.boxed(),
@@ -198,18 +205,18 @@ impl TailwindInstruction {
         Ok(instance)
     }
     #[inline]
-    fn break_adaptor(str: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+    fn break_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/border-style
             ["normal"] => TailwindBreak::Normal.boxed(),
             ["words"] => TailwindBreak::Words.boxed(),
             ["all"] => TailwindBreak::All.boxed(),
             // https://tailwindcss.com/docs/break-before
-            ["before", rest @ ..] => TailwindBreakLayout::parse_before(rest)?.boxed(),
+            ["before", rest @ ..] => TailwindBreakBefore::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/break-inside
-            ["inside", rest @ ..] => TailwindBreakLayout::parse_inside(rest)?.boxed(),
+            ["inside", rest @ ..] => TailwindBreakInside::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/break-after
-            ["after", rest @ ..] => TailwindBreakLayout::parse_after(rest)?.boxed(),
+            ["after", rest @ ..] => TailwindBreakAfter::parse(rest, arbitrary)?.boxed(),
             _ => return syntax_error!("Unknown break instructions: {}", str.join("-")),
         };
         Ok(out)
@@ -257,11 +264,7 @@ impl TailwindInstruction {
             ["y"] => todo!(),
             ["y", _n] => todo!(),
             // https://tailwindcss.com/docs/divide-style
-            ["solid"] => TailwindDivideStyle::Solid.boxed(),
-            ["dashed"] => TailwindDivideStyle::Dashed.boxed(),
-            ["dotted"] => TailwindDivideStyle::Dotted.boxed(),
-            ["double"] => TailwindDivideStyle::Double.boxed(),
-            ["none"] => TailwindDivideStyle::None.boxed(),
+            [s @ ("solid" | "dashed" | "dotted" | "double" | "none")] => TailwindDivideStyle::from(*s).boxed(),
             // https://tailwindcss.com/docs/divide-color
             _ => return syntax_error!("Unknown divide instructions: {}", str.join("-")),
         };

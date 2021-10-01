@@ -1,4 +1,5 @@
 mod align;
+mod breaking;
 mod decoration;
 mod display;
 mod font;

@@ -11,8 +11,11 @@ use crate::{
 pub use self::{
     aspect_ratio::TailwindAspect,
     breaking::{after::TailwindBreakAfter, before::TailwindBreakBefore, inside::TailwindBreakInside},
+    clear::TailwindClear,
     columns::TailwindColumns,
     container::TailwindContainer,
+    display::TailwindDisplay,
+    float::TailwindFloat,
     object::*,
     position::TailwindPosition,
     visible::TailwindVisibility,

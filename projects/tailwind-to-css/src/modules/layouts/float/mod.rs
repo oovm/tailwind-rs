@@ -1,26 +1,9 @@
 use super::*;
 
-#[derive(Copy, Clone, Debug)]
-pub enum FloatKind {
-    Left,
-    Right,
-    None,
-}
-
 #[doc = include_str!("readme.md")]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Debug)]
 pub struct TailwindFloat {
-    kind: FloatKind,
-}
-
-impl Display for FloatKind {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Left => f.write_str("left"),
-            Self::Right => f.write_str("right"),
-            Self::None => f.write_str("none"),
-        }
-    }
+    kind: String,
 }
 
 impl Display for TailwindFloat {
@@ -39,14 +22,27 @@ impl TailwindInstance for TailwindFloat {
 
 impl TailwindFloat {
     /// https://tailwindcss.com/docs/float
-    pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary after float");
-        let out = match kind {
-            ["left"] => Self { kind: FloatKind::Left },
-            ["right"] => Self { kind: FloatKind::Right },
-            ["none"] => Self { kind: FloatKind::None },
-            _ => return syntax_error!("Unknown float elements: {}", kind.join("-")),
-        };
-        Ok(out)
+        let kind = pattern.join("-");
+        debug_assert!(Self::check_valid(&kind));
+        Ok(Self { kind })
+    }
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/float#syntax
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec![
+            // Keyword values
+            "left",
+            "right",
+            "none",
+            "inline-start",
+            "inline-end",
+            // Global values
+            "inherit",
+            "initial",
+            "revert",
+            "unset",
+        ]);
+        set.contains(mode)
     }
 }
