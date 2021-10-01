@@ -3,7 +3,9 @@ use std::{
     fmt::{Display, Formatter},
 };
 
-use crate::{css_attributes, AnchorPoint, CssAttribute, TailwindBuilder, TailwindColor, TailwindInstance};
+use crate::{
+    css_attributes, AnchorPoint, CssAttribute, Result, TailwindArbitrary, TailwindBuilder, TailwindColor, TailwindInstance,
+};
 
 pub use self::{
     attachment::TailwindBackgroundAttachment,

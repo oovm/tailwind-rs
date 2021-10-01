@@ -14,133 +14,19 @@ pub use self::{
 };
 
 mod aspect_ratio;
+mod boxing;
+mod breaking;
+mod clear;
 mod columns;
 mod container;
 mod display;
+mod float;
+mod isolate;
 mod object;
-mod parser;
+mod overflow;
+mod overscroll;
 mod position;
 #[cfg(test)]
 mod test;
 mod visible;
 mod z_index;
-
-#[derive(Copy, Clone, Debug)]
-enum BreakKind {
-    Before,
-    After,
-    Inside,
-}
-
-#[doc = include_str!("break.md")]
-#[derive(Clone, Debug)]
-pub struct TailwindBreakLayout {
-    kind: BreakKind,
-    info: String,
-}
-
-#[derive(Copy, Clone, Debug)]
-enum BoxDecoration {
-    Clone,
-    Slice,
-}
-
-#[doc = include_str!("box-decoration-break.md")]
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindBoxDecoration {
-    kind: BoxDecoration,
-}
-
-#[derive(Copy, Clone, Debug)]
-enum BoxSizing {
-    Border,
-    Content,
-}
-
-#[doc = include_str!("box-sizing.md")]
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindBoxSizing {
-    kind: BoxSizing,
-}
-
-/// https://tailwindcss.com/docs/display
-#[derive(Copy, Clone, Debug)]
-pub enum TailwindDisplay {
-    Block,
-    Inline,
-    InlineBlock,
-    Flex,
-    InlineFlex,
-    Table,
-    InlineTable,
-    TableCaption,
-}
-
-#[derive(Copy, Clone, Debug)]
-pub enum FloatKind {
-    Left,
-    Right,
-    None,
-}
-
-#[doc = include_str!("float.md")]
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindFloat {
-    kind: FloatKind,
-}
-
-#[derive(Copy, Clone, Debug)]
-enum ClearKind {
-    Left,
-    Right,
-    Both,
-    None,
-}
-
-#[doc = include_str!("clear.md")]
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindClear {
-    kind: ClearKind,
-}
-
-#[derive(Copy, Clone, Debug)]
-enum Isolation {
-    Isolate,
-    Auto,
-}
-
-///
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindIsolation {
-    kind: Isolation,
-}
-
-#[derive(Copy, Clone, Debug)]
-enum Overflow {
-    Auto,
-    Hidden,
-    Clip,
-    Visible,
-    Scroll,
-}
-
-/// https://tailwindcss.com/docs/overflow#hiding-content-that-overflows
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindOverflow {
-    kind: Overflow,
-    axis: Option<bool>,
-}
-
-#[derive(Copy, Clone, Debug)]
-enum Overscroll {
-    Auto,
-    Contain,
-    None,
-}
-
-/// https://tailwindcss.com/docs/overscroll-behavior
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindOverscroll {
-    kind: Overscroll,
-    axis: Option<bool>,
-}

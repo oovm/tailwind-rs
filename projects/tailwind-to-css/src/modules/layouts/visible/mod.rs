@@ -10,6 +10,7 @@ pub struct TailwindVisibility {
 enum Visibility {
     Visible,
     Invisible,
+    Global(CssBehavior),
 }
 
 impl Display for TailwindVisibility {
@@ -17,6 +18,7 @@ impl Display for TailwindVisibility {
         match self.kind {
             Visibility::Visible => write!(f, "visible"),
             Visibility::Invisible => write!(f, "invisible"),
+            Visibility::Global(g) => write!(f, "visible-{}", g),
         }
     }
 }
@@ -26,9 +28,10 @@ impl TailwindInstance for TailwindVisibility {
         let visibility = match self.kind {
             Visibility::Visible => "visible",
             Visibility::Invisible => "hidden",
+            Visibility::Global(g) => g.to_string(),
         };
         css_attributes! {
-         "visibility" =>    visibility
+            "visibility" => visibility
         }
     }
 }

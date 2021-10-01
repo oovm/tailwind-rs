@@ -138,7 +138,7 @@ impl TailwindInstruction {
             ["rounded", rest @ ..] => TailwindRounded::parse(rest, arbitrary)?.boxed(),
             ["border", rest @ ..] => TailwindBorder::parse(rest, arbitrary)?,
             ["divide", rest @ ..] => Self::divide_adaptor(rest, arbitrary)?,
-            ["outline", rest @ ..] => Self::outline_adaptor(rest, arbitrary)?,
+            ["outline", rest @ ..] => outline_adaptor(rest, arbitrary)?,
             ["ring", rest @ ..] => Self::ring_adaptor(rest, arbitrary)?,
             // Effects System
             ["shadow", rest @ ..] => Self::shadow_adaptor(rest, arbitrary)?,
@@ -148,7 +148,7 @@ impl TailwindInstruction {
             ["blur", rest @ ..] => TailwindBlur::parse(rest, arbitrary, false)?.boxed(),
             ["brightness", rest @ ..] => TailwindBrightness::parse(rest, arbitrary, false)?.boxed(),
             ["contrast", rest @ ..] => TailwindContrast::parse(rest, arbitrary, false)?.boxed(),
-            ["drop", "shadow", rest @ ..] => TailwindShadow::parse_drop(rest, arbitrary)?.boxed(),
+            ["drop", "shadow", rest @ ..] => TailwindShadow::parse(rest, arbitrary, true)?.boxed(),
             ["grayscale", rest @ ..] => TailwindGrayscale::parse(rest, arbitrary, false)?.boxed(),
             ["hue", "rotate", rest @ ..] => TailwindHueRotate::parse(rest, arbitrary, false)?.boxed(),
             ["invert", rest @ ..] => TailwindInvert::parse(rest, arbitrary, false)?.boxed(),
@@ -268,24 +268,6 @@ impl TailwindInstruction {
         Ok(out)
     }
     #[inline]
-    fn outline_adaptor(str: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        let out = match str {
-            // https://tailwindcss.com/docs/outline-style
-            [] => todo!(),
-            ["none"] => TailwindOutlineStyle::None.boxed(),
-            ["dashed"] => TailwindOutlineStyle::Dashed.boxed(),
-            ["dotted"] => TailwindOutlineStyle::Dotted.boxed(),
-            ["double"] => TailwindOutlineStyle::Double.boxed(),
-            ["hidden"] => TailwindOutlineStyle::Hidden.boxed(),
-            // https://tailwindcss.com/docs/outline-offset
-            ["offset", _n] => todo!(),
-            // https://tailwindcss.com/docs/outline-width
-            [_n] => todo!(),
-            _ => return syntax_error!("Unknown outline instructions: {}", str.join("-")),
-        };
-        Ok(out)
-    }
-    #[inline]
     fn ring_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/ring-offset-width
@@ -298,10 +280,10 @@ impl TailwindInstruction {
     fn shadow_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/box-shadow
-            [] => TailwindShadow::parse_arbitrary(arbitrary)?.boxed(),
+            [] => todo!(),
             ["sm"] => todo!(),
             // https://tailwindcss.com/docs/box-shadow-color
-            _ => return syntax_error!("Unknown shadow instructions: {}", str.join("-")),
+            _ => TailwindShadow::parse(str, arbitrary, false)?.boxed(),
         };
         Ok(out)
     }

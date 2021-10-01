@@ -1,41 +1,114 @@
-use crate::{Result, TailwindArbitrary, TailwindInstance};
-use std::fmt::{Display, Formatter};
-
-#[derive(Copy, Clone, Debug)]
-enum ShadowKind {
-    None,
-    Small,
-    Normal,
-    Medium,
-    Large,
-    ExtraLarge,
-    UltraLarge,
-    Custom { x: usize, y: usize, alpha: usize },
-}
+use super::*;
 
 /// https://tailwindcss.com/docs/box-shadow
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Debug)]
 pub struct TailwindShadow {
-    kind: ShadowKind,
+    kind: Shadow,
     is_drop: bool,
 }
 
-impl Display for TailwindShadow {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+#[derive(Clone, Debug)]
+enum Shadow {
+    None,
+    Small,
+    Standard,
+    Medium,
+    Large,
+    ExtraLarge,
+    ExtraLarge2,
+    Arbitrary(String),
+}
+
+impl Display for Shadow {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::None => write!(f, "-none",),
+            Self::Small => write!(f, "-sm",),
+            Self::Standard => write!(f, "",),
+            Self::Medium => write!(f, "-md",),
+            Self::Large => write!(f, "-lg",),
+            Self::ExtraLarge => write!(f, "-xl",),
+            Self::ExtraLarge2 => write!(f, "-2xl",),
+            Self::Arbitrary(s) => write!(f, "-[{}]", s),
+        }
     }
 }
 
-impl TailwindInstance for TailwindShadow {}
+impl Display for TailwindShadow {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self.is_drop {
+            true => write!(f, "drop-shadow"),
+            false => write!(f, "shadow"),
+        }
+    }
+}
+
+impl TailwindInstance for TailwindShadow {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        match self.is_drop {
+            true => {
+                let class = "filter";
+                let shadow = match &self.kind {
+                    Shadow::None => "drop-shadow(0 0 #0000)",
+                    Shadow::Small => "drop-shadow(0 1px 1px rgb(0 0 0 / 0.05))",
+                    Shadow::Standard => "drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06))",
+                    Shadow::Medium => "drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06))",
+                    Shadow::Large => "drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1))",
+                    Shadow::ExtraLarge => "drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08))",
+                    Shadow::ExtraLarge2 => "drop-shadow(0 25px 25px rgb(0 0 0 / 0.15))",
+                    Shadow::Arbitrary(c) => c.as_str(),
+                };
+                css_attributes! {
+                    class => shadow
+                }
+            },
+            false => {
+                let class = "box-shadow";
+                let shadow = match &self.kind {
+                    Shadow::None => "0 0 #0000",
+                    Shadow::Small => "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+                    Shadow::Standard => "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+                    Shadow::Medium => "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+                    Shadow::Large => "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+                    Shadow::ExtraLarge => "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+                    Shadow::ExtraLarge2 => "0 25px 50px -12px rgb(0 0 0 / 0.25)",
+                    // shadow-inner	box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+                    Shadow::Arbitrary(c) => c.as_str(),
+                };
+                css_attributes! {
+                    class => shadow
+                }
+            },
+        }
+    }
+}
+
+impl Shadow {
+    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        let kind = match input {
+            [] if arbitrary.is_some() => Shadow::Standard,
+            [] => Self::parse_arbitrary(arbitrary)?,
+            ["inner"] => Shadow::Small,
+            ["none"] => Shadow::None,
+            ["s" | "sm"] => Shadow::Small,
+            ["m" | "md"] => Shadow::Medium,
+            ["l" | "lg"] => Shadow::Large,
+            ["x" | "xl"] => Shadow::ExtraLarge,
+            ["u" | "2xl" | "xxl" | "ul"] => Shadow::Small,
+            _ => return syntax_error!("Unknown shadow instructions: {}", input.join("-")),
+        };
+        Ok(kind)
+    }
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self::Arbitrary(arbitrary.to_string()))
+    }
+}
 
 impl TailwindShadow {
-    pub fn parse_box(_input: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
+    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary, drop: bool) -> Result<Self> {
+        Ok(Self { kind: Shadow::parse(input, arbitrary)?, is_drop: drop })
     }
-    pub fn parse_drop(_input: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
-    }
-    pub fn parse_arbitrary(_arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, drop: bool) -> Result<Self> {
+        Ok(Self { kind: Shadow::parse_arbitrary(arbitrary)?, is_drop: drop })
     }
 }

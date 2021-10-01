@@ -22,7 +22,6 @@ impl TailwindInstance for TailwindBackgroundBlend {
 impl TailwindBackgroundBlend {
     /// https://tailwindcss.com/docs/background-blend-mode
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let wrapper = TailwindBlend::parse(input, arbitrary)?;
-        Ok(Self { wrapper })
+        Ok(Self { wrapper: TailwindBlend::parse(input, arbitrary)? })
     }
 }

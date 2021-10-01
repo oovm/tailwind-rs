@@ -1,9 +1,18 @@
 use crate::modules::borders::*;
 
 ///
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Debug)]
 pub struct TailwindDivideStyle {
-    kind: BorderStyle,
+    kind: String,
+}
+
+impl<T> From<T> for TailwindDivideStyle
+where
+    T: Into<String>,
+{
+    fn from(kind: T) -> Self {
+        Self { kind: kind.into() }
+    }
 }
 
 impl Display for TailwindDivideStyle {
@@ -28,16 +37,15 @@ impl TailwindInstance for TailwindDivideStyle {
 }
 
 impl TailwindDivideStyle {
-    /// `tracking-solid`
-    pub const Solid: Self = Self { kind: BorderStyle::Solid };
-    /// `tracking-dashed`
-    pub const Dashed: Self = Self { kind: BorderStyle::Dashed };
-    /// `tracking-dotted`
-    pub const Dotted: Self = Self { kind: BorderStyle::Dotted };
-    /// `tracking-double`
-    pub const Double: Self = Self { kind: BorderStyle::Double };
-    /// `tracking-hidden`
-    pub const Hidden: Self = Self { kind: BorderStyle::Hidden };
-    /// `tracking-none`
-    pub const None: Self = Self { kind: BorderStyle::None };
+    /// https://tailwindcss.com/docs/divide-style
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after object");
+        let kind = pattern.join("-");
+        debug_assert!(Self::check_valid(&kind));
+        Ok(Self { kind })
+    }
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-style#syntax
+    pub fn check_valid(mode: &str) -> bool {
+        TailwindBorderStyle::check_valid(mode)
+    }
 }
