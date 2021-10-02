@@ -1,15 +1,15 @@
 use super::*;
 
-#[derive(Debug, Clone)]
-enum FontFamily {
-    Standard(String),
-    Arbitrary(String),
-}
-
 #[doc = include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindFontFamily {
     kind: FontFamily,
+}
+
+#[derive(Debug, Clone)]
+enum FontFamily {
+    Standard(String),
+    Arbitrary(String),
 }
 
 impl<T> From<T> for TailwindFontFamily

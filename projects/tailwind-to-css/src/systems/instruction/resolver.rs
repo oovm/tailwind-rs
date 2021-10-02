@@ -305,7 +305,7 @@ impl TailwindInstruction {
     fn flex_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/display#flex
-            [] if arbitrary.is_none() => TailwindDisplay::Flex.boxed(),
+            // `[]` This won't happen
             // https://tailwindcss.com/docs/flex#arbitrary-values
             [] => TailwindFlex::parse_arbitrary(arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/flex-direction
@@ -418,14 +418,14 @@ impl TailwindInstruction {
     #[inline]
     fn table_adaptor(str: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
+            // https://tailwindcss.com/docs/display#flex
+            // `[]` This won't happen
             ["caption"] => TailwindTableLayout::Auto.boxed(),
             ["right"] => TailwindTableLayout::Auto.boxed(),
             ["none"] => TailwindTableLayout::Auto.boxed(),
             // https://tailwindcss.com/docs/table-layout
             ["auto"] => TailwindTableLayout::Auto.boxed(),
             ["fixed"] => TailwindTableLayout::Fixed.boxed(),
-            // https://tailwindcss.com/docs/display#table
-            [] => TailwindDisplay::Table.boxed(),
             _ => return syntax_error!("Unknown table instructions: {}", str.join("-")),
         };
         Ok(out)
