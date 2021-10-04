@@ -39,8 +39,8 @@ impl TailwindInstruction {
             // https://tailwindcss.com/docs/float
             ["float", rest @ ..] => TailwindFloat::parse(rest, arbitrary)?.boxed(),
             ["clear", rest @ ..] => TailwindClear::parse(rest, arbitrary)?.boxed(),
-            ["isolate"] => TailwindIsolation::Isolate.boxed(),
-            ["isolation", "auto"] => TailwindIsolation::Auto.boxed(),
+            ["isolate"] => TailwindIsolation::from("isolate").boxed(),
+            ["isolation", rest @ ..] => TailwindIsolation::parse(rest, arbitrary)?.boxed(),
             ["object", rest @ ..] => object_adaptor(rest, arbitrary)?,
             ["overflow", rest @ ..] => Self::overflow_adaptor(rest, arbitrary)?,
             ["overscroll", rest @ ..] => Self::overscroll_adaptor(rest, arbitrary)?,
@@ -291,12 +291,11 @@ impl TailwindInstruction {
         Ok(out)
     }
     #[inline]
-    fn box_adaptor(str: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+    fn box_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
-            ["decoration", "clone"] => TailwindBoxDecoration::Clone.boxed(),
-            ["decoration", "slice"] => TailwindBoxDecoration::Slice.boxed(),
-            ["border"] => TailwindBoxSizing::Border.boxed(),
-            ["content"] => TailwindBoxSizing::Content.boxed(),
+            ["decoration", rest @ ..] => TailwindBoxDecoration::parse(rest, arbitrary)?.boxed(),
+            ["border"] => TailwindBoxSizing::from("border").boxed(),
+            ["content"] => TailwindBoxSizing::from("content").boxed(),
             _ => return syntax_error!("Unknown box instructions: {}", str.join("-")),
         };
         Ok(out)
@@ -305,7 +304,7 @@ impl TailwindInstruction {
     fn flex_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/display#flex
-            // `[]` This won't happen
+            // `[]` => This won't happen
             // https://tailwindcss.com/docs/flex#arbitrary-values
             [] => TailwindFlex::parse_arbitrary(arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/flex-direction
@@ -419,7 +418,7 @@ impl TailwindInstruction {
     fn table_adaptor(str: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/display#flex
-            // `[]` This won't happen
+            // `[]` => This won't happen
             ["caption"] => TailwindTableLayout::Auto.boxed(),
             ["right"] => TailwindTableLayout::Auto.boxed(),
             ["none"] => TailwindTableLayout::Auto.boxed(),

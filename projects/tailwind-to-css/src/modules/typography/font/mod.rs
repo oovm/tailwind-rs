@@ -58,5 +58,6 @@ fn maybe_weight(arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstanc
 }
 
 fn maybe_size(arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-    todo!()
+    let w = arbitrary.as_integer()?;
+    Ok(TailwindFontWeight::new(w).boxed())
 }

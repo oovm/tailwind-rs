@@ -39,7 +39,7 @@ impl TailwindBorder {
 
 impl Display for TailwindBorder {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        write!(f, "border-[{}]", self.arbitrary)
     }
 }
 

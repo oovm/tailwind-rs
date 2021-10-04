@@ -26,9 +26,9 @@ impl Display for TailwindVisibility {
 impl TailwindInstance for TailwindVisibility {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         let visibility = match self.kind {
-            Visibility::Visible => "visible",
-            Visibility::Invisible => "hidden",
-            Visibility::Global(g) => g.to_string().as_str(),
+            Visibility::Visible => "visible".to_string(),
+            Visibility::Invisible => "hidden".to_string(),
+            Visibility::Global(g) => g.to_string(),
         };
         css_attributes! {
             "visibility" => visibility

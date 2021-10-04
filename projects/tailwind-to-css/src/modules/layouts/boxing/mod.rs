@@ -1,3 +1,4 @@
-mod box_decoration;
-mod box_sizing;
 use super::*;
+
+pub(crate) mod box_decoration;
+pub(crate) mod box_sizing;

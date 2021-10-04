@@ -10,13 +10,17 @@ use crate::{
 
 pub use self::{
     aspect_ratio::TailwindAspect,
+    boxing::{box_decoration::TailwindBoxDecoration, box_sizing::TailwindBoxSizing},
     breaking::{after::TailwindBreakAfter, before::TailwindBreakBefore, inside::TailwindBreakInside},
     clear::TailwindClear,
     columns::TailwindColumns,
     container::TailwindContainer,
     display::TailwindDisplay,
     float::TailwindFloat,
+    isolate::TailwindIsolation,
     object::*,
+    overflow::TailwindOverflow,
+    overscroll::TailwindOverscroll,
     position::TailwindPosition,
     visible::TailwindVisibility,
     z_index::TailWindZIndex,

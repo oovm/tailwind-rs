@@ -2,10 +2,13 @@ use crate::TailwindSizing;
 
 use super::*;
 
-pub use self::{select::TailwindSelect, torch::TailwindTorch};
+pub use self::{cursor::TailwindCursor, pointer::TailwindPointerEvents, select::TailwindSelect, torch::TailwindTorch};
 
+mod cursor;
 mod display;
 mod parser;
+mod pointer;
+mod resize;
 mod select;
 mod torch;
 
@@ -21,19 +24,7 @@ pub enum TailwindAppearance {
 
 #[doc=include_str!("grid-row.md")]
 #[derive(Debug, Copy, Clone)]
-pub enum TailwindCursor {}
-
-#[doc=include_str!("grid-row.md")]
-#[derive(Debug, Copy, Clone)]
 pub enum TailwindCaretColor {}
-
-#[doc=include_str!("grid-row.md")]
-#[derive(Debug, Copy, Clone)]
-pub enum TailwindPointerEvents {}
-
-#[doc=include_str!("grid-row.md")]
-#[derive(Debug, Copy, Clone)]
-pub enum TailwindResize {}
 
 #[doc=include_str!("grid-row.md")]
 #[derive(Debug, Copy, Clone)]

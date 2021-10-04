@@ -18,34 +18,7 @@ impl TailwindAppearance {
     }
 }
 
-impl TailwindCursor {
-    pub fn parse(_pattern: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
-    }
-    pub fn parse_arbitrary(_arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
-    }
-}
-
 impl TailwindCaretColor {
-    pub fn parse(_pattern: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
-    }
-    pub fn parse_arbitrary(_arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
-    }
-}
-
-impl TailwindPointerEvents {
-    pub fn parse(_pattern: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
-    }
-    pub fn parse_arbitrary(_arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
-    }
-}
-
-impl TailwindResize {
     pub fn parse(_pattern: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
