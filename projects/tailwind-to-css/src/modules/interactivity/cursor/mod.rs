@@ -24,29 +24,32 @@ where
 impl Display for TailwindCursor {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match &self.kind {
-            Cursor::Standard(s) => write!(f, "display-{}", s),
-            Cursor::Arbitrary(s) => write!(f, "display-[{}]", s),
+            Cursor::Standard(s) => write!(f, "cursor-{}", s),
+            Cursor::Arbitrary(s) => write!(f, "cursor-[{}]", s),
         }
     }
 }
 
 impl TailwindInstance for TailwindCursor {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let align = match &self.kind {
+        let cursor = match &self.kind {
             Cursor::Standard(s) => s,
             Cursor::Arbitrary(s) => s,
         };
         css_attributes! {
-            "display" => align
+            "cursor" => cursor
         }
     }
 }
 
 impl TailwindCursor {
-    /// https://tailwindcss.com/docs/display
+    /// https://tailwindcss.com/docs/cursor
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         match pattern {
-            [] => Self::parse_arbitrary(arbitrary),
+            [] => {
+                debug_assert!(arbitrary.is_some());
+                Self::parse_arbitrary(arbitrary)
+            },
             _ => {
                 let s = pattern.join("-");
                 debug_assert!(Self::check_valid(&s));
@@ -54,54 +57,53 @@ impl TailwindCursor {
             },
         }
     }
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/display/two-value_syntax_of_display
+    /// https://tailwindcss.com/docs/cursor#arbitrary-values
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self { kind: Cursor::Arbitrary(arbitrary.to_string()) })
     }
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/display#syntax
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/cursor#syntax
     pub fn check_valid(mode: &str) -> bool {
         let set = BTreeSet::from_iter(vec![
-            "auto",
-            "default",
-            "none",
-            "context-menu",
-            "help",
-            "pointer",
-            "progress",
-            "wait",
-            "cell",
-            "crosshair",
-            "text",
-            "vertical-text",
             "alias",
-            "copy",
-            "move",
-            "no-drop",
-            "not-allowed",
-            "e-resize",
-            "n-resize",
-            "ne-resize",
-            "nw-resize",
-            "s-resize",
-            "se-resize",
-            "sw-resize",
-            "w-resize",
-            "ew-resize",
-            "ns-resize",
-            "nesw-resize",
-            "nwse-resize",
-            "col-resize",
-            "row-resize",
             "all-scroll",
-            "zoom-in",
-            "zoom-out",
+            "auto",
+            "cell",
+            "col-resize",
+            "context-menu",
+            "copy",
+            "crosshair",
+            "default",
+            "e-resize",
+            "ew-resize",
             "grab",
             "grabbing",
-            // Global
+            "help",
             "inherit",
             "initial",
+            "move",
+            "ne-resize",
+            "nesw-resize",
+            "no-drop",
+            "none",
+            "not-allowed",
+            "n-resize",
+            "ns-resize",
+            "nw-resize",
+            "nwse-resize",
+            "pointer",
+            "progress",
             "revert",
+            "row-resize",
+            "se-resize",
+            "s-resize",
+            "sw-resize",
+            "text",
             "unset",
+            "vertical-text",
+            "wait",
+            "w-resize",
+            "zoom-in",
+            "zoom-out",
         ]);
         set.contains(mode)
     }

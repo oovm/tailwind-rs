@@ -2,7 +2,10 @@ use crate::TailwindSizing;
 
 use super::*;
 
-pub use self::{cursor::TailwindCursor, pointer::TailwindPointerEvents, select::TailwindSelect, torch::TailwindTorch};
+pub use self::{
+    cursor::TailwindCursor, pointer::TailwindPointerEvents, resize::TailwindResize, select::TailwindSelect,
+    torch::TailwindTorch,
+};
 
 mod cursor;
 mod display;
