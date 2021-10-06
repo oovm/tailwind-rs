@@ -68,6 +68,7 @@ impl TailwindInstruction {
             ["col", rest @ ..] => TailwindColumn::parse(rest, arbitrary)?.boxed(),
             ["row", rest @ ..] => TailwindRow::parse(rest, arbitrary)?.boxed(),
             ["auto", rest @ ..] => TailwindGridAuto::parse(rest, arbitrary)?.boxed(),
+            ["auto", rest @ ..] => TailwindGridAuto::parse(rest, arbitrary)?.boxed(),
             ["gap", "x", rest @ ..] => TailwindGap::parse_x(rest, arbitrary)?.boxed(),
             ["gap", "y", rest @ ..] => TailwindGap::parse_y(rest, arbitrary)?.boxed(),
             ["gap", rest @ ..] => TailwindGap::parse_xy(rest, arbitrary)?.boxed(),
