@@ -7,8 +7,12 @@ pub struct TailwindSkew {
     deg: usize,
     axis: bool,
 }
+
 impl Display for TailwindSkew {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        if self.neg {
+            f.write_char('-')?
+        }
         match self.axis {
             true => write!(f, "skew-x-{}", self.deg),
             false => write!(f, "skew-y-{}", self.deg),
@@ -30,11 +34,12 @@ impl TailwindInstance for TailwindSkew {
 
 impl TailwindSkew {
     // https://tailwindcss.com/docs/skew
-    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary, axis: bool, neg: bool) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary");
-        match input {
-            [n] => Ok(Self { neg, deg: TailwindArbitrary::from(*n).as_integer()?, axis }),
-            _ => syntax_error!("Unknown rotate instructions: {}", input.join("-")),
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, neg: bool) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after skew");
+        match pattern {
+            ["x", n] => Ok(Self { neg, deg: TailwindArbitrary::from(*n).as_integer()?, axis: true }),
+            ["y", n] => Ok(Self { neg, deg: TailwindArbitrary::from(*n).as_integer()?, axis: false }),
+            _ => syntax_error!("Unknown skew instructions: {}", pattern.join("-")),
         }
     }
 }

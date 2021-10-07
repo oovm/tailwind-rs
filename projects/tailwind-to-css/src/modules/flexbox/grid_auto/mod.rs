@@ -80,7 +80,14 @@ impl GridAutoKind {
 }
 
 impl TailwindGridAuto {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, axis: bool) -> Result<Self> {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        match pattern {
+            ["rows", rest @ ..] => Self::parse_axis(rest, arbitrary, true),
+            ["cols", rest @ ..] => Self::parse_axis(rest, arbitrary, false),
+            _ => syntax_error!("Unknown auto instructions: {}", pattern.join("-")),
+        }
+    }
+    fn parse_axis(pattern: &[&str], arbitrary: &TailwindArbitrary, axis: bool) -> Result<Self> {
         Ok(Self { kind: GridAutoKind::parse(pattern, arbitrary)?, axis })
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: bool) -> Result<Self> {

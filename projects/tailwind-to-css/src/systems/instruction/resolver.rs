@@ -68,10 +68,7 @@ impl TailwindInstruction {
             ["col", rest @ ..] => TailwindColumn::parse(rest, arbitrary)?.boxed(),
             ["row", rest @ ..] => TailwindRow::parse(rest, arbitrary)?.boxed(),
             ["auto", rest @ ..] => TailwindGridAuto::parse(rest, arbitrary)?.boxed(),
-            ["auto", rest @ ..] => TailwindGridAuto::parse(rest, arbitrary)?.boxed(),
-            ["gap", "x", rest @ ..] => TailwindGap::parse_x(rest, arbitrary)?.boxed(),
-            ["gap", "y", rest @ ..] => TailwindGap::parse_y(rest, arbitrary)?.boxed(),
-            ["gap", rest @ ..] => TailwindGap::parse_xy(rest, arbitrary)?.boxed(),
+            ["gap", rest @ ..] => TailwindGap::parse(rest, arbitrary)?.boxed(),
             ["justify", rest @ ..] => Self::justify_adaptor(rest, arbitrary)?,
             ["content", rest @ ..] => Self::content_adaptor(rest, arbitrary)?,
             ["items", rest @ ..] => TailwindItems::parse(rest, arbitrary)?.boxed(),
@@ -137,11 +134,10 @@ impl TailwindInstruction {
             // Typography System Extension
             ["prose"] => todo!(),
             // Backgrounds System
-            // FIXME: https://tailwindcss.com/docs/background-blend-mode
             ["bg", rest @ ..] => Self::bg_adaptor(rest, arbitrary)?,
-            ["from", _rest @ ..] => todo!(),
-            ["via", _rest @ ..] => todo!(),
-            ["to", _rest @ ..] => todo!(),
+            ["from", rest @ ..] => TailwindFrom::parse(rest, arbitrary)?.boxed(),
+            ["via", rest @ ..] => TailwindVia::parse(rest, arbitrary)?.boxed(),
+            ["to", rest @ ..] => TailwindTo::parse(rest, arbitrary)?.boxed(),
             // Borders System
             ["rounded", rest @ ..] => TailwindRounded::parse(rest, arbitrary)?.boxed(),
             ["border", rest @ ..] => TailwindBorder::parse(rest, arbitrary)?,
@@ -178,8 +174,7 @@ impl TailwindInstruction {
             ["rotate", rest @ ..] => TailwindRotate::parse(rest, arbitrary, neg)?.boxed(),
             ["translate", "x", _rest @ ..] => todo!(),
             ["translate", "y", _rest @ ..] => todo!(),
-            ["skew", "x", rest @ ..] => TailwindSkew::parse(rest, arbitrary, true, neg)?.boxed(),
-            ["skew", "y", rest @ ..] => TailwindSkew::parse(rest, arbitrary, false, neg)?.boxed(),
+            ["skew", rest @ ..] => TailwindSkew::parse(rest, arbitrary, neg)?.boxed(),
             ["origin", rest @ ..] => TailwindOrigin::parse(rest, arbitrary)?.boxed(),
             // Interactivity System
             ["accent", rest @ ..] => TailwindAccentColor::parse(rest, arbitrary)?.boxed(),

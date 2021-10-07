@@ -31,17 +31,12 @@ impl TailwindInstance for TailwindGap {
 }
 
 impl TailwindGap {
-    #[inline]
-    pub fn parse_x(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { size: parse_size(pattern, arbitrary)?, axis: Some(true) })
-    }
-    #[inline]
-    pub fn parse_y(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { size: parse_size(pattern, arbitrary)?, axis: Some(false) })
-    }
-    #[inline]
-    pub fn parse_xy(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { size: parse_size(pattern, arbitrary)?, axis: None })
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        match pattern {
+            ["x", rest @ ..] => Ok(Self { size: parse_size(rest, arbitrary)?, axis: Some(true) }),
+            ["y", rest @ ..] => Ok(Self { size: parse_size(rest, arbitrary)?, axis: Some(false) }),
+            _ => Ok(Self { size: parse_size(pattern, arbitrary)?, axis: None }),
+        }
     }
 }
 
