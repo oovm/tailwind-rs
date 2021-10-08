@@ -4,11 +4,15 @@ use super::*;
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindOpacity {
     opacity: usize,
+    backdrop: bool,
 }
 
 impl Display for TailwindOpacity {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         debug_assert!(self.opacity <= 100);
+        if self.backdrop {
+            f.write_str("backdrop-")?
+        }
         write!(f, "opacity-{}", self.opacity)
     }
 }
@@ -25,12 +29,12 @@ impl TailwindInstance for TailwindOpacity {
 
 impl TailwindOpacity {
     /// https://tailwindcss.com/docs/opacity
-    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after duration");
+    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after opacity");
         match input {
             [n] => {
                 let a = TailwindArbitrary::from(*n);
-                Ok(Self { opacity: a.as_integer()? })
+                Ok(Self { opacity: a.as_integer()?, backdrop })
             },
             _ => syntax_error!("Unknown opacity instructions: {}", input.join("-")),
         }

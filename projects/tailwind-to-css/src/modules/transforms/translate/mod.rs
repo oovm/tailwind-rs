@@ -1,19 +1,32 @@
 use super::*;
 
-#[derive(Copy, Clone, Debug)]
+#[doc = include_str!("readme.md")]
+#[derive(Clone, Debug)]
+pub struct TailwindTranslate {
+    negative: bool,
+    axis: Option<bool>,
+    kind: TranslateSize,
+}
+
+#[derive(Clone, Debug)]
 enum TranslateSize {
-    Unit(usize),
+    Unit(f32),
     Fraction(usize, usize),
     Length(LengthUnit),
     Global(CssBehavior),
+    Arbitrary(String),
 }
 
-#[doc = include_str!("readme.md")]
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindTranslate {
-    negative: bool,
-    axis: bool,
-    kind: TranslateSize,
+impl Display for TranslateSize {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Unit(n) => write!(f, "{}", n),
+            Self::Fraction(a, b) => write!(f, "{}/{}", a, b),
+            Self::Length(n) => write!(f, "{}", n.get_class_arbitrary()),
+            Self::Global(g) => write!(f, "{}", g),
+            Self::Arbitrary(g) => write!(f, "[{}]", g),
+        }
+    }
 }
 
 impl Display for TailwindTranslate {
@@ -21,9 +34,10 @@ impl Display for TailwindTranslate {
         if self.negative {
             f.write_char('-')?
         }
-        match self.kind {
-            true => write!(f, "translate-x-{}", self.kind),
-            false => write!(f, "translate-y-{}", self.kind),
+        match self.axis {
+            Some(true) => write!(f, "translate-x-{}", self.kind),
+            Some(false) => write!(f, "translate-y-{}", self.kind),
+            None => write!(f, "translate-{}", self.kind),
         }
     }
 }
@@ -31,8 +45,9 @@ impl Display for TailwindTranslate {
 impl TailwindInstance for TailwindTranslate {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         let skew = match self.axis {
-            true => format!("skewX({}deg)", self.deg),
-            false => format!("skewY({}deg)", self.deg),
+            Some(true) => format!("translateX({}deg)", self.kind),
+            Some(false) => format!("translateY({}deg)", self.kind),
+            None => format!("translate({}deg)", self.kind),
         };
         css_attributes! {
             "transform" => skew
@@ -41,26 +56,44 @@ impl TailwindInstance for TailwindTranslate {
 }
 
 impl TailwindTranslate {
-    // https://tailwindcss.com/docs/skew
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, neg: bool) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after skew");
+    /// https://tailwindcss.com/docs/translate
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
         match pattern {
-            ["x", n] => Ok(Self { neg, deg: TailwindArbitrary::from(*n).as_integer()?, axis: true }),
-            ["y", n] => Ok(Self { neg, deg: TailwindArbitrary::from(*n).as_integer()?, axis: false }),
-            _ => syntax_error!("Unknown skew instructions: {}", pattern.join("-")),
+            ["x", rest @ ..] => Ok(Self { negative, axis: Some(true), kind: TranslateSize::parse(rest, arbitrary)? }),
+            ["y", rest @ ..] => Ok(Self { negative, axis: Some(false), kind: TranslateSize::parse(rest, arbitrary)? }),
+            _ => Ok(Self { negative, axis: None, kind: TranslateSize::parse(pattern, arbitrary)? }),
+        }
+    }
+    /// https://tailwindcss.com/docs/translate#arbitrary-values
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: Option<bool>, negative: bool) -> Result<Self> {
+        Ok(Self { negative, axis, kind: TranslateSize::parse_arbitrary(arbitrary)? })
+    }
+}
+
+impl TranslateSize {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        match pattern {
+            [] => Self::parse_arbitrary(arbitrary),
+            ["px"] => Ok(Self::Length(LengthUnit::Px(1.0))),
+            [n] => {
+                let a = TailwindArbitrary::from(*n);
+                Self::maybe_no_unit(&a).or_else(|_| Self::maybe_frac(&a)).or_else(|_| Self::maybe_length(&a))
+            },
+            _ => syntax_error!("Unknown translate instructions: {}", pattern.join("-")),
         }
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Self::maybe_length(arbitrary).or_else(|_| Self::maybe_frac(arbitrary)).or_else(|_| Self::maybe_unit(arbitrary))
+        debug_assert!(arbitrary.is_some());
+        Ok(Self::Arbitrary(arbitrary.to_string()))
     }
-    fn maybe_unit(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: BasisSize::Unit(arbitrary.as_integer()?) })
+    fn maybe_no_unit(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self::Unit(arbitrary.as_float()?))
     }
     fn maybe_length(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: BasisSize::Length(arbitrary.as_length()?) })
+        Ok(Self::Length(arbitrary.as_length()?))
     }
     fn maybe_frac(arbitrary: &TailwindArbitrary) -> Result<Self> {
         let (a, b) = arbitrary.as_fraction()?;
-        Ok(Self { kind: BasisSize::Length(LengthUnit::Fraction(a, b)) })
+        Ok(Self::Fraction(a, b))
     }
 }

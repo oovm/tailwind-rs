@@ -4,10 +4,10 @@ mod duration;
 mod ease;
 #[cfg(test)]
 mod test;
-mod trans;
+mod transit;
 
 pub use self::{
-    animate::TailwindAnimate, delay::TailwindDelay, duration::TailwindDuration, ease::TailwindEase, trans::TailwindTransition,
+    animate::TailwindAnimate, delay::TailwindDelay, duration::TailwindDuration, ease::TailwindEase, transit::TailwindTransition,
 };
 use crate::{css_attributes, syntax_error, CssAttribute, Result, TailwindArbitrary, TailwindBuilder, TailwindInstance};
 use std::{

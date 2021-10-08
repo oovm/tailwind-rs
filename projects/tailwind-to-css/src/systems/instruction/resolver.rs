@@ -47,11 +47,11 @@ impl TailwindInstruction {
             // https://tailwindcss.com/docs/position#header
             [s @ ("static" | "fixed" | "absolute" | "relative" | "sticky")] => TailwindPosition::from(*s).boxed(),
             // https://tailwindcss.com/docs/top-right-bottom-left
-            ["inset", _rest @ ..] => todo!(),
-            ["top", _rest @ ..] => todo!(),
-            ["right", _rest @ ..] => todo!(),
-            ["buttom", _rest @ ..] => todo!(),
-            ["left", _rest @ ..] => todo!(),
+            ["inset", rest @ ..] => todo!(),
+            ["top", rest @ ..] => todo!(),
+            ["right", rest @ ..] => todo!(),
+            ["buttom", rest @ ..] => todo!(),
+            ["left", rest @ ..] => todo!(),
             // https://tailwindcss.com/docs/visibility
             ["visible"] => TailwindVisibility::Visible.boxed(),
             ["invisible"] => TailwindVisibility::Invisible.boxed(),
@@ -146,7 +146,7 @@ impl TailwindInstruction {
             ["ring", rest @ ..] => Self::ring_adaptor(rest, arbitrary)?,
             // Effects System
             ["shadow", rest @ ..] => Self::shadow_adaptor(rest, arbitrary)?,
-            ["opacity", rest @ ..] => TailwindOpacity::parse(rest, arbitrary)?.boxed(),
+            ["opacity", rest @ ..] => TailwindOpacity::parse(rest, arbitrary, false)?.boxed(),
             ["mix", "blend", rest @ ..] => TailwindBlend::parse(rest, arbitrary)?.boxed(),
             // Filters System
             ["blur", rest @ ..] => TailwindBlur::parse(rest, arbitrary, false)?.boxed(),
@@ -162,18 +162,17 @@ impl TailwindInstruction {
             // Tables System
             ["table", rest @ ..] => Self::table_adaptor(rest, arbitrary)?,
             // Transitions System
-            ["transition", _rest @ ..] => todo!(),
+            ["transition", rest @ ..] => TailwindTransition::parse(rest, arbitrary)?.boxed(),
             ["duration", rest @ ..] => TailwindDuration::parse(rest, arbitrary)?.boxed(),
-            ["ease", _rest @ ..] => todo!(),
+            ["ease", rest @ ..] => todo!(),
             ["delay", rest @ ..] => TailwindDelay::parse(rest, arbitrary)?.boxed(),
-            ["animate", _rest @ ..] => todo!(),
+            ["animate", rest @ ..] => todo!(),
             // Transforms System
             ["scale", "x", rest @ ..] => TailwindScale::parse(rest, arbitrary, Some(true), neg)?.boxed(),
             ["scale", "y", rest @ ..] => TailwindScale::parse(rest, arbitrary, Some(false), neg)?.boxed(),
             ["scale", rest @ ..] => TailwindScale::parse(rest, arbitrary, None, neg)?.boxed(),
             ["rotate", rest @ ..] => TailwindRotate::parse(rest, arbitrary, neg)?.boxed(),
-            ["translate", "x", _rest @ ..] => todo!(),
-            ["translate", "y", _rest @ ..] => todo!(),
+            ["translate", rest @ ..] => TailwindTranslate::parse(rest, arbitrary, neg)?.boxed(),
             ["skew", rest @ ..] => TailwindSkew::parse(rest, arbitrary, neg)?.boxed(),
             ["origin", rest @ ..] => TailwindOrigin::parse(rest, arbitrary)?.boxed(),
             // Interactivity System
@@ -190,8 +189,8 @@ impl TailwindInstruction {
             ["select", rest @ ..] => TailwindSelect::parse(rest, arbitrary)?.boxed(),
             ["will", "change", rest @ ..] => TailwindWillChange::parse(rest, arbitrary)?.boxed(),
             // SVG System
-            ["fill", _rest @ ..] => todo!(),
-            ["stroke", _rest @ ..] => todo!(),
+            ["fill", rest @ ..] => todo!(),
+            ["stroke", rest @ ..] => todo!(),
             // Accessibility System
             ["sr", "only"] => TailwindScreenReader::new(true).boxed(),
             ["not", "sr", "only"] => TailwindScreenReader::new(false).boxed(),
@@ -326,11 +325,11 @@ impl TailwindInstruction {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary after place");
         let out = match str {
             // https://tailwindcss.com/docs/grid-template-rows
-            ["rows", _rest @ ..] => TailwindListStyle::None.boxed(),
+            ["rows", rest @ ..] => TailwindListStyle::None.boxed(),
             // https://tailwindcss.com/docs/grid-auto-flow
-            ["flow", _rest @ ..] => TailwindListStyle::None.boxed(),
+            ["flow", rest @ ..] => TailwindListStyle::None.boxed(),
             // https://tailwindcss.com/docs/place-self
-            ["self", _rest @ ..] => TailwindListStyle::None.boxed(),
+            ["self", rest @ ..] => TailwindListStyle::None.boxed(),
             _ => return syntax_error!("Unknown list instructions: {}", str.join("-")),
         };
         Ok(out)
@@ -400,13 +399,25 @@ impl TailwindInstruction {
     fn backdrop_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary after justify");
         let out = match str {
-            // https://tailwindcss.com/docs/justify-content
-            ["content", _rest @ ..] => TailwindListStyle::None.boxed(),
-            // https://tailwindcss.com/docs/justify-items
-            ["items", _rest @ ..] => TailwindListStyle::None.boxed(),
-            // https://tailwindcss.com/docs/justify-self
-            ["self", _rest @ ..] => TailwindListStyle::None.boxed(),
-            _ => return syntax_error!("Unknown justify instructions: {}", str.join("-")),
+            // https://tailwindcss.com/docs/backdrop-blur
+            ["blur", rest @ ..] => TailwindBlur::parse(rest, arbitrary, true)?.boxed(),
+            // https://tailwindcss.com/docs/backdrop-brightness
+            ["brightness", rest @ ..] => TailwindBrightness::parse(rest, arbitrary, true)?.boxed(),
+            // https://tailwindcss.com/docs/backdrop-contrast
+            ["contrast", rest @ ..] => TailwindContrast::parse(rest, arbitrary, true)?.boxed(),
+            // https://tailwindcss.com/docs/backdrop-grayscale
+            ["grayscale", rest @ ..] => TailwindGrayscale::parse(rest, arbitrary, true)?.boxed(),
+            // https://tailwindcss.com/docs/backdrop-hue-rotate
+            ["hue", "rotate", rest @ ..] => TailwindHueRotate::parse(rest, arbitrary, true)?.boxed(),
+            // https://tailwindcss.com/docs/backdrop-invert
+            ["invert", rest @ ..] => TailwindInvert::parse(rest, arbitrary, true)?.boxed(),
+            // https://tailwindcss.com/docs/backdrop-opacity
+            ["opacity", rest @ ..] => TailwindOpacity::parse(rest, arbitrary, true)?.boxed(),
+            // https://tailwindcss.com/docs/backdrop-saturate
+            ["saturate", rest @ ..] => TailwindSaturate::parse(rest, arbitrary, true)?.boxed(),
+            // https://tailwindcss.com/docs/backdrop-sepia
+            ["sepia", rest @ ..] => TailwindSepia::parse(rest, arbitrary, true)?.boxed(),
+            _ => return syntax_error!("Unknown backdrop instructions: {}", str.join("-")),
         };
         Ok(out)
     }

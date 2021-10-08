@@ -7,6 +7,7 @@ pub enum LengthUnit {
     Rem(f32),
     Percent(f32),
     Fraction(usize, usize),
+    Degree(f32),
 }
 
 impl Display for LengthUnit {
@@ -17,6 +18,7 @@ impl Display for LengthUnit {
             Self::Rem(n) => write!(f, "{}rem", *n as usize),
             Self::Percent(n) => write!(f, "{}%", *n as usize),
             Self::Fraction(a, b) => write!(f, "{}/{}", a, b),
+            Self::Degree(n) => write!(f, "{}deg", *n as usize),
         }
     }
 }
@@ -60,6 +62,7 @@ impl LengthUnit {
             Self::Rem(n) => format!("{}rem", n),
             Self::Percent(n) => format!("{}%", n),
             Self::Fraction(a, b) => format!("{}/{}", a, b),
+            Self::Degree(n) => format!("{}deg", n),
         }
     }
 

@@ -76,7 +76,7 @@ impl<'a> AstElements<'a> {
     /// a(-a)*
     #[inline]
     pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
-        let (rest, (first, other)) = tuple((Self::parse_head, many0(Self::parse_rest)))(input)?;
+        let (rest, (first, other)) = tuple((Self::parse_head, many0(Self::parserest)))(input)?;
         let mut out = vec![first];
         out.extend(other.into_iter());
         Ok((rest, Self { elements: out }))
@@ -90,7 +90,7 @@ impl<'a> AstElements<'a> {
         take_till1(stop)(input)
     }
     #[inline]
-    fn parse_rest(input: &'a str) -> IResult<&'a str, &'a str> {
+    fn parserest(input: &'a str) -> IResult<&'a str, &'a str> {
         let (rest, (_, out)) = tuple((char('-'), Self::parse_head))(input)?;
         Ok((rest, out))
     }
