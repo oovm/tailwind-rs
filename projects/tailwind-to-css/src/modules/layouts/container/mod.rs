@@ -4,6 +4,12 @@ use super::*;
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindContainer {}
 
+impl Default for TailwindContainer {
+    fn default() -> Self {
+        Self {}
+    }
+}
+
 impl TailwindContainer {
     pub fn new() -> Self {
         Self {}

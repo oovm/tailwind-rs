@@ -10,7 +10,7 @@ impl TailwindInstruction {
         let instance = match element.as_slice() {
             // Layout System
             ["aspect", rest @ ..] => TailwindAspect::parse(rest, arbitrary)?.boxed(),
-            ["container"] => TailwindContainer {}.boxed(),
+            ["container"] => TailwindContainer::default().boxed(),
             ["columns", rest @ ..] => TailwindColumns::parse(rest, arbitrary)?.boxed(),
             ["break", rest @ ..] => Self::break_adaptor(rest, arbitrary)?,
             ["box", rest @ ..] => Self::box_adaptor(rest, arbitrary)?,
@@ -164,13 +164,11 @@ impl TailwindInstruction {
             // Transitions System
             ["transition", rest @ ..] => TailwindTransition::parse(rest, arbitrary)?.boxed(),
             ["duration", rest @ ..] => TailwindDuration::parse(rest, arbitrary)?.boxed(),
-            ["ease", rest @ ..] => todo!(),
+            ["ease", rest @ ..] => TailwindEase::parse(rest, arbitrary)?.boxed(),
             ["delay", rest @ ..] => TailwindDelay::parse(rest, arbitrary)?.boxed(),
             ["animate", rest @ ..] => todo!(),
             // Transforms System
-            ["scale", "x", rest @ ..] => TailwindScale::parse(rest, arbitrary, Some(true), neg)?.boxed(),
-            ["scale", "y", rest @ ..] => TailwindScale::parse(rest, arbitrary, Some(false), neg)?.boxed(),
-            ["scale", rest @ ..] => TailwindScale::parse(rest, arbitrary, None, neg)?.boxed(),
+            ["scale", rest @ ..] => TailwindScale::parse(rest, arbitrary, neg)?.boxed(),
             ["rotate", rest @ ..] => TailwindRotate::parse(rest, arbitrary, neg)?.boxed(),
             ["translate", rest @ ..] => TailwindTranslate::parse(rest, arbitrary, neg)?.boxed(),
             ["skew", rest @ ..] => TailwindSkew::parse(rest, arbitrary, neg)?.boxed(),

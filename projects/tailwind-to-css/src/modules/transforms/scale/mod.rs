@@ -38,11 +38,18 @@ impl TailwindInstance for TailwindScale {
 
 impl TailwindScale {
     // https://tailwindcss.com/docs/scale
-    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary, axis: Option<bool>, neg: bool) -> Result<Self> {
+    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary");
         match input {
-            [n] => Ok(Self { negative: neg, scale: TailwindArbitrary::from(*n).as_integer()?, axis }),
+            [n] => Ok(Self { negative, scale: TailwindArbitrary::from(*n).as_integer()?, axis }),
             _ => syntax_error!("Unknown scale instructions: {}", input.join("-")),
         }
+    }
+}
+
+fn parse_axis(input: &[&str], arbitrary: &TailwindArbitrary, axis: Option<bool>, neg: bool) -> Result<Self> {
+    match input {
+        [n] => Ok(Self { negative: neg, scale: TailwindArbitrary::from(*n).as_integer()?, axis }),
+        _ => syntax_error!("Unknown scale instructions: {}", input.join("-")),
     }
 }
