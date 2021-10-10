@@ -78,5 +78,5 @@ impl TailwindTracking {
 
 #[inline(always)]
 fn em(n: f32) -> Result<TailwindTracking> {
-    Ok(TailwindTracking { kind: Tracking::Length(LengthUnit::Em(n)) })
+    Ok(TailwindTracking { kind: Tracking::Length(LengthUnit::em(n)) })
 }

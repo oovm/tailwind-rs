@@ -1,7 +1,7 @@
 use super::*;
 
 #[doc = include_str!("readme.md")]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Debug)]
 pub struct TailwindEase {
     kind: Timing,
 }

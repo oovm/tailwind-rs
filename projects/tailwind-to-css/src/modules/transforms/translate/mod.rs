@@ -74,7 +74,7 @@ impl TranslateSize {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         match pattern {
             [] => Self::parse_arbitrary(arbitrary),
-            ["px"] => Ok(Self::Length(LengthUnit::Px(1.0))),
+            ["px"] => Ok(Self::Length(LengthUnit::px(1.0))),
             [n] => {
                 let a = TailwindArbitrary::from(*n);
                 Self::maybe_no_unit(&a).or_else(|_| Self::maybe_frac(&a)).or_else(|_| Self::maybe_length(&a))

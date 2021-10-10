@@ -46,7 +46,7 @@ impl TailwindInstance for TailwindColumns {
 impl ColumnKind {
     #[inline]
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let rem = |n: usize| Self::Length(LengthUnit::Rem(n as f32));
+        let rem = |n: usize| Self::Length(LengthUnit::rem(n as f32));
         let out = match input {
             ["auto"] => Self::Auto,
             ["3xs"] => rem(16),

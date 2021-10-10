@@ -77,9 +77,9 @@ impl TailwindLeading {
 
 #[inline(always)]
 fn scale(x: f32) -> Result<TailwindLeading> {
-    Ok(TailwindLeading { kind: Leading::Length(LengthUnit::Percent(x * 100.0)) })
+    Ok(TailwindLeading { kind: Leading::Length(LengthUnit::percent(x * 100.0)) })
 }
 #[inline(always)]
 fn rem(x: f32) -> Result<TailwindLeading> {
-    Ok(TailwindLeading { kind: Leading::Length(LengthUnit::Rem(x)) })
+    Ok(TailwindLeading { kind: Leading::Length(LengthUnit::rem(x)) })
 }

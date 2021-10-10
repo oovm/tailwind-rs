@@ -98,8 +98,8 @@ impl TailwindRounded {
         if arbitrary.is_some() {
             return Ok(Self { kind, size: arbitrary.as_length()? });
         }
-        let rem = |n| Ok(Self { kind, size: LengthUnit::Rem(n) });
-        let px = |n| Ok(Self { kind, size: LengthUnit::Px(n) });
+        let rem = |n| Ok(Self { kind, size: LengthUnit::rem(n) });
+        let px = |n| Ok(Self { kind, size: LengthUnit::px(n) });
         match pattern {
             ["none"] => px(0.0),
             ["sm"] => rem(0.125),

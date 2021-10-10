@@ -43,10 +43,10 @@ impl TailwindGap {
 fn parse_size(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<LengthUnit> {
     let size = match pattern {
         [] => arbitrary.as_length()?,
-        ["px"] => LengthUnit::Px(1.0),
+        ["px"] => LengthUnit::px(1.0),
         [n] => {
             let a = TailwindArbitrary::from(*n);
-            LengthUnit::Rem(a.as_float()? / 4.0)
+            LengthUnit::rem(a.as_float()? / 4.0)
         },
         _ => return syntax_error!("Unknown gap instructions"),
     };

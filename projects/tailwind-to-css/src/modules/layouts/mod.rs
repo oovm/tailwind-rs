@@ -3,11 +3,6 @@ use std::{
     fmt::{Debug, Display, Formatter},
 };
 
-use crate::{
-    css_attributes, syntax_error, AnchorPoint, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary,
-    TailwindBuilder, TailwindInstance,
-};
-
 pub use self::{
     aspect_ratio::TailwindAspect,
     boxing::{box_decoration::TailwindBoxDecoration, box_sizing::TailwindBoxSizing},
@@ -25,6 +20,11 @@ pub use self::{
     visible::TailwindVisibility,
     z_index::TailWindZIndex,
 };
+use crate::{
+    css_attributes, syntax_error, AnchorPoint, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary,
+    TailwindBuilder, TailwindInstance,
+};
+use std::fmt::Write;
 
 mod aspect_ratio;
 mod boxing;
@@ -38,6 +38,7 @@ mod isolate;
 mod object;
 mod overflow;
 mod overscroll;
+mod placement;
 mod position;
 #[cfg(test)]
 mod test;

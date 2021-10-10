@@ -2,7 +2,7 @@ use super::*;
 
 impl SizingUnit {
     pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let px = |x| Ok(Self::Length(LengthUnit::Em(x)));
+        let px = |x| Ok(Self::Length(LengthUnit::em(x)));
         match kind {
             ["min"] => Ok(Self::Min),
             ["max"] => Ok(Self::Max),
@@ -24,7 +24,7 @@ impl SizingUnit {
     }
     #[inline]
     fn maybe_no_unit(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let rem = |x| Ok(Self::Length(LengthUnit::Em(x)));
+        let rem = |x| Ok(Self::Length(LengthUnit::em(x)));
         rem(arbitrary.as_float()? / 4.0)
     }
     #[inline]
