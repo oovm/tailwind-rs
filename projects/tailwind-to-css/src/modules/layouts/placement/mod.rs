@@ -32,10 +32,10 @@ impl Display for PlacementSize {
 }
 
 impl PlacementSize {
-    pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after z-index");
-        let kind = match kind {
-            [] => Self::parse_arbitrary(arbitrary)?,
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after left/right/top/bottom");
+        let kind = match pattern {
+            [] => Self::parse_unit(arbitrary)?,
             ["px"] => Self::Length(LengthUnit::px(1.0)),
             ["full"] => Self::Full,
             ["auto"] => Self::Auto,
@@ -45,18 +45,28 @@ impl PlacementSize {
             ["unset"] => Self::Global(CssBehavior::Unset),
             [n] => {
                 let a = TailwindArbitrary::from(*n);
-                Self::parse_arbitrary(&a)?
+                Self::parse_unit(&a)?
             },
-            _ => return syntax_error!("Unknown placement instructions"),
+            _ => return syntax_error!("Unknown placement instructions: {}", pattern.join("-")),
         };
         Ok(kind)
     }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn get_properties(&self) -> String {
+        match self {
+            Self::Auto => "auto".to_string(),
+            Self::Full => "full".to_string(),
+            Self::Fraction(a, b) => LengthUnit::Fraction(*a, *b).get_properties(),
+            Self::Length(x) => x.get_properties(),
+            Self::Global(x) => x.to_string(),
+            Self::Arbitrary(x) => x.to_string(),
+        }
+    }
+    pub fn parse_unit(arbitrary: &TailwindArbitrary) -> Result<Self> {
         debug_assert!(arbitrary.is_some());
         Self::maybe_fraction(arbitrary).or_else(|_| Self::maybe_no_unit(arbitrary)).or_else(|_| Self::maybe_length(arbitrary))
     }
     #[inline]
-    fn maybe_length(arbitrary: &TailwindArbitrary) -> Result<Self> {
+    fn maybe_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self::Length(arbitrary.as_length()?))
     }
     #[inline]

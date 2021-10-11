@@ -1,6 +1,11 @@
 use std::{
     collections::BTreeSet,
-    fmt::{Debug, Display, Formatter},
+    fmt::{Debug, Display, Formatter, Write},
+};
+
+use crate::{
+    css_attributes, syntax_error, AnchorPoint, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary,
+    TailwindBuilder, TailwindInstance,
 };
 
 pub use self::{
@@ -16,15 +21,11 @@ pub use self::{
     object::*,
     overflow::TailwindOverflow,
     overscroll::TailwindOverscroll,
+    placement::{bottom::TailwindBottom, inset::TailwindInset, left::TailwindLeft, right::TailwindRight, top::TailwindTop},
     position::TailwindPosition,
     visible::TailwindVisibility,
     z_index::TailWindZIndex,
 };
-use crate::{
-    css_attributes, syntax_error, AnchorPoint, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary,
-    TailwindBuilder, TailwindInstance,
-};
-use std::fmt::Write;
 
 mod aspect_ratio;
 mod boxing;

@@ -52,7 +52,10 @@ impl LengthUnit {
     #[inline]
     pub fn get_properties(&self) -> String {
         match self {
-            Self::Fraction(a, b) => format!("{}/{}", a, b),
+            Self::Fraction(a, b) => {
+                let p = *a as f32 / *b as f32;
+                format!("{}%", 100.0 * p)
+            },
             Self::Unit(a, b) => format!("{}{}", a, b),
         }
     }

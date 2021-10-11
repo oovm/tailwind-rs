@@ -6,3 +6,46 @@ pub struct TailwindInset {
     axis: Option<bool>,
     kind: PlacementSize,
 }
+
+impl Display for TailwindInset {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        if self.negative {
+            f.write_char('-')?
+        }
+        match self.axis {
+            None => write!(f, "inset-{}", self.kind),
+            Some(true) => write!(f, "inset-x-{}", self.kind),
+            Some(false) => write!(f, "inset-y-{}", self.kind),
+        }
+    }
+}
+
+impl TailwindInstance for TailwindInset {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        match self.axis {
+            None => css_attributes! {
+                "top" => self.kind.get_properties(),
+                "right" => self.kind.get_properties(),
+                "bottom" => self.kind.get_properties(),
+                "left" => self.kind.get_properties(),
+            },
+            Some(true) => css_attributes! {
+                "right" => self.kind.get_properties(),
+                "left" => self.kind.get_properties(),
+            },
+            Some(false) => css_attributes! {
+                "top" => self.kind.get_properties(),
+                "bottom" => self.kind.get_properties(),
+            },
+        }
+    }
+}
+
+impl TailwindInset {
+    pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary, axis: Option<bool>, negative: bool) -> Result<Self> {
+        Ok(Self { negative, axis, kind: PlacementSize::parse(kind, arbitrary)? })
+    }
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: Option<bool>, negative: bool) -> Result<Self> {
+        Ok(Self { negative, axis, kind: PlacementSize::parse_unit(arbitrary)? })
+    }
+}
