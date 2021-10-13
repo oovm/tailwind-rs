@@ -49,11 +49,37 @@ impl TailwindInstance for TailwindFontStyle {
 impl TailwindFontStyle {
     /// https://tailwindcss.com/docs/font-style
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
+        Ok(Self { kind: FontStyle::parse(pattern, arbitrary)? })
+    }
+    /// https://tailwindcss.com/docs/font-style
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: FontStyle::parse_arbitrary(arbitrary)? })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-style#syntax
     pub fn check_valid(mode: &str) -> bool {
-        let set = BTreeSet::from_iter(vec!["normal", "italic", "oblique", "inherit", "initial", "revert", "unset"]);
+        FontStyle::check_valid(mode)
+    }
+}
+
+impl FontStyle {
+    /// https://tailwindcss.com/docs/font-style
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        match pattern {
+            [] => Self::parse_arbitrary(arbitrary),
+            [s] => {
+                debug_assert!(Self::check_valid(s));
+                Ok(Self::Standard(s.to_string()))
+            },
+            _ => syntax_error!("Unknown font-style instructions: {}", pattern.join("-")),
+        }
+    }
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        debug_assert!(arbitrary.is_some());
+        Ok(Self::Arbitrary(arbitrary.to_string()))
+    }
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-style#syntax
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec!["inherit", "initial", "italic", "normal", "oblique", "revert", "unset"]);
         set.contains(mode)
     }
 }
