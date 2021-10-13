@@ -47,11 +47,11 @@ impl TailwindInstruction {
             // https://tailwindcss.com/docs/position#header
             [s @ ("static" | "fixed" | "absolute" | "relative" | "sticky")] => TailwindPosition::from(*s).boxed(),
             // https://tailwindcss.com/docs/top-right-bottom-left
-            ["inset", rest @ ..] => todo!(),
-            ["top", rest @ ..] => todo!(),
-            ["right", rest @ ..] => todo!(),
-            ["buttom", rest @ ..] => todo!(),
-            ["left", rest @ ..] => todo!(),
+            ["inset", rest @ ..] => TailwindInset::parse(rest, arbitrary, neg)?.boxed(),
+            ["top", rest @ ..] => TailwindTop::parse(rest, arbitrary, neg)?.boxed(),
+            ["right", rest @ ..] => TailwindRight::parse(rest, arbitrary, neg)?.boxed(),
+            ["bottom", rest @ ..] => TailwindBottom::parse(rest, arbitrary, neg)?.boxed(),
+            ["left", rest @ ..] => TailwindLeft::parse(rest, arbitrary, neg)?.boxed(),
             // https://tailwindcss.com/docs/visibility
             ["visible"] => TailwindVisibility::Visible.boxed(),
             ["invisible"] => TailwindVisibility::Invisible.boxed(),

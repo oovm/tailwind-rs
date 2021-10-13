@@ -35,7 +35,6 @@ impl PlacementSize {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary after left/right/top/bottom");
         let kind = match pattern {
-            [] => Self::parse_unit(arbitrary)?,
             ["px"] => Self::Length(LengthUnit::px(1.0)),
             ["full"] => Self::Full,
             ["auto"] => Self::Auto,
@@ -45,7 +44,7 @@ impl PlacementSize {
             ["unset"] => Self::Global(CssBehavior::Unset),
             [n] => {
                 let a = TailwindArbitrary::from(*n);
-                Self::parse_unit(&a)?
+                Self::parse_arbitrary(&a)?
             },
             _ => return syntax_error!("Unknown placement instructions: {}", pattern.join("-")),
         };
@@ -61,21 +60,16 @@ impl PlacementSize {
             Self::Arbitrary(x) => x.to_string(),
         }
     }
-    pub fn parse_unit(arbitrary: &TailwindArbitrary) -> Result<Self> {
+    fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         debug_assert!(arbitrary.is_some());
-        Self::maybe_fraction(arbitrary).or_else(|_| Self::maybe_no_unit(arbitrary)).or_else(|_| Self::maybe_length(arbitrary))
+        Self::maybe_no_unit(arbitrary).or_else(|_| Self::maybe_length(arbitrary))
     }
     #[inline]
-    fn maybe_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+    fn maybe_length(arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self::Length(arbitrary.as_length()?))
     }
     #[inline]
     fn maybe_no_unit(arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self::Length(LengthUnit::rem(arbitrary.as_float()? / 4.0)))
-    }
-    #[inline]
-    fn maybe_fraction(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let (a, b) = arbitrary.as_fraction()?;
-        Ok(Self::Fraction(a, b))
     }
 }

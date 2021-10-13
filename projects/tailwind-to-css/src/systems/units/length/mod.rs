@@ -1,3 +1,5 @@
+use tailwind_ast::{parse_fraction};
+
 use super::*;
 
 #[derive(Debug, Copy, Clone)]
@@ -17,10 +19,19 @@ impl Display for LengthUnit {
 
 impl LengthUnit {
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/length#syntax
-    pub fn parse(input: &str) -> IResult<&str, Self> {
+    pub fn parse_faction(input: &str) -> Result<Self> {
+        let (a, b) = parse_fraction(input)?.1;
+        Ok(Self::Fraction(a, b))
+    }
+    pub fn parse_length(input: &str) -> Result<Self> {
         let valid = (unit("px"), unit("em"), unit("rem"), unit("%"));
-        let (rest, (f, unit)) = tuple((parse_f32, alt(valid)))(input)?;
-        Ok((rest, Self::Unit(f, unit)))
+        let (f, unit) = tuple((parse_f32, alt(valid)))(input)?.1;
+        Ok(Self::Unit(f, unit))
+    }
+    pub fn parse_angle(input: &str) -> Result<Self> {
+        let valid = (unit("deg"), unit("rad"));
+        let (f, unit) = tuple((parse_f32, alt(valid)))(input)?.1;
+        Ok(Self::Unit(f, unit))
     }
     pub fn px(x: f32) -> Self {
         Self::Unit(x, "px")

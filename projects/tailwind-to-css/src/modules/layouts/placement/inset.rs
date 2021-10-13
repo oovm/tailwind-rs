@@ -1,5 +1,6 @@
 use super::*;
 
+#[doc = include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindInset {
     negative: bool,
@@ -42,10 +43,16 @@ impl TailwindInstance for TailwindInset {
 }
 
 impl TailwindInset {
-    pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary, axis: Option<bool>, negative: bool) -> Result<Self> {
-        Ok(Self { negative, axis, kind: PlacementSize::parse(kind, arbitrary)? })
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
+        let (axis, rest) = match pattern {
+            ["x", rest @ ..] => (Some(true), rest),
+            ["y", rest @ ..] => (Some(false), rest),
+            _ => (None, pattern),
+        };
+        Ok(Self { negative, axis, kind: PlacementSize::parse(rest, arbitrary)? })
     }
+
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: Option<bool>, negative: bool) -> Result<Self> {
-        Ok(Self { negative, axis, kind: PlacementSize::parse_unit(arbitrary)? })
+        Ok(Self { negative, axis, kind: PlacementSize::parse_arbitrary(arbitrary)? })
     }
 }

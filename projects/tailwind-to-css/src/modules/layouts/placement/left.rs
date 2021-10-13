@@ -1,5 +1,6 @@
 use super::*;
 
+#[doc = include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindLeft {
     negative: bool,
@@ -28,6 +29,6 @@ impl TailwindLeft {
         Ok(Self { negative, kind: PlacementSize::parse(kind, arbitrary)? })
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
-        Ok(Self { negative, kind: PlacementSize::parse_unit(arbitrary)? })
+        Ok(Self { negative, kind: PlacementSize::parse_arbitrary(arbitrary)? })
     }
 }

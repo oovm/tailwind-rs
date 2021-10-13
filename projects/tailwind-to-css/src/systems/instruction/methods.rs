@@ -70,7 +70,7 @@ impl TailwindArbitrary {
     }
     #[inline]
     pub fn as_length(&self) -> Result<LengthUnit> {
-        Ok(LengthUnit::parse(&self.inner)?.1)
+        LengthUnit::parse_length(&self.inner)
     }
     #[inline]
     pub fn as_color(&self) -> Result<Srgb> {
