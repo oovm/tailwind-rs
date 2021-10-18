@@ -1,6 +1,6 @@
 (* ::Package:: *)
 
-resize = "
+values = "
 /* Keyword values */
 resize: none;
 resize: both;
@@ -17,7 +17,7 @@ resize: unset;
 ";
 
 all = Sort@StringCases[
-    resize,
+    values,
     RegularExpression[":\\s*([a-zA-Z0-9-]+);"] :> "$1"
 ];
 "let set = BTreeSet::from_iter(vec![\"" <> StringRiffle[all, "\",\""] <> "\"]);" // CopyToClipboard

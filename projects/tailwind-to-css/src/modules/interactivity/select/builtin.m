@@ -1,6 +1,6 @@
 (* ::Package:: *)
 
-select = "
+values = "
 /* Keyword values */
 user-select: none;
 user-select: auto;
@@ -16,7 +16,7 @@ user-select: unset;
 ";
 
 all = Sort@StringCases[
-    select,
+    values,
     RegularExpression[":\\s*([a-zA-Z0-9-]+);"] :> "$1"
 ];
 "let set = BTreeSet::from_iter(vec![\"" <> StringRiffle[all, "\",\""] <> "\"]);" // CopyToClipboard

@@ -1,22 +1,23 @@
 (* ::Package:: *)
 
-pointer = "
+values = "
 /* Keyword values */
-font-style: normal;
-font-style: italic;
-font-style: oblique;
-
-font-style: oblique 10deg;
+text-decoration-line: none;
+text-decoration-line: underline;
+text-decoration-line: overline;
+text-decoration-line: line-through;
+text-decoration-line: blink;
+text-decoration-line: underline overline;               /* Two decoration lines */
+text-decoration-line: overline underline line-through;  /* Multiple decoration lines */
 
 /* Global values */
-font-style: inherit;
-font-style: initial;
-font-style: revert;
-font-style: unset;
+text-decoration-line: inherit;
+text-decoration-line: initial;
+text-decoration-line: unset;
 ";
 
 all = Sort@StringCases[
-    pointer,
+    values,
     RegularExpression[":\\s*([a-zA-Z0-9-]+);"] :> "$1"
 ];
 "let set = BTreeSet::from_iter(vec![\"" <> StringRiffle[all, "\",\""] <> "\"]);" // CopyToClipboard

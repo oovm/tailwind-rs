@@ -1,6 +1,6 @@
 (* ::Package:: *)
 
-touch = "
+values = "
 /* Keyword values */
 transition-timing-function: ease;
 transition-timing-function: ease-in;
@@ -33,7 +33,7 @@ transition-timing-function: unset;
 ";
 
 all = Sort@StringCases[
-    touch,
+    values,
     RegularExpression[":\\s*([a-zA-Z0-9-]+);"] :> "$1"
 ];
 "let set = BTreeSet::from_iter(vec![\"" <> StringRiffle[all, "\",\""] <> "\"]);" // CopyToClipboard
