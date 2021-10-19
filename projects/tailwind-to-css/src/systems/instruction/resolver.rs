@@ -110,7 +110,7 @@ impl TailwindInstruction {
             // https://tailwindcss.com/docs/letter-spacing
             ["tracking", rest @ ..] => TailwindTracking::parse(rest, arbitrary)?.boxed(),
             ["leading", rest @ ..] => TailwindLeading::parse(rest, arbitrary)?.boxed(),
-            ["list", rest @ ..] => Self::list_adaptor(rest, arbitrary)?,
+            ["list", rest @ ..] => TailwindList::parse(rest, arbitrary)?,
             // https://tailwindcss.com/docs/text-decoration
             ["underline"] => TailwindDecorationLine::from("underline").boxed(),
             ["overline"] => TailwindDecorationLine::from("overline").boxed(),
@@ -373,22 +373,6 @@ impl TailwindInstruction {
             // https://tailwindcss.com/docs/place-self
             ["self", rest @ ..] => TailwindPlaceSelf::parse(rest, arbitrary)?.boxed(),
             _ => return syntax_error!("Unknown place instructions: {}", str.join("-")),
-        };
-        Ok(out)
-    }
-    #[inline]
-    fn list_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        let out = match str {
-            // https://tailwindcss.com/docs/list-style-type
-            ["none"] => TailwindListStyle::None.boxed(),
-            ["disc"] => TailwindListStyle::Disc.boxed(),
-            ["decimal"] => TailwindListStyle::Decimal.boxed(),
-            // https://tailwindcss.com/docs/list-style-position
-            ["inside"] => TailwindListStylePosition::Inside.boxed(),
-            ["outside"] => TailwindListStylePosition::Outside.boxed(),
-            // https://tailwindcss.com/docs/list-style-type#arbitrary-values
-            [] => TailwindListStyle::parse_arbitrary(arbitrary)?.boxed(),
-            _ => return syntax_error!("Unknown list instructions: {}", str.join("-")),
         };
         Ok(out)
     }

@@ -1,3 +1,24 @@
+use std::{
+    collections::BTreeSet,
+    fmt::{Display, Formatter},
+};
+
+use crate::{
+    css_attributes, syntax_error, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary, TailwindBuilder,
+    TailwindColor, TailwindInstance,
+};
+
+pub use self::{
+    align::TailwindAlign,
+    decoration::*,
+    font::*,
+    leading::TailwindLeading,
+    list::{list_position::TailwindListStylePosition, list_type::TailwindListStyle, TailwindList},
+    text::*,
+    tracking::TailwindTracking,
+    underline_offset::TailwindUnderlineOffset,
+};
+
 mod align;
 mod breaking;
 mod decoration;
@@ -5,45 +26,11 @@ mod display;
 mod font;
 mod indent;
 mod leading;
+mod list;
 mod parser;
 mod text;
 mod tracking;
 mod underline_offset;
-
-pub use self::{
-    align::TailwindAlign, decoration::*, font::*, leading::TailwindLeading, text::*, tracking::TailwindTracking,
-    underline_offset::TailwindUnderlineOffset,
-};
-
-use crate::{
-    css_attributes, syntax_error, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary, TailwindBuilder,
-    TailwindColor, TailwindInstance,
-};
-use std::{
-    collections::BTreeSet,
-    fmt::{Display, Formatter},
-};
-
-#[doc = include_str!("list-style-type.md")]
-#[derive(Debug, Clone)]
-pub enum TailwindListStyle {
-    None,
-    Disc,
-    Decimal,
-    Custom(String),
-}
-
-#[derive(Copy, Debug, Clone)]
-enum ListStylePosition {
-    Inside,
-    Outside,
-}
-
-#[doc = include_str!("list-style-position.md")]
-#[derive(Copy, Debug, Clone)]
-pub struct TailwindListStylePosition {
-    kind: ListStylePosition,
-}
 
 #[doc = include_str!("text-indent.md")]
 #[derive(Debug, Clone)]
