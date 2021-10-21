@@ -16,7 +16,7 @@ pub use self::{
     flex_direction::TailwindFlexDirection,
     flex_wrap::TailwindFlexWrap,
     gap::TailwindGap,
-    grid_auto::TailwindGridAuto,
+    grid::{grid_auto::TailwindGridAuto, grid_flow::TailwindGridFlow, grid_template::TailwindGridTemplate, TailwindGrid},
     grow::TailWindGrow,
     justify_content::TailwindJustifyContent,
     justify_item::TailwindJustifyItems,
@@ -35,7 +35,7 @@ mod flex;
 mod flex_direction;
 mod flex_wrap;
 mod gap;
-mod grid_auto;
+mod grid;
 mod grow;
 mod justify_content;
 mod justify_item;
@@ -47,22 +47,6 @@ mod place_item;
 mod place_self;
 mod shrink;
 mod span;
-
-#[doc=include_str!("grid-template-columns.md")]
-#[derive(Debug, Copy, Clone)]
-pub struct TailwindGridTemplate {
-    row: bool,
-    unit: usize,
-}
-
-#[doc=include_str!("grid-auto-flow.md")]
-#[derive(Debug, Copy, Clone)]
-pub enum TailwindGridFlow {
-    Row,
-    RowDense,
-    Column,
-    ColumnDense,
-}
 
 #[doc=include_str!("align-content.md")]
 #[derive(Debug, Copy, Clone)]

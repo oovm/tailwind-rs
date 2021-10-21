@@ -63,7 +63,7 @@ impl TailwindInstruction {
             ["grow", rest @ ..] => TailWindGrow::parse(rest, arbitrary)?.boxed(),
             ["shrink", rest @ ..] => TailWindShrink::parse(rest, arbitrary)?.boxed(),
             ["order", rest @ ..] => TailWindOrder::parse(rest, arbitrary, self.negative)?.boxed(),
-            ["grid", rest @ ..] => Self::grid_adaptor(rest, arbitrary)?,
+            ["grid", rest @ ..] => TailwindGrid::parse(rest, arbitrary)?,
             // https://tailwindcss.com/docs/grid-column
             ["col", rest @ ..] => TailwindColumn::parse(rest, arbitrary)?.boxed(),
             ["row", rest @ ..] => TailwindRow::parse(rest, arbitrary)?.boxed(),
@@ -318,20 +318,7 @@ impl TailwindInstruction {
         };
         Ok(out)
     }
-    #[inline]
-    fn grid_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after place");
-        let out = match str {
-            // https://tailwindcss.com/docs/grid-template-rows
-            ["rows", rest @ ..] => TailwindListStyle::None.boxed(),
-            // https://tailwindcss.com/docs/grid-auto-flow
-            ["flow", rest @ ..] => TailwindListStyle::None.boxed(),
-            // https://tailwindcss.com/docs/place-self
-            ["self", rest @ ..] => TailwindListStyle::None.boxed(),
-            _ => return syntax_error!("Unknown list instructions: {}", str.join("-")),
-        };
-        Ok(out)
-    }
+
     #[inline]
     fn justify_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary after justify");

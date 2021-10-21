@@ -13,7 +13,7 @@ pub use self::{
     decoration::*,
     font::*,
     leading::TailwindLeading,
-    list::{list_position::TailwindListStylePosition, list_type::TailwindListStyle, TailwindList},
+    list::{list_position::TailwindListPosition, list_type::TailwindListStyle, TailwindList},
     text::*,
     tracking::TailwindTracking,
     underline_offset::TailwindUnderlineOffset,

@@ -1,21 +1,5 @@
 use super::*;
 
-impl Display for TailwindListStyle {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-impl TailwindInstance for TailwindListStyle {}
-
-impl Display for TailwindListStylePosition {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-impl TailwindInstance for TailwindListStylePosition {}
-
 impl Display for TailwindIndent {
     fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
