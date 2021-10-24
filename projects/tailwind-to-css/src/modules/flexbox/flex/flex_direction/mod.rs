@@ -1,41 +1,61 @@
-use crate::modules::flexbox::*;
+use super::*;
 
 #[doc=include_str!("readme.md")]
-#[derive(Debug, Copy, Clone)]
-pub enum TailwindFlexDirection {
-    Row,
-    RowReverse,
-    Column,
-    ColumnReverse,
+#[derive(Debug, Clone)]
+pub struct TailwindFlexDirection {
+    kind: String,
+}
+
+impl<T> From<T> for TailwindFlexDirection
+where
+    T: Into<String>,
+{
+    fn from(kind: T) -> Self {
+        Self { kind: kind.into() }
+    }
 }
 
 impl Display for TailwindFlexDirection {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.write_str("flex-")?;
-        match self {
-            Self::Row => f.write_str("row"),
-            Self::RowReverse => f.write_str("row-reverse"),
-            Self::Column => f.write_str("col"),
-            Self::ColumnReverse => f.write_str("col-reverse"),
+        let s = self.kind.as_str();
+        match s {
+            "row" => write!(f, "flex-row"),
+            "row-reverse" => write!(f, "flex-row-reverse"),
+            "column" => write!(f, "flex-col"),
+            "column-reverse" => write!(f, "flex-col-reverse"),
+            _ => write!(f, "flex-direction-{}", s),
         }
     }
 }
 
 impl TailwindInstance for TailwindFlexDirection {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let direction = match self {
-            TailwindFlexDirection::Row => "row",
-            TailwindFlexDirection::RowReverse => "row-reverse",
-            TailwindFlexDirection::Column => "column-reverse",
-            TailwindFlexDirection::ColumnReverse => "column-reverse",
-        };
         css_attributes! {
-            "flex-direction" => direction
+            "flex-direction" => self.kind
         }
     }
 }
+
 impl TailwindFlexDirection {
-    pub fn parse(_pattern: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
+    /// https://tailwindcss.com/docs/flex-direction
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after clear");
+        let kind = pattern.join("-");
+        debug_assert!(Self::check_valid(&kind));
+        Ok(Self { kind })
+    }
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/flex-direction#syntax
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec![
+            "column",
+            "column-reverse",
+            "inherit",
+            "initial",
+            "revert",
+            "row",
+            "row-reverse",
+            "unset",
+        ]);
+        set.contains(mode)
     }
 }

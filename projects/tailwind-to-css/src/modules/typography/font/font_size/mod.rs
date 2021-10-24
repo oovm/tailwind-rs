@@ -3,14 +3,15 @@ use super::*;
 // #[doc = include_str!("font-size.md")]
 #[derive(Copy, Debug, Clone)]
 pub struct TailwindFontSize {
-    size: TailwindTracking,
-    height: TailwindLeading,
+    size: LengthUnit,
+    height: Option<LengthUnit>,
 }
 
 impl TailwindFontSize {
     #[inline]
     pub fn new(size: f32, height: f32) -> Self {
-        todo!()
+        let height = if height < 0.0 { None } else { Some(LengthUnit::percent(height)) };
+        Self { size: LengthUnit::rem(size), height }
     }
 }
 

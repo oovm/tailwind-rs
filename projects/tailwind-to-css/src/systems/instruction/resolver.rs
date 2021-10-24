@@ -59,7 +59,7 @@ impl TailwindInstruction {
             ["z", rest @ ..] => TailWindZIndex::parse(rest, arbitrary, self.negative)?.boxed(),
             // Flexbox & Grid
             ["basis", rest @ ..] => TailwindBasis::parse(rest, arbitrary)?.boxed(),
-            ["flex", rest @ ..] => Self::flex_adaptor(rest, arbitrary)?,
+            ["flex", rest @ ..] => flex_adaptor(rest, arbitrary)?,
             ["grow", rest @ ..] => TailWindGrow::parse(rest, arbitrary)?.boxed(),
             ["shrink", rest @ ..] => TailWindShrink::parse(rest, arbitrary)?.boxed(),
             ["order", rest @ ..] => TailWindOrder::parse(rest, arbitrary, self.negative)?.boxed(),
@@ -289,31 +289,6 @@ impl TailwindInstruction {
             ["decoration", rest @ ..] => TailwindBoxDecoration::parse(rest, arbitrary)?.boxed(),
             ["border"] => TailwindBoxSizing::from("border").boxed(),
             ["content"] => TailwindBoxSizing::from("content").boxed(),
-            _ => return syntax_error!("Unknown box instructions: {}", str.join("-")),
-        };
-        Ok(out)
-    }
-    #[inline]
-    fn flex_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        let out = match str {
-            // https://tailwindcss.com/docs/display#flex
-            // `[]` => This won't happen
-            // https://tailwindcss.com/docs/flex#arbitrary-values
-            [] => TailwindFlex::parse_arbitrary(arbitrary)?.boxed(),
-            // https://tailwindcss.com/docs/flex-direction
-            ["row"] => TailwindFlexDirection::Row.boxed(),
-            ["row", "reverse"] => TailwindFlexDirection::RowReverse.boxed(),
-            ["col"] => TailwindFlexDirection::Column.boxed(),
-            ["col", "reverse"] => TailwindFlexDirection::ColumnReverse.boxed(),
-            // https://tailwindcss.com/docs/flex-wrap
-            ["wrap"] => TailwindFlexWrap::Wrap.boxed(),
-            ["wrap", "reverse"] => TailwindFlexWrap::WrapReverse.boxed(),
-            ["nowrap"] => TailwindFlexWrap::NoWrap.boxed(),
-            // https://tailwindcss.com/docs/flex
-            ["auto"] => TailwindFlex::Inherit.boxed(),
-            ["initial"] => TailwindFlex::Inherit.boxed(),
-            ["none"] => TailwindFlex::None.boxed(),
-            [n] => TailwindFlex::parse(n)?.boxed(),
             _ => return syntax_error!("Unknown box instructions: {}", str.join("-")),
         };
         Ok(out)
