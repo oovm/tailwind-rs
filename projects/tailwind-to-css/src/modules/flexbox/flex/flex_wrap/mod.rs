@@ -1,4 +1,4 @@
-use super::*;
+use crate::modules::flexbox::*;
 
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Copy, Clone)]

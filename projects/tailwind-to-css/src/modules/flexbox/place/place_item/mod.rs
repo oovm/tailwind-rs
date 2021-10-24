@@ -1,22 +1,22 @@
-use super::*;
+use crate::modules::flexbox::*;
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Copy, Clone)]
-pub enum TailwindPlaceSelf {
+pub enum TailwindPlaceItems {
     Auto,
     Start,
     End,
     Center,
     Stretch,
 }
-impl Display for TailwindPlaceSelf {
+impl Display for TailwindPlaceItems {
     fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
 
-impl TailwindInstance for TailwindPlaceSelf {}
+impl TailwindInstance for TailwindPlaceItems {}
 
-impl TailwindPlaceSelf {
+impl TailwindPlaceItems {
     pub fn parse(_pattern: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }

@@ -1,50 +1,38 @@
-use std::{
-    collections::BTreeSet,
-    fmt::{Display, Formatter, Write},
+pub use self::{
+    basis::TailwindBasis,
+    flex::{flex_direction::TailwindFlexDirection, flex_wrap::TailwindFlexWrap, TailwindFlex},
+    gap::TailwindGap,
+    grid::{
+        grid_auto::TailwindGridAuto, grid_cols::TailwindGridColumns, grid_flow::TailwindGridFlow, grid_rows::TailwindGridRows,
+        TailwindGrid,
+    },
+    grow::TailWindGrow,
+    justify::{justify_content::TailwindJustifyContent, justify_item::TailwindJustifyItems, justify_self::TailwindJustifySelf},
+    order::TailWindOrder,
+    place::{place_content::TailwindPlaceContent, place_item::TailwindPlaceItems, place_self::TailwindPlaceSelf},
+    shrink::TailWindShrink,
+    span::{TailwindColumn, TailwindRow},
 };
-
-use tailwind_ast::parse_integer;
-
 use crate::{
     css_attributes, syntax_error, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary, TailwindBuilder,
     TailwindInstance,
 };
-
-pub use self::{
-    basis::TailwindBasis,
-    flex::TailwindFlex,
-    flex_direction::TailwindFlexDirection,
-    flex_wrap::TailwindFlexWrap,
-    gap::TailwindGap,
-    grid::{grid_auto::TailwindGridAuto, grid_flow::TailwindGridFlow, grid_rows::TailwindGridRows, TailwindGrid,grid_cols::TailwindGridColumns},
-    grow::TailWindGrow,
-    justify_content::TailwindJustifyContent,
-    justify_item::TailwindJustifyItems,
-    justify_self::TailwindJustifySelf,
-    order::TailWindOrder,
-    place_content::TailwindPlaceContent,
-    place_item::TailwindPlaceItems,
-    place_self::TailwindPlaceSelf,
-    shrink::TailWindShrink,
-    span::{TailwindColumn, TailwindRow},
+use std::{
+    collections::BTreeSet,
+    fmt::{Display, Formatter, Write},
 };
+use tailwind_ast::parse_integer;
 
 mod basis;
 mod display;
 mod flex;
-mod flex_direction;
-mod flex_wrap;
 mod gap;
 mod grid;
 mod grow;
-mod justify_content;
-mod justify_item;
-mod justify_self;
+mod justify;
 mod order;
 mod parser;
-mod place_content;
-mod place_item;
-mod place_self;
+mod place;
 mod shrink;
 mod span;
 

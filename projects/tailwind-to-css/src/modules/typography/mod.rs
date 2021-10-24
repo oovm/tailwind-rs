@@ -55,7 +55,7 @@ pub enum TailwindWhiteSpace {
 
 #[doc = include_str!("word-break.md")]
 #[derive(Debug, Clone)]
-pub enum TailwindBreak {
+pub enum TailwindBreakWord {
     Normal,
     Words,
     All,

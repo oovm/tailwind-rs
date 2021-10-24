@@ -201,9 +201,9 @@ impl TailwindInstruction {
     fn break_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/border-style
-            ["normal"] => TailwindBreak::Normal.boxed(),
-            ["words"] => TailwindBreak::Words.boxed(),
-            ["all"] => TailwindBreak::All.boxed(),
+            ["normal"] => TailwindBreakWord::Normal.boxed(),
+            ["words"] => TailwindBreakWord::Words.boxed(),
+            ["all"] => TailwindBreakWord::All.boxed(),
             // https://tailwindcss.com/docs/break-before
             ["before", rest @ ..] => TailwindBreakBefore::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/break-inside

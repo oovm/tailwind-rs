@@ -1,4 +1,4 @@
-use super::*;
+use crate::modules::flexbox::*;
 
 #[derive(Debug, Copy, Clone)]
 pub enum JustifySelf {

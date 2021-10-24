@@ -1,5 +1,8 @@
 use super::*;
 
+pub mod flex_direction;
+pub mod flex_wrap;
+
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Copy, Clone)]
 pub enum TailwindFlex {
