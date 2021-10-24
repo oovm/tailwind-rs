@@ -16,7 +16,7 @@ pub use self::{
     flex_direction::TailwindFlexDirection,
     flex_wrap::TailwindFlexWrap,
     gap::TailwindGap,
-    grid::{grid_auto::TailwindGridAuto, grid_flow::TailwindGridFlow, grid_rows::TailwindGridRows, TailwindGrid},
+    grid::{grid_auto::TailwindGridAuto, grid_flow::TailwindGridFlow, grid_rows::TailwindGridRows, TailwindGrid,grid_cols::TailwindGridColumns},
     grow::TailWindGrow,
     justify_content::TailwindJustifyContent,
     justify_item::TailwindJustifyItems,

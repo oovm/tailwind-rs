@@ -15,7 +15,7 @@ impl TailwindGrid {
             // https://tailwindcss.com/docs/grid-template-rows
             ["rows", rest @ ..] => TailwindGridRows::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/grid-template-columns
-            ["cols", rest @ ..] => TailwindGridRows::parse(rest, arbitrary)?.boxed(),
+            ["cols", rest @ ..] => TailwindGridColumns::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/grid-auto-flow
             ["flow", rest @ ..] => TailwindGridFlow::parse(rest, arbitrary)?.boxed(),
             _ => return syntax_error!("Unknown list instructions: {}", str.join("-")),
@@ -44,10 +44,7 @@ impl GridTemplate {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         let kind = match pattern {
             ["none"] => Self::None,
-            [n] => {
-                let a = TailwindArbitrary::from(*n).as_integer()?;
-                Self::Unit(a)
-            },
+            [n] => Self::Unit(TailwindArbitrary::from(*n).as_integer()?),
             _ => Self::parse_arbitrary(arbitrary)?,
         };
         Ok(kind)
@@ -55,5 +52,12 @@ impl GridTemplate {
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         debug_assert!(arbitrary.is_some());
         Ok(Self::Arbitrary(arbitrary.to_string()))
+    }
+    pub fn get_properties(&self) -> String {
+        match self {
+            GridTemplate::None => "none".to_string(),
+            GridTemplate::Unit(s) => format!("repeat({},minmax(0,1fr))", s),
+            GridTemplate::Arbitrary(s) => s.to_string(),
+        }
     }
 }

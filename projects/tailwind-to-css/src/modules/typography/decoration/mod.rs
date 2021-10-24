@@ -1,18 +1,11 @@
-use crate::{
-    modules::typography::decoration::{style::TailwindDecorationStyle, thickness::TailwindDecorationThickness},
-    LengthUnit, TailwindColor,
-};
-
 use super::*;
 
-pub use self::{color::TailwindDecorationColor, line::TailwindDecorationLine};
-
-mod color;
-mod line;
-mod style;
+pub(crate) mod color;
+pub(crate) mod line;
+pub(crate) mod style;
 #[cfg(test)]
 mod test;
-mod thickness;
+pub(crate) mod thickness;
 
 #[derive(Debug, Clone)]
 pub struct TailwindDecoration {
@@ -21,11 +14,11 @@ pub struct TailwindDecoration {
 
 impl TailwindDecoration {
     pub fn parse(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        let style = |kind| TailwindDecorationStyle::from(kind).boxed();
         let color = |color| TailwindDecorationColor::from(color).boxed();
         let out = match str {
             // https://tailwindcss.com/docs/text-decoration-style
-            [s @ ("solid" | "double" | "dotted" | "dashed" | "wavy")] => style(*s),
+            [s @ ("solid" | "double" | "dotted" | "dashed" | "wavy")] => TailwindDecorationStyle::from(*s).boxed(),
+            ["style", rest @ ..] => TailwindDecorationStyle::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/text-decoration-thickness
             ["auto"] => TailwindDecorationThickness::Auto.boxed(),
             ["from", "font"] => TailwindDecorationThickness::FromFont.boxed(),

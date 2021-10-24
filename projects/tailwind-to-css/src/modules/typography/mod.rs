@@ -10,7 +10,10 @@ use crate::{
 
 pub use self::{
     align::TailwindAlign,
-    decoration::*,
+    decoration::{
+        color::TailwindDecorationColor, line::TailwindDecorationLine, style::TailwindDecorationStyle,
+        thickness::TailwindDecorationThickness, TailwindDecoration,
+    },
     font::*,
     leading::TailwindLeading,
     list::{list_position::TailwindListPosition, list_type::TailwindListStyle, TailwindList},
