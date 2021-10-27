@@ -50,16 +50,3 @@ impl Display for TailwindElements {
         write!(f, "{}", self.inner.join("-"))
     }
 }
-
-impl Display for TailwindArbitrary {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self.inner.is_empty() {
-            true => {
-                write!(f, "")
-            },
-            false => {
-                write!(f, "-[{}]", self.inner)
-            },
-        }
-    }
-}
