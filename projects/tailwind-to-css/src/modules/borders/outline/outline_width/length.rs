@@ -22,7 +22,7 @@ impl OutlineWidth {
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/outline-offset#syntax
     pub fn check_valid(mode: &str) -> bool {
-        let set = BTreeSet::from_iter(vec!["inherit", "initial", "revert", "unset"]);
+        let set = BTreeSet::from_iter(vec!["inherit", "initial", "medium", "revert", "thick", "thin", "unset"]);
         set.contains(mode)
     }
     pub fn maybe_no_unit(arbitrary: &TailwindArbitrary) -> Result<Self> {

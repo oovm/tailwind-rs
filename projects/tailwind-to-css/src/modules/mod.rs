@@ -10,6 +10,7 @@ mod interactivity;
 mod layouts;
 mod sizing;
 mod spacing;
+mod svg;
 mod tables;
 mod transforms;
 mod transition;
@@ -17,7 +18,7 @@ mod typography;
 
 pub use self::{
     accessibility::*, background::*, borders::*, effects::*, filters::*, flexbox::*, interactivity::*, layouts::*, sizing::*,
-    spacing::*, tables::*, transforms::*, transition::*, typography::*,
+    spacing::*, svg::*, tables::*, transforms::*, transition::*, typography::*,
 };
 
 use crate::*;

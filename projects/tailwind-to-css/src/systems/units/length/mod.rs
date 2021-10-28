@@ -1,4 +1,4 @@
-use tailwind_ast::{parse_fraction};
+use tailwind_ast::parse_fraction;
 
 use super::*;
 

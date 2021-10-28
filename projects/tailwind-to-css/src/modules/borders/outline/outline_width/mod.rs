@@ -8,10 +8,9 @@ pub struct TailwindOutlineWidth {
     kind: OutlineWidth,
 }
 
-
 impl<T> From<T> for TailwindOutlineWidth
-    where
-        T: Into<String>,
+where
+    T: Into<String>,
 {
     fn from(kind: T) -> Self {
         Self { kind: OutlineWidth::Standard(kind.into()) }
@@ -32,7 +31,7 @@ impl TailwindInstance for TailwindOutlineWidth {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         let width = match &self.kind {
             OutlineWidth::Unit(n) => format!("{}px", n),
-            OutlineWidth::Standard(n) => format!("{}", n),
+            OutlineWidth::Standard(n) => n.to_string(),
             OutlineWidth::Length(n) => format!("{}", n),
         };
         css_attributes! {

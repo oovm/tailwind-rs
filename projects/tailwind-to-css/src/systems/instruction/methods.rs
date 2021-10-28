@@ -6,7 +6,7 @@ impl<'a> From<AstStyle<'a>> for TailwindInstruction {
             negative: node.negative,
             variants: node.variants.into_iter().map(|s| s.into()).collect(),
             elements: TailwindElements { inner: node.elements.into_iter().map(|s| s.to_string()).collect() },
-            arbitrary: TailwindArbitrary { inner: node.arbitrary.unwrap_or_default().to_string() },
+            arbitrary: TailwindArbitrary::from(node.arbitrary.unwrap_or_default()),
         }
     }
 }

@@ -1,6 +1,5 @@
 use super::*;
 
-
 impl TailwindContent {
     pub fn parse(_pattern: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()

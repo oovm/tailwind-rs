@@ -7,6 +7,16 @@ pub(super) enum OutlineOffset {
     Length(LengthUnit),
 }
 
+impl Display for OutlineOffset {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Unit(s) => write!(f, "{}", s),
+            Self::Standard(s) => write!(f, "{}", s),
+            Self::Length(s) => write!(f, "{}", s),
+        }
+    }
+}
+
 impl OutlineOffset {
     /// https://tailwindcss.com/docs/outline-offset
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {

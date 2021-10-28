@@ -166,7 +166,7 @@ impl TailwindInstruction {
             ["duration", rest @ ..] => TailwindDuration::parse(rest, arbitrary)?.boxed(),
             ["ease", rest @ ..] => TailwindEase::parse(rest, arbitrary)?.boxed(),
             ["delay", rest @ ..] => TailwindDelay::parse(rest, arbitrary)?.boxed(),
-            ["animate", rest @ ..] => todo!(),
+            ["animate", rest @ ..] => TailwindAnimate::parse(rest, arbitrary)?.boxed(),
             // Transforms System
             ["scale", rest @ ..] => TailwindScale::parse(rest, arbitrary, neg)?.boxed(),
             ["rotate", rest @ ..] => TailwindRotate::parse(rest, arbitrary, neg)?.boxed(),
@@ -187,8 +187,8 @@ impl TailwindInstruction {
             ["select", rest @ ..] => TailwindSelect::parse(rest, arbitrary)?.boxed(),
             ["will", "change", rest @ ..] => TailwindWillChange::parse(rest, arbitrary)?.boxed(),
             // SVG System
-            ["fill", rest @ ..] => todo!(),
-            ["stroke", rest @ ..] => todo!(),
+            ["fill", rest @ ..] => TailwindFillColor::parse(rest, arbitrary)?.boxed(),
+            ["stroke", rest @ ..] => TailwindStroke::parse(rest, arbitrary)?,
             // Accessibility System
             ["sr", "only"] => TailwindScreenReader::new(true).boxed(),
             ["not", "sr", "only"] => TailwindScreenReader::new(false).boxed(),

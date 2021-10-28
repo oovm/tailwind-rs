@@ -6,8 +6,7 @@ pub use self::arbitrary::TailwindArbitrary;
 use crate::{TailwindBuilder, *};
 use css_color::Srgb;
 use std::{
-    collections::HashMap,
-    fmt::{Debug, Display, Formatter, Write},
+    fmt::{Debug, Display, Formatter},
     str::FromStr,
 };
 use tailwind_ast::{parse_f32, parse_fraction, parse_integer, ASTVariant, AstStyle};
