@@ -9,7 +9,7 @@ pub enum TailwindPlaceSelf {
     Stretch,
 }
 impl Display for TailwindPlaceSelf {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }

@@ -1,24 +1,28 @@
 use super::*;
-use std::fmt::Write;
+
+use self::animation::Animation;
+
+mod animation;
 
 #[doc = include_str!("readme.md")]
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindAnimate {}
+#[derive(Clone, Debug)]
+pub struct TailwindAnimate {
+    kind: Animation,
+}
 
 impl Display for TailwindAnimate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        write!(f, "animate-{}", self.kind)
     }
 }
 
-impl TailwindInstance for TailwindAnimate {
-    fn write_css(&self, f: &mut (dyn Write), ctx: &TailwindBuilder) -> Result<()> {
-        todo!()
-    }
-}
+impl TailwindInstance for TailwindAnimate {}
 
 impl TailwindAnimate {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
+        Ok(Self { kind: Animation::parse(pattern, arbitrary)? })
+    }
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: Animation::parse_arbitrary(arbitrary)? })
     }
 }

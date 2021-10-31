@@ -1,7 +1,7 @@
 use super::*;
 
 impl Display for TailwindAccentColor {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -9,7 +9,7 @@ impl Display for TailwindAccentColor {
 impl TailwindInstance for TailwindAccentColor {}
 
 impl Display for TailwindAppearance {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -17,7 +17,7 @@ impl Display for TailwindAppearance {
 impl TailwindInstance for TailwindAppearance {}
 
 impl Display for TailwindCaretColor {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -25,7 +25,7 @@ impl Display for TailwindCaretColor {
 impl TailwindInstance for TailwindCaretColor {}
 
 impl Display for TailwindScroll {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -33,7 +33,7 @@ impl Display for TailwindScroll {
 impl TailwindInstance for TailwindScroll {}
 
 impl Display for TailwindSnap {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }
@@ -41,7 +41,7 @@ impl Display for TailwindSnap {
 impl TailwindInstance for TailwindSnap {}
 
 impl Display for TailwindWillChange {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         todo!()
     }
 }

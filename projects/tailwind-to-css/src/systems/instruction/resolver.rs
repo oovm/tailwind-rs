@@ -311,16 +311,16 @@ impl TailwindInstruction {
     fn content_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/align-content
-            ["center"] => TailwindContent::Center.boxed(),
-            ["start"] => TailwindContent::Start.boxed(),
-            ["end"] => TailwindContent::End.boxed(),
-            ["between"] => TailwindContent::Between.boxed(),
-            ["around"] => TailwindContent::Around.boxed(),
-            ["evenly"] => TailwindContent::Evenly.boxed(),
+            ["center"] => TailwindContentAlign::Center.boxed(),
+            ["start"] => TailwindContentAlign::Start.boxed(),
+            ["end"] => TailwindContentAlign::End.boxed(),
+            ["between"] => TailwindContentAlign::Between.boxed(),
+            ["around"] => TailwindContentAlign::Around.boxed(),
+            ["evenly"] => TailwindContentAlign::Evenly.boxed(),
             // https://tailwindcss.com/docs/content
-            ["none"] => TailwindContentElement::None.boxed(),
+            ["none"] => TailwindContent::None.boxed(),
             // https://tailwindcss.com/docs/content#arbitrary-values
-            [] => TailwindContentElement::parse_arbitrary(arbitrary)?.boxed(),
+            [] => TailwindContent::parse_arbitrary(arbitrary)?.boxed(),
             _ => return syntax_error!("Unknown content instructions: {}", str.join("-")),
         };
         Ok(out)

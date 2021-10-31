@@ -60,9 +60,3 @@ pub enum TailwindBreakWord {
     Words,
     All,
 }
-
-#[doc = include_str!("content.md")]
-#[derive(Debug, Clone)]
-pub enum TailwindContentElement {
-    None,
-}
