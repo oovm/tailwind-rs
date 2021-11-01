@@ -1,3 +1,5 @@
+use super::*;
+
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindItems {
@@ -15,7 +17,7 @@ where
 
 impl Display for TailwindItems {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "content-align-{}", self.kind)
+        write!(f, "items-{}", self.kind)
     }
 }
 
@@ -26,7 +28,7 @@ impl TailwindInstance for TailwindItems {
             "first-baseline" => "first baseline",
             "last-baseline" => "last baseline",
             "safe-center" => "safe center",
-            "unsafe-center" => "unsafe center",
+            "unsafe-items" => "unsafe center",
             _ => s,
         };
         css_attributes! {
@@ -36,34 +38,27 @@ impl TailwindInstance for TailwindItems {
 }
 
 impl TailwindItems {
-    /// https://tailwindcss.com/docs/align-content
+    /// https://tailwindcss.com/docs/align-items
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after content");
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after items");
         let kind = pattern.join("-");
         debug_assert!(Self::check_valid(&kind));
         Ok(Self { kind })
     }
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/align-content#syntax
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/align-items#syntax
     pub fn check_valid(mode: &str) -> bool {
         let set = BTreeSet::from_iter(vec![
             "baseline",
             "center",
             "end",
-            "first-baseline",
             "flex-end",
             "flex-start",
             "inherit",
             "initial",
-            "last-baseline",
             "normal",
             "revert",
-            "safe-center",
-            "space-around",
-            "space-between",
-            "space-evenly",
             "start",
             "stretch",
-            "unsafe-center",
             "unset",
         ]);
         set.contains(mode)
