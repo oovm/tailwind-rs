@@ -1,48 +1,26 @@
-use crate::TailwindSizing;
-
-use super::*;
-
 pub use self::{
-    cursor::TailwindCursor, pointer::TailwindPointerEvents, resize::TailwindResize, select::TailwindSelect,
-    torch::TailwindTorch,
+    accent::TailwindAccentColor, caret::TailwindCaretColor, cursor::TailwindCursor, pointer::TailwindPointerEvents,
+    resize::TailwindResize, select::TailwindSelect, torch::TailwindTorch, will_change::TailwindWillChange,
+};
+use crate::{
+    css_attributes, syntax_error, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary, TailwindBuilder,
+    TailwindColor, TailwindInstance,
+};
+use std::{
+    collections::BTreeSet,
+    fmt::{Display, Formatter, Write},
 };
 
+mod accent;
+mod appearance;
+mod caret;
 mod cursor;
-mod display;
-mod parser;
 mod pointer;
 mod resize;
+mod scroll;
 mod select;
+mod snap;
+#[cfg(test)]
+mod test;
 mod torch;
-
-#[doc=include_str!("grid-row.md")]
-#[derive(Debug, Copy, Clone)]
-pub struct TailwindAccentColor {}
-
-#[doc=include_str!("grid-row.md")]
-#[derive(Debug, Copy, Clone)]
-pub enum TailwindAppearance {
-    None,
-}
-
-#[doc=include_str!("grid-row.md")]
-#[derive(Debug, Copy, Clone)]
-pub enum TailwindCaretColor {}
-
-#[doc=include_str!("grid-row.md")]
-#[derive(Debug, Copy, Clone)]
-pub struct TailwindScrollSize {
-    wrapper: TailwindSizing,
-}
-
-#[doc=include_str!("grid-row.md")]
-#[derive(Debug, Copy, Clone)]
-pub enum TailwindScroll {}
-
-#[doc=include_str!("grid-row.md")]
-#[derive(Debug, Copy, Clone)]
-pub enum TailwindSnap {}
-
-#[doc=include_str!("grid-row.md")]
-#[derive(Debug, Copy, Clone)]
-pub enum TailwindWillChange {}
+mod will_change;

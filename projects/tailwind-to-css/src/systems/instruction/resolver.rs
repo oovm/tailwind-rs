@@ -70,7 +70,7 @@ impl TailwindInstruction {
             ["auto", rest @ ..] => TailwindGridAuto::parse(rest, arbitrary)?.boxed(),
             ["gap", rest @ ..] => TailwindGap::parse(rest, arbitrary)?.boxed(),
             ["justify", rest @ ..] => Self::justify_adaptor(rest, arbitrary)?,
-            ["content", rest @ ..] => Self::content_adaptor(rest, arbitrary)?,
+            ["content", rest @ ..] => TailwindContent::parse(rest, arbitrary)?,
             ["items", rest @ ..] => TailwindItems::parse(rest, arbitrary)?.boxed(),
             ["self", rest @ ..] => TailwindSelf::parse(rest, arbitrary)?.boxed(),
             ["place", rest @ ..] => Self::place_adaptor(rest, arbitrary)?,
@@ -304,24 +304,6 @@ impl TailwindInstruction {
             ["self", rest @ ..] => TailwindJustifySelf::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/justify-content
             _ => TailwindJustifyContent::parse(str, arbitrary)?.boxed(),
-        };
-        Ok(out)
-    }
-    #[inline]
-    fn content_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        let out = match str {
-            // https://tailwindcss.com/docs/align-content
-            ["center"] => TailwindContentAlign::Center.boxed(),
-            ["start"] => TailwindContentAlign::Start.boxed(),
-            ["end"] => TailwindContentAlign::End.boxed(),
-            ["between"] => TailwindContentAlign::Between.boxed(),
-            ["around"] => TailwindContentAlign::Around.boxed(),
-            ["evenly"] => TailwindContentAlign::Evenly.boxed(),
-            // https://tailwindcss.com/docs/content
-            ["none"] => TailwindContent::None.boxed(),
-            // https://tailwindcss.com/docs/content#arbitrary-values
-            [] => TailwindContent::parse_arbitrary(arbitrary)?.boxed(),
-            _ => return syntax_error!("Unknown content instructions: {}", str.join("-")),
         };
         Ok(out)
     }

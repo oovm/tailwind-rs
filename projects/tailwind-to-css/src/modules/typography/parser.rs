@@ -11,9 +11,3 @@ impl TailwindWhiteSpace {
         todo!()
     }
 }
-
-impl TailwindContentElement {
-    pub fn parse_arbitrary(_arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
-    }
-}

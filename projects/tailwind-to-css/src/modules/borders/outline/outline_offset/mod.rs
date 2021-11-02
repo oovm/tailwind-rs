@@ -2,6 +2,7 @@ use super::*;
 mod length;
 use self::length::OutlineOffset;
 
+#[doc = include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindOutlineOffset {
     kind: OutlineOffset,

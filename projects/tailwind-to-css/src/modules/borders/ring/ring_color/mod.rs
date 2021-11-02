@@ -1,6 +1,6 @@
 use super::*;
 
-///
+#[doc = include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindRingColor {
     color: TailwindColor,
