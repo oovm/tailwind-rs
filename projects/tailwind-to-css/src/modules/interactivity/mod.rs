@@ -1,14 +1,17 @@
-pub use self::{
-    accent::TailwindAccentColor, caret::TailwindCaretColor, cursor::TailwindCursor, pointer::TailwindPointerEvents,
-    resize::TailwindResize, select::TailwindSelect, torch::TailwindTorch, will_change::TailwindWillChange,
+use std::{
+    collections::BTreeSet,
+    fmt::{Display, Formatter, Write},
 };
+
 use crate::{
     css_attributes, syntax_error, CssAttribute, CssBehavior, LengthUnit, Result, TailwindArbitrary, TailwindBuilder,
     TailwindColor, TailwindInstance,
 };
-use std::{
-    collections::BTreeSet,
-    fmt::{Display, Formatter, Write},
+
+pub use self::{
+    accent::TailwindAccentColor, appearance::TailwindAppearance, caret::TailwindCaretColor, cursor::TailwindCursor,
+    pointer::TailwindPointerEvents, resize::TailwindResize, select::TailwindSelect, torch::TailwindTorch,
+    will_change::TailwindWillChange,
 };
 
 mod accent;

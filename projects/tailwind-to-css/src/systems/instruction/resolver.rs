@@ -176,7 +176,7 @@ impl TailwindInstruction {
             // Interactivity System
             ["accent", rest @ ..] => TailwindAccentColor::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/appearance
-            ["appearance", "none"] => TailwindAppearance::None.boxed(),
+            ["appearance", rest @ ..] => TailwindAppearance::parse(rest, arbitrary)?.boxed(),
             ["cursor", rest @ ..] => TailwindCursor::parse(rest, arbitrary)?.boxed(),
             ["caret", rest @ ..] => TailwindCaretColor::parse(rest, arbitrary)?.boxed(),
             ["pointer", "events", rest @ ..] => TailwindPointerEvents::parse(rest, arbitrary)?.boxed(),
