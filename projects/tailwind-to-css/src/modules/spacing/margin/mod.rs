@@ -1,15 +1,12 @@
+use self::axis::MarginAxis;
 use super::*;
-
-use self::{axis::MarginAxis, size::MarginSize};
-
 mod axis;
-mod size;
 
 #[doc = include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindMargin {
     axis: MarginAxis,
-    size: MarginSize,
+    size: SpaceSize,
 }
 
 impl Display for TailwindMargin {
@@ -28,13 +25,13 @@ impl TailwindMargin {
     /// https://tailwindcss.com/docs/margin
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, axis: &str) -> Result<Self> {
         let axis = MarginAxis::parse_axis(axis);
-        let size = MarginSize::parse(pattern, arbitrary)?;
+        let size = SpaceSize::parse(pattern, arbitrary)?;
         Ok(Self { axis, size })
     }
     /// https://tailwindcss.com/docs/margin#arbitrary-values
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: &str) -> Result<Self> {
         let axis = MarginAxis::parse_axis(axis);
-        let size = MarginSize::parse_arbitrary(arbitrary)?;
+        let size = SpaceSize::parse_arbitrary(arbitrary)?;
         Ok(Self { axis, size })
     }
 }

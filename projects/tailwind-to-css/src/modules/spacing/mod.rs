@@ -6,9 +6,12 @@ mod space;
 
 mod builder;
 mod display;
+mod size;
 #[cfg(test)]
 mod test;
+
 pub use self::margin::TailwindMargin;
+use self::size::SpaceSize;
 
 #[derive(Copy, Clone, Debug)]
 pub enum SizeKind {

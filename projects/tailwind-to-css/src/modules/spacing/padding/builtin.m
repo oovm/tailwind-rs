@@ -2,23 +2,22 @@
 
 values = "
 /* Apply to all four sides */
-margin: 1em;
-margin: -3px;
+padding: 1em;
 
 /* vertical | horizontal */
-margin: auto;
+padding: 5% 10%;
 
 /* top | horizontal | bottom */
-margin: 1em auto 2em;
+padding: 1em 2em 2em;
 
 /* top | right | bottom | left */
-margin: 2px 1em 0 auto;
+padding: 5px 1em 0 2em;
 
 /* Global values */
-margin: inherit;
-margin: initial;
-margin: revert;
-margin: unset;
+padding: inherit;
+padding: initial;
+padding: revert;
+padding: unset;
 ";
 
 all = Sort@StringCases[
