@@ -1,3 +1,3 @@
-#[doc=include_str!("grid-row.md")]
+#[doc=include_str!("readme.md")]
 #[derive(Debug, Copy, Clone)]
 pub enum TailwindSnap {}

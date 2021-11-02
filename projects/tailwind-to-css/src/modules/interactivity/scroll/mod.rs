@@ -1,12 +1,7 @@
-mod scroll_padding;
+pub(crate) mod scroll_padding;
 
-#[doc=include_str!("grid-row.md")]
+use crate::TailwindSizing;
+
+#[doc=include_str!("readme.md")]
 #[derive(Debug, Copy, Clone)]
 pub enum TailwindScroll {}
-
-
-#[doc=include_str!("grid-row.md")]
-#[derive(Debug, Copy, Clone)]
-pub struct TailwindScrollSize {
-    wrapper: TailwindSizing,
-}

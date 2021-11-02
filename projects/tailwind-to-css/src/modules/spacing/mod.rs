@@ -1,9 +1,14 @@
 use super::*;
 
+mod margin;
+mod padding;
+mod space;
+
 mod builder;
 mod display;
 #[cfg(test)]
 mod test;
+pub use self::margin::TailwindMargin;
 
 #[derive(Copy, Clone, Debug)]
 pub enum SizeKind {
