@@ -23,7 +23,7 @@ pub use self::{
 
 use crate::*;
 use std::{
-    collections::{BTreeSet, HashMap},
+    collections::BTreeSet,
     fmt::{Debug, Display, Formatter},
 };
 use tailwind_ast::{parse_i_px_maybe, parse_integer};

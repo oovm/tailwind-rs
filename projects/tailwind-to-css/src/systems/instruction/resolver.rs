@@ -77,11 +77,10 @@ impl TailwindInstruction {
             // justify catched
             // Spacing System
             [p @ ("p" | "pl" | "pr" | "pm" | "pt" | "px" | "py"), rest @ ..] =>
-                TailwindSpacing::parse_padding(rest, p, arbitrary)?.boxed(),
+                TailwindPadding::parse(rest, arbitrary, p, neg)?.boxed(),
             [m @ ("m" | "ml" | "mr" | "mm" | "mt" | "mx" | "my"), rest @ ..] =>
-                TailwindSpacing::parse_margin(rest, m, arbitrary)?.boxed(),
-            ["space", "x", rest @ ..] => TailwindSpacing::parse_space(rest, 'x', arbitrary)?.boxed(),
-            ["space", "y", rest @ ..] => TailwindSpacing::parse_space(rest, 'y', arbitrary)?.boxed(),
+                TailwindMargin::parse(rest, arbitrary, m, neg)?.boxed(),
+            ["space", rest @ ..] => TailwindSpace::parse(rest, arbitrary, neg)?,
             // Sizing System
             ["w", rest @ ..] => TailwindSizing::parse_width(rest, arbitrary)?.boxed(),
             ["min", "w", rest @ ..] => TailwindSizing::parse_width_min(rest, arbitrary)?.boxed(),
@@ -181,8 +180,8 @@ impl TailwindInstruction {
             ["caret", rest @ ..] => TailwindCaretColor::parse(rest, arbitrary)?.boxed(),
             ["pointer", "events", rest @ ..] => TailwindPointerEvents::parse(rest, arbitrary)?.boxed(),
             ["resize", rest @ ..] => TailwindResize::parse(rest, arbitrary)?.boxed(),
-            ["scroll", rest @ ..] => TailwindScroll::parse(rest, arbitrary)?.boxed(),
-            ["snap", rest @ ..] => TailwindSnap::parse(rest, arbitrary)?.boxed(),
+            ["scroll", rest @ ..] => TailwindScroll::parse(rest, arbitrary)?,
+            ["snap", rest @ ..] => TailwindSnap::parse(rest, arbitrary)?,
             ["touch", rest @ ..] => TailwindTorch::parse(rest, arbitrary)?.boxed(),
             ["select", rest @ ..] => TailwindSelect::parse(rest, arbitrary)?.boxed(),
             ["will", "change", rest @ ..] => TailwindWillChange::parse(rest, arbitrary)?.boxed(),
