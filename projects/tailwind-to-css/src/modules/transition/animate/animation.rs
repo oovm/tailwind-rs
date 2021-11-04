@@ -25,7 +25,11 @@ impl Display for Animation {
 
 impl Animation {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
+        let kind = match pattern {
+            ["none"] => Self::None,
+            _ => return syntax_error!("Unknown outline instructions: {}", pattern.join("-")),
+        };
+        Ok(kind)
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self::Arbitrary(arbitrary.to_string()))

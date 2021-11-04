@@ -11,7 +11,9 @@ pub use self::{
     items::TailwindItems,
     justify::{justify_content::TailwindJustifyContent, justify_item::TailwindJustifyItems, justify_self::TailwindJustifySelf},
     order::TailWindOrder,
-    place::{place_content::TailwindPlaceContent, place_item::TailwindPlaceItems, place_self::TailwindPlaceSelf},
+    place::{
+        place_content::TailwindPlaceContent, place_item::TailwindPlaceItems, place_self::TailwindPlaceSelf, TailwindPlace,
+    },
     shrink::TailWindShrink,
     span::{TailwindColumn, TailwindRow},
     zelf::TailwindSelf,

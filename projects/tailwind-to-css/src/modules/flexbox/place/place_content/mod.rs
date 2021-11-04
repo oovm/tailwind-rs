@@ -1,80 +1,69 @@
-use crate::modules::flexbox::*;
-
-#[derive(Debug, Copy, Clone)]
-enum PlaceContent {
-    Center,
-    Start,
-    End,
-    Between,
-    Around,
-    Evenly,
-    Stretch,
-    Global(CssBehavior),
-}
+use super::*;
 
 #[doc=include_str!("readme.md")]
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Clone)]
 pub struct TailwindPlaceContent {
-    kind: PlaceContent,
+    kind: PlaceItems,
 }
 
-impl Display for PlaceContent {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            PlaceContent::Center => write!(f, "center"),
-            PlaceContent::Start => write!(f, "start"),
-            PlaceContent::End => write!(f, "end"),
-            PlaceContent::Between => write!(f, "between"),
-            PlaceContent::Around => write!(f, "around"),
-            PlaceContent::Evenly => write!(f, "evenly"),
-            PlaceContent::Stretch => write!(f, "stretch"),
-            PlaceContent::Global(g) => write!(f, "{}", g),
-        }
+#[derive(Debug, Clone)]
+enum PlaceItems {
+    Standard(String),
+    Arbitrary(String),
+}
+
+impl<T> From<T> for TailwindPlaceContent
+where
+    T: Into<String>,
+{
+    fn from(kind: T) -> Self {
+        Self { kind: PlaceItems::Standard(kind.into()) }
     }
 }
 
 impl Display for TailwindPlaceContent {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "place-content-{}", self.kind)
-    }
-}
-
-impl PlaceContent {
-    pub fn get_properties(&self) -> String {
-        match self {
-            PlaceContent::Center => format!("center"),
-            PlaceContent::Start => format!("start"),
-            PlaceContent::End => format!("end"),
-            PlaceContent::Between => format!("space-between"),
-            PlaceContent::Around => format!("space-around"),
-            PlaceContent::Evenly => format!("space-evenly"),
-            PlaceContent::Stretch => format!("stretch"),
-            PlaceContent::Global(g) => format!("{}", g),
+        match &self.kind {
+            PlaceItems::Standard(s) => write!(f, "place-items-{}", s),
+            PlaceItems::Arbitrary(s) => write!(f, "place-items-[{}]", s),
         }
     }
 }
 
 impl TailwindInstance for TailwindPlaceContent {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        let cursor = match &self.kind {
+            PlaceItems::Standard(s) => s,
+            PlaceItems::Arbitrary(s) => s,
+        };
         css_attributes! {
-            "place-content" => self.kind.get_properties()
+            "place-items" => cursor
         }
     }
 }
 
 impl TailwindPlaceContent {
+    /// https://tailwindcss.com/docs/place-items
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after place-content");
-        let kind = match pattern {
-            ["center"] => PlaceContent::Center,
-            ["start"] => PlaceContent::Start,
-            ["end"] => PlaceContent::End,
-            ["between"] => PlaceContent::Between,
-            ["around"] => PlaceContent::Around,
-            ["evenly"] => PlaceContent::Evenly,
-            ["stretch"] => PlaceContent::Stretch,
-            _ => return syntax_error!("Unknown sizing instructions: {}", pattern.join("-")),
-        };
-        Ok(Self { kind })
+        match pattern {
+            [] => {
+                debug_assert!(arbitrary.is_some());
+                Self::parse_arbitrary(arbitrary)
+            },
+            _ => {
+                let s = pattern.join("-");
+                debug_assert!(Self::check_valid(&s));
+                Ok(Self { kind: PlaceItems::Standard(s) })
+            },
+        }
+    }
+    /// https://tailwindcss.com/docs/place-items
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: PlaceItems::Arbitrary(arbitrary.to_string()) })
+    }
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/place-items#syntax
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec!["center", "inherit", "initial", "revert", "unset"]);
+        set.contains(mode)
     }
 }

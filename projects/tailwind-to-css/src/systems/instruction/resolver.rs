@@ -42,7 +42,7 @@ impl TailwindInstruction {
             ["clear", rest @ ..] => TailwindClear::parse(rest, arbitrary)?.boxed(),
             ["isolate"] => TailwindIsolation::from("isolate").boxed(),
             ["isolation", rest @ ..] => TailwindIsolation::parse(rest, arbitrary)?.boxed(),
-            ["object", rest @ ..] => object_adaptor(rest, arbitrary)?,
+            ["object", rest @ ..] => Self::object_adaptor(rest, arbitrary)?,
             ["overflow", rest @ ..] => Self::overflow_adaptor(rest, arbitrary)?,
             ["overscroll", rest @ ..] => Self::overscroll_adaptor(rest, arbitrary)?,
             // https://tailwindcss.com/docs/position#header
@@ -74,7 +74,7 @@ impl TailwindInstruction {
             ["content", rest @ ..] => TailwindContent::parse(rest, arbitrary)?,
             ["items", rest @ ..] => TailwindItems::parse(rest, arbitrary)?.boxed(),
             ["self", rest @ ..] => TailwindSelf::parse(rest, arbitrary)?.boxed(),
-            ["place", rest @ ..] => Self::place_adaptor(rest, arbitrary)?,
+            ["place", rest @ ..] => TailwindPlace::parse(rest, arbitrary)?,
             // justify catched
             // Spacing System
             ["p" | "pl" | "pr" | "pm" | "pt" | "px" | "py", ..] => TailwindPadding::parse(pattern, arbitrary, neg)?.boxed(),
@@ -305,19 +305,6 @@ impl TailwindInstruction {
         };
         Ok(out)
     }
-    #[inline]
-    fn place_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        let out = match str {
-            // https://tailwindcss.com/docs/place-content
-            ["content", rest @ ..] => TailwindPlaceContent::parse(rest, arbitrary)?.boxed(),
-            // https://tailwindcss.com/docs/place-items
-            ["items", rest @ ..] => TailwindPlaceItems::parse(rest, arbitrary)?.boxed(),
-            // https://tailwindcss.com/docs/place-self
-            ["self", rest @ ..] => TailwindPlaceSelf::parse(rest, arbitrary)?.boxed(),
-            _ => return syntax_error!("Unknown place instructions: {}", str.join("-")),
-        };
-        Ok(out)
-    }
 
     #[inline]
     fn backdrop_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
@@ -360,7 +347,17 @@ impl TailwindInstruction {
         };
         Ok(out)
     }
-
+    #[inline]
+    fn object_adaptor(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+        let out = match pattern {
+            // https://tailwindcss.com/docs/object-fit
+            [s @ ("contain" | "cover" | "fill" | "none")] => TailwindObjectFit::from(*s).boxed(),
+            ["scale", "down"] => TailwindObjectFit::from("scale-down").boxed(),
+            // https://tailwindcss.com/docs/object-position
+            _ => TailwindObjectPosition::parse(pattern, arbitrary)?.boxed(),
+        };
+        Ok(out)
+    }
     #[inline]
     fn overflow_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {

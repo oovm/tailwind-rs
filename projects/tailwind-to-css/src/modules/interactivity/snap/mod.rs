@@ -1,5 +1,4 @@
 use super::*;
-use crate::syntax_error;
 
 pub(crate) mod snap_align;
 pub(crate) mod snap_stop;
@@ -12,8 +11,8 @@ pub struct TailwindSnap {}
 impl TailwindSnap {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         match pattern {
-            ["start"] => Ok(),
-            _ => syntax_error!(),
+            ["start"] => Ok(TailwindSnapStop::from("start").boxed()),
+            _ => syntax_error!(""),
         }
     }
     pub fn check_valid(mode: &str) -> bool {

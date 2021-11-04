@@ -1,5 +1,6 @@
-use super::*;
 use crate::CssBehavior;
+
+use super::*;
 
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
@@ -27,12 +28,14 @@ where
 impl Display for TailwindSnapType {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match &self.kind {
+            SnapType::None => write!(f, "snap-none"),
             SnapType::Standard(s) => match s.as_str() {
                 "start" => write!(f, "snap-start"),
                 "end" => write!(f, "snap-end"),
                 "center" => write!(f, "snap-center"),
                 _ => write!(f, "snap-align-{}", s),
             },
+            SnapType::Global(s) => write!(f, "snap-align-{}", s),
             SnapType::Arbitrary(s) => write!(f, "snap-align-[{}]", s),
         }
     }
@@ -41,8 +44,10 @@ impl Display for TailwindSnapType {
 impl TailwindInstance for TailwindSnapType {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         let cursor = match &self.kind {
-            SnapType::Standard(s) => s,
-            SnapType::Arbitrary(s) => s,
+            SnapType::None => "none".to_string(),
+            SnapType::Standard(s) => s.to_string(),
+            SnapType::Arbitrary(s) => s.to_string(),
+            SnapType::Global(s) => s.to_string(),
         };
         css_attributes! {
             "scroll-snap-align" => cursor

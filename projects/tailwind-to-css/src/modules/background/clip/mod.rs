@@ -1,33 +1,17 @@
-use crate::{css_attributes, CssAttribute, CssBehavior, TailwindBuilder, TailwindInstance};
-use std::{
-    collections::BTreeSet,
-    fmt::{Debug, Display, Formatter},
-};
+use super::*;
 
 #[doc = include_str!("readme.md")]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Debug)]
 pub struct TailwindBackgroundClip {
-    kind: BackgroundClip,
+    kind: String,
 }
 
-#[derive(Copy, Clone, Debug)]
-enum BackgroundClip {
-    Border,
-    Padding,
-    Content,
-    Text,
-    Global(CssBehavior),
-}
-
-impl Display for BackgroundClip {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Border => write!(f, "border"),
-            Self::Padding => write!(f, "padding"),
-            Self::Content => write!(f, "content"),
-            Self::Text => write!(f, "text"),
-            Self::Global(g) => write!(f, "{}", g),
-        }
+impl<T> From<T> for TailwindBackgroundClip
+where
+    T: Into<String>,
+{
+    fn from(kind: T) -> Self {
+        Self { kind: kind.into() }
     }
 }
 
@@ -39,26 +23,32 @@ impl Display for TailwindBackgroundClip {
 
 impl TailwindInstance for TailwindBackgroundClip {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let clip = match &self.kind {
-            BackgroundClip::Border => "border-box".to_string(),
-            BackgroundClip::Padding => "padding-box".to_string(),
-            BackgroundClip::Content => "content-box".to_string(),
-            BackgroundClip::Text => "text".to_string(),
-            BackgroundClip::Global(g) => g.to_string(),
-        };
         css_attributes! {
-            "background-clip" => clip
+            "background-clip" => self.kind
         }
     }
 }
 
 impl TailwindBackgroundClip {
-    /// `bg-clip-border`
-    pub const Border: Self = Self { kind: BackgroundClip::Border };
-    /// `bg-clip-padding`
-    pub const Padding: Self = Self { kind: BackgroundClip::Padding };
-    /// `bg-clip-content`
-    pub const Content: Self = Self { kind: BackgroundClip::Content };
-    /// `bg-clip-text`
-    pub const Text: Self = Self { kind: BackgroundClip::Text };
+    /// https://tailwindcss.com/docs/background-clip
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after bg-clip");
+        let kind = pattern.join("-");
+        debug_assert!(Self::check_valid(&kind));
+        Ok(Self { kind })
+    }
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-clip#syntax
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec![
+            "border-box",
+            "content-box",
+            "inherit",
+            "initial",
+            "padding-box",
+            "revert",
+            "text",
+            "unset",
+        ]);
+        set.contains(mode)
+    }
 }
