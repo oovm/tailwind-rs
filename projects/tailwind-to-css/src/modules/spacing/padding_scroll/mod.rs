@@ -29,22 +29,22 @@ impl TailwindInstance for TailwindScrollPadding {
 
 // noinspection DuplicatedCode
 impl TailwindScrollPadding {
-    /// https://tailwindcss.com/docs/scroll-margin
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, axis: &str, negative: bool) -> Result<Self> {
-        let axis = match pattern {
-            ["m"] => SpacingAxis { class: "scroll-m", attributes: &["scroll-margin"] },
-            ["mx"] => SpacingAxis { class: "scroll-mx", attributes: &["scroll-margin-left", "scroll-margin-right"] },
-            ["my"] => SpacingAxis { class: "scroll-my", attributes: &["scroll-margin-top", "scroll-margin-bottom"] },
-            ["ml"] => SpacingAxis { class: "scroll-ml", attributes: &["scroll-margin-left"] },
-            ["mr"] => SpacingAxis { class: "scroll-mr", attributes: &["scroll-margin-right"] },
-            ["mt"] => SpacingAxis { class: "scroll-mt", attributes: &["scroll-margin-top"] },
-            ["mb"] => SpacingAxis { class: "scroll-mb", attributes: &["scroll-margin-bottom"] },
+    /// https://tailwindcss.com/docs/scroll-padding
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
+        let (axis, rest) = match pattern {
+            ["m", rest @ ..] => (SpacingAxis::new("scroll-p", &["scroll-padding"]), rest),
+            ["ml", rest @ ..] => (SpacingAxis::new("scroll-pl", &["scroll-padding-left"]), rest),
+            ["mr", rest @ ..] => (SpacingAxis::new("scroll-pr", &["scroll-padding-right"]), rest),
+            ["mt", rest @ ..] => (SpacingAxis::new("scroll-pt", &["scroll-padding-top"]), rest),
+            ["mb", rest @ ..] => (SpacingAxis::new("scroll-pb", &["scroll-padding-bottom"]), rest),
+            ["mx", rest @ ..] => (SpacingAxis::new("scroll-px", &["scroll-padding-left", "scroll-padding-right"]), rest),
+            ["my", rest @ ..] => (SpacingAxis::new("scroll-py", &["scroll-padding"]), rest),
             _ => return syntax_error!("Unknown margin axis"),
         };
-        let size = SpacingSize::parse(pattern, arbitrary)?;
+        let size = SpacingSize::parse(rest, arbitrary)?;
         Ok(Self { negative, axis, size })
     }
-    /// https://tailwindcss.com/docs/scroll-margin#arbitrary-values
+    /// https://tailwindcss.com/docs/scroll-padding#arbitrary-values
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: SpacingAxis, negative: bool) -> Result<Self> {
         let size = SpacingSize::parse_arbitrary(arbitrary)?;
         Ok(Self { negative, axis, size })

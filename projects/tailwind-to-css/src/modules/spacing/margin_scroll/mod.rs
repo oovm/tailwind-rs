@@ -31,17 +31,17 @@ impl TailwindInstance for TailwindScrollMargin {
 impl TailwindScrollMargin {
     /// https://tailwindcss.com/docs/scroll-margin
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
-        let axis = match pattern {
-            ["m"] => SpacingAxis { class: "scroll-m", attributes: &["scroll-margin"] },
-            ["mx"] => SpacingAxis { class: "scroll-mx", attributes: &["scroll-margin-left", "scroll-margin-right"] },
-            ["my"] => SpacingAxis { class: "scroll-my", attributes: &["scroll-margin-top", "scroll-margin-bottom"] },
-            ["ml"] => SpacingAxis { class: "scroll-ml", attributes: &["scroll-margin-left"] },
-            ["mr"] => SpacingAxis { class: "scroll-mr", attributes: &["scroll-margin-right"] },
-            ["mt"] => SpacingAxis { class: "scroll-mt", attributes: &["scroll-margin-top"] },
-            ["mb"] => SpacingAxis { class: "scroll-mb", attributes: &["scroll-margin-bottom"] },
+        let (axis, rest) = match pattern {
+            ["m", rest @ ..] => (SpacingAxis::new("scroll-m", &["scroll-margin"]), rest),
+            ["ml", rest @ ..] => (SpacingAxis::new("scroll-ml", &["scroll-margin-left"]), rest),
+            ["mr", rest @ ..] => (SpacingAxis::new("scroll-mr", &["scroll-margin-right"]), rest),
+            ["mt", rest @ ..] => (SpacingAxis::new("scroll-mt", &["scroll-margin-top"]), rest),
+            ["mb", rest @ ..] => (SpacingAxis::new("scroll-mb", &["scroll-margin-bottom"]), rest),
+            ["mx", rest @ ..] => (SpacingAxis::new("scroll-mx", &["scroll-margin-left", "scroll-margin-right"]), rest),
+            ["my", rest @ ..] => (SpacingAxis::new("scroll-my", &["scroll-margin"]), rest),
             _ => return syntax_error!("Unknown margin axis"),
         };
-        let size = SpacingSize::parse(pattern, arbitrary)?;
+        let size = SpacingSize::parse(rest, arbitrary)?;
         Ok(Self { negative, axis, size })
     }
     /// https://tailwindcss.com/docs/scroll-margin#arbitrary-values

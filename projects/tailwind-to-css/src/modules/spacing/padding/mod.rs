@@ -29,22 +29,22 @@ impl TailwindInstance for TailwindPadding {
 
 // noinspection DuplicatedCode
 impl TailwindPadding {
-    /// https://tailwindcss.com/docs/margin
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, axis: &str, negative: bool) -> Result<Self> {
-        let axis = match pattern {
-            ["m"] => SpacingAxis { class: "m", attributes: &["margin"] },
-            ["mx"] => SpacingAxis { class: "mx", attributes: &["margin-left", "margin-right"] },
-            ["my"] => SpacingAxis { class: "my", attributes: &["margin-top", "margin-bottom"] },
-            ["ml"] => SpacingAxis { class: "ml", attributes: &["margin-left"] },
-            ["mr"] => SpacingAxis { class: "mr", attributes: &["margin-right"] },
-            ["mt"] => SpacingAxis { class: "mt", attributes: &["margin-top"] },
-            ["mb"] => SpacingAxis { class: "mb", attributes: &["margin-bottom"] },
+    /// https://tailwindcss.com/docs/padding
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
+        let (axis, rest) = match pattern {
+            ["m", rest @ ..] => (SpacingAxis::new("p", &["padding"]), rest),
+            ["ml", rest @ ..] => (SpacingAxis::new("pl", &["padding-left"]), rest),
+            ["mr", rest @ ..] => (SpacingAxis::new("pr", &["padding-right"]), rest),
+            ["mt", rest @ ..] => (SpacingAxis::new("pt", &["padding-top"]), rest),
+            ["mb", rest @ ..] => (SpacingAxis::new("pb", &["padding-bottom"]), rest),
+            ["mx", rest @ ..] => (SpacingAxis::new("px", &["padding-left", "padding-right"]), rest),
+            ["my", rest @ ..] => (SpacingAxis::new("py", &["padding"]), rest),
             _ => return syntax_error!("Unknown margin axis"),
         };
-        let size = SpacingSize::parse(pattern, arbitrary)?;
+        let size = SpacingSize::parse(rest, arbitrary)?;
         Ok(Self { negative, axis, size })
     }
-    /// https://tailwindcss.com/docs/margin#arbitrary-values
+    /// https://tailwindcss.com/docs/padding#arbitrary-values
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: SpacingAxis, negative: bool) -> Result<Self> {
         let size = SpacingSize::parse_arbitrary(arbitrary)?;
         Ok(Self { negative, axis, size })

@@ -1,9 +1,11 @@
+use crate::{
+    css_attributes, CssAttribute, Result, TailwindArbitrary, TailwindBuilder, TailwindColor, TailwindInstance,
+    TailwindScrollMargin, TailwindScrollPadding,
+};
 use std::{
     collections::BTreeSet,
     fmt::{Display, Formatter},
 };
-
-use crate::{css_attributes, CssAttribute, Result, TailwindArbitrary, TailwindBuilder, TailwindColor, TailwindInstance};
 
 pub use self::{
     accent::TailwindAccentColor, appearance::TailwindAppearance, caret::TailwindCaretColor, cursor::TailwindCursor,

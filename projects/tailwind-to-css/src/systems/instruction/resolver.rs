@@ -5,9 +5,10 @@ impl TailwindInstruction {
     #[inline(never)]
     pub fn get_instance(&self) -> Result<Box<dyn TailwindInstance>> {
         let element = self.view_elements();
+        let pattern = element.as_slice();
         let arbitrary = self.view_arbitrary();
         let neg = self.negative;
-        let instance = match element.as_slice() {
+        let instance = match pattern {
             // Layout System
             ["aspect", rest @ ..] => TailwindAspect::parse(rest, arbitrary)?.boxed(),
             ["container"] => TailwindContainer::default().boxed(),
@@ -76,10 +77,8 @@ impl TailwindInstruction {
             ["place", rest @ ..] => Self::place_adaptor(rest, arbitrary)?,
             // justify catched
             // Spacing System
-            [p @ ("p" | "pl" | "pr" | "pm" | "pt" | "px" | "py"), rest @ ..] =>
-                TailwindPadding::parse_axis(rest, arbitrary, p, neg)?.boxed(),
-            [m @ ("m" | "ml" | "mr" | "mm" | "mt" | "mx" | "my"), rest @ ..] =>
-                TailwindMargin::parse(rest, arbitrary, m, neg)?.boxed(),
+            ["p" | "pl" | "pr" | "pm" | "pt" | "px" | "py", ..] => TailwindPadding::parse(pattern, arbitrary, neg)?.boxed(),
+            ["m" | "ml" | "mr" | "mm" | "mt" | "mx" | "my", ..] => TailwindMargin::parse(pattern, arbitrary, neg)?.boxed(),
             ["space", rest @ ..] => TailwindSpace::parse(rest, arbitrary, neg)?,
             // Sizing System
             ["w", rest @ ..] => TailwindSizing::parse_width(rest, arbitrary)?.boxed(),
@@ -180,7 +179,7 @@ impl TailwindInstruction {
             ["caret", rest @ ..] => TailwindCaretColor::parse(rest, arbitrary)?.boxed(),
             ["pointer", "events", rest @ ..] => TailwindPointerEvents::parse(rest, arbitrary)?.boxed(),
             ["resize", rest @ ..] => TailwindResize::parse(rest, arbitrary)?.boxed(),
-            ["scroll", rest @ ..] => TailwindScroll::parse(rest, arbitrary)?,
+            ["scroll", rest @ ..] => TailwindScroll::parse(rest, arbitrary, neg)?,
             ["snap", rest @ ..] => TailwindSnap::parse(rest, arbitrary)?,
             ["touch", rest @ ..] => TailwindTorch::parse(rest, arbitrary)?.boxed(),
             ["select", rest @ ..] => TailwindSelect::parse(rest, arbitrary)?.boxed(),

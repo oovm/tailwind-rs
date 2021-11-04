@@ -31,14 +31,14 @@ impl TailwindInstance for TailwindMargin {
 impl TailwindMargin {
     /// https://tailwindcss.com/docs/margin
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
-        let axis = match pattern {
-            ["m", rest@..] => SpacingAxis { class: "m", attributes: &["margin"] },
-            ["mx", rest@..] => SpacingAxis { class: "mx", attributes: &["margin-left", "margin-right"] },
-            ["my", rest@..] => SpacingAxis { class: "my", attributes: &["margin-top", "margin-bottom"] },
-            ["ml", rest@..] => SpacingAxis { class: "ml", attributes: &["margin-left"] },
-            ["mr", rest@..] => SpacingAxis { class: "mr", attributes: &["margin-right"] },
-            ["mt", rest@..] => SpacingAxis { class: "mt", attributes: &["margin-top"] },
-            ["mb", rest@..] => SpacingAxis { class: "mb", attributes: &["margin-bottom"] },
+        let (axis, rest) = match pattern {
+            ["m", rest @ ..] => (SpacingAxis::new("m", &["margin"]), rest),
+            ["ml", rest @ ..] => (SpacingAxis::new("ml", &["margin-left"]), rest),
+            ["mr", rest @ ..] => (SpacingAxis::new("mr", &["margin-right"]), rest),
+            ["mt", rest @ ..] => (SpacingAxis::new("mt", &["margin-top"]), rest),
+            ["mb", rest @ ..] => (SpacingAxis::new("mb", &["margin-bottom"]), rest),
+            ["mx", rest @ ..] => (SpacingAxis::new("mx", &["margin-left", "margin-right"]), rest),
+            ["my", rest @ ..] => (SpacingAxis::new("my", &["margin"]), rest),
             _ => return syntax_error!("Unknown margin axis"),
         };
         let size = SpacingSize::parse(rest, arbitrary)?;
