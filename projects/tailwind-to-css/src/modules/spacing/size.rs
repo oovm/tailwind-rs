@@ -1,13 +1,13 @@
 use super::*;
 
 #[derive(Debug, Clone)]
-pub(super) enum Spacing {
+pub(super) enum SpacingSize {
     Unit(f32),
     Standard(String),
     Arbitrary(String),
 }
 
-impl Display for Spacing {
+impl Display for SpacingSize {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::Unit(s) => write!(f, "{}", s),
@@ -17,7 +17,7 @@ impl Display for Spacing {
     }
 }
 
-impl Spacing {
+impl SpacingSize {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         match pattern {
             [] => Self::parse_arbitrary(arbitrary),
@@ -33,7 +33,7 @@ impl Spacing {
         Ok(Self::Arbitrary(arbitrary.to_string()))
     }
 }
-impl Spacing {
+impl SpacingSize {
     pub fn get_properties(&self) -> String {
         match self {
             Self::Unit(x) => format!("{}rem", x / 4.0),

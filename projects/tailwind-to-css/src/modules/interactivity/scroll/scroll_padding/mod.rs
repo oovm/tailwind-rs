@@ -1,7 +1,10 @@
 use super::*;
+use crate::{SpacingAxis, TailwindPadding};
 
 #[doc=include_str!("readme.md")]
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Clone)]
 pub struct TailwindScrollPadding {
-    wrapper: TailwindSizing,
+    negative: bool,
+    axis: SpacingAxis,
+    size: Spacing,
 }

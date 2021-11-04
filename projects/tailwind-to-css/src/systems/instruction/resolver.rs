@@ -77,7 +77,7 @@ impl TailwindInstruction {
             // justify catched
             // Spacing System
             [p @ ("p" | "pl" | "pr" | "pm" | "pt" | "px" | "py"), rest @ ..] =>
-                TailwindPadding::parse(rest, arbitrary, p, neg)?.boxed(),
+                TailwindPadding::parse_axis(rest, arbitrary, p, neg)?.boxed(),
             [m @ ("m" | "ml" | "mr" | "mm" | "mt" | "mx" | "my"), rest @ ..] =>
                 TailwindMargin::parse(rest, arbitrary, m, neg)?.boxed(),
             ["space", rest @ ..] => TailwindSpace::parse(rest, arbitrary, neg)?,

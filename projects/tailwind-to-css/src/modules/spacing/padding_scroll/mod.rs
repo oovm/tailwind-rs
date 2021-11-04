@@ -2,14 +2,14 @@ use super::*;
 
 #[doc = include_str!("readme.md")]
 #[derive(Clone, Debug)]
-pub struct TailwindPadding {
+pub struct TailwindScrollPadding {
     negative: bool,
     axis: SpacingAxis,
     size: SpacingSize,
 }
 
 // noinspection DuplicatedCode
-impl Display for TailwindPadding {
+impl Display for TailwindScrollPadding {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         if self.negative {
             f.write_char('-')?
@@ -19,7 +19,7 @@ impl Display for TailwindPadding {
 }
 
 // noinspection DuplicatedCode
-impl TailwindInstance for TailwindPadding {
+impl TailwindInstance for TailwindScrollPadding {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         let mut out = BTreeSet::new();
         self.axis.write_attributes(&mut out, self.size.get_properties());
@@ -28,23 +28,23 @@ impl TailwindInstance for TailwindPadding {
 }
 
 // noinspection DuplicatedCode
-impl TailwindPadding {
-    /// https://tailwindcss.com/docs/margin
+impl TailwindScrollPadding {
+    /// https://tailwindcss.com/docs/scroll-margin
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, axis: &str, negative: bool) -> Result<Self> {
         let axis = match pattern {
-            ["m"] => SpacingAxis { class: "m", attributes: &["margin"] },
-            ["mx"] => SpacingAxis { class: "mx", attributes: &["margin-left", "margin-right"] },
-            ["my"] => SpacingAxis { class: "my", attributes: &["margin-top", "margin-bottom"] },
-            ["ml"] => SpacingAxis { class: "ml", attributes: &["margin-left"] },
-            ["mr"] => SpacingAxis { class: "mr", attributes: &["margin-right"] },
-            ["mt"] => SpacingAxis { class: "mt", attributes: &["margin-top"] },
-            ["mb"] => SpacingAxis { class: "mb", attributes: &["margin-bottom"] },
+            ["m"] => SpacingAxis { class: "scroll-m", attributes: &["scroll-margin"] },
+            ["mx"] => SpacingAxis { class: "scroll-mx", attributes: &["scroll-margin-left", "scroll-margin-right"] },
+            ["my"] => SpacingAxis { class: "scroll-my", attributes: &["scroll-margin-top", "scroll-margin-bottom"] },
+            ["ml"] => SpacingAxis { class: "scroll-ml", attributes: &["scroll-margin-left"] },
+            ["mr"] => SpacingAxis { class: "scroll-mr", attributes: &["scroll-margin-right"] },
+            ["mt"] => SpacingAxis { class: "scroll-mt", attributes: &["scroll-margin-top"] },
+            ["mb"] => SpacingAxis { class: "scroll-mb", attributes: &["scroll-margin-bottom"] },
             _ => return syntax_error!("Unknown margin axis"),
         };
         let size = SpacingSize::parse(pattern, arbitrary)?;
         Ok(Self { negative, axis, size })
     }
-    /// https://tailwindcss.com/docs/margin#arbitrary-values
+    /// https://tailwindcss.com/docs/scroll-margin#arbitrary-values
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: SpacingAxis, negative: bool) -> Result<Self> {
         let size = SpacingSize::parse_arbitrary(arbitrary)?;
         Ok(Self { negative, axis, size })

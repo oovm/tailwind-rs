@@ -5,7 +5,7 @@ use super::*;
 pub struct TailwindSpace {
     axis: bool,
     negative: bool,
-    size: Spacing,
+    size: SpacingSize,
 }
 
 impl Display for TailwindSpace {
@@ -50,17 +50,16 @@ impl TailwindSpace {
         match pattern {
             [] => Ok(Self::parse_arbitrary(arbitrary, negative, axis)?.boxed()),
             ["reverse"] => Ok(TailwindSpaceReverse::from(axis).boxed()),
-            [rest @ ..] => {
-                let size = Spacing::parse(rest, arbitrary)?;
+            _ => {
+                let size = SpacingSize::parse(pattern, arbitrary)?;
                 Ok(Self { axis, negative, size }.boxed())
             },
-            _ => syntax_error!("Unknown space instructions: {}", pattern.join("-")),
         }
     }
     /// https://tailwindcss.com/docs/margin#arbitrary-values
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, negative: bool, axis: bool) -> Result<Self> {
         debug_assert!(arbitrary.is_some());
-        let size = Spacing::parse_arbitrary(arbitrary)?;
+        let size = SpacingSize::parse_arbitrary(arbitrary)?;
         Ok(Self { axis, negative, size })
     }
 }
