@@ -20,6 +20,7 @@ pub use self::{
     text::*,
     tracking::TailwindTracking,
     underline_offset::TailwindUnderlineOffset,
+    whitespace::TailwindWhiteSpace,
 };
 
 mod align;
