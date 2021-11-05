@@ -25,38 +25,11 @@ pub use self::{
 mod align;
 mod breaking;
 mod decoration;
-mod display;
 mod font;
 mod indent;
 mod leading;
 mod list;
-mod parser;
 mod text;
 mod tracking;
 mod underline_offset;
-
-#[doc = include_str!("text-indent.md")]
-#[derive(Debug, Clone)]
-pub enum TailwindIndent {
-    Px(f32),
-    Unit(f32),
-    Percent(f32),
-}
-
-#[doc = include_str!("whitespace.md")]
-#[derive(Debug, Clone)]
-pub enum TailwindWhiteSpace {
-    Normal,
-    NoWrap,
-    Pre,
-    PreLine,
-    PreWrap,
-}
-
-#[doc = include_str!("word-break.md")]
-#[derive(Debug, Clone)]
-pub enum TailwindBreakWord {
-    Normal,
-    Words,
-    All,
-}
+mod whitespace;
