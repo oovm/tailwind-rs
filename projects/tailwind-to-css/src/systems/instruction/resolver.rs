@@ -247,7 +247,7 @@ impl TailwindInstruction {
     }
 
     #[inline]
-    fn divide_adaptor(str: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+    fn divide_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/divide-width
             ["x"] => todo!(),
@@ -333,7 +333,7 @@ impl TailwindInstruction {
         Ok(out)
     }
     #[inline]
-    fn table_adaptor(str: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+    fn table_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/display#flex
             // `[]` => This won't happen

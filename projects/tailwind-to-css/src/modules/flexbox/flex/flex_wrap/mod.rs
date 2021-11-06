@@ -33,7 +33,7 @@ impl TailwindInstance for TailwindFlexWrap {
 }
 
 impl TailwindFlexWrap {
-    pub fn parse(_pattern: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse(_pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }

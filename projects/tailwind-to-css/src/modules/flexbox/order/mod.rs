@@ -32,7 +32,7 @@ impl TailwindFlex {
         let n = parse_integer(flex)?.1;
         Ok(Self::Percent { grow: n, shrink: n, basis: 0 })
     }
-    pub fn parse_arbitrary(_arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }

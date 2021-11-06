@@ -1,20 +1,40 @@
-#[doc = include_str!("text-indent.md")]
+use super::*;
+
+#[doc = include_str!("readme.md")]
 #[derive(Debug, Clone)]
-pub enum TailwindIndent {
-    Px(f32),
-    Unit(f32),
-    Percent(f32),
+pub struct TailwindIndent {
+    kind: Indent,
 }
+
+#[derive(Debug, Clone)]
+enum Indent {
+    Unit(f32),
+    Length(LengthUnit),
+}
+
 impl Display for TailwindIndent {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        match &self.kind {
+            Indent::Unit(n) => write!(f, "indent-{}", n),
+            Indent::Length(n) => write!(f, "indent-{}", n.get_class()),
+        }
     }
 }
 
-impl TailwindInstance for TailwindIndent {}
+impl TailwindInstance for TailwindIndent {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        let indent = match &self.kind {
+            Indent::Unit(n) => format!("{}rem", n / 4.0),
+            Indent::Length(n) => n.get_properties(),
+        };
+        css_attributes! {
+            "text-indent" => indent
+        }
+    }
+}
 
 impl TailwindIndent {
-    pub fn parse(_input: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         todo!()
     }
 }
