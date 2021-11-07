@@ -1,6 +1,5 @@
 use crate::{
-    css_attributes, AnchorPoint, CssAttribute, CssBehavior, Result, TailwindArbitrary, TailwindBuilder, TailwindColor,
-    TailwindInstance,
+    css_attributes, AnchorPoint, CssAttribute, Result, TailwindArbitrary, TailwindBuilder, TailwindColor, TailwindInstance,
 };
 use std::{
     collections::BTreeSet,

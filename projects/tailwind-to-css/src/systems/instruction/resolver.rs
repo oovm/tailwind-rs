@@ -13,7 +13,7 @@ impl TailwindInstruction {
             ["aspect", rest @ ..] => TailwindAspect::parse(rest, arbitrary)?.boxed(),
             ["container"] => TailwindContainer::default().boxed(),
             ["columns", rest @ ..] => TailwindColumns::parse(rest, arbitrary)?.boxed(),
-            ["break", rest @ ..] => Self::break_adaptor(rest, arbitrary)?,
+            ["break", rest @ ..] => TailwindBreak::parse(rest, arbitrary)?,
             ["box", rest @ ..] => Self::box_adaptor(rest, arbitrary)?,
             // begin https://tailwindcss.com/docs/display
             ["block"] => TailwindDisplay::from("block").boxed(),
@@ -196,23 +196,6 @@ impl TailwindInstruction {
         Ok(instance)
     }
     #[inline]
-    fn break_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        let out = match str {
-            // https://tailwindcss.com/docs/border-style
-            ["normal"] => TailwindBreakWord::Normal.boxed(),
-            ["words"] => TailwindBreakWord::Words.boxed(),
-            ["all"] => TailwindBreakWord::All.boxed(),
-            // https://tailwindcss.com/docs/break-before
-            ["before", rest @ ..] => TailwindBreakBefore::parse(rest, arbitrary)?.boxed(),
-            // https://tailwindcss.com/docs/break-inside
-            ["inside", rest @ ..] => TailwindBreakInside::parse(rest, arbitrary)?.boxed(),
-            // https://tailwindcss.com/docs/break-after
-            ["after", rest @ ..] => TailwindBreakAfter::parse(rest, arbitrary)?.boxed(),
-            _ => return syntax_error!("Unknown break instructions: {}", str.join("-")),
-        };
-        Ok(out)
-    }
-    #[inline]
     fn bg_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/background-attachment
@@ -220,10 +203,10 @@ impl TailwindInstruction {
             ["local"] => TailwindBackgroundAttachment::Local.boxed(),
             ["scroll"] => TailwindBackgroundAttachment::Scroll.boxed(),
             // https://tailwindcss.com/docs/background-clip
-            ["clip", "border"] => TailwindBackgroundClip::Border.boxed(),
-            ["clip", "padding"] => TailwindBackgroundClip::Padding.boxed(),
-            ["clip", "content"] => TailwindBackgroundClip::Content.boxed(),
-            ["clip", "text"] => TailwindBackgroundClip::Text.boxed(),
+            ["clip", "border"] => TailwindBackgroundClip::from("border-box").boxed(),
+            ["clip", "padding"] => TailwindBackgroundClip::from("padding-box").boxed(),
+            ["clip", "content"] => TailwindBackgroundClip::from("content-box").boxed(),
+            ["clip", "text"] => TailwindBackgroundClip::from("text").boxed(),
             // https://tailwindcss.com/docs/background-origin
             ["origin", "padding"] => TailwindBackgroundOrigin::Padding.boxed(),
             ["origin", "content"] => TailwindBackgroundOrigin::Content.boxed(),

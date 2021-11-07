@@ -1,16 +1,11 @@
 use super::*;
 
-pub use self::{
-    font_family::TailwindFontFamily, font_size::TailwindFontSize, font_smoothing::TailwindFontSmoothing,
-    font_style::TailwindFontStyle, font_variant_numeric::TailwindFontVariantNumeric, font_weight::TailwindFontWeight,
-};
-
-mod font_family;
-mod font_size;
-mod font_smoothing;
-mod font_style;
-mod font_variant_numeric;
-mod font_weight;
+pub(crate) mod font_family;
+pub(crate) mod font_size;
+pub(crate) mod font_smoothing;
+pub(crate) mod font_style;
+pub(crate) mod font_variant_numeric;
+pub(crate) mod font_weight;
 
 pub fn font_adaptor(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
     let out = match pattern {

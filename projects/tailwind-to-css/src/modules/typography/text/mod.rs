@@ -1,14 +1,9 @@
 use super::*;
 
-pub use self::{
-    text_align::TailwindTextAlignment, text_color::TailwindTextColor, text_overflow::TailwindTextOverflow,
-    text_transform::TailwindTextTransform,
-};
-
-mod text_align;
-mod text_color;
-mod text_overflow;
-mod text_transform;
+pub(crate) mod text_align;
+pub(crate) mod text_color;
+pub(crate) mod text_overflow;
+pub(crate) mod text_transform;
 
 pub fn text_adaptor(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
     let out = match pattern {

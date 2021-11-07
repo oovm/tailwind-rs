@@ -1,7 +1,3 @@
-use std::fmt::Write;
-
-use crate::{TailwindBreakAfter, TailwindBreakBefore, TailwindBreakInside};
-
 use super::*;
 
 #[doc=include_str!("readme.md")]
