@@ -1,5 +1,11 @@
 use crate::modules::flexbox::*;
 
+#[doc=include_str!("readme.md")]
+#[derive(Debug, Copy, Clone)]
+pub struct TailwindJustifyItems {
+    kind: JustifyItems,
+}
+
 #[derive(Debug, Copy, Clone)]
 enum JustifyItems {
     Start,
@@ -7,12 +13,6 @@ enum JustifyItems {
     Center,
     Stretch,
     Global(CssBehavior),
-}
-
-#[doc=include_str!("readme.md")]
-#[derive(Debug, Copy, Clone)]
-pub struct TailwindJustifyItems {
-    kind: JustifyItems,
 }
 
 impl Display for JustifyItems {

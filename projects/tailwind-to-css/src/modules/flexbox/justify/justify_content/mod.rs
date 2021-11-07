@@ -3,39 +3,49 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindJustifyContent {
-    kind: String,
+    kind: JustifyContent,
 }
 
-enum JustifyContent {}
+#[derive(Debug, Clone)]
+enum JustifyContent {
+    Standard(String),
+    Arbitrary(String),
+}
 
 impl<T> From<T> for TailwindJustifyContent
 where
     T: Into<String>,
 {
     fn from(kind: T) -> Self {
-        Self { kind: kind.into() }
+        Self { kind: JustifyContent::Standard(kind.into()) }
     }
 }
 
 impl Display for TailwindJustifyContent {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let s = self.kind.as_str();
-        match s {
-            "flex-start" => write!(f, "justify-start"),
-            "flex-end" => write!(f, "justify-end"),
-            "center" => write!(f, "justify-center"),
-            "space-between" => write!(f, "justify-between"),
-            "space-around" => write!(f, "justify-around"),
-            "space-evenly" => write!(f, "justify-evenly"),
-            _ => write!(f, "justify-content-{}", self.kind),
+        match &self.kind {
+            JustifyContent::Standard(s) => match s.as_str() {
+                "flex-start" => write!(f, "justify-start"),
+                "flex-end" => write!(f, "justify-end"),
+                "center" => write!(f, "justify-center"),
+                "space-between" => write!(f, "justify-between"),
+                "space-around" => write!(f, "justify-around"),
+                "space-evenly" => write!(f, "justify-evenly"),
+                _ => write!(f, "justify-content-{}", s),
+            },
+            JustifyContent::Arbitrary(s) => write!(f, "justify-content-[{}]", s),
         }
     }
 }
 
 impl TailwindInstance for TailwindJustifyContent {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        let cursor = match &self.kind {
+            JustifyContent::Standard(s) => s,
+            JustifyContent::Arbitrary(s) => s,
+        };
         css_attributes! {
-            "justify-content" => self.kind
+            "justify-content" => cursor
         }
     }
 }
@@ -43,35 +53,41 @@ impl TailwindInstance for TailwindJustifyContent {
 impl TailwindJustifyContent {
     /// https://tailwindcss.com/docs/justify-content
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after justify-content");
-        let out = match pattern {
-            ["safe", "center"] => Self::from("safe center"),
-            ["unsafe", "center"] => Self::from("unsafe center"),
-            _ => {
-                let kind = pattern.join("-");
-                debug_assert!(Self::check_valid(&kind));
-                Self { kind }
+        match pattern {
+            [] => {
+                debug_assert!(arbitrary.is_some());
+                Self::parse_arbitrary(arbitrary)
             },
-        };
-        Ok(out)
+            _ => {
+                let s = pattern.join("-");
+                debug_assert!(Self::check_valid(&s));
+                Ok(Self { kind: JustifyContent::Standard(s) })
+            },
+        }
     }
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content#syntax
+    /// https://tailwindcss.com/docs/justify-content
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: JustifyContent::Arbitrary(arbitrary.to_string()) })
+    }
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/cursor#syntax
     pub fn check_valid(mode: &str) -> bool {
         let set = BTreeSet::from_iter(vec![
-            "all",
-            "auto",
-            "fill",
+            "center",
+            "end",
+            "flex-end",
+            "flex-start",
             "inherit",
             "initial",
-            "none",
-            "painted",
+            "left",
+            "normal",
             "revert",
-            "stroke",
+            "right",
+            "space-around",
+            "space-between",
+            "space-evenly",
+            "start",
+            "stretch",
             "unset",
-            "visible",
-            "visibleFill",
-            "visiblePainted",
-            "visibleStroke",
         ]);
         set.contains(mode)
     }
