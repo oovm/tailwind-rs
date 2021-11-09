@@ -1,5 +1,11 @@
 use crate::modules::flexbox::*;
 
+#[doc=include_str!("readme.md")]
+#[derive(Debug, Copy, Clone)]
+pub struct TailwindJustifySelf {
+    kind: JustifySelf,
+}
+
 #[derive(Debug, Copy, Clone)]
 pub enum JustifySelf {
     Auto,
@@ -8,12 +14,6 @@ pub enum JustifySelf {
     Center,
     Stretch,
     Global(CssBehavior),
-}
-
-#[doc=include_str!("readme.md")]
-#[derive(Debug, Copy, Clone)]
-pub struct TailwindJustifySelf {
-    kind: JustifySelf,
 }
 
 impl Display for JustifySelf {
@@ -56,5 +56,31 @@ impl TailwindJustifySelf {
             _ => return syntax_error!("Unknown justify-self instructions: {}", pattern.join("-")),
         };
         Ok(Self { kind })
+    }
+    /// https://tailwindcss.com/docs/justify-items
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: JustifyItems::Arbitrary(arbitrary.to_string()) })
+    }
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/justify-items#syntax
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec![
+            "baseline",
+            "center",
+            "end",
+            "flex-end",
+            "flex-start",
+            "inherit",
+            "initial",
+            "left",
+            "normal",
+            "revert",
+            "right",
+            "self-end",
+            "self-start",
+            "start",
+            "stretch",
+            "unset",
+        ]);
+        set.contains(mode)
     }
 }
