@@ -62,10 +62,7 @@ impl TailwindInstance for TailwindGridAuto {
 impl GridAutoKind {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         let kind = match pattern {
-            [] => {
-                debug_assert!(arbitrary.is_some());
-                Self::parse_arbitrary(arbitrary)?
-            },
+            [] => Self::parse_arbitrary(arbitrary)?,
             ["auto"] => Self::Auto,
             ["min"] => Self::Min,
             ["max"] => Self::Max,
@@ -75,6 +72,7 @@ impl GridAutoKind {
         Ok(kind)
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        debug_assert!(arbitrary.is_some());
         Ok(Self::Arbitrary(arbitrary.to_string()))
     }
 }

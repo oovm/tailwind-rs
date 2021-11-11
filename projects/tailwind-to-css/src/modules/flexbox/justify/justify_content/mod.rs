@@ -54,10 +54,7 @@ impl TailwindJustifyContent {
     /// https://tailwindcss.com/docs/justify-content
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         match pattern {
-            [] => {
-                debug_assert!(arbitrary.is_some());
-                Self::parse_arbitrary(arbitrary)
-            },
+            [] => Self::parse_arbitrary(arbitrary),
             _ => {
                 let s = pattern.join("-");
                 debug_assert!(Self::check_valid(&s));
@@ -67,6 +64,7 @@ impl TailwindJustifyContent {
     }
     /// https://tailwindcss.com/docs/justify-content
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        debug_assert!(arbitrary.is_some());
         Ok(Self { kind: JustifyContent::Arbitrary(arbitrary.to_string()) })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/cursor#syntax

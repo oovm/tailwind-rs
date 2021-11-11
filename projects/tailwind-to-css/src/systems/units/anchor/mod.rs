@@ -27,15 +27,13 @@ impl AnchorPoint {
             ["1"] | ["left", "bottom"] | ["bottom", "left"] => Self::LeftBottom,
             ["2"] | ["bottom"] => Self::Bottom,
             ["3"] | ["right", "bottom"] | ["bottom", "right"] => Self::RightBottom,
-            [] => {
-                debug_assert!(arbitrary.is_some());
-                Self::parse_arbitrary(arbitrary)?
-            },
+            [] => Self::parse_arbitrary(arbitrary)?,
             _ => return syntax_error!("Unknown anchor-point instructions: {}", pattern.join("-")),
         };
         Ok(out)
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        debug_assert!(arbitrary.is_some());
         Ok(Self::Custom(arbitrary.to_string()))
     }
 

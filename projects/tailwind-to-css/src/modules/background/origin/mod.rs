@@ -1,59 +1,52 @@
-use crate::{css_attributes, CssAttribute, CssBehavior, TailwindBuilder, TailwindInstance};
-use std::{
-    collections::BTreeSet,
-    fmt::{Display, Formatter},
-};
+use super::*;
 
-#[derive(Copy, Clone, Debug)]
-enum BackgroundOrigin {
-    Border,
-    Padding,
-    Content,
-    Global(CssBehavior),
-}
-
-#[doc = include_str!("readme.md")]
-#[derive(Copy, Clone, Debug)]
+#[doc=include_str!("readme.md")]
+#[derive(Debug, Clone)]
 pub struct TailwindBackgroundOrigin {
-    kind: BackgroundOrigin,
+    kind: String,
 }
 
-impl Display for BackgroundOrigin {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Border => write!(f, "border"),
-            Self::Padding => write!(f, "padding"),
-            Self::Content => write!(f, "content"),
-            Self::Global(g) => write!(f, "{}", g),
-        }
+impl<T> From<T> for TailwindBackgroundOrigin
+where
+    T: Into<String>,
+{
+    fn from(kind: T) -> Self {
+        Self { kind: kind.into() }
     }
 }
 
 impl Display for TailwindBackgroundOrigin {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "bg-origin-{}", self.kind)
+        let s = self.kind.as_str();
+        match s {
+            "border-box" => write!(f, "bg-origin-border"),
+            "padding-box" => write!(f, "bg-origin-padding"),
+            "content-box" => write!(f, "bg-origin-content	"),
+            _ => write!(f, "bg-origin-{}", s),
+        }
     }
 }
 
 impl TailwindInstance for TailwindBackgroundOrigin {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let clip = match &self.kind {
-            BackgroundOrigin::Border => "border-box".to_string(),
-            BackgroundOrigin::Padding => "padding-box".to_string(),
-            BackgroundOrigin::Content => "content-box".to_string(),
-            BackgroundOrigin::Global(g) => g.to_string(),
-        };
         css_attributes! {
-            "background-clip" => clip
+            "background-origin" => self.kind
         }
     }
 }
 
 impl TailwindBackgroundOrigin {
-    /// `bg-clip-border`
-    pub const Border: Self = Self { kind: BackgroundOrigin::Border };
-    /// `bg-clip-padding`
-    pub const Padding: Self = Self { kind: BackgroundOrigin::Padding };
-    /// `bg-clip-content`
-    pub const Content: Self = Self { kind: BackgroundOrigin::Content };
+    /// https://tailwindcss.com/docs/background-origin
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after clear");
+        let kind = pattern.join("-");
+        debug_assert!(Self::check_valid(&kind));
+        Ok(Self { kind })
+    }
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-origin#syntax
+    pub fn check_valid(mode: &str) -> bool {
+        let set =
+            BTreeSet::from_iter(vec!["border-box", "content-box", "inherit", "initial", "padding-box", "revert", "unset"]);
+        set.contains(mode)
+    }
 }

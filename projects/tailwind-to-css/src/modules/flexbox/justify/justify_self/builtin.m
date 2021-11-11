@@ -2,39 +2,35 @@
 
 values = "
 /* Basic keywords */
-justify-items: normal;
-justify-items: stretch;
+justify-self: auto;
+justify-self: normal;
+justify-self: stretch;
 
 /* Positional alignment */
-justify-items: center;     /* Pack items around the center */
-justify-items: start;      /* Pack items from the start */
-justify-items: end;        /* Pack items from the end */
-justify-items: flex-start; /* Equivalent to 'start'. Note that justify-items is ignored in Flexbox layouts. */
-justify-items: flex-end;   /* Equivalent to 'end'. Note that justify-items is ignored in Flexbox layouts. */
-justify-items: self-start;
-justify-items: self-end;
-justify-items: left;       /* Pack items from the left */
-justify-items: right;      /* Pack items from the right */
+justify-self: center;     /* Pack item around the center */
+justify-self: start;      /* Pack item from the start */
+justify-self: end;        /* Pack item from the end */
+justify-self: flex-start; /* Equivalent to 'start'. Note that justify-self is ignored in Flexbox layouts. */
+justify-self: flex-end;   /* Equivalent to 'end'. Note that justify-self is ignored in Flexbox layouts. */
+justify-self: self-start;
+justify-self: self-end;
+justify-self: left;       /* Pack item from the left */
+justify-self: right;      /* Pack item from the right */
 
 /* Baseline alignment */
-justify-items: baseline;
-justify-items: first baseline;
-justify-items: last baseline;
+justify-self: baseline;
+justify-self: first baseline;
+justify-self: last baseline;
 
 /* Overflow alignment (for positional alignment only) */
-justify-items: safe center;
-justify-items: unsafe center;
-
-/* Legacy alignment */
-justify-items: legacy right;
-justify-items: legacy left;
-justify-items: legacy center;
+justify-self: safe center;
+justify-self: unsafe center;
 
 /* Global values */
-justify-items: inherit;
-justify-items: initial;
-justify-items: revert;
-justify-items: unset;
+justify-self: inherit;
+justify-self: initial;
+justify-self: revert;
+justify-self: unset;
 ";
 
 all = Sort@StringCases[
