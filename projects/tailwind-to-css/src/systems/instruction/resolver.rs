@@ -208,9 +208,7 @@ impl TailwindInstruction {
             ["clip", "content"] => TailwindBackgroundClip::from("content-box").boxed(),
             ["clip", "text"] => TailwindBackgroundClip::from("text").boxed(),
             // https://tailwindcss.com/docs/background-origin
-            ["origin", "padding"] => TailwindBackgroundOrigin::Padding.boxed(),
-            ["origin", "content"] => TailwindBackgroundOrigin::Content.boxed(),
-            ["origin", "border"] => TailwindBackgroundOrigin::Border.boxed(),
+            ["origin", rest @ ..] => TailwindBackgroundOrigin::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/background-repeat
             ["repeat"] => TailwindBackgroundRepeat::Repeat.boxed(),
             ["no", "repeat"] | ["repeat", "none"] => TailwindBackgroundRepeat::None.boxed(),

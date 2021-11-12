@@ -27,6 +27,10 @@ impl Animation {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         let kind = match pattern {
             ["none"] => Self::None,
+            ["spin"] => Self::Spin,
+            ["ping"] => Self::Ping,
+            ["pulse"] => Self::Pulse,
+            ["bounce"] => Self::Bounce,
             _ => return syntax_error!("Unknown outline instructions: {}", pattern.join("-")),
         };
         Ok(kind)

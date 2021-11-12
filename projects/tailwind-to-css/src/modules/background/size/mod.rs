@@ -9,7 +9,6 @@ enum BackgroundSize {
     Auto,
     Cover,
     Contain,
-    Global(CssBehavior),
 }
 
 #[doc = include_str!("readme.md")]
@@ -24,7 +23,6 @@ impl Display for BackgroundSize {
             Self::Auto => write!(f, "auto"),
             Self::Cover => write!(f, "cover"),
             Self::Contain => write!(f, "contain"),
-            Self::Global(g) => write!(f, "{}", g),
         }
     }
 }
@@ -38,7 +36,7 @@ impl Display for TailwindBackgroundSize {
 impl TailwindInstance for TailwindBackgroundSize {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         css_attributes! {
-            "background-repeat" => self.kind
+            "background-size" => self.kind
         }
     }
 }
