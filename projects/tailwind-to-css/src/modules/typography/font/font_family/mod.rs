@@ -41,5 +41,3 @@ impl TailwindInstance for TailwindFontFamily {
         }
     }
 }
-
-impl FontFamily {}

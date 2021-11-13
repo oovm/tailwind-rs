@@ -139,7 +139,7 @@ impl TailwindInstruction {
             // Borders System
             ["rounded", rest @ ..] => TailwindRounded::parse(rest, arbitrary)?.boxed(),
             ["border", rest @ ..] => TailwindBorder::parse(rest, arbitrary)?,
-            ["divide", rest @ ..] => Self::divide_adaptor(rest, arbitrary)?,
+            ["divide", rest @ ..] => TailwindDivide::parse(rest, arbitrary)?,
             ["outline", rest @ ..] => outline_adaptor(rest, arbitrary)?,
             ["ring", rest @ ..] => Self::ring_adaptor(rest, arbitrary)?,
             // Effects System
@@ -223,21 +223,6 @@ impl TailwindInstruction {
         Ok(out)
     }
 
-    #[inline]
-    fn divide_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        let out = match str {
-            // https://tailwindcss.com/docs/divide-width
-            ["x"] => todo!(),
-            ["x", _n] => todo!(),
-            ["y"] => todo!(),
-            ["y", _n] => todo!(),
-            // https://tailwindcss.com/docs/divide-style
-            [s @ ("solid" | "dashed" | "dotted" | "double" | "none")] => TailwindDivideStyle::from(*s).boxed(),
-            // https://tailwindcss.com/docs/divide-color
-            _ => return syntax_error!("Unknown divide instructions: {}", str.join("-")),
-        };
-        Ok(out)
-    }
     #[inline]
     fn ring_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {

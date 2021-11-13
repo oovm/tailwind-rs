@@ -8,7 +8,14 @@ use crate::{
     TailwindColor, TailwindInstance,
 };
 
-pub use self::{border::*, divide::*, outline::*, ring::*};
+pub use self::{
+    border::*,
+    divide::{
+        divide_color::TailwindDivideColor, divide_style::TailwindDivideStyle, divide_width::TailwindDivideWidth, TailwindDivide,
+    },
+    outline::*,
+    ring::*,
+};
 
 mod border;
 mod divide;

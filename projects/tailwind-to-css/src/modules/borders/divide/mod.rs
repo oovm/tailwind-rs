@@ -1,8 +1,28 @@
-mod divide_color;
-mod divide_style;
-mod divide_width;
+pub(crate) mod divide_color;
+pub(crate) mod divide_reverse;
+pub(crate) mod divide_style;
+pub(crate) mod divide_width;
 
-pub use self::{
-    divide_style::{TailwindDivideStyle, *},
-    divide_width::*,
-};
+use super::*;
+use crate::modules::borders::divide::divide_reverse::TailwindDivideReverse;
+
+#[derive(Copy, Clone, Debug, Default)]
+pub struct TailwindDivide {}
+
+impl TailwindDivide {
+    pub fn parse(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+        let out = match str {
+            // https://tailwindcss.com/docs/divide-width
+            ["x", "reverse"] => TailwindDivideReverse::from(true).boxed(),
+            ["y", "reverse"] => TailwindDivideReverse::from(false).boxed(),
+            ["x", rest @ ..] => TailwindDivideWidth::parse(rest, arbitrary, true)?.boxed(),
+            ["y", rest @ ..] => TailwindDivideWidth::parse(rest, arbitrary, false)?.boxed(),
+            // https://tailwindcss.com/docs/divide-style
+            [s @ ("solid" | "dashed" | "dotted" | "double" | "none")] => TailwindDivideStyle::from(*s).boxed(),
+            ["style", rest @ ..] => TailwindDivideStyle::parse(rest, arbitrary)?.boxed(),
+            // https://tailwindcss.com/docs/divide-color
+            _ => return syntax_error!("Unknown divide instructions: {}", str.join("-")),
+        };
+        Ok(out)
+    }
+}

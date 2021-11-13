@@ -20,8 +20,8 @@ impl TailwindDecoration {
             [s @ ("solid" | "double" | "dotted" | "dashed" | "wavy")] => TailwindDecorationStyle::from(*s).boxed(),
             ["style", rest @ ..] => TailwindDecorationStyle::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/text-decoration-thickness
-            ["auto"] => TailwindDecorationThickness::Auto.boxed(),
-            ["from", "font"] => TailwindDecorationThickness::FromFont.boxed(),
+            ["auto"] => TailwindDecorationThickness::from("auto").boxed(),
+            ["from", "font"] => TailwindDecorationThickness::from("from-font").boxed(),
             // https://tailwindcss.com/docs/text-decoration-color
             ["current"] => color(TailwindColor::Current),
             ["transparent"] => color(TailwindColor::Transparent),
