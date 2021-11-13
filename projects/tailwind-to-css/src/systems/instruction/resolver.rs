@@ -54,8 +54,8 @@ impl TailwindInstruction {
             ["bottom", rest @ ..] => TailwindBottom::parse(rest, arbitrary, neg)?.boxed(),
             ["left", rest @ ..] => TailwindLeft::parse(rest, arbitrary, neg)?.boxed(),
             // https://tailwindcss.com/docs/visibility
-            ["visible"] => TailwindVisibility::Visible.boxed(),
-            ["invisible"] => TailwindVisibility::Invisible.boxed(),
+            ["visible"] => TailwindVisibility::from("visible").boxed(),
+            ["invisible"] => TailwindVisibility::from("hidden").boxed(),
             // https://tailwindcss.com/docs/z-index
             ["z", rest @ ..] => TailWindZIndex::parse(rest, arbitrary, self.negative)?.boxed(),
             // Flexbox & Grid
@@ -210,12 +210,8 @@ impl TailwindInstruction {
             // https://tailwindcss.com/docs/background-origin
             ["origin", rest @ ..] => TailwindBackgroundOrigin::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/background-repeat
-            ["repeat"] => TailwindBackgroundRepeat::Repeat.boxed(),
-            ["no", "repeat"] | ["repeat", "none"] => TailwindBackgroundRepeat::None.boxed(),
-            ["repeat", "x"] => TailwindBackgroundRepeat::RepeatX.boxed(),
-            ["repeat", "y"] => TailwindBackgroundRepeat::RepeatY.boxed(),
-            ["repeat", "round"] => TailwindBackgroundRepeat::Round.boxed(),
-            ["repeat", "space"] => TailwindBackgroundRepeat::Space.boxed(),
+            ["no", "repeat"] => TailwindBackgroundRepeat::from("repeat").boxed(),
+            ["repeat", rest @ ..] => TailwindBackgroundRepeat::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/background-size
             ["auto"] => TailwindBackgroundSize::Auto.boxed(),
             ["cover"] => TailwindBackgroundSize::Cover.boxed(),

@@ -27,15 +27,6 @@ impl TailwindInstance for TailWindOrder {
         }
     }
 }
-impl TailwindFlex {
-    pub fn parse(flex: &str) -> Result<Self> {
-        let n = parse_integer(flex)?.1;
-        Ok(Self::Percent { grow: n, shrink: n, basis: 0 })
-    }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
-    }
-}
 
 impl TailWindOrder {
     /// `order-none`

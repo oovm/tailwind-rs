@@ -32,6 +32,16 @@ impl Display for TailwindFlex {
 
 impl TailwindInstance for TailwindFlex {}
 
+impl TailwindFlex {
+    pub fn parse(flex: &str) -> Result<Self> {
+        let n = parse_integer(flex)?.1;
+        Ok(Self::Percent { grow: n, shrink: n, basis: 0 })
+    }
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        todo!()
+    }
+}
+
 #[inline]
 pub fn flex_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
     let out = match str {
@@ -46,9 +56,9 @@ pub fn flex_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<d
         ["col", "reverse"] => TailwindFlexDirection::from("column-reverse").boxed(),
         ["direction", rest @ ..] => TailwindFlexDirection::parse(rest, arbitrary)?.boxed(),
         // https://tailwindcss.com/docs/flex-wrap
-        ["wrap"] => TailwindFlexWrap::Wrap.boxed(),
-        ["wrap", "reverse"] => TailwindFlexWrap::WrapReverse.boxed(),
-        ["nowrap"] => TailwindFlexWrap::NoWrap.boxed(),
+        ["wrap"] => TailwindFlexWrap::from("wrap").boxed(),
+        ["wrap", "reverse"] => TailwindFlexWrap::from("wrap-reverse").boxed(),
+        ["nowrap"] => TailwindFlexWrap::from("nowrap").boxed(),
         // https://tailwindcss.com/docs/flex
         ["auto"] => TailwindFlex::Inherit.boxed(),
         ["initial"] => TailwindFlex::Inherit.boxed(),

@@ -1,8 +1,10 @@
 use super::*;
+mod font_size;
+pub use self::font_size::FontSize;
 
 #[derive(Clone, Debug)]
 pub struct FontSystem {
-    size: HashMap<String, Font>,
+    size: HashMap<String, FontSize>,
     family: HashMap<String, Vec<String>>,
 }
 
@@ -13,15 +15,16 @@ impl Default for FontSystem {
 }
 
 impl FontSystem {
-    /// Builtin ranges
-    /// https://tailwindcss.com/docs/screens
+    /// Builtin fonts' config
     pub fn builtin() -> Self {
         let mut new = Self::default();
-        new.insert_size("sm", 640);
-        new.insert_size("md", 768);
-        new.insert_size("lg", 1024);
-        new.insert_size("xl", 1280);
-        new.insert_size("2xl", 1536);
+        // https://tailwindcss.com/docs/font-size
+        new.insert_size("xs", FontSize::new(0.75, 1.0));
+        new.insert_size("sm", FontSize::new(0.875, 1.0));
+        new.insert_size("md", FontSize::new(1.0, 1.0));
+        new.insert_size("lg", FontSize::new(1.125, 1.0));
+        new.insert_size("xl", FontSize::new(1.25, 1.0));
+        new.insert_size("2xl", FontSize::new(1.5, 1.0));
         new.insert_family("sans", r#"ui-sans-serif"#);
         new.insert_family("serif", r#"ui-serif"#);
         new.insert_family("mono", r#"ui-sans-monospace"#);
@@ -32,8 +35,8 @@ impl FontSystem {
         todo!()
     }
     #[inline]
-    pub fn insert_size(&mut self, name: impl Into<String>, width: usize) -> Option<Font> {
-        self.size.insert(name.into(), Font { width })
+    pub fn insert_size(&mut self, name: impl Into<String>, size: FontSize) -> Option<FontSize> {
+        self.size.insert(name.into(), size)
     }
     #[inline]
     pub fn get_family(&self, name: &str) -> String {
@@ -50,19 +53,5 @@ impl FontSystem {
     #[inline]
     fn normalize_family(input: &str) -> Option<Vec<String>> {
         Some(vec![input.to_string()])
-    }
-}
-
-#[derive(Clone, Debug)]
-pub struct Font {
-    /// min-width
-    /// unit: px
-    width: usize,
-}
-
-impl Display for Font {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        writeln!(f, "@media (min-width: {}px) {{", self.width)?;
-        f.write_str("}")
     }
 }

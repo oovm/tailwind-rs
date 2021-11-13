@@ -35,6 +35,17 @@ impl TailwindInstance for TailwindIndent {
 
 impl TailwindIndent {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        todo!()
+        Ok(Self { kind: Indent::parse(pattern, arbitrary)? })
+    }
+}
+
+impl Indent {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after indent");
+        let out = match pattern {
+            ["px"] => Self::Length(LengthUnit::px(1.0)),
+            _ => return syntax_error!("Unknown indent instructions: {}", pattern.join("-")),
+        };
+        Ok(out)
     }
 }

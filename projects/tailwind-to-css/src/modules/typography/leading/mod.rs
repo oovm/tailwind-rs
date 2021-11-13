@@ -1,24 +1,22 @@
 use super::*;
 
-#[derive(Copy, Debug, Clone)]
-enum Leading {
-    Normal,
-    Length(LengthUnit),
-    Global(CssBehavior),
-}
-
 #[doc = include_str!("readme.md")]
-#[derive(Copy, Debug, Clone)]
+#[derive(Debug, Clone)]
 pub struct TailwindLeading {
-    kind: Leading,
+    kind: LineHeight,
 }
 
-impl Display for Leading {
+#[derive(Debug, Clone)]
+enum LineHeight {
+    Length(LengthUnit),
+    Standard(String),
+}
+
+impl Display for LineHeight {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::Normal => write!(f, "normal"),
             Self::Length(n) => write!(f, "{}", n.get_class_arbitrary()),
-            Self::Global(g) => write!(f, "{}", g),
+            Self::Standard(g) => write!(f, "{}", g),
         }
     }
 }
@@ -31,10 +29,9 @@ impl Display for TailwindLeading {
 
 impl TailwindInstance for TailwindLeading {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let leading = match self.kind {
-            Leading::Normal => "normal".to_string(),
-            Leading::Length(n) => n.get_properties(),
-            Leading::Global(g) => g.to_string(),
+        let leading = match &self.kind {
+            LineHeight::Length(n) => n.get_properties(),
+            LineHeight::Standard(g) => g.to_string(),
         };
         css_attributes! {
             "line-height" => leading
@@ -43,8 +40,6 @@ impl TailwindInstance for TailwindLeading {
 }
 
 impl TailwindLeading {
-    /// `leading-normal`
-    pub const Normal: Self = Self { kind: Leading::Normal };
     /// https://tailwindcss.com/docs/line-height
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         match pattern {
@@ -56,7 +51,7 @@ impl TailwindLeading {
             ["wider" | "relaxed"] => scale(1.625),
             ["widest" | "loose"] => scale(2.0),
             // https://developer.mozilla.org/zh-CN/docs/Web/CSS/line-height#normal
-            ["normal"] => Ok(Self::Normal),
+            ["normal"] => Ok(Self { kind: LineHeight::Standard("normal".to_string()) }),
             [] => Self::parse_arbitrary(arbitrary),
             [n] => Self::parse_arbitrary(&TailwindArbitrary::from(*n)),
             _ => syntax_error!("Unknown leading instructions: {}", pattern.join("-")),
@@ -77,9 +72,9 @@ impl TailwindLeading {
 
 #[inline(always)]
 fn scale(x: f32) -> Result<TailwindLeading> {
-    Ok(TailwindLeading { kind: Leading::Length(LengthUnit::percent(x * 100.0)) })
+    Ok(TailwindLeading { kind: LineHeight::Length(LengthUnit::percent(x * 100.0)) })
 }
 #[inline(always)]
 fn rem(x: f32) -> Result<TailwindLeading> {
-    Ok(TailwindLeading { kind: Leading::Length(LengthUnit::rem(x)) })
+    Ok(TailwindLeading { kind: LineHeight::Length(LengthUnit::rem(x)) })
 }

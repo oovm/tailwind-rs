@@ -10,19 +10,7 @@ pub(crate) mod font_weight;
 pub fn font_adaptor(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
     let out = match pattern {
         // https://tailwindcss.com/docs/font-size
-        ["xs"] => TailwindFontSize::new(0.75, 1.0).boxed(),
-        ["sm"] => TailwindFontSize::new(0.75, 1.0).boxed(),
-        ["md"] | ["base"] => TailwindFontSize::new(0.75, 1.0).boxed(),
-        ["lg"] => TailwindFontSize::new(0.75, 1.0).boxed(),
-        ["xl"] => TailwindFontSize::new(0.75, 1.0).boxed(),
-        ["2xl"] => TailwindFontSize::new(0.75, 1.0).boxed(),
-        ["3xl"] => TailwindFontSize::new(0.75, 1.0).boxed(),
-        ["4xl"] => TailwindFontSize::new(0.75, 1.0).boxed(),
-        ["5xl"] => TailwindFontSize::new(0.75, 1.0).boxed(),
-        ["6xl"] => TailwindFontSize::new(0.75, 1.0).boxed(),
-        ["7xl"] => TailwindFontSize::new(0.75, 1.0).boxed(),
-        ["8xl"] => TailwindFontSize::new(0.75, 1.0).boxed(),
-        ["9xl"] => TailwindFontSize::new(0.75, 1.0).boxed(),
+        ["xs"] => todo!(),
         // https://tailwindcss.com/docs/float
         ["thin"] => TailwindFontWeight::THIN.boxed(),
         ["extralight"] => TailwindFontWeight::EXTRA_LIGHT.boxed(),

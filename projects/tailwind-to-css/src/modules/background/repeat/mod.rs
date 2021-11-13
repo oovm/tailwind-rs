@@ -1,74 +1,98 @@
-use crate::{css_attributes, CssAttribute, CssBehavior, TailwindBuilder, TailwindInstance};
-use std::{
-    collections::BTreeSet,
-    fmt::{Display, Formatter},
-};
+use super::*;
 
-#[derive(Copy, Clone, Debug)]
-enum BackgroundRepeat {
-    Repeat,
-    RepeatX,
-    RepeatY,
-    Round,
-    Space,
-    None,
-    Global(CssBehavior),
-}
-
-#[doc = include_str!("readme.md")]
-#[derive(Copy, Clone, Debug)]
+#[doc=include_str!("readme.md")]
+#[derive(Debug, Clone)]
 pub struct TailwindBackgroundRepeat {
     kind: BackgroundRepeat,
 }
 
-impl Display for BackgroundRepeat {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Repeat => write!(f, "repeat"),
-            Self::RepeatX => write!(f, "repeat-x"),
-            Self::RepeatY => write!(f, "repeat-y"),
-            Self::Round => write!(f, "repeat-round"),
-            Self::Space => write!(f, "repeat-space"),
-            Self::None => write!(f, "no-repeat"),
-            Self::Global(g) => write!(f, "{}", g),
-        }
+#[derive(Debug, Clone)]
+enum BackgroundRepeat {
+    Standard(String),
+    Arbitrary(String),
+}
+
+impl<T> From<T> for TailwindBackgroundRepeat
+where
+    T: Into<String>,
+{
+    fn from(kind: T) -> Self {
+        Self { kind: BackgroundRepeat::Standard(kind.into()) }
     }
 }
 
 impl Display for TailwindBackgroundRepeat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "bg-{}", self.kind)
+        match &self.kind {
+            BackgroundRepeat::Standard(s) => match s.as_str() {
+                "repeat" => write!(f, "bg-repeat"),
+                "no-repeat" => write!(f, "bg-no-repeat"),
+                "repeat-x" => write!(f, "bg-repeat-x"),
+                "repeat-y" => write!(f, "bg-repeat-y"),
+                _ => write!(f, "bg-repeat-{}", s),
+            },
+            BackgroundRepeat::Arbitrary(s) => write!(f, "bg-repeat-[{}]", s),
+        }
     }
 }
 
 impl TailwindInstance for TailwindBackgroundRepeat {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let clip = match &self.kind {
-            BackgroundRepeat::Repeat => "repeat".to_string(),
-            BackgroundRepeat::RepeatX => "repeat-x".to_string(),
-            BackgroundRepeat::RepeatY => "repeat-y".to_string(),
-            BackgroundRepeat::Round => "round".to_string(),
-            BackgroundRepeat::Space => "space".to_string(),
-            BackgroundRepeat::None => "no-repeat".to_string(),
-            BackgroundRepeat::Global(g) => g.to_string(),
+        let cursor = match &self.kind {
+            BackgroundRepeat::Standard(s) => s,
+            BackgroundRepeat::Arbitrary(s) => s,
         };
         css_attributes! {
-            "background-repeat" => clip
+            "background-repeat" => cursor
         }
     }
 }
 
 impl TailwindBackgroundRepeat {
-    /// `bg-repeat`
-    pub const Repeat: Self = Self { kind: BackgroundRepeat::Repeat };
-    /// `bg-no-repeat`
-    pub const RepeatX: Self = Self { kind: BackgroundRepeat::RepeatX };
-    /// `bg-repeat-x`
-    pub const RepeatY: Self = Self { kind: BackgroundRepeat::RepeatY };
-    /// `bg-repeat-y`
-    pub const Round: Self = Self { kind: BackgroundRepeat::Round };
-    /// `bg-repeat-round`
-    pub const Space: Self = Self { kind: BackgroundRepeat::Space };
-    /// `bg-repeat-space`
-    pub const None: Self = Self { kind: BackgroundRepeat::None };
+    /// https://tailwindcss.com/docs/background-repeat
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: BackgroundRepeat::parse(pattern, arbitrary)? })
+    }
+    /// https://tailwindcss.com/docs/background-repeat
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: BackgroundRepeat::parse_arbitrary(arbitrary)? })
+    }
+}
+
+impl BackgroundRepeat {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        let out = match pattern {
+            [] if arbitrary.is_none() => Self::Standard("repeat".to_string()),
+            [] => Self::parse_arbitrary(arbitrary)?,
+            ["none"] => Self::Standard("no-repeat".to_string()),
+            ["x"] => Self::Standard("repeat-x".to_string()),
+            ["y"] => Self::Standard("repeat-y".to_string()),
+            _ => {
+                let s = pattern.join("-");
+                debug_assert!(Self::check_valid(&s));
+                Self::Standard(s)
+            },
+        };
+        Ok(out)
+    }
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        debug_assert!(arbitrary.is_some());
+        Ok(Self::Arbitrary(arbitrary.to_string()))
+    }
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat#syntax
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec![
+            "inherit",
+            "initial",
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y",
+            "revert",
+            "round",
+            "space",
+            "unset",
+        ]);
+        set.contains(mode)
+    }
 }
