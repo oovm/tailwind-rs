@@ -1,25 +1,17 @@
 use super::*;
 
-#[derive(Copy, Clone, Debug)]
-enum TableLayout {
-    Auto,
-    Fixed,
-    Global(CssBehavior),
-}
-
-#[doc = include_str!("readme.md")]
-#[derive(Copy, Clone, Debug)]
+#[doc=include_str!("readme.md")]
+#[derive(Debug, Clone)]
 pub struct TailwindTableLayout {
-    kind: TableLayout,
+    kind: String,
 }
 
-impl Display for TableLayout {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Auto => write!(f, "auto"),
-            Self::Fixed => write!(f, "fixed"),
-            Self::Global(g) => write!(f, "{}", g),
-        }
+impl<T> From<T> for TailwindTableLayout
+where
+    T: Into<String>,
+{
+    fn from(kind: T) -> Self {
+        Self { kind: kind.into() }
     }
 }
 
@@ -38,8 +30,16 @@ impl TailwindInstance for TailwindTableLayout {
 }
 
 impl TailwindTableLayout {
-    /// `table-auto`
-    pub const Auto: Self = Self { kind: TableLayout::Auto };
-    /// `table-fixed`
-    pub const Fixed: Self = Self { kind: TableLayout::Fixed };
+    /// https://tailwindcss.com/docs/table-layout
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after table");
+        let kind = pattern.join("-");
+        debug_assert!(Self::check_valid(&kind));
+        Ok(Self { kind })
+    }
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/table-layout#syntax
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec!["all", "auto", "contain", "inherit", "initial", "none", "revert", "text", "unset"]);
+        set.contains(mode)
+    }
 }

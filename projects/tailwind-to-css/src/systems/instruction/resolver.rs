@@ -298,14 +298,10 @@ impl TailwindInstruction {
     fn table_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/display#flex
-            // `[]` => This won't happen
-            ["caption"] => TailwindTableLayout::Auto.boxed(),
-            ["right"] => TailwindTableLayout::Auto.boxed(),
-            ["none"] => TailwindTableLayout::Auto.boxed(),
+            // This won't happen
+            [] => TailwindDisplay::from("table").boxed(),
             // https://tailwindcss.com/docs/table-layout
-            ["auto"] => TailwindTableLayout::Auto.boxed(),
-            ["fixed"] => TailwindTableLayout::Fixed.boxed(),
-            _ => return syntax_error!("Unknown table instructions: {}", str.join("-")),
+            _ => TailwindTableLayout::parse(str, arbitrary)?.boxed(),
         };
         Ok(out)
     }

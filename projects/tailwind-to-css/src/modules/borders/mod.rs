@@ -11,7 +11,8 @@ use crate::{
 pub use self::{
     border::*,
     divide::{
-        divide_color::TailwindDivideColor, divide_style::TailwindDivideStyle, divide_width::TailwindDivideWidth, TailwindDivide,
+        divide_color::TailwindDivideColor, divide_reverse::TailwindDivideReverse, divide_style::TailwindDivideStyle,
+        divide_width::TailwindDivideWidth, TailwindDivide,
     },
     outline::*,
     ring::*,

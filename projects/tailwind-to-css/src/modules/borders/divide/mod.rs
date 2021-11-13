@@ -4,7 +4,6 @@ pub(crate) mod divide_style;
 pub(crate) mod divide_width;
 
 use super::*;
-use crate::modules::borders::divide::divide_reverse::TailwindDivideReverse;
 
 #[derive(Copy, Clone, Debug, Default)]
 pub struct TailwindDivide {}
