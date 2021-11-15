@@ -1,23 +1,15 @@
 (* ::Package:: *)
 
 values = "
-/* Apply to all four sides */
-padding: 1em;
-
-/* vertical | horizontal */
-padding: 5% 10%;
-
-/* top | horizontal | bottom */
-padding: 1em 2em 2em;
-
-/* top | right | bottom | left */
-padding: 5px 1em 0 2em;
+/* Keyword values */
+border-collapse: collapse;
+border-collapse: separate;
 
 /* Global values */
-padding: inherit;
-padding: initial;
-padding: revert;
-padding: unset;
+border-collapse: inherit;
+border-collapse: initial;
+border-collapse: revert;
+border-collapse: unset;
 ";
 
 all = Sort@StringCases[

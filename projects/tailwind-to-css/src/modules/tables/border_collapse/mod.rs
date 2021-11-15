@@ -39,7 +39,7 @@ impl TailwindBorderCollapse {
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-style#syntax
     pub fn check_valid(mode: &str) -> bool {
-        let set = BTreeSet::from_iter(vec!["collapse", "separate", "initial", "revert", "unset"]);
+        let set = BTreeSet::from_iter(vec!["collapse", "inherit", "initial", "revert", "separate", "unset"]);
         set.contains(mode)
     }
 }
