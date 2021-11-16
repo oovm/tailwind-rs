@@ -1,6 +1,6 @@
-# Tailwind to Css
+# Tailwind CSS
 
-**Tailwind style tracer, JIT + AOT compiler!**
+**Tailwind style tracer, JIT + AOT Interpreter!**
 
 ```rust
 use tailwind_css::TailwindBuilder;
@@ -47,72 +47,73 @@ A lot of documentation and test cases are missing, you are welcome to pr!
 See the `tests` folder for details.
 
 - **Preflight**
-  - [x] [preflight](https://tailwindcss.com/docs/preflight): [`PreflightSystem`]
+    - [x] [preflight](https://tailwindcss.com/docs/preflight): [PreflightSystem](https://docs.rs/tailwind-css/latest/tailwind_css/struct.PreflightSystem.html)
 - **Layout**
-  - [x] [aspect-ratio](https://tailwindcss.com/docs/aspect-ratio): [`TailwindAspect`]
-  - [ ] [container](https://tailwindcss.com/docs/container): [``]
-  - [ ] [columns](https://tailwindcss.com/docs/columns): [``]
-  - [x] [break-after](https://tailwindcss.com/docs/break-after): [`TailwindBreak::After`]
-  - [x] [break-before](https://tailwindcss.com/docs/break-before): [`TailwindBreak::Before`]
-  - [x] [break-inside](https://tailwindcss.com/docs/break-inside): [`TailwindBreak::Inside`]
-  - [ ] [box-decoration-break](https://tailwindcss.com/docs/box-decoration-break)
-  - [ ] [box-sizing](https://tailwindcss.com/docs/box-sizing)
-  - [ ] [display](https://tailwindcss.com/docs/display)
-  - [ ] [float](https://tailwindcss.com/docs/display)
-  - [ ] [clear](https://tailwindcss.com/docs/display)
-  - [ ] [isolation](https://tailwindcss.com/docs/display)
-  - [ ] [object-fit](https://tailwindcss.com/docs/display)
-  - [ ] [object-position](https://tailwindcss.com/docs/display)
-  - [ ] [overflow](https://tailwindcss.com/docs/display)
-  - [ ] [overscroll-behavior](https://tailwindcss.com/docs/display)
-  - [ ] [position](https://tailwindcss.com/docs/display)
-  - [ ] [top-right-bottom-left](https://tailwindcss.com/docs/display)
-  - [ ] [visibility](https://tailwindcss.com/docs/display)
-  - [x] [z-index](https://tailwindcss.com/docs/z-index)
+    - [x] [aspect-ratio](https://tailwindcss.com/docs/aspect-ratio): [`TailwindAspect`]
+    - [x] [container](https://tailwindcss.com/docs/container): [`TailwindContainer`]
+    - [x] [columns](https://tailwindcss.com/docs/columns): [`TailwindColumns`]
+    - [x] [break-after](https://tailwindcss.com/docs/break-after): [`TailwindBreakAfter`]
+    - [x] [break-before](https://tailwindcss.com/docs/break-before): [`TailwindBreakBefore`]
+    - [x] [break-inside](https://tailwindcss.com/docs/break-inside): [`TailwindBreakInside`]
+    - [x] [box-decoration-break](https://tailwindcss.com/docs/box-decoration-break): [`TailwindBoxDecoration`]
+    - [x] [box-sizing](https://tailwindcss.com/docs/box-sizing): [`TailwindBoxSize`]
+    - [x] [display](https://tailwindcss.com/docs/display): [`TailwindDisplay`]
+    - [x] [float](https://tailwindcss.com/docs/float): [`TailwindFloat`]
+    - [x] [clear](https://tailwindcss.com/docs/clear): [`TailwindClear`]
+    - [x] [isolation](https://tailwindcss.com/docs/isolation): [`TailwindIsolation`]
+    - [x] [object-fit](https://tailwindcss.com/docs/object-fit): [`TailwindObjectFit`]
+    - [x] [object-position](https://tailwindcss.com/docs/object-position): [`TailwindObjectPosition`]
+    - [x] [overflow](https://tailwindcss.com/docs/overflow): [`TailwindOverflow`]
+    - [x] [overscroll-behavior](https://tailwindcss.com/docs/overscroll-behavior): [`TailwindOverscroll`]
+    - [x] [position](https://tailwindcss.com/docs/position): [`TailwindPosition`]
+    - [x] [inset](https://tailwindcss.com/docs/top-right-bottom-left): [`TailwindInset`]
+    - [x] [left](https://tailwindcss.com/docs/top-right-bottom-left): [`TailwindLeft`]
+    - [x] [right](https://tailwindcss.com/docs/top-right-bottom-left): [`TailwindRight`]
+    - [x] [top](https://tailwindcss.com/docs/top-right-bottom-left): [`TailwindTop`]
+    - [x] [bottom](https://tailwindcss.com/docs/top-right-bottom-left): [`TailwindBottom`]
+    - [x] [visibility](https://tailwindcss.com/docs/visibility): [`TailwindVisibility`]
+    - [x] [z-index](https://tailwindcss.com/docs/z-index): [`TailwindZIndex`]
 - **Flexbox & Grid**
-  - [x] [z-index](https://tailwindcss.com/docs/flex-basis): [`TailWindZIndex`]
+    - [x] [flex-basis](https://tailwindcss.com/docs/flex-basis): [`TailWindZIndex`]
+    - [x] [flex-direction](https://tailwindcss.com/docs/flex-direction): [`TailWindZIndex`]
+    - [x] [flex-wrap](https://tailwindcss.com/docs/flex-wrap): [`TailWindZIndex`]
+    - [x] [flex](https://tailwindcss.com/docs/flex): [`TailWindZIndex`]
+    - [x] [flex-grow](https://tailwindcss.com/docs/flex-grow): [`TailWindZIndex`]
+    - [x] [flex-shrink](https://tailwindcss.com/docs/flex-shrink): [`TailWindZIndex`]
 - **Spacing**
-  - [x] [padding](https://tailwindcss.com/docs/padding): [`TailwindSpacing`]
-  - [x] [margin](https://tailwindcss.com/docs/margin): [`TailwindSpacing`]
-  - [x] [space](https://tailwindcss.com/docs/space): [`TailwindSpacing`]
+    - [x] [padding](https://tailwindcss.com/docs/padding): [`TailwindSpacing`]
+    - [x] [margin](https://tailwindcss.com/docs/margin): [`TailwindSpacing`]
+    - [x] [space](https://tailwindcss.com/docs/space): [`TailwindSpacing`]
 - **Sizing**
-  - [x] [width](https://tailwindcss.com/docs/width): [`TailwindWidth`]
-  - [x] [min-width](https://tailwindcss.com/docs/min-width): [`TailwindWidth`]
-  - [x] [max-width](https://tailwindcss.com/docs/max-width): [`TailwindWidth`]
-  - [x] [height](https://tailwindcss.com/docs/height): [`TailwindHeight`]
-  - [x] [min-height](https://tailwindcss.com/docs/min-height): [`TailwindHeight`]
-  - [x] [max-height](https://tailwindcss.com/docs/max-height): [`TailwindHeight`]
+    - [x] [width](https://tailwindcss.com/docs/width): [`TailwindWidth`]
+    - [x] [min-width](https://tailwindcss.com/docs/min-width): [`TailwindWidth`]
+    - [x] [max-width](https://tailwindcss.com/docs/max-width): [`TailwindWidth`]
+    - [x] [height](https://tailwindcss.com/docs/height): [`TailwindHeight`]
+    - [x] [min-height](https://tailwindcss.com/docs/min-height): [`TailwindHeight`]
+    - [x] [max-height](https://tailwindcss.com/docs/max-height): [`TailwindHeight`]
 - **Typography**
-  - [ ] [font-family](https://tailwindcss.com/docs/font-family)
+    - [x] [font-family](https://tailwindcss.com/docs/font-family)
 - **Backgrounds**
-  - [ ] [background-attachment](https://tailwindcss.com/docs/background-attachment)
+    - [x] [background-attachment](https://tailwindcss.com/docs/background-attachment)
 - **Borders**
-  - [ ] [border-radius](https://tailwindcss.com/docs/background-attachment)
+    - [x] [border-radius](https://tailwindcss.com/docs/background-attachment)
 - **Effects**
-  - [ ] [box-shadow](https://tailwindcss.com/docs/box-shadow): [`ShadowSystem`]
-  - [ ] [box-shadow-color](https://tailwindcss.com/docs/box-shadow-color): [`ShadowSystem`]
-  - [ ] [opacity](https://tailwindcss.com/docs/opacity): [`TailwindOpacity`]
-  - [ ] [mix-blend-mode](https://tailwindcss.com/docs/mix-blend-mode): [`TailwindBlender`]
-  - [ ] [background-blend-mode](https://tailwindcss.com/docs/background-blend-mode): [`TailwindBlender`]
+    - [x] [box-shadow](https://tailwindcss.com/docs/box-shadow): [`ShadowSystem`]
+    - [x] [box-shadow-color](https://tailwindcss.com/docs/box-shadow-color): [`ShadowSystem`]
+    - [x] [opacity](https://tailwindcss.com/docs/opacity): [`TailwindOpacity`]
+    - [x] [mix-blend-mode](https://tailwindcss.com/docs/mix-blend-mode): [`TailwindBlender`]
+    - [x] [background-blend-mode](https://tailwindcss.com/docs/background-blend-mode): [`TailwindBlender`]
 - **Filters**
-  - [ ] [blur](https://tailwindcss.com/docs/blur)
+    - [x] [blur](https://tailwindcss.com/docs/blur)
 - **Tables**
-  - [x] [border-collapse](https://tailwindcss.com/docs/border-collapse): [`TailwindBorderCollapse`]
-  - [x] [table-layout](https://tailwindcss.com/docs/table-layout): [`TailwindTableLayout`]
+    - [x] [border-collapse](https://tailwindcss.com/docs/border-collapse): [`TailwindBorderCollapse`]
+    - [x] [table-layout](https://tailwindcss.com/docs/table-layout): [`TailwindTableLayout`]
 - **Transitions & Animation**
-  - [ ] [border-collapse](https://tailwindcss.com/docs/border-collapse): [`TailwindTableLayout`]
-  - [ ] [table-layout](https://tailwindcss.com/docs/table-layout): [`TailwindTableLayout`]
+    - [x] [border-collapse](https://tailwindcss.com/docs/border-collapse): [`TailwindTableLayout`]
+    - [x] [table-layout](https://tailwindcss.com/docs/table-layout): [`TailwindTableLayout`]
 - **Transforms**
-  - [x] [scale](https://tailwindcss.com/docs/scale): [`TailwindScale`]
-  - [x] [rotate](https://tailwindcss.com/docs/rotate): [`TailwindRotate`]
-  - [ ] [translate](https://tailwindcss.com/docs/translate): [`TailwindTranslate`]
-  - [x] [skew](https://tailwindcss.com/docs/skew): [`TailwindSkew`]
-  - [ ] [transform-origin](https://tailwindcss.com/docs/transform-origin): [`TailwindOrigin`]
-
-
-
-
-
-
-
-
+    - [x] [scale](https://tailwindcss.com/docs/scale): [`TailwindScale`]
+    - [x] [rotate](https://tailwindcss.com/docs/rotate): [`TailwindRotate`]
+    - [x] [translate](https://tailwindcss.com/docs/translate): [`TailwindTranslate`]
+    - [x] [skew](https://tailwindcss.com/docs/skew): [`TailwindSkew`]
+    - [x] [transform-origin](https://tailwindcss.com/docs/transform-origin): [`TailwindOrigin`]
