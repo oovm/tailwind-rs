@@ -17,7 +17,7 @@ impl Palette {
     ///
     pub fn get_color(&self, weight: usize) -> Result<Srgb> {
         match self.key_points.get(&weight) {
-            Some(s) => Ok(s.clone()),
+            Some(s) => Ok(*s),
             None if self.gradient => {
                 syntax_error!("TODO")
             },

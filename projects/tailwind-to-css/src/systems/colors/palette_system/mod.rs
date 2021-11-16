@@ -1,14 +1,8 @@
 use super::*;
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 pub struct PaletteSystem {
     inner: HashMap<String, Palette>,
-}
-
-impl Default for PaletteSystem {
-    fn default() -> Self {
-        Self { inner: Default::default() }
-    }
 }
 
 impl PaletteSystem {
@@ -38,7 +32,7 @@ impl PaletteSystem {
         new.register("fuchsia".to_string(), Palette::fuchsia());
         new.register("pink".to_string(), Palette::pink());
         new.register("rose".to_string(), Palette::rose());
-        return new;
+        new
     }
 
     pub fn get_color(&self, name: &str, weight: usize) -> Result<Srgb> {

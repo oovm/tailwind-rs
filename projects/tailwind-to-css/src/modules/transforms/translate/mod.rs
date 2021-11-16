@@ -11,9 +11,8 @@ pub struct TailwindTranslate {
 #[derive(Clone, Debug)]
 enum TranslateSize {
     Unit(f32),
-    Fraction(usize, usize),
     Length(LengthUnit),
-    Global(CssBehavior),
+    Standard(String),
     Arbitrary(String),
 }
 
@@ -21,9 +20,9 @@ impl Display for TranslateSize {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::Unit(n) => write!(f, "{}", n),
-            Self::Fraction(a, b) => write!(f, "{}/{}", a, b),
+            Self::Length(n) if n.is_fraction() => write!(f, "{}", n.get_class()),
             Self::Length(n) => write!(f, "{}", n.get_class_arbitrary()),
-            Self::Global(g) => write!(f, "{}", g),
+            Self::Standard(g) => write!(f, "{}", g),
             Self::Arbitrary(g) => write!(f, "[{}]", g),
         }
     }
@@ -75,9 +74,10 @@ impl TranslateSize {
         match pattern {
             [] => Self::parse_arbitrary(arbitrary),
             ["px"] => Ok(Self::Length(LengthUnit::px(1.0))),
+            [s @ ("none" | "inherit" | "initial" | "revert" | "unset")] => Ok(Self::Standard(s.to_string())),
             [n] => {
                 let a = TailwindArbitrary::from(*n);
-                Self::maybe_no_unit(&a).or_else(|_| Self::maybe_frac(&a)).or_else(|_| Self::maybe_length(&a))
+                Self::maybe_no_unit(&a).or_else(|_| Self::maybe_length(&a))
             },
             _ => syntax_error!("Unknown translate instructions: {}", pattern.join("-")),
         }
@@ -91,9 +91,5 @@ impl TranslateSize {
     }
     fn maybe_length(arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self::Length(arbitrary.as_length()?))
-    }
-    fn maybe_frac(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let (a, b) = arbitrary.as_fraction()?;
-        Ok(Self::Fraction(a, b))
     }
 }

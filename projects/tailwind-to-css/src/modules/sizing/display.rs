@@ -22,11 +22,11 @@ impl SizingUnit {
             false => "vh",
         };
         match self {
-            Self::Min => format!("min-content"),
-            Self::Max => format!("max-content"),
-            Self::Fit => format!("fit-content"),
-            Self::Auto => format!("auto"),
-            Self::Full => format!("100%"),
+            Self::Min => "min-content".to_string(),
+            Self::Max => "max-content".to_string(),
+            Self::Fit => "fit-content".to_string(),
+            Self::Auto => "auto".to_string(),
+            Self::Full => "100%".to_string(),
             Self::Screen => format!("100{}", is_width),
             Self::Fraction(numerator, denominator) => format!("{}%", *numerator as f32 / *denominator as f32),
             Self::Length(x) => format!("{}", x),

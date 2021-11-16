@@ -1,6 +1,7 @@
 use super::*;
 
 impl TailwindObject {
+    #[allow(clippy::new_ret_no_self)]
     pub fn new(id: impl Into<String>, css: BTreeSet<CssAttribute>) -> Box<dyn TailwindInstance> {
         Box::new(Self { id: id.into(), attributes: css })
     }
@@ -31,7 +32,7 @@ impl TailwindObject {
                 let lines = css.trim().lines();
                 let mut out = BTreeSet::default();
                 for i in lines.map(|s| s.trim()) {
-                    if let Some((key, value)) = i.split_once(":") {
+                    if let Some((key, value)) = i.split_once(':') {
                         out.insert(CssAttribute::new(key, value));
                     }
                 }

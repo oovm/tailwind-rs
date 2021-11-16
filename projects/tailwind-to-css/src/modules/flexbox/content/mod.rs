@@ -5,7 +5,7 @@ pub(crate) mod content_align;
 #[doc = include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindContent {
-    kind: Content,
+    kind: MaybeArbitrary,
 }
 
 impl<T> From<T> for TailwindContent
@@ -13,33 +13,24 @@ where
     T: Into<String>,
 {
     fn from(kind: T) -> Self {
-        Self { kind: Content::Standard(kind.into()) }
+        Self { kind: MaybeArbitrary::Standard(kind.into()) }
     }
 }
 
-#[derive(Debug, Clone)]
-enum Content {
-    Standard(String),
-    Arbitrary(String),
-}
 
 impl Display for TailwindContent {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match &self.kind {
-            Content::Standard(s) => write!(f, "{}", s),
-            Content::Arbitrary(s) => write!(f, "[{}]", s),
+            MaybeArbitrary::Standard(s) => write!(f, "{}", s),
+            MaybeArbitrary::Arbitrary(s) => write!(f, "[{}]", s),
         }
     }
 }
 
 impl TailwindInstance for TailwindContent {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let content = match &self.kind {
-            Content::Standard(s) => s,
-            Content::Arbitrary(s) => s,
-        };
         css_attributes! {
-            "content" => content
+            "content" => self.kind.get_properties()
         }
     }
 }
@@ -63,7 +54,7 @@ impl TailwindContent {
         Ok(instance)
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: Content::Arbitrary(arbitrary.to_string()) })
+        Ok(Self { kind: MaybeArbitrary::Arbitrary(arbitrary.to_string()) })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/content#syntax
     pub fn check_valid(mode: &str) -> bool {

@@ -49,9 +49,20 @@ impl TailwindInstance for TailwindDecorationThickness {
 impl TailwindDecorationThickness {
     /// https://tailwindcss.com/docs/text-decoration-thickness
     pub fn parse(input: &str) -> Result<Self> {
+        let kind = Thickness::parse(input)?;
+        Ok(Self { kind })
+    }
+}
+
+impl Thickness {
+    pub fn parse(input: &str) -> Result<Self> {
         let a = TailwindArbitrary::from(input);
-        let maybe_unit = || -> Result<Self> { Ok(Self { kind: Thickness::Length(LengthUnit::px(a.as_integer()?)) }) };
-        let maybe_length = || -> Result<Self> { Ok(Self { kind: Thickness::Length(a.as_length()?) }) };
-        maybe_length().or_else(|_| maybe_unit())
+        Self::maybe_length(&a).or_else(|_| Self::maybe_no_unit(&a))
+    }
+    fn maybe_no_unit(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self::Unit(arbitrary.as_integer()?))
+    }
+    fn maybe_length(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self::Length(arbitrary.as_length()?))
     }
 }

@@ -10,8 +10,6 @@ pub(crate) mod top;
 enum PlacementSize {
     Auto,
     Full,
-    // Unit(f32),
-    Fraction(usize, usize),
     Length(LengthUnit),
     Global(CssBehavior),
     Arbitrary(String),
@@ -22,8 +20,7 @@ impl Display for PlacementSize {
         match self {
             Self::Auto => write!(f, "auto"),
             Self::Full => write!(f, "full"),
-            // Self::Unit(n) => write!(f, "{}", n),
-            Self::Fraction(a, b) => write!(f, "{}/{}", a, b),
+            Self::Length(n) if n.is_fraction() => write!(f, "{}", n.get_class()),
             Self::Length(n) => write!(f, "{}", n.get_class_arbitrary()),
             Self::Global(g) => write!(f, "{}", g),
             Self::Arbitrary(a) => write!(f, "[{}]", a),
@@ -54,7 +51,6 @@ impl PlacementSize {
         match self {
             Self::Auto => "auto".to_string(),
             Self::Full => "full".to_string(),
-            Self::Fraction(a, b) => LengthUnit::Fraction(*a, *b).get_properties(),
             Self::Length(x) => x.get_properties(),
             Self::Global(x) => x.to_string(),
             Self::Arbitrary(x) => x.to_string(),

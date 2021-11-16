@@ -1,7 +1,7 @@
 mod traits;
 use super::*;
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 pub struct BreakPointSystem {
     inner: HashMap<String, BreakPoint>,
 }
@@ -16,7 +16,7 @@ impl BreakPointSystem {
         new.register("lg".to_string(), 1024);
         new.register("xl".to_string(), 1280);
         new.register("2xl".to_string(), 1536);
-        return new;
+        new
     }
 
     #[inline]

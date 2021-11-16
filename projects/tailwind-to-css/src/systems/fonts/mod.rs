@@ -2,16 +2,10 @@ use super::*;
 mod font_size;
 pub use self::font_size::FontSize;
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 pub struct FontSystem {
     size: HashMap<String, FontSize>,
     family: HashMap<String, Vec<String>>,
-}
-
-impl Default for FontSystem {
-    fn default() -> Self {
-        Self { size: Default::default(), family: Default::default() }
-    }
 }
 
 impl FontSystem {

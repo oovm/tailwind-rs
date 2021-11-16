@@ -8,7 +8,7 @@ use crate::{css_attributes, syntax_error, CssAttribute, Result, TailwindArbitrar
 pub use self::{
     origin::TailwindOrigin, rotate::TailwindRotate, scale::TailwindScale, skew::TailwindSkew, translate::TailwindTranslate,
 };
-use crate::{AnchorPoint, CssBehavior, LengthUnit};
+use crate::{AnchorPoint, LengthUnit};
 use std::fmt::Write;
 
 mod origin;

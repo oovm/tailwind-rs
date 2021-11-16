@@ -19,26 +19,21 @@ enum Shadow {
     Arbitrary(String),
 }
 
-impl Display for Shadow {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::None => write!(f, "-none",),
-            Self::Small => write!(f, "-sm",),
-            Self::Standard => write!(f, "",),
-            Self::Medium => write!(f, "-md",),
-            Self::Large => write!(f, "-lg",),
-            Self::ExtraLarge => write!(f, "-xl",),
-            Self::ExtraLarge2 => write!(f, "-2xl",),
-            Self::Arbitrary(s) => write!(f, "-[{}]", s),
-        }
-    }
-}
-
 impl Display for TailwindShadow {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self.is_drop {
-            true => write!(f, "drop-shadow"),
-            false => write!(f, "shadow"),
+            true => write!(f, "drop-shadow")?,
+            false => write!(f, "shadow")?,
+        }
+        match &self.kind {
+            Shadow::None => write!(f, "-none",),
+            Shadow::Small => write!(f, "-sm",),
+            Shadow::Standard => write!(f, "",),
+            Shadow::Medium => write!(f, "-md",),
+            Shadow::Large => write!(f, "-lg",),
+            Shadow::ExtraLarge => write!(f, "-xl",),
+            Shadow::ExtraLarge2 => write!(f, "-2xl",),
+            Shadow::Arbitrary(s) => write!(f, "-[{}]", s),
         }
     }
 }
@@ -94,7 +89,7 @@ impl Shadow {
             ["m" | "md"] => Shadow::Medium,
             ["l" | "lg"] => Shadow::Large,
             ["x" | "xl"] => Shadow::ExtraLarge,
-            ["u" | "2xl" | "xxl" | "ul"] => Shadow::Small,
+            ["u" | "2xl" | "xxl" | "ul"] => Shadow::ExtraLarge2,
             _ => return syntax_error!("Unknown shadow instructions: {}", input.join("-")),
         };
         Ok(kind)

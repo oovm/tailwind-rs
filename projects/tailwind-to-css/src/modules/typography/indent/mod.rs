@@ -42,10 +42,19 @@ impl TailwindIndent {
 impl Indent {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary after indent");
-        let out = match pattern {
-            ["px"] => Self::Length(LengthUnit::px(1.0)),
-            _ => return syntax_error!("Unknown indent instructions: {}", pattern.join("-")),
-        };
-        Ok(out)
+        match pattern {
+            ["px"] => Ok(Self::Length(LengthUnit::px(1.0))),
+            [n] => {
+                let a = TailwindArbitrary::from(*n);
+                Self::maybe_no_unit(&a).or_else(|_| Self::maybe_length(&a))
+            },
+            _ => syntax_error!("Unknown indent instructions: {}", pattern.join("-")),
+        }
+    }
+    fn maybe_no_unit(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self::Unit(arbitrary.as_float()?))
+    }
+    fn maybe_length(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self::Length(arbitrary.as_length()?))
     }
 }

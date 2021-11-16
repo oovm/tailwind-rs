@@ -1,9 +1,10 @@
 use super::*;
+use crate::MaybeArbitrary;
 
 #[doc = include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindFontFamily {
-    kind: FontFamily,
+    kind: MaybeArbitrary,
 }
 
 #[derive(Debug, Clone)]
@@ -17,24 +18,21 @@ where
     T: Into<String>,
 {
     fn from(kind: T) -> Self {
-        Self { kind: FontFamily::Standard(kind.into()) }
+        Self { kind: MaybeArbitrary::Standard(kind.into()) }
     }
 }
 
 impl Display for TailwindFontFamily {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match &self.kind {
-            FontFamily::Standard(s) => write!(f, "font-{}", s),
-            FontFamily::Arbitrary(s) => write!(f, "font-[{}]", s),
-        }
+        write!(f, "font-{}", self.kind)
     }
 }
 
 impl TailwindInstance for TailwindFontFamily {
     fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         let family = match &self.kind {
-            FontFamily::Standard(s) => ctx.fonts.get_family(s),
-            FontFamily::Arbitrary(s) => s.to_owned(),
+            MaybeArbitrary::Standard(s) => ctx.fonts.get_family(s),
+            MaybeArbitrary::Arbitrary(s) => s.to_owned(),
         };
         css_attributes! {
             "font-family" => family

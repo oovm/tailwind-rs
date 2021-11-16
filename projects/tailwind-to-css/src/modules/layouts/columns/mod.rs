@@ -1,25 +1,23 @@
 use super::*;
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Debug)]
 enum ColumnKind {
-    Auto,
     Columns(u8),
     Length(LengthUnit),
-    Global(CssBehavior),
+    Standard(String),
 }
 
 #[doc = include_str!("readme.md")]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Debug)]
 pub struct TailwindColumns {
     kind: ColumnKind,
 }
 impl Display for ColumnKind {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::Auto => write!(f, "auto"),
             Self::Columns(n) => write!(f, "{}", n),
             Self::Length(n) => write!(f, "{}", n.get_class_arbitrary()),
-            Self::Global(g) => write!(f, "{}", g),
+            Self::Standard(g) => write!(f, "{}", g),
         }
     }
 }
@@ -32,11 +30,10 @@ impl Display for TailwindColumns {
 
 impl TailwindInstance for TailwindColumns {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let columns = match self.kind {
-            ColumnKind::Auto => "auto".to_string(),
+        let columns = match &self.kind {
             ColumnKind::Columns(n) => format!("{}", n),
             ColumnKind::Length(n) => n.get_properties(),
-            ColumnKind::Global(g) => format!("{}", g),
+            ColumnKind::Standard(g) => g.to_string(),
         };
         css_attributes! {
             "columns" => columns
@@ -48,7 +45,7 @@ impl ColumnKind {
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         let rem = |n: usize| Self::Length(LengthUnit::rem(n as f32));
         let out = match input {
-            ["auto"] => Self::Auto,
+            ["auto"] => Self::Standard("auto".to_string()),
             ["3xs"] => rem(16),
             ["2xs"] => rem(18),
             ["xs"] => rem(20),

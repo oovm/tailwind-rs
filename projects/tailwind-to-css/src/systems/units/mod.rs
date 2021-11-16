@@ -9,8 +9,9 @@ use tailwind_ast::parse_f32;
 
 use crate::{syntax_error, CssBehavior, Result, TailwindArbitrary};
 
-pub use self::{anchor::AnchorPoint, axis::SpacingAxis, length::LengthUnit};
+pub use self::{anchor::AnchorPoint, axis::SpacingAxis, length::LengthUnit, maybe_arbitrary::MaybeArbitrary};
 
 mod anchor;
 mod axis;
 mod length;
+mod maybe_arbitrary;

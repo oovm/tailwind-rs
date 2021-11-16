@@ -3,12 +3,16 @@ use super::*;
 #[doc = include_str!("readme.md")]
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindDivideWidth {
+    axis: bool,
     width: LengthUnit,
 }
 
 impl Display for TailwindDivideWidth {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "ring-offset-{}", self.width)
+        match self.axis {
+            true => write!(f, "divide-x-{}", self.width),
+            false => write!(f, "divide-y-{}", self.width),
+        }
     }
 }
 
@@ -23,10 +27,10 @@ impl TailwindInstance for TailwindDivideWidth {
 impl TailwindDivideWidth {
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary, axis: bool) -> Result<Self> {
         let out = match input {
-            [] => Self { width: LengthUnit::px(3.0) },
+            [] => Self { axis, width: LengthUnit::px(3.0) },
             [n] => {
                 let a = TailwindArbitrary::from(*n);
-                Self { width: a.as_length()? }
+                Self { axis, width: a.as_length()? }
             },
             _ => return syntax_error!("Unknown ring-width instructions"),
         };
