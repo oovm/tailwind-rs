@@ -7,12 +7,6 @@ pub struct TailwindFontFamily {
     kind: MaybeArbitrary,
 }
 
-#[derive(Debug, Clone)]
-enum FontFamily {
-    Standard(String),
-    Arbitrary(String),
-}
-
 impl<T> From<T> for TailwindFontFamily
 where
     T: Into<String>,

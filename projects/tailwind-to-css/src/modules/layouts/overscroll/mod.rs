@@ -45,10 +45,6 @@ impl TailwindOverscroll {
 
 /// https://developer.mozilla.org/en-US/docs/Web/CSS/overscroll-behavior#syntax
 fn check_valid(mode: &str) -> bool {
-    let set = BTreeSet::from_iter(vec![
-        // Keyword values
-        "auto", "contain", "none", // Global  values
-        "inherit", "initial", "revert", "unset",
-    ]);
+    let set = BTreeSet::from_iter(vec!["auto", "contain", "inherit", "initial", "none", "revert", "unset"]);
     set.contains(mode)
 }

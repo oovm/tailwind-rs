@@ -1,4 +1,5 @@
 use super::*;
+use std::collections::BTreeSet;
 
 #[derive(Copy, Debug, Clone)]
 pub struct FontSize {
@@ -12,5 +13,11 @@ impl FontSize {
         let size = LengthUnit::rem(size);
         let height = if height < 0.0 { LengthUnit::rem(height) } else { LengthUnit::percent(height) };
         Self { size, height }
+    }
+    pub fn get_properties(&self) -> BTreeSet<CssAttribute> {
+        css_attributes! {
+            "font-size" => self.size.get_properties(),
+            "line-height" => self.height.get_properties(),
+        }
     }
 }
