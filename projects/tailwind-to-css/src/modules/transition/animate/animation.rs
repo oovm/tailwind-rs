@@ -31,11 +31,13 @@ impl Animation {
             ["ping"] => Self::Ping,
             ["pulse"] => Self::Pulse,
             ["bounce"] => Self::Bounce,
+            [] => Self::parse_arbitrary(arbitrary)?,
             _ => return syntax_error!("Unknown outline instructions: {}", pattern.join("-")),
         };
         Ok(kind)
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        debug_assert!(arbitrary.is_some());
         Ok(Self::Arbitrary(arbitrary.to_string()))
     }
 }
