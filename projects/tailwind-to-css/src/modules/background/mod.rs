@@ -14,6 +14,7 @@ pub use self::{
     origin::TailwindBackgroundOrigin,
     repeat::TailwindBackgroundRepeat,
     size::TailwindBackgroundSize,
+    position::TailwindBackgroundPosition
 };
 
 mod attachment;

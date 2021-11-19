@@ -17,7 +17,6 @@ where
     }
 }
 
-
 impl Display for TailwindContent {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match &self.kind {
@@ -37,7 +36,7 @@ impl TailwindInstance for TailwindContent {
 
 impl TailwindContent {
     /// https://tailwindcss.com/docs/align-content
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+    pub fn adapt(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let instance = match pattern {
             // https://tailwindcss.com/docs/content#arbitrary-values
             [] if arbitrary.is_some() => TailwindContent::parse_arbitrary(arbitrary)?.boxed(),

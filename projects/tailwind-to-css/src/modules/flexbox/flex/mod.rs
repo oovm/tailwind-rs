@@ -25,7 +25,7 @@ impl TailwindInstance for TailwindFlex {
 }
 
 impl TailwindFlex {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+    pub fn adapt(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match pattern {
             // https://tailwindcss.com/docs/display#flex
             // This won't happen
@@ -43,18 +43,16 @@ impl TailwindFlex {
             ["wrap", "reverse"] => TailwindFlexWrap::from("wrap-reverse").boxed(),
             ["nowrap"] => TailwindFlexWrap::from("nowrap").boxed(),
             // https://tailwindcss.com/docs/flex
-            _ => parse_flex(pattern, arbitrary)?.boxed(),
+            _ => Self::parse(pattern, arbitrary)?.boxed(),
         };
         Ok(out)
     }
-
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<TailwindFlex> {
+        Ok(TailwindFlex { kind: MaybeArbitrary::parser("flex", &check_valid)(pattern, arbitrary)? })
+    }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self { kind: MaybeArbitrary::parse_arbitrary(arbitrary)? })
     }
-}
-
-pub fn parse_flex(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<TailwindFlex> {
-    Ok(TailwindFlex { kind: MaybeArbitrary::parser("flex", &check_valid)(pattern, arbitrary)? })
 }
 
 fn check_valid(mode: &str) -> bool {

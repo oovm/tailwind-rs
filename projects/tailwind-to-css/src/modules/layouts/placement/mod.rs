@@ -41,7 +41,7 @@ impl PlacementSize {
             ["unset"] => Self::Global(CssBehavior::Unset),
             [n] => {
                 let a = TailwindArbitrary::from(*n);
-                Self::parse_arbitrary(&a)?
+                Self::maybe_no_unit(&a).or_else(|_| Self::maybe_length(&a))?
             },
             _ => return syntax_error!("Unknown placement instructions: {}", pattern.join("-")),
         };
@@ -58,7 +58,7 @@ impl PlacementSize {
     }
     fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         debug_assert!(arbitrary.is_some());
-        Self::maybe_no_unit(arbitrary).or_else(|_| Self::maybe_length(arbitrary))
+        Ok(Self::Arbitrary(arbitrary.to_string()))
     }
     #[inline]
     fn maybe_length(arbitrary: &TailwindArbitrary) -> Result<Self> {

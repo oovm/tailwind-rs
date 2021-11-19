@@ -9,13 +9,16 @@ pub(crate) mod snap_type;
 pub struct TailwindSnap {}
 
 impl TailwindSnap {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        match pattern {
-            ["start"] => Ok(TailwindSnapStop::from("start").boxed()),
-            _ => syntax_error!(""),
-        }
-    }
-    pub fn check_valid(mode: &str) -> bool {
-        todo!()
+    pub fn adapt(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+        let out = match pattern {
+            // https://tailwindcss.com/docs/scroll-snap-align
+            [s @ ("start" | "end" | "center")] => TailwindSnapAlign::from(*s).boxed(),
+            ["align", rest @ ..] => TailwindSnapAlign::parse(rest, arbitrary)?.boxed(),
+            // https://tailwindcss.com/docs/scroll-snap-stop
+            [s @ ("normal" | "always")] => TailwindSnapStop::from(*s).boxed(),
+            ["stop", rest @ ..] => TailwindSnapStop::parse(rest, arbitrary)?.boxed(),
+            _ => TailwindSnapType::parse(pattern, arbitrary)?.boxed(),
+        };
+        Ok(out)
     }
 }

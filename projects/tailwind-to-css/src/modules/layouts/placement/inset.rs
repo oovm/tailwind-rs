@@ -49,7 +49,10 @@ impl TailwindInset {
             ["y", rest @ ..] => (Some(false), rest),
             _ => (None, pattern),
         };
-        Ok(Self { negative, axis, kind: PlacementSize::parse(rest, arbitrary)? })
+        match arbitrary.is_some() {
+            true => Self::parse_arbitrary(arbitrary, axis, negative),
+            false => Ok(Self { negative, axis, kind: PlacementSize::parse(rest, arbitrary)? }),
+        }
     }
 
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: Option<bool>, negative: bool) -> Result<Self> {

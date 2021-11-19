@@ -1,7 +1,7 @@
 pub use self::{
     basis::TailwindBasis,
     content::{content_align::TailwindContentAlign, TailwindContent},
-    flex::{flex_adaptor, flex_direction::TailwindFlexDirection, flex_wrap::TailwindFlexWrap, TailwindFlex},
+    flex::{flex_direction::TailwindFlexDirection, flex_wrap::TailwindFlexWrap, TailwindFlex},
     gap::TailwindGap,
     grid::{
         grid_auto::TailwindGridAuto, grid_cols::TailwindGridColumns, grid_flow::TailwindGridFlow, grid_rows::TailwindGridRows,

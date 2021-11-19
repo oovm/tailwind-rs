@@ -8,6 +8,8 @@ impl SizingUnit {
             ["max"] => Ok(Self::Max),
             ["auto"] => Ok(Self::Auto),
             ["full"] => Ok(Self::Full),
+            ["fit"] => Ok(Self::Fit),
+            ["screen"] => Ok(Self::Screen),
             ["0"] => px(0.0),
             ["px"] => px(1.0),
             [n] => Self::parse_arbitrary(&TailwindArbitrary::from(*n)),
