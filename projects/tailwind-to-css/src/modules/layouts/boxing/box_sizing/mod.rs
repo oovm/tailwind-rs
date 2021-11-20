@@ -34,14 +34,14 @@ impl TailwindInstance for TailwindBoxSizing {
 }
 
 impl TailwindBoxSizing {
-    /// https://tailwindcss.com/docs/box-sizing
+    /// <https://tailwindcss.com/docs/box-sizing>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary after box-sizing");
         let kind = pattern.join("-");
         debug_assert!(Self::check_valid(&kind));
         Ok(Self { kind })
     }
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing#syntax
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing#syntax>
     pub fn check_valid(mode: &str) -> bool {
         let set = BTreeSet::from_iter(vec![
             // Keyword values

@@ -1,3 +1,5 @@
+use crate::NeverArbitrary;
+
 use super::*;
 
 #[doc = include_str!("readme.md")]
@@ -30,31 +32,29 @@ impl TailwindInstance for TailwindBreakInside {
 }
 
 impl TailwindBreakInside {
-    /// https://tailwindcss.com/docs/break-inside
+    /// <https://tailwindcss.com/docs/break-inside>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after break-inside");
-        let kind = pattern.join("-");
-        debug_assert!(Self::check_valid(&kind));
-        Ok(Self { kind })
+        Ok(Self { kind: NeverArbitrary::parser("break-inside", &check_valid)(pattern, arbitrary)? })
     }
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/break-inside#syntax
-    pub fn check_valid(mode: &str) -> bool {
-        let set = BTreeSet::from_iter(vec![
-            // Keyword values
-            "auto",
-            "avoid",
-            // Page break values
-            "avoid-page",
-            // Column break values
-            "avoid-column",
-            // Region break values
-            "avoid-region",
-            // Global values
-            "inherit",
-            "initial",
-            "revert",
-            "unset",
-        ]);
-        set.contains(mode)
-    }
+}
+
+/// <https://developer.mozilla.org/en-US/docs/Web/CSS/break-inside#syntax>
+fn check_valid(mode: &str) -> bool {
+    let set = BTreeSet::from_iter(vec![
+        // Keyword values
+        "auto",
+        "avoid",
+        // Page break values
+        "avoid-page",
+        // Column break values
+        "avoid-column",
+        // Region break values
+        "avoid-region",
+        // Global values
+        "inherit",
+        "initial",
+        "revert",
+        "unset",
+    ]);
+    set.contains(mode)
 }

@@ -38,7 +38,7 @@ pub struct TailwindElements {
     inner: Vec<String>,
 }
 
-/// https://github.com/tw-in-js/twind/blob/main/src/twind/variants.ts
+/// <https://github.com/tw-in-js/twind/blob/main/src/twind/variants.ts>
 #[derive(Copy, Clone, Debug)]
 pub enum TailwindVariantKind {
     Dark,

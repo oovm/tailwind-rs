@@ -18,7 +18,7 @@ impl Display for LengthUnit {
 }
 
 impl LengthUnit {
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/length#syntax
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/length#syntax>
     pub fn parse_faction(input: &str) -> Result<Self> {
         let (a, b) = parse_fraction(input)?.1;
         Ok(Self::Fraction(a, b))

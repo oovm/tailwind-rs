@@ -7,7 +7,7 @@ pub struct PaletteSystem {
 
 impl PaletteSystem {
     /// Builtin palettes
-    /// https://tailwindcss.com/docs/customizing-colors
+    /// <https://tailwindcss.com/docs/customizing-colors>
     pub fn builtin() -> Self {
         let mut new = Self::default();
         new.register("slate".to_string(), Palette::slate());

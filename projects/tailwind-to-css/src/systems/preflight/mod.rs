@@ -1,6 +1,6 @@
 use super::*;
 
-/// https://tailwindcss.com/docs/preflight
+/// <https://tailwindcss.com/docs/preflight>
 #[derive(Clone, Debug)]
 pub struct PreflightSystem {
     /// ## Default margins are removed

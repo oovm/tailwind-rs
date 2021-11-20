@@ -5,7 +5,7 @@ use super::*;
 /// *Note that none of these values affect the unicode-bidi and direction properties.*
 ///
 /// ## Reference
-/// - https://developer.mozilla.org/en-US/docs/Web/CSS/all
+/// - <https://developer.mozilla.org/en-US/docs/Web/CSS/all>
 #[derive(Debug, Copy, Clone)]
 pub enum CssBehavior {
     /// Specifies that all the element's properties should be changed to their initial values.
