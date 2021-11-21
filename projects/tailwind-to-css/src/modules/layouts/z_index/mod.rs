@@ -8,12 +8,12 @@ enum ZIndex {
 
 #[doc = include_str!("readme.md")]
 #[derive(Copy, Clone, Debug)]
-pub struct TailWindZIndex {
+pub struct TailwindZIndex {
     kind: ZIndex,
     neg: bool,
 }
 
-impl Display for TailWindZIndex {
+impl Display for TailwindZIndex {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self.kind {
             ZIndex::Auto => write!(f, "w-auto"),
@@ -23,7 +23,7 @@ impl Display for TailWindZIndex {
     }
 }
 
-impl TailwindInstance for TailWindZIndex {
+impl TailwindInstance for TailwindZIndex {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         let index = match self.kind {
             ZIndex::Auto => "auto".to_string(),
@@ -35,7 +35,7 @@ impl TailwindInstance for TailWindZIndex {
         }
     }
 }
-impl TailWindZIndex {
+impl TailwindZIndex {
     pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary, neg: bool) -> Result<Self> {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary after z-index");
         match kind {

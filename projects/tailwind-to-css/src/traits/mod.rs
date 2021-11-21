@@ -49,7 +49,7 @@ pub trait TailwindInstance: Display {
         for c in self.selectors(ctx).chars() {
             match c {
                 ' ' => write!(f, "_"),
-                '.' => write!(f, "."),
+                r @ ('.' | '-' | '_') => write!(f, "{}", r),
                 a if a.is_alphanumeric() => write!(f, "{}", a),
                 _ => write!(f, "\\{}", c),
             }?

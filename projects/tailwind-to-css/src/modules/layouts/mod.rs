@@ -24,7 +24,7 @@ pub use self::{
     placement::{bottom::TailwindBottom, inset::TailwindInset, left::TailwindLeft, right::TailwindRight, top::TailwindTop},
     position::TailwindPosition,
     visible::TailwindVisibility,
-    z_index::TailWindZIndex,
+    z_index::TailwindZIndex,
 };
 
 mod aspect_ratio;

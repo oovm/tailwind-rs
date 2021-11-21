@@ -57,7 +57,7 @@ impl TailwindInstruction {
             ["visible"] => TailwindVisibility::from("visible").boxed(),
             ["invisible"] => TailwindVisibility::from("hidden").boxed(),
             // https://tailwindcss.com/docs/z-index
-            ["z", rest @ ..] => TailWindZIndex::parse(rest, arbitrary, self.negative)?.boxed(),
+            ["z", rest @ ..] => TailwindZIndex::parse(rest, arbitrary, self.negative)?.boxed(),
             // Flexbox & Grid
             ["basis", rest @ ..] => TailwindBasis::parse(rest, arbitrary)?.boxed(),
             ["flex", rest @ ..] => TailwindFlex::adapt(rest, arbitrary)?,

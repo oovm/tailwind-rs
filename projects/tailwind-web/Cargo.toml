@@ -1,0 +1,26 @@
+[package]
+name = "tailwind-show-case"
+publish = false
+version = "1.0.0"
+authors = ["Aster <192607617@qq.com>"]
+description = "..."
+repository = "..."
+readme = "Readme.md"
+license = "MPL-2.0"
+edition = "2018"
+
+[dependencies]
+rsass = "0.23.4"
+parcel_css = "1.0.0-alpha.17"
+tailwind-css = "0.10.4"
+dioxus = "0.1.8"
+
+[dependencies.tailwind-error]
+version = "1.1.*"
+path = "../tailwind-error"
+features = ["parcel_css"]
+
+[dev-dependencies]
+
+[features]
+default = []
