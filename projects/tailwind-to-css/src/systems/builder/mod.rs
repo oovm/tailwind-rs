@@ -33,7 +33,7 @@ impl TailwindBuilder {
     /// <style> {} </style>
     /// ```
     #[inline]
-    #[track_caller]
+    #[cfg_attr(not(debug_assertions), track_caller)]
     pub fn trace(&mut self, style: &str) -> String {
         self.try_trace(style).unwrap()
     }
@@ -65,7 +65,7 @@ impl TailwindBuilder {
     /// <style> {} </style>
     /// ```
     #[inline]
-    #[track_caller]
+    #[cfg_attr(not(debug_assertions), track_caller)]
     pub fn scope(&self, style: &str) {
         let _id = style;
     }
@@ -90,7 +90,7 @@ impl TailwindBuilder {
     /// <style> {} </style>
     /// ```
     #[inline]
-    #[track_caller]
+    #[cfg_attr(not(debug_assertions), track_caller)]
     pub fn dataset() {}
 
     /// ## Inline mode(no bundle)
@@ -112,7 +112,7 @@ impl TailwindBuilder {
     /// <style> {} </style>
     /// ```
     #[inline]
-    #[track_caller]
+    #[cfg_attr(not(debug_assertions), track_caller)]
     pub fn inline(&mut self, style: &str) -> String {
         self.try_inline(style).unwrap()
     }
@@ -132,7 +132,7 @@ impl TailwindBuilder {
     }
     /// Bundle all used stylesheets
     #[inline]
-    #[track_caller]
+    #[cfg_attr(not(debug_assertions), track_caller)]
     pub fn bundle(&self) -> String {
         self.try_bundle(1024 * 10).unwrap()
     }

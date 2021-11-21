@@ -34,7 +34,7 @@ For example arbitrary values of `z-index` needs brackets, but rs version does no
 
 For example, there are style overrides in `p-auto px-px pt-2 pb-2`.
 
-In inline mode, the latter will overwrite the former, and finally get `{}`
+In inline mode, the latter will overwrite the former, and finally get `padding:.5rem 1px`
 
 In Bundle mode, the final result depends on the browser.
 

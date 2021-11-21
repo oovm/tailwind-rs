@@ -32,14 +32,14 @@ impl TailwindScrollPadding {
     /// https://tailwindcss.com/docs/scroll-padding
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
         let (axis, rest) = match pattern {
-            ["m", rest @ ..] => (SpacingAxis::new("scroll-p", &["scroll-padding"]), rest),
-            ["ml", rest @ ..] => (SpacingAxis::new("scroll-pl", &["scroll-padding-left"]), rest),
-            ["mr", rest @ ..] => (SpacingAxis::new("scroll-pr", &["scroll-padding-right"]), rest),
-            ["mt", rest @ ..] => (SpacingAxis::new("scroll-pt", &["scroll-padding-top"]), rest),
-            ["mb", rest @ ..] => (SpacingAxis::new("scroll-pb", &["scroll-padding-bottom"]), rest),
-            ["mx", rest @ ..] => (SpacingAxis::new("scroll-px", &["scroll-padding-left", "scroll-padding-right"]), rest),
-            ["my", rest @ ..] => (SpacingAxis::new("scroll-py", &["scroll-padding"]), rest),
-            _ => return syntax_error!("Unknown margin axis"),
+            ["p", rest @ ..] => (SpacingAxis::new("scroll-p", &["scroll-padding"]), rest),
+            ["pl", rest @ ..] => (SpacingAxis::new("scroll-pl", &["scroll-padding-left"]), rest),
+            ["pr", rest @ ..] => (SpacingAxis::new("scroll-pr", &["scroll-padding-right"]), rest),
+            ["pt", rest @ ..] => (SpacingAxis::new("scroll-pt", &["scroll-padding-top"]), rest),
+            ["pb", rest @ ..] => (SpacingAxis::new("scroll-pb", &["scroll-padding-bottom"]), rest),
+            ["px", rest @ ..] => (SpacingAxis::new("scroll-px", &["scroll-padding-left", "scroll-padding-right"]), rest),
+            ["py", rest @ ..] => (SpacingAxis::new("scroll-py", &["scroll-padding"]), rest),
+            _ => return syntax_error!("Unknown scroll-padding axis"),
         };
         let size = SpacingSize::parse(rest, arbitrary)?;
         Ok(Self { negative, axis, size })

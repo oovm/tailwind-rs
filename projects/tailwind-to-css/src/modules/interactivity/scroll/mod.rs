@@ -9,9 +9,9 @@ pub struct TailwindScroll {}
 impl TailwindScroll {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: bool) -> Result<Box<dyn TailwindInstance>> {
         let kind = match pattern {
-            ["p" | "pl" | "pr" | "pm" | "pt" | "px" | "py", ..] =>
+            ["p" | "pl" | "pr" | "pb" | "pt" | "px" | "py", ..] =>
                 TailwindScrollPadding::parse(pattern, arbitrary, negative)?.boxed(),
-            ["m" | "ml" | "mr" | "mm" | "mt" | "mx" | "my", ..] =>
+            ["m" | "ml" | "mr" | "mb" | "mt" | "mx" | "my", ..] =>
                 TailwindScrollMargin::parse(pattern, arbitrary, negative)?.boxed(),
             _ => TailwindScrollBehavior::parse(pattern, arbitrary)?.boxed(),
         };

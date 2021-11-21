@@ -1,15 +1,17 @@
-pub mod attribute;
-pub mod instance;
-pub mod object;
-
-use crate::{Result, TailwindBuilder};
 use std::{
     cmp::Ordering,
     collections::{BTreeSet, HashSet},
     fmt::{Debug, Display, Formatter, Write},
     hash::{Hash, Hasher},
 };
+
 use tailwind_error::nom::{bytes::complete::tag, IResult};
+
+use crate::{Result, TailwindBuilder};
+
+pub mod attribute;
+pub mod instance;
+pub mod object;
 
 /// Tailwind Parsed Result
 pub type ParsedItem<'a> = IResult<&'a str, Box<dyn TailwindInstance>>;
@@ -44,11 +46,19 @@ pub trait TailwindInstance: Display {
     }
     /// write css to buffers
     fn write_css(&self, f: &mut (dyn Write), ctx: &TailwindBuilder) -> Result<()> {
-        writeln!(f, "{} {{", self.selectors(ctx))?;
-        for item in self.attributes(ctx) {
-            writeln!(f, "{:indent$}{}", item.to_string(), indent = 4)?
+        for c in self.selectors(ctx).chars() {
+            match c {
+                ' ' => write!(f, "_"),
+                '.' => write!(f, "."),
+                a if a.is_alphanumeric() => write!(f, "{}", a),
+                _ => write!(f, "\\{}", c),
+            }?
         }
-        writeln!(f, "}}")?;
+        f.write_char('{')?;
+        for item in self.attributes(ctx) {
+            write!(f, "{}", item)?
+        }
+        f.write_char('}')?;
         Ok(())
     }
     /// Build css ast

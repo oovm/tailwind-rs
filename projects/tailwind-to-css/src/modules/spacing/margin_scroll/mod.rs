@@ -39,7 +39,7 @@ impl TailwindScrollMargin {
             ["mb", rest @ ..] => (SpacingAxis::new("scroll-mb", &["scroll-margin-bottom"]), rest),
             ["mx", rest @ ..] => (SpacingAxis::new("scroll-mx", &["scroll-margin-left", "scroll-margin-right"]), rest),
             ["my", rest @ ..] => (SpacingAxis::new("scroll-my", &["scroll-margin"]), rest),
-            _ => return syntax_error!("Unknown margin axis"),
+            _ => return syntax_error!("Unknown scroll-margin axis"),
         };
         let size = SpacingSize::parse(rest, arbitrary)?;
         Ok(Self { negative, axis, size })

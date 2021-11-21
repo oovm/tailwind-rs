@@ -77,8 +77,8 @@ impl TailwindInstruction {
             ["place", rest @ ..] => TailwindPlace::parse(rest, arbitrary)?,
             // justify catched
             // Spacing System
-            ["p" | "pl" | "pr" | "pm" | "pt" | "px" | "py", ..] => TailwindPadding::parse(pattern, arbitrary, neg)?.boxed(),
-            ["m" | "ml" | "mr" | "mm" | "mt" | "mx" | "my", ..] => TailwindMargin::parse(pattern, arbitrary, neg)?.boxed(),
+            ["p" | "pl" | "pr" | "pb" | "pt" | "px" | "py", ..] => TailwindPadding::parse(pattern, arbitrary, neg)?.boxed(),
+            ["m" | "ml" | "mr" | "mb" | "mt" | "mx" | "my", ..] => TailwindMargin::parse(pattern, arbitrary, neg)?.boxed(),
             ["space", rest @ ..] => TailwindSpace::parse(rest, arbitrary, neg)?,
             // Sizing System
             ["w", rest @ ..] => TailwindSizing::parse_width(rest, arbitrary)?.boxed(),

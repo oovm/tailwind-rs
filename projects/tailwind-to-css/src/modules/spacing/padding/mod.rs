@@ -32,14 +32,14 @@ impl TailwindPadding {
     /// https://tailwindcss.com/docs/padding
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
         let (axis, rest) = match pattern {
-            ["m", rest @ ..] => (SpacingAxis::new("p", &["padding"]), rest),
-            ["ml", rest @ ..] => (SpacingAxis::new("pl", &["padding-left"]), rest),
-            ["mr", rest @ ..] => (SpacingAxis::new("pr", &["padding-right"]), rest),
-            ["mt", rest @ ..] => (SpacingAxis::new("pt", &["padding-top"]), rest),
-            ["mb", rest @ ..] => (SpacingAxis::new("pb", &["padding-bottom"]), rest),
-            ["mx", rest @ ..] => (SpacingAxis::new("px", &["padding-left", "padding-right"]), rest),
-            ["my", rest @ ..] => (SpacingAxis::new("py", &["padding"]), rest),
-            _ => return syntax_error!("Unknown margin axis"),
+            ["p", rest @ ..] => (SpacingAxis::new("p", &["padding"]), rest),
+            ["pl", rest @ ..] => (SpacingAxis::new("pl", &["padding-left"]), rest),
+            ["pr", rest @ ..] => (SpacingAxis::new("pr", &["padding-right"]), rest),
+            ["pt", rest @ ..] => (SpacingAxis::new("pt", &["padding-top"]), rest),
+            ["pb", rest @ ..] => (SpacingAxis::new("pb", &["padding-bottom"]), rest),
+            ["px", rest @ ..] => (SpacingAxis::new("px", &["padding-left", "padding-right"]), rest),
+            ["py", rest @ ..] => (SpacingAxis::new("py", &["padding"]), rest),
+            _ => return syntax_error!("Unknown padding axis"),
         };
         let size = SpacingSize::parse(rest, arbitrary)?;
         Ok(Self { negative, axis, size })
