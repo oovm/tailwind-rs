@@ -1,14 +1,9 @@
 use super::*;
 
-pub use self::{
-    border_color::TailwindBorderColor, border_radius::TailwindRounded, border_style::TailwindBorderStyle,
-    border_width::TailwindBorderWidth,
-};
-
-mod border_color;
-mod border_radius;
-mod border_style;
-mod border_width;
+pub(crate) mod border_color;
+pub(crate) mod border_radius;
+pub(crate) mod border_style;
+pub(crate) mod border_width;
 
 ///
 #[derive(Debug, Clone)]
@@ -17,7 +12,7 @@ pub struct TailwindBorder {
 }
 
 impl TailwindBorder {
-    pub fn parse(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+    pub fn adapt(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let color = |color| TailwindBorderColor::from(color).boxed();
         let out = match str {
             // https://tailwindcss.com/docs/border-style

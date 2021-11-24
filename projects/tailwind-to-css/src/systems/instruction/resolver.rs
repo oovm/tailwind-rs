@@ -138,10 +138,10 @@ impl TailwindInstruction {
             ["to", rest @ ..] => TailwindTo::parse(rest, arbitrary)?.boxed(),
             // Borders System
             ["rounded", rest @ ..] => TailwindRounded::parse(rest, arbitrary)?.boxed(),
-            ["border", rest @ ..] => TailwindBorder::parse(rest, arbitrary)?,
+            ["border", rest @ ..] => TailwindBorder::adapt(rest, arbitrary)?,
             ["divide", rest @ ..] => TailwindDivide::parse(rest, arbitrary)?,
-            ["outline", rest @ ..] => outline_adaptor(rest, arbitrary)?,
-            ["ring", rest @ ..] => Self::ring_adaptor(rest, arbitrary)?,
+            ["outline", rest @ ..] => TailwindOutline::adapt(rest, arbitrary)?,
+            ["ring", rest @ ..] => TailwindRing::adapt(rest, arbitrary)?,
             // Effects System
             ["shadow", rest @ ..] => Self::shadow_adaptor(rest, arbitrary)?,
             ["opacity", rest @ ..] => TailwindOpacity::parse(rest, arbitrary, false)?.boxed(),
@@ -219,16 +219,6 @@ impl TailwindInstruction {
             // https://tailwindcss.com/docs/background-blend-mode
             ["blend", rest @ ..] => TailwindBackgroundBlend::parse(rest, arbitrary)?.boxed(),
             _ => return syntax_error!("Unknown bg instructions: {}", str.join("-")),
-        };
-        Ok(out)
-    }
-
-    #[inline]
-    fn ring_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        let out = match str {
-            // https://tailwindcss.com/docs/ring-offset-width
-            ["offset", rest @ ..] => TailwindRingOffsetWidth::parse(rest, arbitrary)?.boxed(),
-            _ => return syntax_error!("Unknown ring instructions: {}", str.join("-")),
         };
         Ok(out)
     }

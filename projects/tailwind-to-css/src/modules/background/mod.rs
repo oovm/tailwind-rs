@@ -1,9 +1,11 @@
-use crate::{
-    css_attributes, AnchorPoint, CssAttribute, Result, TailwindArbitrary, TailwindBuilder, TailwindColor, TailwindInstance,
-};
 use std::{
     collections::BTreeSet,
     fmt::{Debug, Display, Formatter},
+};
+
+use crate::{
+    css_attributes, syntax_error, AnchorPoint, CssAttribute, Result, TailwindArbitrary, TailwindBuilder, TailwindColor,
+    TailwindInstance,
 };
 
 pub use self::{
@@ -11,16 +13,18 @@ pub use self::{
     clip::TailwindBackgroundClip,
     color::TailwindBackgroundColor,
     gradient::{TailwindFrom, TailwindTo, TailwindVia},
+    image::TailwindBackgroundImage,
     origin::TailwindBackgroundOrigin,
+    position::TailwindBackgroundPosition,
     repeat::TailwindBackgroundRepeat,
     size::TailwindBackgroundSize,
-    position::TailwindBackgroundPosition
 };
 
 mod attachment;
 mod clip;
 mod color;
 mod gradient;
+mod image;
 mod origin;
 mod position;
 mod repeat;
