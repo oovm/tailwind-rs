@@ -199,9 +199,8 @@ impl TailwindInstruction {
     fn bg_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/background-attachment
-            ["fixed"] => TailwindBackgroundAttachment::Fixed.boxed(),
-            ["local"] => TailwindBackgroundAttachment::Local.boxed(),
-            ["scroll"] => TailwindBackgroundAttachment::Scroll.boxed(),
+            [s @ ("fixed" | "local" | "scroll")] => TailwindBackgroundAttachment::from(*s).boxed(),
+            ["attach", rest @ ..] => TailwindBackgroundAttachment::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/background-clip
             ["clip", "border"] => TailwindBackgroundClip::from("border-box").boxed(),
             ["clip", "padding"] => TailwindBackgroundClip::from("padding-box").boxed(),
@@ -236,7 +235,9 @@ impl TailwindInstruction {
     #[inline]
     fn box_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
+            // https://tailwindcss.com/docs/box-decoration-break
             ["decoration", rest @ ..] => TailwindBoxDecoration::parse(rest, arbitrary)?.boxed(),
+
             ["border"] => TailwindBoxSizing::from("border").boxed(),
             ["content"] => TailwindBoxSizing::from("content").boxed(),
             _ => return syntax_error!("Unknown box instructions: {}", str.join("-")),
