@@ -1,22 +1,14 @@
 use std::{
     cmp::Ordering,
-    collections::{BTreeSet, HashSet},
+    collections::BTreeSet,
     fmt::{Debug, Display, Formatter, Write},
     hash::{Hash, Hasher},
 };
-
-use tailwind_error::nom::{bytes::complete::tag, IResult};
 
 use crate::{Result, TailwindBuilder};
 
 pub mod attribute;
 pub mod instance;
-pub mod object;
-
-/// Tailwind Parsed Result
-pub type ParsedItem<'a> = IResult<&'a str, Box<dyn TailwindInstance>>;
-/// Tailwind Parsed Result
-pub type ParsedList<'a> = IResult<&'a str, HashSet<Box<dyn TailwindInstance>>>;
 
 #[allow(unused_variables)]
 pub trait TailwindInstance: Display {
@@ -73,11 +65,4 @@ pub trait TailwindInstance: Display {
 pub struct CssAttribute {
     key: String,
     value: String,
-}
-
-/// Uncategorized tailwind property
-#[derive(Debug)]
-pub struct TailwindObject {
-    pub id: String,
-    pub attributes: BTreeSet<CssAttribute>,
 }

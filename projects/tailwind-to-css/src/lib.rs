@@ -16,6 +16,6 @@ mod traits;
 pub use self::{
     modules::*,
     systems::*,
-    traits::{CssAttribute, ParsedItem, ParsedList, TailwindInstance, TailwindObject},
+    traits::{CssAttribute, TailwindInstance},
 };
 pub use tailwind_error::{Result, TailwindError, TailwindErrorKind};
