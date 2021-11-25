@@ -3,7 +3,7 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindPlaceSelf {
-    kind: MaybeArbitrary,
+    kind: KeywordOnly,
 }
 
 impl<T> From<T> for TailwindPlaceSelf
@@ -11,7 +11,7 @@ where
     T: Into<String>,
 {
     fn from(kind: T) -> Self {
-        Self { kind: MaybeArbitrary::Standard(kind.into()) }
+        Self { kind: KeywordOnly::Standard(kind.into()) }
     }
 }
 
@@ -37,14 +37,14 @@ impl TailwindPlaceSelf {
             _ => {
                 let s = pattern.join("-");
                 debug_assert!(Self::check_valid(&s));
-                Ok(Self { kind: MaybeArbitrary::Standard(s) })
+                Ok(Self { kind: KeywordOnly::Standard(s) })
             },
         }
     }
     /// https://tailwindcss.com/docs/place-items
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         debug_assert!(arbitrary.is_some());
-        Ok(Self { kind: MaybeArbitrary::Arbitrary(arbitrary.to_string()) })
+        Ok(Self { kind: KeywordOnly::Arbitrary(arbitrary.to_string()) })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/place-items#syntax
     pub fn check_valid(mode: &str) -> bool {

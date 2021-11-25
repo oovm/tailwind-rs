@@ -5,7 +5,7 @@ pub(crate) mod content_align;
 #[doc = include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindContent {
-    kind: MaybeArbitrary,
+    kind: KeywordOnly,
 }
 
 impl<T> From<T> for TailwindContent
@@ -13,15 +13,15 @@ where
     T: Into<String>,
 {
     fn from(kind: T) -> Self {
-        Self { kind: MaybeArbitrary::Standard(kind.into()) }
+        Self { kind: KeywordOnly::Standard(kind.into()) }
     }
 }
 
 impl Display for TailwindContent {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match &self.kind {
-            MaybeArbitrary::Standard(s) => write!(f, "{}", s),
-            MaybeArbitrary::Arbitrary(s) => write!(f, "[{}]", s),
+            KeywordOnly::Standard(s) => write!(f, "{}", s),
+            KeywordOnly::Arbitrary(s) => write!(f, "[{}]", s),
         }
     }
 }
@@ -53,7 +53,7 @@ impl TailwindContent {
         Ok(instance)
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: MaybeArbitrary::Arbitrary(arbitrary.to_string()) })
+        Ok(Self { kind: KeywordOnly::Arbitrary(arbitrary.to_string()) })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/content#syntax
     pub fn check_valid(mode: &str) -> bool {

@@ -9,13 +9,9 @@ use tailwind_ast::parse_f32;
 
 use crate::{syntax_error, CssBehavior, Result, TailwindArbitrary};
 
-pub use self::{
-    anchor::AnchorPoint, axis::SpacingAxis, length::LengthUnit, maybe_arbitrary::MaybeArbitrary,
-    never_arbitrary::NeverArbitrary,
-};
+pub use self::{anchor::AnchorPoint, axis::SpacingAxis, length::LengthUnit, standard::KeywordOnly};
 
 mod anchor;
 mod axis;
 mod length;
-mod maybe_arbitrary;
-mod never_arbitrary;
+mod standard;

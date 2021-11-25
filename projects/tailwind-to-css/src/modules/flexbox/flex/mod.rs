@@ -7,7 +7,7 @@ pub(crate) mod flex_wrap;
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindFlex {
-    kind: MaybeArbitrary,
+    kind: KeywordOnly,
 }
 
 impl Display for TailwindFlex {
@@ -48,10 +48,10 @@ impl TailwindFlex {
         Ok(out)
     }
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<TailwindFlex> {
-        Ok(TailwindFlex { kind: MaybeArbitrary::parser("flex", &check_valid)(pattern, arbitrary)? })
+        Ok(TailwindFlex { kind: KeywordOnly::parser("flex", &check_valid)(pattern, arbitrary)? })
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: MaybeArbitrary::parse_arbitrary(arbitrary)? })
+        Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
     }
 }
 

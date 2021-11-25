@@ -1,10 +1,10 @@
 use super::*;
-use crate::MaybeArbitrary;
+use crate::KeywordOnly;
 
 #[doc = include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindFontFamily {
-    kind: MaybeArbitrary,
+    kind: KeywordOnly,
 }
 
 impl<T> From<T> for TailwindFontFamily
@@ -12,7 +12,7 @@ where
     T: Into<String>,
 {
     fn from(kind: T) -> Self {
-        Self { kind: MaybeArbitrary::Standard(kind.into()) }
+        Self { kind: KeywordOnly::Standard(kind.into()) }
     }
 }
 
@@ -25,8 +25,8 @@ impl Display for TailwindFontFamily {
 impl TailwindInstance for TailwindFontFamily {
     fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         let family = match &self.kind {
-            MaybeArbitrary::Standard(s) => ctx.fonts.get_family(s),
-            MaybeArbitrary::Arbitrary(s) => s.to_owned(),
+            KeywordOnly::Standard(s) => ctx.fonts.get_family(s),
+            KeywordOnly::Arbitrary(s) => s.to_owned(),
         };
         css_attributes! {
             "font-family" => family

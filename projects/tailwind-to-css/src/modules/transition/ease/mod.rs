@@ -1,10 +1,10 @@
 use super::*;
-use crate::MaybeArbitrary;
+use crate::KeywordOnly;
 
 #[doc = include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindEase {
-    kind: MaybeArbitrary,
+    kind: KeywordOnly,
 }
 
 impl Display for TailwindEase {
@@ -16,8 +16,8 @@ impl Display for TailwindEase {
 impl TailwindInstance for TailwindEase {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         let timing = match &self.kind {
-            MaybeArbitrary::Standard(s) => s,
-            MaybeArbitrary::Arbitrary(s) => s,
+            KeywordOnly::Standard(s) => s,
+            KeywordOnly::Arbitrary(s) => s,
         };
         css_attributes! {
             "transition-timing-function" => timing
@@ -28,11 +28,11 @@ impl TailwindInstance for TailwindEase {
 impl TailwindEase {
     /// https://tailwindcss.com/docs/transition-timing-function
     pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: MaybeArbitrary::parser("ease", &check_valid)(kind, arbitrary)? })
+        Ok(Self { kind: KeywordOnly::parser("ease", &check_valid)(kind, arbitrary)? })
     }
     /// https://tailwindcss.com/docs/transition-timing-function#arbitrary-values
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: MaybeArbitrary::parse_arbitrary(arbitrary)? })
+        Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
     }
 }
 

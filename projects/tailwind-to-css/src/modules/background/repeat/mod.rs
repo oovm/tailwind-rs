@@ -1,11 +1,11 @@
-use crate::MaybeArbitrary;
+use crate::KeywordOnly;
 
 use super::*;
 
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindBackgroundRepeat {
-    kind: MaybeArbitrary,
+    kind: KeywordOnly,
 }
 
 impl<T> From<T> for TailwindBackgroundRepeat
@@ -13,21 +13,21 @@ where
     T: Into<String>,
 {
     fn from(kind: T) -> Self {
-        Self { kind: MaybeArbitrary::Standard(kind.into()) }
+        Self { kind: KeywordOnly::Standard(kind.into()) }
     }
 }
 
 impl Display for TailwindBackgroundRepeat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match &self.kind {
-            MaybeArbitrary::Standard(s) => match s.as_str() {
+            KeywordOnly::Standard(s) => match s.as_str() {
                 "repeat" => write!(f, "bg-repeat"),
                 "no-repeat" => write!(f, "bg-no-repeat"),
                 "repeat-x" => write!(f, "bg-repeat-x"),
                 "repeat-y" => write!(f, "bg-repeat-y"),
                 _ => write!(f, "bg-repeat-{}", s),
             },
-            MaybeArbitrary::Arbitrary(s) => write!(f, "bg-repeat-[{}]", s),
+            KeywordOnly::Arbitrary(s) => write!(f, "bg-repeat-[{}]", s),
         }
     }
 }
@@ -47,18 +47,18 @@ impl TailwindBackgroundRepeat {
     }
     /// https://tailwindcss.com/docs/background-repeat
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: MaybeArbitrary::parse_arbitrary(arbitrary)? })
+        Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
     }
 }
 
-pub fn parser(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<MaybeArbitrary> {
+pub fn parser(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<KeywordOnly> {
     let out = match pattern {
-        [] if arbitrary.is_none() => MaybeArbitrary::Standard("repeat".to_string()),
-        [] => MaybeArbitrary::parse_arbitrary(arbitrary)?,
-        ["none"] => MaybeArbitrary::Standard("no-repeat".to_string()),
-        ["x"] => MaybeArbitrary::Standard("repeat-x".to_string()),
-        ["y"] => MaybeArbitrary::Standard("repeat-y".to_string()),
-        _ => MaybeArbitrary::parse_standard(pattern, "bg-repeat", &check_valid)?,
+        [] if arbitrary.is_none() => KeywordOnly::Standard("repeat".to_string()),
+        [] => KeywordOnly::parse_arbitrary(arbitrary)?,
+        ["none"] => KeywordOnly::Standard("no-repeat".to_string()),
+        ["x"] => KeywordOnly::Standard("repeat-x".to_string()),
+        ["y"] => KeywordOnly::Standard("repeat-y".to_string()),
+        _ => KeywordOnly::parse_standard(pattern, "bg-repeat", &check_valid)?,
     };
     Ok(out)
 }

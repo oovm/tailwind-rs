@@ -1,12 +1,13 @@
 use super::*;
 
+///
 #[derive(Debug, Clone)]
-pub enum MaybeArbitrary {
+pub enum KeywordOnly {
     Standard(String),
     Arbitrary(String),
 }
 
-impl Display for MaybeArbitrary {
+impl Display for KeywordOnly {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::Standard(s) => write!(f, "{}", s),
@@ -15,7 +16,7 @@ impl Display for MaybeArbitrary {
     }
 }
 
-impl MaybeArbitrary {
+impl KeywordOnly {
     pub fn parser(
         id: &'static str,
         check_valid: &'static impl Fn(&str) -> bool,

@@ -1,11 +1,11 @@
-use crate::MaybeArbitrary;
+use crate::KeywordOnly;
 
 use super::*;
 
 #[doc = include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindOverscroll {
-    kind: MaybeArbitrary,
+    kind: KeywordOnly,
     axis: Option<bool>,
 }
 
@@ -35,11 +35,11 @@ impl TailwindInstance for TailwindOverscroll {
 impl TailwindOverscroll {
     /// https://tailwindcss.com/docs/overscroll-behavior
     pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary, axis: Option<bool>) -> Result<Self> {
-        Ok(Self { kind: MaybeArbitrary::parser("overscroll", &check_valid)(kind, arbitrary)?, axis })
+        Ok(Self { kind: KeywordOnly::parser("overscroll", &check_valid)(kind, arbitrary)?, axis })
     }
     /// https://tailwindcss.com/docs/overscroll-behavior#arbitrary-values
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: Option<bool>) -> Result<Self> {
-        Ok(Self { kind: MaybeArbitrary::parse_arbitrary(arbitrary)?, axis })
+        Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)?, axis })
     }
 }
 

@@ -1,10 +1,10 @@
 use super::*;
-use crate::MaybeArbitrary;
+use crate::KeywordOnly;
 
 #[doc = include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindOverflow {
-    kind: MaybeArbitrary,
+    kind: KeywordOnly,
     axis: Option<bool>,
 }
 
@@ -34,11 +34,11 @@ impl TailwindInstance for TailwindOverflow {
 impl TailwindOverflow {
     /// https://tailwindcss.com/docs/overflow#header
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, axis: Option<bool>) -> Result<Self> {
-        Ok(Self { kind: MaybeArbitrary::parser("overflow", &check_valid)(pattern, arbitrary)?, axis })
+        Ok(Self { kind: KeywordOnly::parser("overflow", &check_valid)(pattern, arbitrary)?, axis })
     }
     /// https://tailwindcss.com/docs/font-variant-numeric#arbitrary-values
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: Option<bool>) -> Result<Self> {
-        Ok(Self { kind: MaybeArbitrary::parse_arbitrary(arbitrary)?, axis })
+        Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)?, axis })
     }
 }
 

@@ -19,7 +19,7 @@ pub use self::{
     zelf::TailwindSelf,
 };
 use crate::{
-    css_attributes, syntax_error, CssAttribute, CssBehavior, LengthUnit, MaybeArbitrary, Result, TailwindArbitrary,
+    css_attributes, syntax_error, CssAttribute, CssBehavior, KeywordOnly, LengthUnit, Result, TailwindArbitrary,
     TailwindBuilder, TailwindInstance,
 };
 use std::{

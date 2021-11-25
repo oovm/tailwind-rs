@@ -1,5 +1,3 @@
-use crate::NeverArbitrary;
-
 use super::*;
 
 #[doc = include_str!("readme.md")]
