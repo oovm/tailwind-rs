@@ -1,6 +1,8 @@
-pub mod place_content;
-pub mod place_item;
-pub mod place_self;
+pub(crate) mod place_content;
+pub(crate) mod place_item;
+pub(crate) mod place_self;
+#[cfg(test)]
+mod test;
 
 use super::*;
 
@@ -8,7 +10,7 @@ use super::*;
 pub struct TailwindPlace {}
 
 impl TailwindPlace {
-    pub fn parse(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+    pub fn adapt(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/place-content
             ["content", rest @ ..] => TailwindPlaceContent::parse(rest, arbitrary)?.boxed(),

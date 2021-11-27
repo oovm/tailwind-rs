@@ -6,22 +6,11 @@ use crate::KeywordOnly;
 pub struct TailwindEase {
     kind: KeywordOnly,
 }
+crate::macros::sealed::keyword_instance!(TailwindEase => "transition-timing-function");
 
 impl Display for TailwindEase {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "ease-{}", self.kind)
-    }
-}
-
-impl TailwindInstance for TailwindEase {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let timing = match &self.kind {
-            KeywordOnly::Standard(s) => s,
-            KeywordOnly::Arbitrary(s) => s,
-        };
-        css_attributes! {
-            "transition-timing-function" => timing
-        }
     }
 }
 

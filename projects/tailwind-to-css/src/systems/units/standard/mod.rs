@@ -7,6 +7,15 @@ pub enum KeywordOnly {
     Arbitrary(String),
 }
 
+impl<T> From<T> for KeywordOnly
+where
+    T: Into<String>,
+{
+    fn from(kind: T) -> Self {
+        Self::Standard(kind.into())
+    }
+}
+
 impl Display for KeywordOnly {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {

@@ -6,14 +6,7 @@ pub struct TailwindJustifyContent {
     kind: KeywordOnly,
 }
 
-impl<T> From<T> for TailwindJustifyContent
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: KeywordOnly::Standard(kind.into()) }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindJustifyContent => "justify-content");
 
 impl Display for TailwindJustifyContent {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -28,14 +21,6 @@ impl Display for TailwindJustifyContent {
                 _ => write!(f, "justify-content-{}", s),
             },
             KeywordOnly::Arbitrary(s) => write!(f, "justify-content-[{}]", s),
-        }
-    }
-}
-
-impl TailwindInstance for TailwindJustifyContent {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        css_attributes! {
-            "justify-content" => self.kind.get_properties()
         }
     }
 }

@@ -3,17 +3,10 @@ use super::*;
 #[doc = include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindBreakInside {
-    kind: String,
+    kind: KeywordOnly,
 }
 
-impl<T> From<T> for TailwindBreakInside
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: kind.into() }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindBreakInside => "break-inside");
 
 impl Display for TailwindBreakInside {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -21,38 +14,28 @@ impl Display for TailwindBreakInside {
     }
 }
 
-impl TailwindInstance for TailwindBreakInside {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        css_attributes! {
-            "break-inside" => self.kind
-        }
-    }
-}
-
 impl TailwindBreakInside {
     /// <https://tailwindcss.com/docs/break-inside>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: NeverArbitrary::parser("break-inside", &check_valid)(pattern, arbitrary)? })
+        Ok(Self { kind: KeywordOnly::parser("break-inside", &Self::check_valid)(pattern, arbitrary)? })
     }
-}
 
-/// <https://developer.mozilla.org/en-US/docs/Web/CSS/break-inside#syntax>
-fn check_valid(mode: &str) -> bool {
-    let set = BTreeSet::from_iter(vec![
-        // Keyword values
-        "auto",
-        "avoid",
-        // Page break values
-        "avoid-page",
-        // Column break values
-        "avoid-column",
-        // Region break values
-        "avoid-region",
-        // Global values
-        "inherit",
-        "initial",
-        "revert",
-        "unset",
-    ]);
-    set.contains(mode)
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
+    }
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/break-inside#syntax>
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec![
+            "auto",
+            "avoid",
+            "avoid-column",
+            "avoid-page",
+            "avoid-region",
+            "inherit",
+            "initial",
+            "revert",
+            "unset",
+        ]);
+        set.contains(mode)
+    }
 }

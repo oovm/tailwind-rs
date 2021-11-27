@@ -3,63 +3,27 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindPlaceItems {
-    kind: PlaceItems,
+    kind: KeywordOnly,
 }
 
-#[derive(Debug, Clone)]
-enum PlaceItems {
-    Standard(String),
-    Arbitrary(String),
-}
-
-impl<T> From<T> for TailwindPlaceItems
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: PlaceItems::Standard(kind.into()) }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindPlaceItems => "place-items");
 
 impl Display for TailwindPlaceItems {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match &self.kind {
-            PlaceItems::Standard(s) => write!(f, "place-items-{}", s),
-            PlaceItems::Arbitrary(s) => write!(f, "place-items-[{}]", s),
-        }
-    }
-}
-
-impl TailwindInstance for TailwindPlaceItems {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let cursor = match &self.kind {
-            PlaceItems::Standard(s) => s,
-            PlaceItems::Arbitrary(s) => s,
-        };
-        css_attributes! {
-            "place-items" => cursor
-        }
+        write!(f, "place-items-{}", self.kind)
     }
 }
 
 impl TailwindPlaceItems {
-    /// https://tailwindcss.com/docs/place-items
+    /// <https://tailwindcss.com/docs/place-self>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        match pattern {
-            [] => Self::parse_arbitrary(arbitrary),
-            _ => {
-                let s = pattern.join("-");
-                debug_assert!(Self::check_valid(&s));
-                Ok(Self { kind: PlaceItems::Standard(s) })
-            },
-        }
+        Ok(Self { kind: KeywordOnly::parser("place-items", &Self::check_valid)(pattern, arbitrary)? })
     }
-    /// https://tailwindcss.com/docs/place-items
+    /// dispatch to [place-items](https://developer.mozilla.org/en-US/docs/Web/CSS/place-items)
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_some());
-        Ok(Self { kind: PlaceItems::Arbitrary(arbitrary.to_string()) })
+        Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
     }
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/place-items#syntax
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/place-items#syntax>
     pub fn check_valid(mode: &str) -> bool {
         let set = BTreeSet::from_iter(vec!["center", "inherit", "initial", "revert", "unset"]);
         set.contains(mode)

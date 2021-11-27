@@ -3,17 +3,10 @@ use super::*;
 #[doc = include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindBreakAfter {
-    kind: String,
+    kind: KeywordOnly,
 }
 
-impl<T> From<T> for TailwindBreakAfter
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: kind.into() }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindBreakAfter => "break-after");
 
 impl Display for TailwindBreakAfter {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -21,48 +14,36 @@ impl Display for TailwindBreakAfter {
     }
 }
 
-impl TailwindInstance for TailwindBreakAfter {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        css_attributes! {
-            "break-after" => self.kind
-        }
-    }
-}
-
 impl TailwindBreakAfter {
     /// <https://tailwindcss.com/docs/break-after>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after break-after");
-        let kind = pattern.join("-");
-        debug_assert!(Self::check_valid(&kind));
-        Ok(Self { kind })
+        Ok(Self { kind: KeywordOnly::parser("break-after", &Self::check_valid)(pattern, arbitrary)? })
+    }
+
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
     }
     /// <https://developer.mozilla.org/en-US/docs/Web/CSS/break-after#syntax>
     pub fn check_valid(mode: &str) -> bool {
         let set = BTreeSet::from_iter(vec![
-            // Generic break values
+            "all",
+            "always",
             "auto",
             "avoid",
-            "always",
-            "all",
-            // Page break values
-            "avoid-page",
-            "page",
-            "left",
-            "right",
-            "recto",
-            "verso",
-            // Column break values
             "avoid-column",
-            "column",
-            // Region break values
+            "avoid-page",
             "avoid-region",
-            "region",
-            // Global values
+            "column",
             "inherit",
             "initial",
+            "left",
+            "page",
+            "recto",
+            "region",
             "revert",
+            "right",
             "unset",
+            "verso",
         ]);
         set.contains(mode)
     }

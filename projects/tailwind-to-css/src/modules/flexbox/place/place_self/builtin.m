@@ -2,31 +2,31 @@
 
 values = "
 /* Keyword values */
-place-items: center;
-place-items: normal start;
+place-self: auto center;
+place-self: normal start;
 
 /* Positional alignment */
-place-items: center normal;
-place-items: start legacy;
-place-items: end normal;
-place-items: self-start legacy;
-place-items: self-end normal;
-place-items: flex-start legacy;
-place-items: flex-end normal;
-place-items: left legacy;
-place-items: right normal;
+place-self: center normal;
+place-self: start auto;
+place-self: end normal;
+place-self: self-start auto;
+place-self: self-end normal;
+place-self: flex-start auto;
+place-self: flex-end normal;
+place-self: left auto;
+place-self: right normal;
 
 /* Baseline alignment */
-place-items: baseline normal;
-place-items: first baseline legacy;
-place-items: last baseline normal;
-place-items: stretch legacy;
+place-self: baseline normal;
+place-self: first baseline auto;
+place-self: last baseline normal;
+place-self: stretch auto;
 
 /* Global values */
-place-items: inherit;
-place-items: initial;
-place-items: revert;
-place-items: unset;
+place-self: inherit;
+place-self: initial;
+place-self: revert;
+place-self: unset;
 ";
 
 all = Sort@StringCases[

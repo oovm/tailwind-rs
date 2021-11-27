@@ -8,14 +8,7 @@ pub struct TailwindBackgroundRepeat {
     kind: KeywordOnly,
 }
 
-impl<T> From<T> for TailwindBackgroundRepeat
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: KeywordOnly::Standard(kind.into()) }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindBackgroundRepeat => "background-repeat");
 
 impl Display for TailwindBackgroundRepeat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -28,14 +21,6 @@ impl Display for TailwindBackgroundRepeat {
                 _ => write!(f, "bg-repeat-{}", s),
             },
             KeywordOnly::Arbitrary(s) => write!(f, "bg-repeat-[{}]", s),
-        }
-    }
-}
-
-impl TailwindInstance for TailwindBackgroundRepeat {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        css_attributes! {
-            "background-repeat" => self.kind.get_properties()
         }
     }
 }

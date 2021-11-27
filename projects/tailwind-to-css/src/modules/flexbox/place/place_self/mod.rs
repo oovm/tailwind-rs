@@ -6,14 +6,7 @@ pub struct TailwindPlaceSelf {
     kind: KeywordOnly,
 }
 
-impl<T> From<T> for TailwindPlaceSelf
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: KeywordOnly::Standard(kind.into()) }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindPlaceSelf => "place-self");
 
 impl Display for TailwindPlaceSelf {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -21,32 +14,16 @@ impl Display for TailwindPlaceSelf {
     }
 }
 
-impl TailwindInstance for TailwindPlaceSelf {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        css_attributes! {
-            "place-self" => self.kind.get_properties()
-        }
-    }
-}
-
 impl TailwindPlaceSelf {
-    /// https://tailwindcss.com/docs/place-items
+    /// <https://tailwindcss.com/docs/place-self>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        match pattern {
-            [] => Self::parse_arbitrary(arbitrary),
-            _ => {
-                let s = pattern.join("-");
-                debug_assert!(Self::check_valid(&s));
-                Ok(Self { kind: KeywordOnly::Standard(s) })
-            },
-        }
+        Ok(Self { kind: KeywordOnly::parser("place-self", &Self::check_valid)(pattern, arbitrary)? })
     }
-    /// https://tailwindcss.com/docs/place-items
+    /// dispatch to [place-self](https://developer.mozilla.org/en-US/docs/Web/CSS/place-self)
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_some());
-        Ok(Self { kind: KeywordOnly::Arbitrary(arbitrary.to_string()) })
+        Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
     }
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/place-items#syntax
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/place-self#syntax>
     pub fn check_valid(mode: &str) -> bool {
         let set = BTreeSet::from_iter(vec!["center", "inherit", "initial", "revert", "unset"]);
         set.contains(mode)

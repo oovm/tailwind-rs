@@ -74,7 +74,7 @@ impl TailwindInstruction {
             ["content", rest @ ..] => TailwindContent::adapt(rest, arbitrary)?,
             ["items", rest @ ..] => TailwindItems::parse(rest, arbitrary)?.boxed(),
             ["self", rest @ ..] => TailwindSelf::parse(rest, arbitrary)?.boxed(),
-            ["place", rest @ ..] => TailwindPlace::parse(rest, arbitrary)?,
+            ["place", rest @ ..] => TailwindPlace::adapt(rest, arbitrary)?,
             // justify catched
             // Spacing System
             ["p" | "pl" | "pr" | "pb" | "pt" | "px" | "py", ..] => TailwindPadding::parse(pattern, arbitrary, neg)?.boxed(),

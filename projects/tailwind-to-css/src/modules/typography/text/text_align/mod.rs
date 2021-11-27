@@ -3,59 +3,25 @@ use super::*;
 #[doc = include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindTextAlignment {
-    kind: TextAlignment,
-}
-#[derive(Debug, Clone)]
-enum TextAlignment {
-    Standard(String),
-    Arbitrary(String),
+    kind: KeywordOnly,
 }
 
-impl<T> From<T> for TailwindTextAlignment
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: TextAlignment::Standard(kind.into()) }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindTextAlignment => "text-align");
 
 impl Display for TailwindTextAlignment {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match &self.kind {
-            TextAlignment::Standard(s) => write!(f, "font-align-{}", s),
-            TextAlignment::Arbitrary(s) => write!(f, "font-align-[{}]", s),
-        }
-    }
-}
-
-impl TailwindInstance for TailwindTextAlignment {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let align = match &self.kind {
-            TextAlignment::Standard(s) => s,
-            TextAlignment::Arbitrary(s) => s,
-        };
-        css_attributes! {
-            "text-align" => align
-        }
+        write!(f, "font-align-{}", self.kind)
     }
 }
 
 impl TailwindTextAlignment {
-    /// https://tailwindcss.com/docs/text-align
+    /// <https://tailwindcss.com/docs/will-change>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        match pattern {
-            [] => Self::parse_arbitrary(arbitrary),
-            _ => {
-                let s = pattern.join("-");
-                debug_assert!(Self::check_valid(&s));
-                Ok(Self { kind: TextAlignment::Standard(s) })
-            },
-        }
+        Ok(Self { kind: KeywordOnly::parser("font-align", &Self::check_valid)(pattern, arbitrary)? })
     }
-    /// https://tailwindcss.com/docs/text-align
+    /// dispatch to [text-align](https://developer.mozilla.org/en-US/docs/Web/CSS/text-align)
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: TextAlignment::Arbitrary(arbitrary.to_string()) })
+        Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/text-align#syntax
     pub fn check_valid(mode: &str) -> bool {

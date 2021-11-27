@@ -3,22 +3,15 @@ use super::*;
 #[doc = include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindBackgroundAttachment {
-    kind: String,
+    kind: KeywordOnly,
 }
 
-impl<T> From<T> for TailwindBackgroundAttachment
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: kind.into() }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindBackgroundAttachment => "background-attachment");
 
 impl Display for TailwindBackgroundAttachment {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "bg-")?;
-        let s = self.kind.as_str();
+        let s = self.kind.get_properties();
         match s {
             s @ ("fixed" | "local" | "scroll") => write!(f, "{}", s),
             _ => write!(f, "attach-{}", s),
@@ -26,18 +19,14 @@ impl Display for TailwindBackgroundAttachment {
     }
 }
 
-impl TailwindInstance for TailwindBackgroundAttachment {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        css_attributes! {
-            "background-attachment" => self.kind
-        }
-    }
-}
-
 impl TailwindBackgroundAttachment {
     /// <https://tailwindcss.com/docs/background-attachment>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: NeverArbitrary::parser("bg-attach", &check_valid)(pattern, arbitrary)? })
+        Ok(Self { kind: KeywordOnly::parser("bg-attach", &check_valid)(pattern, arbitrary)? })
+    }
+    /// <https://tailwindcss.com/docs/background-attachment>
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
     }
 }
 

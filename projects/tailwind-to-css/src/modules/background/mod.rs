@@ -1,12 +1,3 @@
-use crate::{
-    css_attributes, syntax_error, AnchorPoint, CssAttribute, Result, TailwindArbitrary, TailwindBuilder, TailwindColor,
-    TailwindInstance,
-};
-use std::{
-    collections::BTreeSet,
-    fmt::{Debug, Display, Formatter},
-};
-
 pub use self::{
     attachment::TailwindBackgroundAttachment,
     clip::TailwindBackgroundClip,
@@ -17,6 +8,14 @@ pub use self::{
     position::TailwindBackgroundPosition,
     repeat::TailwindBackgroundRepeat,
     size::TailwindBackgroundSize,
+};
+use crate::{
+    css_attributes, syntax_error, AnchorPoint, CssAttribute, KeywordOnly, Result, TailwindArbitrary, TailwindBuilder,
+    TailwindColor, TailwindInstance,
+};
+use std::{
+    collections::BTreeSet,
+    fmt::{Debug, Display, Formatter},
 };
 
 mod attachment;

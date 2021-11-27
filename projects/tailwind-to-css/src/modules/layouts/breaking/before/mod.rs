@@ -3,17 +3,10 @@ use super::*;
 #[doc = include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindBreakBefore {
-    kind: String,
+    kind: KeywordOnly,
 }
 
-impl<T> From<T> for TailwindBreakBefore
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: kind.into() }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindBreakBefore => "break-before");
 
 impl Display for TailwindBreakBefore {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -21,21 +14,14 @@ impl Display for TailwindBreakBefore {
     }
 }
 
-impl TailwindInstance for TailwindBreakBefore {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        css_attributes! {
-            "break-before" => self.kind
-        }
-    }
-}
-
 impl TailwindBreakBefore {
-    /// https://tailwindcss.com/docs/break-before
+    /// <https://tailwindcss.com/docs/break-before>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after break-before");
-        let kind = pattern.join("-");
-        debug_assert!(Self::check_valid(&kind));
-        Ok(Self { kind })
+        Ok(Self { kind: KeywordOnly::parser("break-before", &Self::check_valid)(pattern, arbitrary)? })
+    }
+
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/break-before#syntax
     pub fn check_valid(mode: &str) -> bool {

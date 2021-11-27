@@ -8,14 +8,7 @@ pub struct TailwindContent {
     kind: KeywordOnly,
 }
 
-impl<T> From<T> for TailwindContent
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: KeywordOnly::Standard(kind.into()) }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindContent => "content");
 
 impl Display for TailwindContent {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -26,13 +19,6 @@ impl Display for TailwindContent {
     }
 }
 
-impl TailwindInstance for TailwindContent {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        css_attributes! {
-            "content" => self.kind.get_properties()
-        }
-    }
-}
 
 impl TailwindContent {
     /// https://tailwindcss.com/docs/align-content

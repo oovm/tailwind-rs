@@ -6,14 +6,7 @@ pub struct TailwindJustifySelf {
     kind: KeywordOnly,
 }
 
-impl<T> From<T> for TailwindJustifySelf
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: KeywordOnly::Standard(kind.into()) }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindJustifySelf => "justify-self");
 
 impl Display for TailwindJustifySelf {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -21,20 +14,12 @@ impl Display for TailwindJustifySelf {
     }
 }
 
-impl TailwindInstance for TailwindJustifySelf {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        css_attributes! {
-            "justify-self" => self.kind.get_properties()
-        }
-    }
-}
-
 impl TailwindJustifySelf {
-    /// https://tailwindcss.com/docs/justify-self
+    /// <https://tailwindcss.com/docs/justify-self>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self { kind: KeywordOnly::parser("justify-self", &check_valid)(pattern, arbitrary)? })
     }
-    /// https://tailwindcss.com/docs/justify-self
+    /// <https://tailwindcss.com/docs/justify-self>
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
     }

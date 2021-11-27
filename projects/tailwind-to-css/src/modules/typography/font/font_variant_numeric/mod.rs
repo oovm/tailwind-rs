@@ -8,14 +8,7 @@ pub struct TailwindFontVariantNumeric {
     kind: KeywordOnly,
 }
 
-impl<T> From<T> for TailwindFontVariantNumeric
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: KeywordOnly::Standard(kind.into()) }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindFontVariantNumeric => "font-variant-numeric");
 
 impl Display for TailwindFontVariantNumeric {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -27,18 +20,6 @@ impl Display for TailwindFontVariantNumeric {
                 _ => write!(f, "font-numeric-{}", s),
             },
             KeywordOnly::Arbitrary(s) => write!(f, "font-numeric-[{}]", s),
-        }
-    }
-}
-
-impl TailwindInstance for TailwindFontVariantNumeric {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let numeric = match &self.kind {
-            KeywordOnly::Standard(s) => s,
-            KeywordOnly::Arbitrary(s) => s,
-        };
-        css_attributes! {
-            "font-variant-numeric" => numeric
         }
     }
 }

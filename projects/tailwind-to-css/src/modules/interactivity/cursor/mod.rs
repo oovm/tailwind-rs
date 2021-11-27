@@ -1,63 +1,29 @@
+use crate::KeywordOnly;
+
 use super::*;
 
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindCursor {
-    kind: Cursor,
+    kind: KeywordOnly,
 }
 
-#[derive(Debug, Clone)]
-enum Cursor {
-    Standard(String),
-    Arbitrary(String),
-}
-
-impl<T> From<T> for TailwindCursor
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: Cursor::Standard(kind.into()) }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindCursor => "cursor");
 
 impl Display for TailwindCursor {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match &self.kind {
-            Cursor::Standard(s) => write!(f, "cursor-{}", s),
-            Cursor::Arbitrary(s) => write!(f, "cursor-[{}]", s),
-        }
-    }
-}
-
-impl TailwindInstance for TailwindCursor {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let cursor = match &self.kind {
-            Cursor::Standard(s) => s,
-            Cursor::Arbitrary(s) => s,
-        };
-        css_attributes! {
-            "cursor" => cursor
-        }
+        write!(f, "cursor-{}", self.kind)
     }
 }
 
 impl TailwindCursor {
-    /// https://tailwindcss.com/docs/cursor
+    /// <https://tailwindcss.com/docs/cursor>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        match pattern {
-            [] => Self::parse_arbitrary(arbitrary),
-            _ => {
-                let s = pattern.join("-");
-                debug_assert!(Self::check_valid(&s));
-                Ok(Self { kind: Cursor::Standard(s) })
-            },
-        }
+        Ok(Self { kind: KeywordOnly::parser("cursor", &Self::check_valid)(pattern, arbitrary)? })
     }
-    /// https://tailwindcss.com/docs/cursor#arbitrary-values
+    /// dispatch to [cursor](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor)
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_some());
-        Ok(Self { kind: Cursor::Arbitrary(arbitrary.to_string()) })
+        Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/cursor#syntax
     pub fn check_valid(mode: &str) -> bool {

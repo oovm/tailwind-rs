@@ -3,11 +3,6 @@ use std::{
     fmt::{Display, Formatter},
 };
 
-use crate::{
-    css_attributes, CssAttribute, Result, TailwindArbitrary, TailwindBuilder, TailwindColor, TailwindInstance,
-    TailwindScrollMargin, TailwindScrollPadding,
-};
-
 pub use self::{
     accent::TailwindAccentColor,
     appearance::TailwindAppearance,
@@ -20,6 +15,10 @@ pub use self::{
     snap::{snap_align::TailwindSnapAlign, snap_stop::TailwindSnapStop, snap_type::TailwindSnapType, TailwindSnap},
     torch::TailwindTorch,
     will_change::TailwindWillChange,
+};
+use crate::{
+    css_attributes, CssAttribute, KeywordOnly, Result, TailwindArbitrary, TailwindBuilder, TailwindColor, TailwindInstance,
+    TailwindScrollMargin, TailwindScrollPadding,
 };
 
 mod accent;
