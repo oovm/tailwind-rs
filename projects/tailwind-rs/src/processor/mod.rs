@@ -1,6 +1,8 @@
-mod methods;
+use std::collections::HashSet;
 
+use crate::Result;
 use parcel_css::stylesheet::{MinifyOptions, ParserOptions, PrinterOptions, StyleSheet};
+mod methods;
 
 ///
 #[derive(Clone, Debug)]

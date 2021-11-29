@@ -10,15 +10,12 @@ license = "MPL-2.0"
 edition = "2018"
 
 [dependencies]
-rsass = "0.23.4"
-parcel_css = "1.0.0-alpha.17"
-tailwind-css = "0.10.4"
+tailwind-rs = { version = "0.1", path = "../tailwind-rs" }
 dioxus = "0.1.8"
 
 [dependencies.tailwind-error]
-version = "1.1.*"
-path = "../tailwind-error"
-features = ["parcel_css"]
+version = "1.1.2"
+features = []
 
 [dev-dependencies]
 

@@ -1,6 +1,6 @@
 use super::*;
 
-///
+/// Used to represent those attributes that only have keywords
 #[derive(Debug, Clone)]
 pub enum KeywordOnly {
     Standard(String),
