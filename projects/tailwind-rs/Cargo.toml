@@ -1,24 +1,31 @@
 [package]
-name = "tailwind"
-publish = false
+name = "tailwind-rs"
 version = "0.1.0"
 authors = ["Aster <192607617@qq.com>"]
-description = "..."
-repository = "..."
+description = "Tailwind translater for html and more"
+repository = "https://github.com/oovm/tailwind-rs"
+documentation = "https://docs.rs/tailwind-css"
 readme = "Readme.md"
 license = "MPL-2.0"
 edition = "2018"
 
 [dependencies]
+tl = {version = "0.6.3", optional = true}
 rsass = "0.23.4"
 parcel_css = "1.0.0-alpha.16"
+tailwind-css = "0.10.9"
+itertools = "0.10.3"
 
 [dependencies.tailwind-error]
-version = "1.1.*"
-path = "../tailwind-error"
+version = "1.1.2"
 features = ["parcel_css"]
 
 [dev-dependencies]
 
 [features]
-default = []
+default = ["html"]
+html = ["tl", "tailwind-error/tl"]
+
+[package.metadata.wee]
+t = "cargo test"
+p = "cargo publish --allow-dirty"

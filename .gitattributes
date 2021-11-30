@@ -1,2 +1,3 @@
 *.m         linguist-language=mathematica
 builtin.rs  linguist-language=mathematica
+*.html      linguist-detectable=false
