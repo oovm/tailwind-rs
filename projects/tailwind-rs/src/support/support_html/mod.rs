@@ -1,3 +1,4 @@
+use log::error;
 use tailwind_css::TailwindBuilder;
 use tl::{parse, Node, ParserOptions};
 
@@ -20,7 +21,11 @@ impl HtmlConfig {
 fn trace_class(node: &mut Node, tw: &mut TailwindBuilder) -> Option<()> {
     let attributes = node.as_tag_mut()?.attributes_mut();
     let class = attributes.get_mut("class")??;
-    let out = tw.try_trace(class.try_as_utf8_str()?).ok()?;
-    class.set(out).ok()?;
+    match tw.try_trace(class.try_as_utf8_str()?) {
+        Ok(o) => {
+            class.set(o).ok()?;
+        },
+        Err(e) => error!("{}", e),
+    }
     Some(())
 }

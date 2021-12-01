@@ -1,12 +1,21 @@
 use std::collections::HashSet;
+use tailwind_css::TailwindBuilder;
 
-use crate::CssProcessor;
-
+#[derive(Debug, Default)]
 pub struct GlobalConfig {
     pub css: CssProcessor,
     pub html: HtmlConfig,
+    pub tailwind: TailwindBuilder,
 }
 
+///
+#[derive(Clone, Debug, Default)]
+pub struct CssProcessor {
+    pub minify: bool,
+    pub unused_symbols: HashSet<String>,
+}
+
+#[derive(Clone, Debug)]
 pub struct HtmlConfig {
     pub include_attributes: HashSet<String>,
 }

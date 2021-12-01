@@ -1,24 +1,20 @@
 use super::*;
+mod aspect;
 
-#[derive(Copy, Clone, Debug)]
-enum AspectKind {
-    Auto,
-    Radio(usize, usize),
-    Global(CssBehavior),
-}
+use self::aspect::Aspect;
 
 #[doc = include_str!("readme.md")]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Debug)]
 pub struct TailwindAspect {
-    kind: AspectKind,
+    kind: Aspect,
 }
-impl Display for AspectKind {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Auto => write!(f, "auto"),
-            Self::Radio(a, b) => write!(f, "{}/{}", a, b),
-            Self::Global(g) => write!(f, "{}", g),
-        }
+
+impl<T> From<T> for TailwindAspect
+where
+    T: Into<String>,
+{
+    fn from(kind: T) -> Self {
+        Self { kind: Aspect::Standard(kind.into()) }
     }
 }
 
@@ -31,33 +27,22 @@ impl Display for TailwindAspect {
 impl TailwindInstance for TailwindAspect {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         css_attributes! {
-            "aspect-ratio" => self.kind
+            "aspect-ratio" => self.kind.get_properties()
         }
-    }
-}
-impl AspectKind {
-    pub fn parse(kind: &[&str]) -> Result<Self> {
-        let out = match kind {
-            ["auto"] => Self::Auto,
-            ["square"] => Self::Radio(1, 1),
-            ["video"] => Self::Radio(16, 9),
-            ["inherit"] => Self::Global(CssBehavior::Inherit),
-            ["initial"] => Self::Global(CssBehavior::Initial),
-            ["unset"] => Self::Global(CssBehavior::Unset),
-            [n] => {
-                let (a, b) = TailwindArbitrary::from(*n).as_fraction()?;
-                Self::Radio(a, b)
-            },
-            _ => return syntax_error!("unknown aspect-ratio elements"),
-        };
-        Ok(out)
     }
 }
 
 impl TailwindAspect {
-    /// https://tailwindcss.com/docs/aspect-ratio
+    /// <https://tailwindcss.com/docs/aspect-ratio>
     pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after aspect");
-        Ok(Self { kind: AspectKind::parse(kind)? })
+        Ok(Self { kind: Aspect::parse(kind, arbitrary)? })
+    }
+    /// dispatch to [aspect-ratio](https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio)
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: Aspect::parse_arbitrary(arbitrary)? })
+    }
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio>
+    pub fn check_valid(mode: &str) -> bool {
+        Aspect::check_valid(mode)
     }
 }

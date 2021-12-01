@@ -3,6 +3,8 @@ use super::*;
 /// <https://tailwindcss.com/docs/preflight>
 #[derive(Clone, Debug)]
 pub struct PreflightSystem {
+    /// disable all preflight
+    pub disable: bool,
     /// ## Default margins are removed
     /// Preflight removes all of the default margins from elements like headings, blockquotes, paragraphs, etc.
     /// This makes it harder to accidentally rely on margin values applied by the user-agent stylesheet that are not part of your spacing scale.
@@ -29,6 +31,7 @@ pub struct PreflightSystem {
 impl Default for PreflightSystem {
     fn default() -> Self {
         Self {
+            disable: false,
             remove_margins: true,
             unstyle_head: true,
             unstyle_list: true,
@@ -99,6 +102,10 @@ impl TailwindInstance for PreflightSystem {
     }
 
     fn write_css(&self, f: &mut (dyn Write), _: &TailwindBuilder) -> Result<()> {
+        f.write_str(&self.custom)?;
+        if self.disable {
+            return Ok(());
+        }
         if self.remove_margins {
             f.write_str(Self::REMOVE_MARGINS.trim())?;
             writeln!(f)?;
@@ -123,7 +130,6 @@ impl TailwindInstance for PreflightSystem {
             f.write_str(Self::BUTTON_OUTLINE.trim())?;
             writeln!(f)?;
         }
-        f.write_str(&self.custom)?;
         Ok(())
     }
 }

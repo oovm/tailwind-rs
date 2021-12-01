@@ -13,12 +13,13 @@ edition = "2018"
 tl = {version = "0.6.3", optional = true}
 rsass = "0.23.4"
 parcel_css = "1.0.0-alpha.16"
-tailwind-css = "0.10.9"
+tailwind-css = {version = "0.10.10", path = "../tailwind-to-css"}
 itertools = "0.10.3"
+log = "0.4.14"
 
 [dependencies.tailwind-error]
 version = "1.1.2"
-features = ["parcel_css"]
+features = ["parcel_css", "nom", "css-color"]
 
 [dev-dependencies]
 

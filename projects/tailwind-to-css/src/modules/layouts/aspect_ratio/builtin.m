@@ -1,6 +1,12 @@
 (* ::Package:: *)
 
 values = "
+/* Keyword values */
+aspect-ratio: auto;
+
+aspect-ratio: 1 / 1;
+aspect-ratio: 0.5;
+
 /* Global values */
 aspect-ratio: inherit;
 aspect-ratio: initial;

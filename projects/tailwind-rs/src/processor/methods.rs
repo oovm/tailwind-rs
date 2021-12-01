@@ -1,11 +1,5 @@
 use super::*;
 
-impl Default for CssProcessor {
-    fn default() -> Self {
-        Self { minify: true, unused_symbols: Default::default() }
-    }
-}
-
 impl CssProcessor {
     pub fn compile(&self, css: &str) -> Result<String> {
         const PARSER: ParserOptions = ParserOptions {
