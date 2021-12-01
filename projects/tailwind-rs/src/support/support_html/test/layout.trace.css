@@ -1,0 +1,42 @@
+p, blockquote, hr, dl, dd, h1, h2, h3, h4, h5, h6, figure, pre {
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+ol, ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+img, svg, video, canvas, audio, iframe, embed, object {
+  vertical-align: middle;
+  display: block;
+}
+
+*, :before, :after {
+  border-style: solid;
+  border-width: 0;
+  border-color: theme("borderColor.DEFAULT", currentColor);
+}
+
+button:focus {
+  outline: 1px dotted ;
+  outline: 5px auto -webkit-focus-ring-color;
+}
+
+.aspect-1\/1 {
+  aspect-ratio: 1 / 1;
+}
+
+.aspect-16\/9 {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect-auto {
+  aspect-ratio: auto;
+}

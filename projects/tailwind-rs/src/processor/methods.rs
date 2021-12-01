@@ -12,7 +12,7 @@ impl CssProcessor {
             //
             nesting: true,
             custom_media: true,
-            css_modules: true,
+            css_modules: false,
             source_index: 0,
         };
         let mut stylesheet = StyleSheet::parse(String::new(), css, PARSER)?;
