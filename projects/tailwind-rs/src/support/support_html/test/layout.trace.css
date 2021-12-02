@@ -52,3 +52,23 @@ button:focus {
 .aspect-auto {
   aspect-ratio: auto;
 }
+
+.aspect-unset {
+  aspect-ratio: unset;
+}
+
+.columns-1 {
+  columns: 1;
+}
+
+.columns-\[20rem\] {
+  columns: 20rem;
+}
+
+.columns-\[320px\] {
+  columns: 320px;
+}
+
+.columns-auto {
+  columns: auto;
+}

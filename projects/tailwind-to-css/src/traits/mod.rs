@@ -15,7 +15,7 @@ pub trait TailwindInstance: Display {
     /// used to deduplication and marking
     #[inline]
     fn id(&self) -> String {
-        format!("{}", self)
+        self.to_string()
     }
     /// used to deduplication and marking
     fn inlineable(&self) -> bool {

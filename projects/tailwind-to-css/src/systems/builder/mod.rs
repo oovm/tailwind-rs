@@ -40,9 +40,11 @@ impl TailwindBuilder {
     /// Safe version of [`TailwindBuilder::trace`]
     pub fn try_trace(&mut self, style: &str) -> Result<String> {
         let parsed = parse_tailwind(style)?;
-        let out: Vec<String> = parsed.iter().map(|s| s.id()).collect();
+        let mut out = vec![];
         for i in parsed.into_iter() {
-            self.objects.insert(i.get_instance()?);
+            let instance = i.get_instance()?;
+            out.push(instance.id());
+            self.objects.insert(instance);
         }
         Ok(out.join(" "))
     }
