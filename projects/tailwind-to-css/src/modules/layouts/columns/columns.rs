@@ -5,6 +5,7 @@ pub enum Columns {
     Columns(u8),
     Length(LengthUnit),
     Standard(String),
+    Arbitrary(String),
 }
 
 impl Display for Columns {
@@ -12,7 +13,8 @@ impl Display for Columns {
         match self {
             Self::Columns(n) => write!(f, "{}", n),
             Self::Length(n) => write!(f, "{}", n.get_class_arbitrary()),
-            Self::Standard(g) => write!(f, "{}", g),
+            Self::Standard(s) => write!(f, "{}", s),
+            Self::Arbitrary(s) => write!(f, "[{}]", s),
         }
     }
 }
@@ -22,7 +24,7 @@ impl Columns {
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         let rem = |n: usize| Self::Length(LengthUnit::rem(n as f32));
         let out = match input {
-            ["auto"] => Self::Standard("auto".to_string()),
+            [s] if Self::check_valid(s) => Self::Standard(s.to_string()),
             ["3xs"] => rem(16),
             ["2xs"] => rem(18),
             ["xs"] => rem(20),
@@ -37,15 +39,28 @@ impl Columns {
             ["6xl"] => rem(72),
             ["7xl"] => rem(80),
             [name] => {
-                debug_assert!(!name.contains('%'), "forbidden use percent");
                 let a = TailwindArbitrary::from(*name);
-                let maybe_unit = || -> Result<Self> { Ok(Self::Columns(a.as_integer()?)) };
-                let maybe_length = || -> Result<Self> { Ok(Self::Length(a.as_length()?)) };
-                maybe_unit().or_else(|_| maybe_length())?
+                Self::Columns(a.as_integer()?)
             },
-            [] => Self::Length(arbitrary.as_length()?),
-            _ => return syntax_error!("Unknown column instructions: {}", input.join("-")),
+            [] => Self::parse_arbitrary(arbitrary)?,
+            _ => return syntax_error!("Unknown columns instructions: {}", input.join("-")),
         };
         Ok(out)
+    }
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        debug_assert!(arbitrary.is_some());
+        Ok(Self::Arbitrary(arbitrary.to_string()))
+    }
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec!["auto", "inherit", "initial", "revert", "unset"]);
+        set.contains(mode)
+    }
+    pub fn get_properties(&self) -> String {
+        match self {
+            Columns::Columns(s) => s.to_string(),
+            Columns::Length(s) => s.get_properties(),
+            Columns::Standard(s) => s.to_string(),
+            Columns::Arbitrary(s) => s.to_string(),
+        }
     }
 }

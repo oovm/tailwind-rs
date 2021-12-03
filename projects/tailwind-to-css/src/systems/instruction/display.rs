@@ -1,6 +1,8 @@
-use super::*;
-use log::error;
 use std::collections::BTreeSet;
+
+use log::error;
+
+use super::*;
 
 impl Display for TailwindInstruction {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -10,7 +12,10 @@ impl Display for TailwindInstruction {
         if self.negative {
             write!(f, "-")?
         }
-        write!(f, "{}{}", self.elements, self.arbitrary)
+        match self.arbitrary.is_some() {
+            true => write!(f, "{}-[{}]", self.elements, self.arbitrary),
+            false => write!(f, "{}", self.elements),
+        }
     }
 }
 

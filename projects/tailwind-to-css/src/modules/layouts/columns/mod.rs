@@ -16,13 +16,8 @@ impl Display for TailwindColumns {
 
 impl TailwindInstance for TailwindColumns {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let columns = match &self.kind {
-            Columns::Columns(n) => format!("{}", n),
-            Columns::Length(n) => n.get_properties(),
-            Columns::Standard(g) => g.to_string(),
-        };
         css_attributes! {
-            "columns" => columns
+            "columns" => self.kind.get_properties()
         }
     }
 }
@@ -31,5 +26,13 @@ impl TailwindColumns {
     /// https://tailwindcss.com/docs/columns
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self { kind: Columns::parse(input, arbitrary)? })
+    }
+    /// dispatch to [columns](https://developer.mozilla.org/en-US/docs/Web/CSS/columns)
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: Columns::parse_arbitrary(arbitrary)? })
+    }
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/columns#syntax>
+    pub fn check_valid(mode: &str) -> bool {
+        Columns::check_valid(mode)
     }
 }

@@ -6,6 +6,7 @@ use super::*;
 fn go() {
     let mut config = GlobalConfig::default();
     config.css.minify = false;
+    config.tailwind.preflight.disable = true;
     let (html, css) = config.compile_html_trace(include_str!("layout.html")).unwrap();
     assert_eq!(html, include_str!("layout.trace.html"));
     assert_eq!(css, include_str!("layout.trace.css"))

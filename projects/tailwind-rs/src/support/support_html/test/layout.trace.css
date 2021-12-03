@@ -1,34 +1,3 @@
-p, blockquote, hr, dl, dd, h1, h2, h3, h4, h5, h6, figure, pre {
-  margin: 0;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-size: inherit;
-  font-weight: inherit;
-}
-
-ol, ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-img, svg, video, canvas, audio, iframe, embed, object {
-  vertical-align: middle;
-  display: block;
-}
-
-*, :before, :after {
-  border-style: solid;
-  border-width: 0;
-  border-color: theme("borderColor.DEFAULT", currentColor);
-}
-
-button:focus {
-  outline: 1px dotted ;
-  outline: 5px auto -webkit-focus-ring-color;
-}
-
 .aspect-1\/1 {
   aspect-ratio: 1 / 1;
 }
@@ -41,12 +10,12 @@ button:focus {
   aspect-ratio: 21 / 9;
 }
 
-.aspect-\[-\[16\/9\]\] {
-  aspect-ratio:  - [16 / 9];
+.aspect-\[16\/9\] {
+  aspect-ratio: 16 / 9;
 }
 
-.aspect-\[-\[var\(--aspect\)\]\] {
-  aspect-ratio:  - [var(--aspect) ];
+.aspect-\[var\(--aspect\)\] {
+  aspect-ratio: var(--aspect);
 }
 
 .aspect-auto {
@@ -55,6 +24,22 @@ button:focus {
 
 .aspect-unset {
   aspect-ratio: unset;
+}
+
+.box-clone {
+  box-decoration-break: clone;
+}
+
+.box-sizing-border {
+  box-sizing: border;
+}
+
+.box-sizing-content {
+  box-sizing: content;
+}
+
+.box-slice {
+  box-decoration-break: slice;
 }
 
 .columns-1 {
@@ -67,6 +52,10 @@ button:focus {
 
 .columns-\[320px\] {
   columns: 320px;
+}
+
+.columns-\[auto_1\] {
+  columns: auto 1;
 }
 
 .columns-auto {
