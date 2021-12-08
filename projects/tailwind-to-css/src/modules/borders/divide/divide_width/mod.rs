@@ -1,6 +1,6 @@
 use super::*;
 
-#[doc = include_str!("readme.md")]
+#[doc=include_str!("readme.md")]
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindDivideWidth {
     axis: bool,

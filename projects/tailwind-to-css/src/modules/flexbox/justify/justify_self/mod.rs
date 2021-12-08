@@ -17,34 +17,33 @@ impl Display for TailwindJustifySelf {
 impl TailwindJustifySelf {
     /// <https://tailwindcss.com/docs/justify-self>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parser("justify-self", &check_valid)(pattern, arbitrary)? })
+        Ok(Self { kind: KeywordOnly::parser("justify-self", &Self::check_valid)(pattern, arbitrary)? })
     }
-    /// <https://tailwindcss.com/docs/justify-self>
+    /// dispatch to [justify-self](https://developer.mozilla.org/en-US/docs/Web/CSS/justify-self)
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
     }
-}
-
-/// https://developer.mozilla.org/en-US/docs/Web/CSS/justify-self#syntax
-fn check_valid(mode: &str) -> bool {
-    let set = BTreeSet::from_iter(vec![
-        "auto",
-        "baseline",
-        "center",
-        "end",
-        "flex-end",
-        "flex-start",
-        "inherit",
-        "initial",
-        "left",
-        "normal",
-        "revert",
-        "right",
-        "self-end",
-        "self-start",
-        "start",
-        "stretch",
-        "unset",
-    ]);
-    set.contains(mode)
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/justify-self#syntax>
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec![
+            "auto",
+            "baseline",
+            "center",
+            "end",
+            "flex-end",
+            "flex-start",
+            "inherit",
+            "initial",
+            "left",
+            "normal",
+            "revert",
+            "right",
+            "self-end",
+            "self-start",
+            "start",
+            "stretch",
+            "unset",
+        ]);
+        set.contains(mode)
+    }
 }

@@ -378,51 +378,28 @@
 <div class="content-['>']"></div>
 
 <!-- Balancing issues, this is not checking the validity of the actual value, but purely syntax-wise -->
-<div class="w-[do-not-generate-this]w-[it-is-invalid-syntax]"></div>
-<!-- INVALID -->
+<!-- INVALID w-[][]-->
+<!-- INVALID w-[][]]-->
+<!-- INVALID w-[do-not-generate-this]w-[it-is-invalid-syntax]-->
 <div class="grid-cols-[[linename],1fr,auto]"></div>
-<!-- VALID -->
 <div class="w-[{}]"></div>
-<!-- VALID -->
 <div class="w-[{{}}]"></div>
-<!-- VALID -->
-<div class="w-[[]]"></div>
-<!-- VALID -->
-<div class="w-[[[]]]"></div>
-<!-- VALID -->
 <div class="w-[()]"></div>
-<!-- VALID -->
 <div class="w-[(())]"></div>
-<!-- VALID -->
-<div class="w-[][]"></div>
-<!-- INVALID -->
-<div class="w-[)(]"></div>
-<!-- INVALID -->
-<div class="w-[}{]"></div>
-<!-- INVALID -->
-<div class="w-[][]]"></div>
-<!-- INVALID -->
-<div class="w-[)()]"></div>
-<!-- INVALID -->
-<div class="w-[}{}]"></div>
-<!-- INVALID -->
+<div class="w-[[]]"></div>
+<div class="w-[[[]]]"></div>
 <div class="w-['][]']"></div>
-<!-- VALID -->
-<div class="w-[')()']"></div>
-<!-- VALID -->
-<div class="w-['}{}']"></div>
-<!-- VALID -->
 <div class="w-[{[}]]"></div>
-<!-- INVALID -->
 <div class="w-[[{]}]"></div>
-<!-- INVALID -->
 <div class="w-[{(})]"></div>
-<!-- INVALID -->
 <div class="w-[({)}]"></div>
-<!-- INVALID -->
 <div class="w-[([)]]"></div>
-<!-- INVALID -->
 <div class="w-[[(])]"></div>
-<!-- INVALID -->
+<div class="w-[)(]"></div>
+<div class="w-[}{]"></div>
+<div class="w-[)()]"></div>
+<div class="w-[}{}]"></div>
+<div class="w-[')()']"></div>
+<div class="w-['}{}']"></div>
 </body>
 </html>

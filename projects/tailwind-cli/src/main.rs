@@ -1,27 +1,17 @@
-use clap::{Parser, Subcommand};
+mod commands;
+use clap::Parser;
+
+pub use self::commands::TailwindCommands;
 
 #[derive(Parser)]
 #[clap(author, version, about, long_about = None)]
 #[clap(propagate_version = true)]
-struct Cli {
+pub struct TailwindApp {
     #[clap(subcommand)]
-    command: Commands,
-}
-
-#[derive(Subcommand)]
-enum Commands {
-    /// Adds files to myapp
-    Add { name: Option<String> },
+    command: TailwindCommands,
 }
 
 fn main() {
-    let cli = Cli::parse();
-
-    // You can check for the existence of subcommands, and if found use their
-    // matches just as you would the top level cmd
-    match &cli.command {
-        Commands::Add { name } => {
-            println!("'myapp add' was used, name is: {:?}", name)
-        },
-    }
+    let cli = TailwindApp::parse();
+    cli.command.run(&cli)
 }

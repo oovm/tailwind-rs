@@ -1,6 +1,6 @@
 use super::*;
 
-#[doc = include_str!("readme.md")]
+#[doc=include_str!("readme.md")]
 #[derive(Debug, Copy, Clone, Default)]
 pub struct TailwindRingInset {}
 

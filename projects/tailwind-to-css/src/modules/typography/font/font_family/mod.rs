@@ -1,7 +1,7 @@
 use super::*;
 use crate::KeywordOnly;
 
-#[doc = include_str!("readme.md")]
+#[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindFontFamily {
     kind: KeywordOnly,
@@ -14,4 +14,3 @@ impl Display for TailwindFontFamily {
         write!(f, "font-{}", self.kind)
     }
 }
-

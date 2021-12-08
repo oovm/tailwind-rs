@@ -1,6 +1,6 @@
 use super::*;
 
-#[doc = include_str!("readme.md")]
+#[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindBackgroundAttachment {
     kind: KeywordOnly,
@@ -22,31 +22,30 @@ impl Display for TailwindBackgroundAttachment {
 impl TailwindBackgroundAttachment {
     /// <https://tailwindcss.com/docs/background-attachment>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parser("bg-attach", &check_valid)(pattern, arbitrary)? })
+        Ok(Self { kind: KeywordOnly::parser("bg-attach", &Self::check_valid)(pattern, arbitrary)? })
     }
     /// <https://tailwindcss.com/docs/background-attachment>
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
     }
-}
-
-/// <https://developer.mozilla.org/en-US/docs/Web/CSS/background-attachment#syntax>
-fn check_valid(mode: &str) -> bool {
-    let set = BTreeSet::from_iter(vec![
-        // Keyword values
-        "auto",
-        "avoid",
-        // Page break values
-        "avoid-page",
-        // Column break values
-        "avoid-column",
-        // Region break values
-        "avoid-region",
-        // Global values
-        "inherit",
-        "initial",
-        "revert",
-        "unset",
-    ]);
-    set.contains(mode)
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/background-attachment#syntax>
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec![
+            // Keyword values
+            "auto",
+            "avoid",
+            // Page break values
+            "avoid-page",
+            // Column break values
+            "avoid-column",
+            // Region break values
+            "avoid-region",
+            // Global values
+            "inherit",
+            "initial",
+            "revert",
+            "unset",
+        ]);
+        set.contains(mode)
+    }
 }

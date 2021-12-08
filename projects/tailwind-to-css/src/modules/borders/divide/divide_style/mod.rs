@@ -1,6 +1,6 @@
-use crate::modules::borders::*;
+use super::*;
 
-///
+#[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindDivideStyle {
     kind: String,

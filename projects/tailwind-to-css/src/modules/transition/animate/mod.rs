@@ -4,7 +4,7 @@ use self::animation::Animation;
 
 mod animation;
 
-#[doc = include_str!("readme.md")]
+#[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindAnimate {
     kind: Animation,

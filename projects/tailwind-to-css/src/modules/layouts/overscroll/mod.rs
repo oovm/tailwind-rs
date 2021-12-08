@@ -2,7 +2,7 @@ use crate::KeywordOnly;
 
 use super::*;
 
-#[doc = include_str!("readme.md")]
+#[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindOverscroll {
     kind: KeywordOnly,
@@ -35,16 +35,15 @@ impl TailwindInstance for TailwindOverscroll {
 impl TailwindOverscroll {
     /// https://tailwindcss.com/docs/overscroll-behavior
     pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary, axis: Option<bool>) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parser("overscroll", &check_valid)(kind, arbitrary)?, axis })
+        Ok(Self { kind: KeywordOnly::parser("overscroll", &Self::check_valid)(kind, arbitrary)?, axis })
     }
     /// https://tailwindcss.com/docs/overscroll-behavior#arbitrary-values
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: Option<bool>) -> Result<Self> {
         Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)?, axis })
     }
-}
-
-/// https://developer.mozilla.org/en-US/docs/Web/CSS/overscroll-behavior#syntax
-fn check_valid(mode: &str) -> bool {
-    let set = BTreeSet::from_iter(vec!["auto", "contain", "inherit", "initial", "none", "revert", "unset"]);
-    set.contains(mode)
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/overscroll-behavior#syntax
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec!["auto", "contain", "inherit", "initial", "none", "revert", "unset"]);
+        set.contains(mode)
+    }
 }

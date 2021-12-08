@@ -11,7 +11,7 @@ enum BackgroundSize {
     Contain,
 }
 
-#[doc = include_str!("readme.md")]
+#[doc=include_str!("readme.md")]
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindBackgroundSize {
     kind: BackgroundSize,

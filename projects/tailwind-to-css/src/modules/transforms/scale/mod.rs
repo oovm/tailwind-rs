@@ -2,7 +2,7 @@ use std::fmt::Write;
 
 use super::*;
 
-#[doc = include_str!("readme.md")]
+#[doc=include_str!("readme.md")]
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindScale {
     negative: bool,

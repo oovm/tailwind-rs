@@ -14,37 +14,35 @@ impl Display for TailwindJustifyItems {
     }
 }
 
-
 impl TailwindJustifyItems {
-    /// https://tailwindcss.com/docs/justify-items
+    /// <https://tailwindcss.com/docs/justify-items>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parser("justify-self", &check_valid)(pattern, arbitrary)? })
+        Ok(Self { kind: KeywordOnly::parser("justify-items", &Self::check_valid)(pattern, arbitrary)? })
     }
-    /// https://tailwindcss.com/docs/justify-items
+    /// dispatch to [justify-items](https://developer.mozilla.org/en-US/docs/Web/CSS/justify-items)
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
     }
-}
-
-/// https://developer.mozilla.org/en-US/docs/Web/CSS/justify-items#syntax
-fn check_valid(mode: &str) -> bool {
-    let set = BTreeSet::from_iter(vec![
-        "baseline",
-        "center",
-        "end",
-        "flex-end",
-        "flex-start",
-        "inherit",
-        "initial",
-        "left",
-        "normal",
-        "revert",
-        "right",
-        "self-end",
-        "self-start",
-        "start",
-        "stretch",
-        "unset",
-    ]);
-    set.contains(mode)
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/justify-items#syntax>
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec![
+            "baseline",
+            "center",
+            "end",
+            "flex-end",
+            "flex-start",
+            "inherit",
+            "initial",
+            "left",
+            "normal",
+            "revert",
+            "right",
+            "self-end",
+            "self-start",
+            "start",
+            "stretch",
+            "unset",
+        ]);
+        set.contains(mode)
+    }
 }

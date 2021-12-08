@@ -28,39 +28,38 @@ impl Display for TailwindBackgroundRepeat {
 impl TailwindBackgroundRepeat {
     /// https://tailwindcss.com/docs/background-repeat
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: parser(pattern, arbitrary)? })
+        Ok(Self { kind: parse_kind(pattern, arbitrary)? })
     }
     /// https://tailwindcss.com/docs/background-repeat
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
     }
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat#syntax
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec![
+            "inherit",
+            "initial",
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y",
+            "revert",
+            "round",
+            "space",
+            "unset",
+        ]);
+        set.contains(mode)
+    }
 }
 
-pub fn parser(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<KeywordOnly> {
+fn parse_kind(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<KeywordOnly> {
     let out = match pattern {
         [] if arbitrary.is_none() => KeywordOnly::Standard("repeat".to_string()),
         [] => KeywordOnly::parse_arbitrary(arbitrary)?,
         ["none"] => KeywordOnly::Standard("no-repeat".to_string()),
         ["x"] => KeywordOnly::Standard("repeat-x".to_string()),
         ["y"] => KeywordOnly::Standard("repeat-y".to_string()),
-        _ => KeywordOnly::parse_standard(pattern, "bg-repeat", &check_valid)?,
+        _ => KeywordOnly::parse_standard(pattern, "bg-repeat", &TailwindBackgroundRepeat::check_valid)?,
     };
     Ok(out)
-}
-
-/// https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat#syntax
-fn check_valid(mode: &str) -> bool {
-    let set = BTreeSet::from_iter(vec![
-        "inherit",
-        "initial",
-        "no-repeat",
-        "repeat",
-        "repeat-x",
-        "repeat-y",
-        "revert",
-        "round",
-        "space",
-        "unset",
-    ]);
-    set.contains(mode)
 }

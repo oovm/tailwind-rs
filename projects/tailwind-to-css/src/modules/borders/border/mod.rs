@@ -5,7 +5,7 @@ pub(crate) mod border_radius;
 pub(crate) mod border_style;
 pub(crate) mod border_width;
 
-///
+#[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindBorder {
     arbitrary: String,

@@ -7,7 +7,7 @@ enum OutlineStyle {
     Standard(String),
 }
 
-///
+#[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindOutlineStyle {
     kind: OutlineStyle,

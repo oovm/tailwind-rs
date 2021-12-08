@@ -26,35 +26,34 @@ impl Display for TailwindJustifyContent {
 }
 
 impl TailwindJustifyContent {
-    /// https://tailwindcss.com/docs/justify-content
+    /// <https://tailwindcss.com/docs/justify-content>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parser("ease", &check_valid)(pattern, arbitrary)? })
+        Ok(Self { kind: KeywordOnly::parser("justify-content", &Self::check_valid)(pattern, arbitrary)? })
     }
-    /// https://tailwindcss.com/docs/justify-content
+    /// dispatch to [justify-content](https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content)
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
     }
-}
-
-/// https://developer.mozilla.org/en-US/docs/Web/CSS/cursor#syntax
-fn check_valid(mode: &str) -> bool {
-    let set = BTreeSet::from_iter(vec![
-        "center",
-        "end",
-        "flex-end",
-        "flex-start",
-        "inherit",
-        "initial",
-        "left",
-        "normal",
-        "revert",
-        "right",
-        "space-around",
-        "space-between",
-        "space-evenly",
-        "start",
-        "stretch",
-        "unset",
-    ]);
-    set.contains(mode)
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content#syntax>
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec![
+            "center",
+            "end",
+            "flex-end",
+            "flex-start",
+            "inherit",
+            "initial",
+            "left",
+            "normal",
+            "revert",
+            "right",
+            "space-around",
+            "space-between",
+            "space-evenly",
+            "start",
+            "stretch",
+            "unset",
+        ]);
+        set.contains(mode)
+    }
 }

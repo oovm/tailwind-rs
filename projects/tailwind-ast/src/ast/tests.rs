@@ -1,5 +1,6 @@
-use super::*;
 use crate::AstGroupItem::{Grouped, Styled};
+
+use super::*;
 
 #[test]
 fn test_reference() {
@@ -8,11 +9,18 @@ fn test_reference() {
     assert_eq!(input, output);
 }
 
+fn assert_arbitrary(input: &str, output: &str) {
+    let input = AstArbitrary::parse(input).unwrap().1;
+    let output = AstArbitrary { arbitrary: output };
+    assert_eq!(input, output);
+}
+
 #[test]
 fn test_arbitrary() {
-    let input = AstArbitrary::parse("-[#FFF]").unwrap().1;
-    let output = AstArbitrary { arbitrary: "#FFF" };
-    assert_eq!(input, output);
+    assert_arbitrary("-[#FFF]", "#FFF");
+    assert_arbitrary("-[\\]]", "]");
+    assert_arbitrary("-[']']", "']'");
+    assert_arbitrary("-[[line-name],1fr,auto]", "[line-name],1fr,auto");
 }
 
 #[test]

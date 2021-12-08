@@ -1,5 +1,6 @@
-use super::*;
 use nom::error::{ErrorKind, ParseError};
+
+use super::*;
 
 impl<'a> AstGroup<'a> {
     /// `v:a?(a(a b))`
@@ -35,18 +36,6 @@ impl<'a> AstGroupItem<'a> {
         out.extend(other.into_iter().map(|s| s.1));
         Ok((rest, out))
     }
-    // #[inline]
-    // fn parse_style(input: &'a str) -> IResult<&'a str, Self> {
-    //     AstStyle::parse(input).map(|(rest, ok)| (rest, Self::Styled(ok)))
-    // }
-    // #[inline]
-    // fn parse_nested(input: &'a str) -> IResult<&'a str, Self> {
-    //     AstGroup::parse(input).map(|(rest, ok)| (rest, Self::Grouped(ok)))
-    // }
-    // #[inline]
-    // fn parse_self(input: &'a str) -> IResult<&'a str, Self> {
-    //     AstReference::parse(input).map(|(rest, ok)| (rest, Self::SelfReference(ok)))
-    // }
 }
 
 impl<'a> AstStyle<'a> {
@@ -76,7 +65,7 @@ impl<'a> AstElements<'a> {
     /// a(-a)*
     #[inline]
     pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
-        let (rest, (first, other)) = tuple((Self::parse_head, many0(Self::parserest)))(input)?;
+        let (rest, (first, other)) = tuple((Self::parse_head, many0(Self::parse_rest)))(input)?;
         let mut out = vec![first];
         out.extend(other.into_iter());
         Ok((rest, Self { elements: out }))
@@ -90,7 +79,7 @@ impl<'a> AstElements<'a> {
         take_till1(stop)(input)
     }
     #[inline]
-    fn parserest(input: &'a str) -> IResult<&'a str, &'a str> {
+    fn parse_rest(input: &'a str) -> IResult<&'a str, &'a str> {
         let (rest, (_, out)) = tuple((char('-'), Self::parse_head))(input)?;
         Ok((rest, out))
     }
@@ -124,9 +113,9 @@ impl<'a> ASTVariant<'a> {
         let (rest, (not, names)) = tuple((not, vs))(input)?;
         Ok((rest, Self { not: not.is_some(), pseudo: false, names }))
     }
-    #[rustfmt::skip]
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements#index
-    #[inline]    fn check_pseudo(names: &[&str]) -> bool {
+    #[rustfmt::skip] #[inline]
+    fn check_pseudo(names: &[&str]) -> bool {
         matches!(names
             , ["after"]
             | ["before"]

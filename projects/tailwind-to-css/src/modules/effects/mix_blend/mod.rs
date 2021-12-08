@@ -4,7 +4,7 @@ use std::{
     fmt::{Display, Formatter},
 };
 
-#[doc = include_str!("readme.md")]
+#[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindBlend {
     mode: String,
@@ -46,7 +46,7 @@ impl TailwindBlend {
     pub fn get_properties(&self) -> String {
         self.mode.to_owned()
     }
-    fn check_valid(mode: &str) -> bool {
+    pub fn check_valid(mode: &str) -> bool {
         let set = BTreeSet::from_iter(vec![
             "normal",
             "multiply",

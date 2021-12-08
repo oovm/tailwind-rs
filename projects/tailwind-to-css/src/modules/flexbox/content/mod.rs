@@ -2,7 +2,7 @@ use super::*;
 
 pub(crate) mod content_align;
 
-#[doc = include_str!("readme.md")]
+#[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindContent {
     kind: KeywordOnly,
@@ -18,7 +18,6 @@ impl Display for TailwindContent {
         }
     }
 }
-
 
 impl TailwindContent {
     /// https://tailwindcss.com/docs/align-content

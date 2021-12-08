@@ -2,7 +2,7 @@ use crate::KeywordOnly;
 
 use super::*;
 
-#[doc = include_str!("readme.md")]
+#[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindFontVariantNumeric {
     kind: KeywordOnly,
@@ -27,29 +27,28 @@ impl Display for TailwindFontVariantNumeric {
 impl TailwindFontVariantNumeric {
     /// https://tailwindcss.com/docs/font-variant-numeric
     pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parser("font-number", &check_valid)(kind, arbitrary)? })
+        Ok(Self { kind: KeywordOnly::parser("font-number", &Self::check_valid)(kind, arbitrary)? })
     }
     /// https://tailwindcss.com/docs/font-variant-numeric#arbitrary-values
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
     }
-}
-
-/// https://developer.mozilla.org/en-US/docs/Web/CSS/font-variant-numeric#syntax
-fn check_valid(mode: &str) -> bool {
-    let set = BTreeSet::from_iter(vec![
-        "diagonal-fractions",
-        "inherit",
-        "initial",
-        "lining-nums",
-        "normal",
-        "oldstyle-nums",
-        "ordinal",
-        "proportional-nums",
-        "slashed-zero",
-        "stacked-fractions",
-        "tabular-nums",
-        "unset",
-    ]);
-    set.contains(mode)
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/font-variant-numeric#syntax
+    fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec![
+            "diagonal-fractions",
+            "inherit",
+            "initial",
+            "lining-nums",
+            "normal",
+            "oldstyle-nums",
+            "ordinal",
+            "proportional-nums",
+            "slashed-zero",
+            "stacked-fractions",
+            "tabular-nums",
+            "unset",
+        ]);
+        set.contains(mode)
+    }
 }

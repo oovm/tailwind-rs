@@ -1,7 +1,6 @@
-
 use super::*;
 
-#[doc = include_str!("readme.md")]
+#[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindDecorationLine {
     kind: KeywordOnly,

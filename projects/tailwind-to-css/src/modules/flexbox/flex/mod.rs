@@ -48,14 +48,13 @@ impl TailwindFlex {
         Ok(out)
     }
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<TailwindFlex> {
-        Ok(TailwindFlex { kind: KeywordOnly::parser("flex", &check_valid)(pattern, arbitrary)? })
+        Ok(TailwindFlex { kind: KeywordOnly::parser("flex", &Self::check_valid)(pattern, arbitrary)? })
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
     }
-}
-
-fn check_valid(mode: &str) -> bool {
-    let set = BTreeSet::from_iter(vec!["auto", "inherit", "initial", "initial", "none", "revert", "unset"]);
-    set.contains(mode)
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec!["auto", "inherit", "initial", "initial", "none", "revert", "unset"]);
+        set.contains(mode)
+    }
 }

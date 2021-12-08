@@ -2,7 +2,7 @@ use super::*;
 mod length;
 use self::length::OutlineWidth;
 
-#[doc = include_str!("readme.md")]
+#[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindOutlineWidth {
     kind: OutlineWidth,
