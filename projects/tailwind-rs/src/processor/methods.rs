@@ -24,23 +24,3 @@ impl CssProcessor {
         Ok(css.code)
     }
 }
-
-#[test]
-fn test() {
-    let post_processor = CssProcessor { minify: false, unused_symbols: Default::default() };
-
-    assert_eq!(
-        post_processor
-            .compile(
-                r#"
-        span {
-            --w: 1px,
-            width: 1px,
-            width: 1px,
-        }
-        "#
-            )
-            .unwrap(),
-        "span{--w:1px,width: var(--w),width: var(--w),}"
-    )
-}

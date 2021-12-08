@@ -1,6 +1,7 @@
 [workspace]
 members = ["projects/*"]
 default-members = [
+    "projects/tailwind-cli",
     "projects/tailwind-rs",
 ]
 exclude = [
