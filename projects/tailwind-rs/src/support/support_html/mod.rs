@@ -1,6 +1,7 @@
 use log::error;
+use tl::{parse, Bytes, Node, ParserOptions};
+
 use tailwind_css::TailwindBuilder;
-use tl::{parse, Node, ParserOptions};
 
 use crate::{config::HtmlConfig, Result};
 
@@ -16,6 +17,14 @@ impl HtmlConfig {
         }
         Ok(dom.inner_html())
     }
+    pub fn inline_all_class(input: &str, tw: &mut TailwindBuilder) -> Result<String> {
+        let mut dom = parse(input, ParserOptions::default())?;
+        for node in dom.nodes_mut() {
+            // ignore if any problem
+            inline_class(node, tw);
+        }
+        Ok(dom.inner_html())
+    }
 }
 
 fn trace_class(node: &mut Node, tw: &mut TailwindBuilder) -> Option<()> {
@@ -23,9 +32,27 @@ fn trace_class(node: &mut Node, tw: &mut TailwindBuilder) -> Option<()> {
     let class = attributes.get_mut("class")??;
     match tw.try_trace(class.try_as_utf8_str()?) {
         Ok(o) => {
-            class.set(o).ok()?;
+            class.set(o).ok()??;
         },
         Err(e) => error!("{}", e),
     }
+    Some(())
+}
+
+fn inline_class(node: &mut Node, tw: &mut TailwindBuilder) -> Option<()> {
+    let attributes = node.as_tag_mut()?.attributes_mut();
+    let class = attributes.get_mut("class")??;
+    let mut style = Bytes::new();
+    match tw.try_inline(class.try_as_utf8_str()?) {
+        Ok(o) => {
+            class.set(o.get_class()).ok()??;
+            style.set(o.get_style()).ok()??;
+        },
+        Err(e) => {
+            error!("{}", e);
+            return Some(());
+        },
+    };
+    attributes.insert("style", None);
     Some(())
 }

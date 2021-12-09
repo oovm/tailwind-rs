@@ -103,9 +103,7 @@ impl TailwindInstance for PreflightSystem {
 
     fn write_css(&self, f: &mut (dyn Write), _: &TailwindBuilder) -> Result<()> {
         f.write_str(&self.custom)?;
-        if self.disable {
-            return Ok(());
-        }
+        // if self.disable { return Ok(()); }
         if self.remove_margins {
             f.write_str(Self::REMOVE_MARGINS.trim())?;
             writeln!(f)?;

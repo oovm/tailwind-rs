@@ -1,26 +1,38 @@
+mod dynamic;
+mod inlined;
 mod methods;
 mod setter;
-use crate::{systems::instruction::TailwindInstruction, *};
+use crate::{
+    systems::{builder::inlined::Inlined, instruction::TailwindInstruction},
+    *,
+};
 use std::{collections::BTreeSet, fmt::Debug};
 
 #[derive(Debug)]
 pub struct TailwindBuilder {
     // pub apply: BTreeMap<String, CssAttributes>,
     pub obfuscate: bool,
+    ///
     pub objects: BTreeSet<Box<dyn TailwindInstance>>,
+    ///
     pub preflight: PreflightSystem,
+    ///
     pub palettes: PaletteSystem,
+    ///
     pub screens: BreakPointSystem,
+    ///
     pub fonts: FontSystem,
 }
 
 impl TailwindBuilder {
-    /// ## Inline mode(no bundle)
+    /// ## Inline mode
     ///
     ///
     /// # Returns
     ///
-    /// - Anonymous style sheets, which can be placed inside `style` tags
+    /// - Anonymous style sheets, which can be placed inside `style` tags.
+    ///
+    /// **`.bundle()` is required even for inline, because some directives cannot be inline.**
     ///
     /// ## Example
     /// - input
@@ -49,7 +61,7 @@ impl TailwindBuilder {
         Ok(out.join(" "))
     }
 
-    /// ## Inline mode(no bundle)
+    /// ## Scope mode
     ///
     ///
     /// # Returns
@@ -74,7 +86,7 @@ impl TailwindBuilder {
     /// Safe version of [`TailwindBuilder::scope`]
     pub fn try_scope() {}
 
-    /// ## Inline mode(no bundle)
+    /// ## DataTW mode
     ///
     ///
     /// # Returns
@@ -115,22 +127,23 @@ impl TailwindBuilder {
     /// ```
     #[inline]
     #[cfg_attr(not(debug_assertions), track_caller)]
-    pub fn inline(&mut self, style: &str) -> String {
+    pub fn inline(&mut self, style: &str) -> Inlined {
         self.try_inline(style).unwrap()
     }
     /// Safe version of [`TailwindBuilder::inline`]
-    pub fn try_inline(&mut self, style: &str) -> Result<String> {
+    pub fn try_inline(&mut self, style: &str) -> Result<Inlined> {
         let parsed = parse_tailwind(style)?;
-        let mut set = BTreeSet::new();
+        let mut out = Inlined::default();
         for item in parsed {
-            // match item.inlineable() {
-            //     true => {}
-            //     false => {}
-            // }
-            set.extend(item.attributes(self))
+            match item.inlineable() {
+                true => out.add_style(item.to_string()),
+                false => {
+                    out.add_class(item.id());
+                    self.objects.insert(item.get_instance()?);
+                },
+            }
         }
-        let vec: Vec<_> = set.into_iter().map(|s| s.to_string()).collect();
-        Ok(vec.join(""))
+        Ok(out)
     }
     /// Bundle all used stylesheets
     #[inline]
@@ -141,7 +154,9 @@ impl TailwindBuilder {
     /// Safe version of [`TailwindBuilder::bundle`]
     pub fn try_bundle(&self, cap: usize) -> Result<String> {
         let mut out = String::with_capacity(cap);
-        self.preflight.write_css(&mut out, self)?;
+        if !self.preflight.disable {
+            self.preflight.write_css(&mut out, self)?;
+        }
         for item in &self.objects {
             item.write_css(&mut out, self)?;
         }

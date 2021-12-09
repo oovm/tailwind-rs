@@ -20,4 +20,11 @@ impl GlobalConfig {
         let css = self.css.compile(&bundle)?;
         Ok((html, css))
     }
+    pub fn compile_html_inline(&mut self, input: &str) -> Result<(String, String)> {
+        let tw = &mut self.tailwind;
+        let html = HtmlConfig::inline_all_class(input, tw)?;
+        let bundle = tw.try_bundle(input.len()).unwrap();
+        let css = self.css.compile(&bundle)?;
+        Ok((html, css))
+    }
 }
