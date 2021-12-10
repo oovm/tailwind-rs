@@ -1,10 +1,14 @@
+use std::hash::Hash;
+
+use base64::{encode_config, URL_SAFE_NO_PAD};
+use xxhash_rust::xxh3::Xxh3;
+
 use super::*;
 
 mod traits;
 
 #[derive(Debug, Clone)]
 pub struct CssInstance {
-    pub obfuscate: bool,
     pub inlinable: bool,
     pub selector: String,
     pub attribute: BTreeSet<CssAttribute>,
@@ -13,13 +17,16 @@ pub struct CssInstance {
 
 impl CssInstance {
     pub fn new(item: &dyn TailwindInstance, ctx: &TailwindBuilder) -> Self {
-        Self {
-            obfuscate: ctx.obfuscate,
-            inlinable: item.inlineable(),
-            selector: item.id(),
-            attribute: item.attributes(ctx),
-            addition: item.additional(ctx),
+        let mut selector = item.id();
+        let attribute = item.attributes(ctx);
+        let addition = item.additional(ctx);
+        if ctx.obfuscate {
+            let mut hasher = Xxh3::new();
+            attribute.hash(&mut hasher);
+            addition.hash(&mut hasher);
+            selector = Self::base64(hasher.finish())
         }
+        Self { inlinable: item.inlineable(), selector, attribute, addition }
     }
     pub fn get_class(&self) -> String {
         self.selector.to_string()
@@ -41,5 +48,8 @@ impl CssInstance {
         f.write_char('}')?;
         f.write_str(&self.addition)?;
         Ok(())
+    }
+    pub fn base64(hash: u64) -> String {
+        encode_config(hash.to_be_bytes(), URL_SAFE_NO_PAD)
     }
 }

@@ -1,7 +1,7 @@
 use log::error;
 use tl::{parse, Bytes, Node, ParserOptions};
 
-use tailwind_css::TailwindBuilder;
+use tailwind_css::{InlineMode, TailwindBuilder};
 
 use crate::{config::HtmlConfig, Result};
 
@@ -30,7 +30,7 @@ impl HtmlConfig {
 fn trace_class(node: &mut Node, tw: &mut TailwindBuilder) -> Option<()> {
     let attributes = node.as_tag_mut()?.attributes_mut();
     let class = attributes.get_mut("class")??;
-    match tw.interpret(class.try_as_utf8_str()?) {
+    match tw.interpret(class.try_as_utf8_str()?, None) {
         Ok(o) => {
             class.set(o).ok()??;
         },
@@ -43,7 +43,7 @@ fn inline_class(node: &mut Node, tw: &mut TailwindBuilder) -> Option<()> {
     let attributes = node.as_tag_mut()?.attributes_mut();
     let class = attributes.get_mut("class")??;
     let mut style = Bytes::new();
-    match tw.interpret(class.try_as_utf8_str()?) {
+    match tw.interpret(class.try_as_utf8_str()?, Some(InlineMode::Inline)) {
         Ok(o) => {
             class.set(o.get_class()).ok()??;
             style.set(o.get_style()).ok()??;

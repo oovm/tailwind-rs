@@ -1,4 +1,6 @@
-#[doc = include_str!("brightness.md")]
+use super::*;
+
+#[doc = include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindBrightness {
     percent: usize,

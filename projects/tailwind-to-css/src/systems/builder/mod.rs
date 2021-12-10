@@ -83,17 +83,11 @@ impl TailwindBuilder {
             out.insert(i.clone());
             self.objects.insert(i);
         }
-        out.set_inline(mode);
+        out.set_inline(mode.unwrap_or_default());
         Ok(out)
     }
     /// Bundle all used stylesheets
-    #[inline]
-    #[track_caller]
-    pub fn bundle(&self) -> String {
-        self.try_bundle().unwrap()
-    }
-    /// Safe version of [`TailwindBuilder::bundle`]
-    pub fn try_bundle(&self) -> Result<String> {
+    pub fn bundle(&self) -> Result<String> {
         let mut out = String::with_capacity(1024 * 10);
         if !self.preflight.disable {
             out.push_str(&self.preflight.to_string());

@@ -1,4 +1,6 @@
-#[doc = include_str!("sepia.md")]
+use super::*;
+
+#[doc = include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindSepia {
     percent: usize,

@@ -26,5 +26,4 @@ use std::{
     collections::BTreeSet,
     fmt::{Debug, Display, Formatter},
 };
-use tailwind_ast::{parse_i_px_maybe, parse_integer};
 use tailwind_error::Result;

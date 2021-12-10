@@ -11,7 +11,7 @@ edition = "2021"
 exclude = ["*.json"]
 
 [dependencies]
-konst="0.2.13"
+konst= "0.2.13"
 
 [dev-dependencies]
 

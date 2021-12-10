@@ -3,6 +3,10 @@ use super::*;
 #[derive(Copy, Clone, Debug)]
 pub enum InlineMode {
     /// ```html
+    /// <img class="tailwind"/>
+    /// ```
+    Standard,
+    /// ```html
     /// <img style="key:value"/>
     /// ```
     Inline,
@@ -18,4 +22,10 @@ pub enum InlineMode {
     /// <img data-tw="b2JmdXNjYXRl"/>
     /// ```
     DataValue,
+}
+
+impl Default for InlineMode {
+    fn default() -> Self {
+        Self::Standard
+    }
 }

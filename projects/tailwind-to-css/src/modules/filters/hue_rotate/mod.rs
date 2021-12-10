@@ -1,4 +1,6 @@
-#[doc = include_str!("grayscale.md")]
+use super::*;
+
+#[doc = include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindHueRotate {
     deg: usize,

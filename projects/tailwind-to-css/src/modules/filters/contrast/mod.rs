@@ -1,4 +1,6 @@
-#[doc = include_str!("contrast.md")]
+use super::*;
+
+#[doc = include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindContrast {
     percent: usize,
@@ -15,7 +17,7 @@ impl Display for TailwindContrast {
 }
 
 impl TailwindInstance for TailwindContrast {
-    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         todo!()
     }
 }

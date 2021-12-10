@@ -1,27 +1,35 @@
-#[doc = include_str!("blur.md")]
+use super::*;
+
+#[doc = include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindBlur {
-    px: usize,
-    backdrop: bool,
+    px: IntegerOnly,
+    backdrop: Backdrop,
 }
 impl Display for TailwindBlur {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        if self.backdrop {
-            f.write_str("backdrop-")?;
-        }
-        write!(f, "blur-{}px", self.px)
+        self.backdrop.write(f)?;
+        write!(f, "blur-{}", self.px)
     }
 }
 
 impl TailwindInstance for TailwindBlur {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let filter = match self.backdrop {
-            true => "backdrop-filter",
-            false => "filter",
-        };
-        let scale = format!("blur({}px)", self.px);
+        let class = self.backdrop.filter();
+        match &self.px {
+            IntegerOnly::Number(n) => {
+                format!("blur({}px)", self.px)
+            },
+            IntegerOnly::Keywords(n) => {
+                format!("blur({}px)", self.px)
+            },
+            IntegerOnly::Arbitrary(n) => {
+                format!("blur({}px)", self.px)
+            },
+        }
+
         css_attributes! {
-            filter => scale
+            class => format!("blur({}px)", self.px)
         }
     }
 }
@@ -45,6 +53,6 @@ impl TailwindBlur {
             [n] => parse_i_px_maybe(n)?.1,
             _ => return syntax_error!("Unknown blur instructions"),
         };
-        Ok(Self { px, backdrop })
+        Ok(Self { px: IntegerOnly::from(px), backdrop: Backdrop::from(backdrop) })
     }
 }
