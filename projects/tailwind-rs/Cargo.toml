@@ -10,12 +10,13 @@ license = "MPL-2.0"
 edition = "2018"
 
 [dependencies]
-tl = {version = "0.6.3", optional = true}
+tl = { version = "0.7.1", optional = true }
 rsass = "0.23.4"
-parcel_css = "1.0.0-alpha.16"
-tailwind-css = {version = "0.10.10", path = "../tailwind-to-css"}
+parcel_css = "1.0.0-alpha.17"
+tailwind-css = {version = "0.11.0", path = "../tailwind-to-css"}
 itertools = "0.10.3"
 log = "0.4.14"
+xxhash-rust = "0.8.3"
 
 [dependencies.tailwind-error]
 version = "1.1.2"

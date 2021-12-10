@@ -1,63 +1,23 @@
-// mod brightness;
+use std::{
+    collections::BTreeSet,
+    fmt::{Debug, Display, Formatter},
+};
 
-mod display;
-mod parser;
+use tailwind_ast::{parse_i_px_maybe, parse_integer};
+use tailwind_error::Result;
+
+pub use self::{
+    blur::TailwindBlur, brightness::TailwindBrightness, contrast::TailwindContrast, grayscale::TailwindGrayscale,
+    hue_rotate::TailwindHueRotate, invert::TailwindInvert, saturate::TailwindSaturate, sepia::TailwindSepia,
+};
+
+mod blur;
+mod brightness;
+mod contrast;
+mod grayscale;
+mod hue_rotate;
+mod invert;
+mod saturate;
+mod sepia;
 #[cfg(test)]
 mod test;
-use super::*;
-
-#[doc = include_str!("blur.md")]
-#[derive(Clone, Debug)]
-pub struct TailwindBlur {
-    px: usize,
-    backdrop: bool,
-}
-
-#[doc = include_str!("brightness.md")]
-#[derive(Clone, Debug)]
-pub struct TailwindBrightness {
-    percent: usize,
-    backdrop: bool,
-}
-
-#[doc = include_str!("contrast.md")]
-#[derive(Clone, Debug)]
-pub struct TailwindContrast {
-    percent: usize,
-    backdrop: bool,
-}
-
-#[doc = include_str!("grayscale.md")]
-#[derive(Clone, Debug)]
-pub struct TailwindGrayscale {
-    percent: usize,
-    backdrop: bool,
-}
-
-#[doc = include_str!("grayscale.md")]
-#[derive(Clone, Debug)]
-pub struct TailwindHueRotate {
-    deg: usize,
-    backdrop: bool,
-}
-
-#[doc = include_str!("invert.md")]
-#[derive(Clone, Debug)]
-pub struct TailwindInvert {
-    percent: usize,
-    backdrop: bool,
-}
-
-#[doc = include_str!("saturate.md")]
-#[derive(Clone, Debug)]
-pub struct TailwindSaturate {
-    percent: usize,
-    backdrop: bool,
-}
-
-#[doc = include_str!("sepia.md")]
-#[derive(Clone, Debug)]
-pub struct TailwindSepia {
-    percent: usize,
-    backdrop: bool,
-}

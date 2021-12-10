@@ -30,7 +30,7 @@ impl HtmlConfig {
 fn trace_class(node: &mut Node, tw: &mut TailwindBuilder) -> Option<()> {
     let attributes = node.as_tag_mut()?.attributes_mut();
     let class = attributes.get_mut("class")??;
-    match tw.try_trace(class.try_as_utf8_str()?) {
+    match tw.interpret(class.try_as_utf8_str()?) {
         Ok(o) => {
             class.set(o).ok()??;
         },
@@ -43,7 +43,7 @@ fn inline_class(node: &mut Node, tw: &mut TailwindBuilder) -> Option<()> {
     let attributes = node.as_tag_mut()?.attributes_mut();
     let class = attributes.get_mut("class")??;
     let mut style = Bytes::new();
-    match tw.try_inline(class.try_as_utf8_str()?) {
+    match tw.interpret(class.try_as_utf8_str()?) {
         Ok(o) => {
             class.set(o.get_class()).ok()??;
             style.set(o.get_style()).ok()??;
@@ -53,6 +53,6 @@ fn inline_class(node: &mut Node, tw: &mut TailwindBuilder) -> Option<()> {
             return Some(());
         },
     };
-    attributes.insert("style", None);
+    attributes.insert("style", Some(style));
     Some(())
 }

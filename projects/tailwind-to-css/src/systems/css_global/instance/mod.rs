@@ -5,33 +5,27 @@ mod traits;
 #[derive(Debug, Clone)]
 pub struct CssInstance {
     pub obfuscate: bool,
+    pub inlinable: bool,
     pub selector: String,
     pub attribute: BTreeSet<CssAttribute>,
+    pub addition: String,
 }
 
 impl CssInstance {
-    pub fn from_trace(item: &Box<dyn TailwindInstance>, ctx: &TailwindBuilder) -> Self {
-        let obfuscate = ctx.obfuscate;
-        let mut selector = item.id();
-        let attribute = item.attributes(ctx);
-        Self { obfuscate, selector, attribute }
+    pub fn new(item: &dyn TailwindInstance, ctx: &TailwindBuilder) -> Self {
+        Self {
+            obfuscate: ctx.obfuscate,
+            inlinable: item.inlineable(),
+            selector: item.id(),
+            attribute: item.attributes(ctx),
+            addition: item.additional(ctx),
+        }
     }
-    pub fn from_inline(item: &Box<dyn TailwindInstance>, ctx: &TailwindBuilder) -> Self {
-        todo!()
-    }
-    pub fn from_scoped(item: &Box<dyn TailwindInstance>, obfuscate: bool) -> Self {
-        todo!()
-    }
-
     pub fn get_class(&self) -> String {
-        todo!()
+        self.selector.to_string()
     }
-    pub fn get_style(&self) -> String {
-        todo!()
-    }
-
     /// write css to buffers
-    fn write_css(&self, f: &mut (dyn Write), _: &TailwindBuilder) -> Result<()> {
+    pub fn write_css(&self, f: &mut (dyn Write)) -> Result<()> {
         for c in self.selector.chars() {
             match c {
                 ' ' => write!(f, "_"),
@@ -41,10 +35,11 @@ impl CssInstance {
             }?
         }
         f.write_char('{')?;
-        for item in self.attribute {
+        for item in &self.attribute {
             write!(f, "{}", item)?
         }
         f.write_char('}')?;
+        f.write_str(&self.addition)?;
         Ok(())
     }
 }
