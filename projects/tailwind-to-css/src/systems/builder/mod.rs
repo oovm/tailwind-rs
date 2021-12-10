@@ -1,26 +1,39 @@
 mod dynamic;
 mod inlined;
 mod methods;
+mod scoped;
 mod setter;
 use crate::{
     systems::{builder::inlined::Inlined, instruction::TailwindInstruction},
     *,
 };
-use std::{collections::BTreeSet, fmt::Debug};
+use std::{collections::BTreeSet, fmt::Debug, hash::Hasher};
 
 #[derive(Debug)]
 pub struct TailwindBuilder {
-    // pub apply: BTreeMap<String, CssAttributes>,
+    /// Whether to enable class name confusion
+    ///
+    /// ```html
+    /// <img class="_b2JmdXNjYXRl"/>
+    /// <img data-tw-b2JmdXNjYXRl/>
+    /// <img data-tw="b2JmdXNjYXRl"/>
+    /// ```
     pub obfuscate: bool,
     ///
-    pub objects: BTreeSet<Box<dyn TailwindInstance>>,
+    pub objects: BTreeSet<CssInstance>,
     ///
     pub preflight: PreflightSystem,
+    /// All dynamic color properties
     ///
+    /// Only determined when packing
     pub palettes: PaletteSystem,
+    /// All dynamic break points
     ///
+    /// Only determined when packing
     pub screens: BreakPointSystem,
+    /// All dynamically registered font properties
     ///
+    /// Only determined when packing
     pub fonts: FontSystem,
 }
 
@@ -54,9 +67,9 @@ impl TailwindBuilder {
         let parsed = parse_tailwind(style)?;
         let mut out = vec![];
         for i in parsed.into_iter() {
-            let instance = i.get_instance()?;
-            out.push(instance.id());
-            self.objects.insert(instance);
+            let i = CssInstance::from_trace(&i.get_instance()?, &self);
+            out.push(i.get_class());
+            self.objects.insert(i);
         }
         Ok(out.join(" "))
     }
@@ -135,13 +148,9 @@ impl TailwindBuilder {
         let parsed = parse_tailwind(style)?;
         let mut out = Inlined::default();
         for item in parsed {
-            match item.inlineable() {
-                true => out.add_style(item.to_string()),
-                false => {
-                    out.add_class(item.id());
-                    self.objects.insert(item.get_instance()?);
-                },
-            }
+            let i = CssInstance::from_inline(&item.get_instance()?, self);
+            out.add_class(i.get_class());
+            self.objects.insert(i);
         }
         Ok(out)
     }
@@ -155,7 +164,7 @@ impl TailwindBuilder {
     pub fn try_bundle(&self, cap: usize) -> Result<String> {
         let mut out = String::with_capacity(cap);
         if !self.preflight.disable {
-            self.preflight.write_css(&mut out, self)?;
+            out.push_str(&self.preflight.to_string());
         }
         for item in &self.objects {
             item.write_css(&mut out, self)?;

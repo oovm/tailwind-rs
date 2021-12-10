@@ -13,9 +13,5 @@ mod modules;
 mod systems;
 mod traits;
 
-pub use self::{
-    modules::*,
-    systems::*,
-    traits::{CssAttribute, TailwindInstance},
-};
+pub use self::{modules::*, systems::*, traits::TailwindInstance};
 pub use tailwind_error::{Result, TailwindError, TailwindErrorKind};

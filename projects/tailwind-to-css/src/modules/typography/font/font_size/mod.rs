@@ -12,4 +12,8 @@ impl Display for TailwindFontSize {
     }
 }
 
-impl TailwindInstance for TailwindFontSize {}
+impl TailwindInstance for TailwindFontSize {
+    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        todo!()
+    }
+}

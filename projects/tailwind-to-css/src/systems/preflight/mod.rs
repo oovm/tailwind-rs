@@ -85,23 +85,7 @@ button:focus {
 }
 
 impl Display for PreflightSystem {
-    fn fmt(&self, _: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
-    }
-}
-
-impl TailwindInstance for PreflightSystem {
-    #[track_caller]
-    fn id(&self) -> String {
-        panic!("can't call id on `PreflightSystem`")
-    }
-
-    #[track_caller]
-    fn selectors(&self, _: &TailwindBuilder) -> String {
-        panic!("can't call selectors on `PreflightSystem`")
-    }
-
-    fn write_css(&self, f: &mut (dyn Write), _: &TailwindBuilder) -> Result<()> {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.write_str(&self.custom)?;
         // if self.disable { return Ok(()); }
         if self.remove_margins {

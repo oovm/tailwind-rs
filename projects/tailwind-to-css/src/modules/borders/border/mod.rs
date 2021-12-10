@@ -38,4 +38,8 @@ impl Display for TailwindBorder {
     }
 }
 
-impl TailwindInstance for TailwindBorder {}
+impl TailwindInstance for TailwindBorder {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        todo!()
+    }
+}

@@ -53,7 +53,11 @@ impl Display for TailwindContrast {
     }
 }
 
-impl TailwindInstance for TailwindContrast {}
+impl TailwindInstance for TailwindContrast {
+    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        todo!()
+    }
+}
 
 impl Display for TailwindGrayscale {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -65,7 +69,11 @@ impl Display for TailwindGrayscale {
     }
 }
 
-impl TailwindInstance for TailwindGrayscale {}
+impl TailwindInstance for TailwindGrayscale {
+    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        todo!()
+    }
+}
 
 impl Display for TailwindHueRotate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -76,7 +84,11 @@ impl Display for TailwindHueRotate {
     }
 }
 
-impl TailwindInstance for TailwindHueRotate {}
+impl TailwindInstance for TailwindHueRotate {
+    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        todo!()
+    }
+}
 
 impl Display for TailwindInvert {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -88,7 +100,11 @@ impl Display for TailwindInvert {
     }
 }
 
-impl TailwindInstance for TailwindInvert {}
+impl TailwindInstance for TailwindInvert {
+    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        todo!()
+    }
+}
 
 impl Display for TailwindSaturate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -99,7 +115,11 @@ impl Display for TailwindSaturate {
     }
 }
 
-impl TailwindInstance for TailwindSaturate {}
+impl TailwindInstance for TailwindSaturate {
+    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        todo!()
+    }
+}
 
 impl Display for TailwindSepia {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -111,4 +131,8 @@ impl Display for TailwindSepia {
     }
 }
 
-impl TailwindInstance for TailwindSepia {}
+impl TailwindInstance for TailwindSepia {
+    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        todo!()
+    }
+}

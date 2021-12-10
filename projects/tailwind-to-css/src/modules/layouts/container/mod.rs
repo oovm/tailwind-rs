@@ -10,4 +10,8 @@ impl Display for TailwindContainer {
     }
 }
 
-impl TailwindInstance for TailwindContainer {}
+impl TailwindInstance for TailwindContainer {
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        BTreeSet::new()
+    }
+}
