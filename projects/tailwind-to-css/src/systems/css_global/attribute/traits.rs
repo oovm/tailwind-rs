@@ -35,6 +35,6 @@ impl Ord for CssAttribute {
 impl Hash for CssAttribute {
     fn hash<H: Hasher>(&self, state: &mut H) {
         self.key.hash(state);
-        self.value.hash(state);
+        // self.value.hash(state);
     }
 }

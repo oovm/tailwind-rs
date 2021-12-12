@@ -6,7 +6,6 @@ use std::{
     ops::Range,
 };
 use url::Url;
-use yggdrasil_shared::DiagnosticLevel;
 
 /// All result about tailwind
 pub type Result<T> = std::result::Result<T, TailwindError>;
@@ -17,8 +16,6 @@ pub type MaybeRanged = Option<Range<usize>>;
 pub struct TailwindError {
     /// Actual error kind
     pub kind: Box<TailwindErrorKind>,
-    /// Error level for report
-    pub level: DiagnosticLevel,
     /// File name where error occurred
     pub file: Option<Url>,
     /// Range offset where error occurred
@@ -73,18 +70,18 @@ impl TailwindError {
     /// Constructor of [`NoteErrorKind::Incomplete`]
     #[inline]
     pub fn incomplete() -> Self {
-        Self { kind: Box::new(TailwindErrorKind::Incomplete), level: DiagnosticLevel::None, file: None, range: None }
+        Self { kind: Box::new(TailwindErrorKind::Incomplete), file: None, range: None }
     }
     /// Constructor of [`NoteErrorKind::Unreachable`]
     #[inline]
     pub fn unreachable() -> Self {
-        Self { kind: Box::new(TailwindErrorKind::Unreachable), level: DiagnosticLevel::None, file: None, range: None }
+        Self { kind: Box::new(TailwindErrorKind::Unreachable), file: None, range: None }
     }
     /// Constructor of [`NoteErrorKind::UndefinedVariable`]
     #[inline]
     pub fn undefined_variable(name: impl Into<String>) -> TailwindError {
         let kind = TailwindErrorKind::UndefinedVariable { name: name.into() };
-        Self { kind: Box::new(kind), level: DiagnosticLevel::None, file: None, range: None }
+        Self { kind: Box::new(kind), file: None, range: None }
     }
 }
 
@@ -108,7 +105,7 @@ macro_rules! error_msg {
         /// Constructor of [`NoteErrorKind::$t`]
         pub fn $name(msg: impl Into<String>) -> TailwindError {
             let kind = TailwindErrorKind::$t(msg.into());
-            Self { kind: Box::new(kind), level: DiagnosticLevel::None, file: None, range: None }
+            Self { kind: Box::new(kind), file: None, range: None }
         }
     };
     ($($name:ident => $t:ident),+ $(,)?) => (

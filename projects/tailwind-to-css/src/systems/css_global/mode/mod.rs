@@ -5,7 +5,7 @@ pub enum InlineMode {
     /// ```html
     /// <img class="tailwind"/>
     /// ```
-    Standard,
+    None,
     /// ```html
     /// <img style="key:value"/>
     /// ```
@@ -26,6 +26,6 @@ pub enum InlineMode {
 
 impl Default for InlineMode {
     fn default() -> Self {
-        Self::Standard
+        Self::None
     }
 }

@@ -29,6 +29,7 @@ impl CssInstance {
     }
     /// write css to buffers
     pub fn write_css(&self, f: &mut (dyn Write)) -> Result<()> {
+        f.write_char('.')?;
         for c in self.selector.chars() {
             match c {
                 ' ' => write!(f, "_"),

@@ -4,7 +4,7 @@ macro_rules! error_wrap {
     ($t:ty => $name:ident) => {
         impl From<$t> for TailwindError {
             fn from(e: $t) -> Self {
-                Self { kind: Box::new(TailwindErrorKind::$name(e)), level: DiagnosticLevel::None, file: None, range: None }
+                Self { kind: Box::new(TailwindErrorKind::$name(e)), file: None, range: None }
             }
         }
     };

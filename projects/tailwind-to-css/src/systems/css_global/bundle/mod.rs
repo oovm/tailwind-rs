@@ -1,3 +1,5 @@
+use itertools::Itertools;
+
 use super::*;
 
 mod traits;
@@ -9,51 +11,32 @@ pub struct CssBundle {
 }
 
 impl CssBundle {
-    pub fn insert(&mut self, item: CssInstance) {
-        self.items.insert(item);
+    pub fn insert(&mut self, item: CssInstance) -> bool {
+        self.items.insert(item)
     }
     pub fn clear(&mut self) {
         self.items.clear()
     }
-    pub fn get_class(&self) -> String {
-        match self.mode {
-            InlineMode::Standard => self.items.iter().map(|css| css.selector.as_str()).collect::<Vec<_>>().join(" "),
-            InlineMode::Inline =>
-                self.items.iter().filter(|css| !css.inlinable).map(|css| css.selector.as_str()).collect::<Vec<_>>().join(" "),
-            InlineMode::Scoped => {
-                todo!()
-            },
-            InlineMode::DataKey => {
-                todo!()
-            },
-            InlineMode::DataValue => {
-                todo!()
-            },
+    pub fn as_traced(&self) -> String {
+        debug_assert!(matches!(self.mode, InlineMode::None));
+        self.items.iter().map(|css| css.selector.as_str()).collect::<Vec<_>>().join(" ")
+    }
+    pub fn as_inlined(&self) -> (String, String) {
+        debug_assert!(!matches!(self.mode, InlineMode::None));
+        let mut class = BTreeSet::new();
+        let mut attribute = BTreeSet::new();
+        for i in self.items.iter() {
+            match i.inlinable {
+                true => attribute.extend(i.attribute.iter()),
+                false => {
+                    class.insert(i.selector.to_string());
+                },
+            }
         }
+        let class = class.into_iter().join(" ");
+        let attribute = attribute.into_iter().join("");
+        (class, attribute)
     }
-    pub fn get_style(&self) -> String {
-        let mut out = String::with_capacity(1024);
-        match self.mode {
-            InlineMode::Standard => self.items.iter().for_each(|css| css.write_css(&mut out).unwrap_or_default()),
-            InlineMode::Inline => {
-                todo!()
-            },
-            InlineMode::Scoped => {
-                todo!()
-            },
-            InlineMode::DataKey => {
-                todo!()
-            },
-            InlineMode::DataValue => {
-                todo!()
-            },
-        }
-        out
-    }
-    pub fn as_traced(&self) {
-        for i in &self.items {}
-    }
-    pub fn as_inlined(&mut self) {}
     pub fn set_inline(&mut self, inline: InlineMode) {
         self.mode = inline
     }

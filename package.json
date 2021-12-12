@@ -6,6 +6,6 @@
         "fmt": "cargo fmt --all",
         "push": "wee test && git push",
         "reset": "git reset Head~ --soft",
-        "pub": "cargo-publish-all --yes --allow-dirty",
+        "u": "cargo upgrade --workspace"
     }
 }

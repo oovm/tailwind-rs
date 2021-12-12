@@ -1,0 +1,63 @@
+.aspect-1\/1 {
+  aspect-ratio: 1 / 1;
+}
+
+.aspect-16\/9 {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect-21\/9 {
+  aspect-ratio: 21 / 9;
+}
+
+.aspect-\[16\/9\] {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect-\[var\(--aspect\)\] {
+  aspect-ratio: var(--aspect);
+}
+
+.aspect-auto {
+  aspect-ratio: auto;
+}
+
+.aspect-unset {
+  aspect-ratio: unset;
+}
+
+.box-clone {
+  box-decoration-break: clone;
+}
+
+.box-sizing-border {
+  box-sizing: border;
+}
+
+.box-sizing-content {
+  box-sizing: content;
+}
+
+.box-slice {
+  box-decoration-break: slice;
+}
+
+.columns-1 {
+  columns: 1;
+}
+
+.columns-\[20rem\] {
+  columns: 20rem;
+}
+
+.columns-\[320px\] {
+  columns: 320px;
+}
+
+.columns-\[auto_1\] {
+  columns: auto 1;
+}
+
+.columns-auto {
+  columns: auto;
+}

@@ -9,7 +9,10 @@ fn go() {
     config.tailwind.preflight.disable = true;
     let (html, css) = config.compile_html_trace(include_str!("layout.html")).unwrap();
     assert_eq!(html, include_str!("layout.trace.html"));
-    assert_eq!(css, include_str!("layout.trace.css"))
+    assert_eq!(css, include_str!("layout.trace.css"));
+    let (html, css) = config.compile_html_inline(include_str!("layout.html")).unwrap();
+    assert_eq!(html, include_str!("layout.inline.html"));
+    assert_eq!(css, include_str!("layout.inline.css"));
 }
 
 impl GlobalConfig {

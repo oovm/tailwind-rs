@@ -7,7 +7,6 @@ mod error_3rd;
 
 pub use self::error::{MaybeRanged, Result, TailwindError, TailwindErrorKind};
 pub use url::Url;
-pub use yggdrasil_shared::DiagnosticLevel;
 
 #[cfg(feature = "git2")]
 pub extern crate git2;

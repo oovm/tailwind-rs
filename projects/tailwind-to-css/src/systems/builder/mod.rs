@@ -28,29 +28,6 @@ pub struct TailwindBuilder {
 }
 
 impl TailwindBuilder {
-    /// ## Trace mode
-    ///
-    ///
-    /// # Returns
-    /// **Not all instructions can be inline, if not, it will fall back to trace mode**
-    ///
-    /// - Anonymous style sheets, which can be placed inside `style` tags
-    ///
-    /// ## Example
-    /// - input
-    /// ```html
-    /// <div class="p-auto px-px pt-2 pb-2">Test</div>
-    /// ```
-    /// - output
-    /// ```html
-    /// <div class="p-auto px-px pt-2 pb-2">Test</div>
-    /// <style> {} </style>
-    /// ```
-    #[inline]
-    #[track_caller]
-    pub fn trace(&mut self, style: &str) -> CssBundle {
-        self.interpret(style, None).unwrap()
-    }
     /// ## Inline mode
     ///
     ///
@@ -71,11 +48,40 @@ impl TailwindBuilder {
     /// ```
     #[inline]
     #[track_caller]
-    pub fn inline(&mut self, style: &str) -> CssBundle {
-        self.interpret(style, Some(InlineMode::Inline)).unwrap()
+    pub fn inline(&mut self, style: &str, mode: InlineMode) -> Result<CssBundle> {
+        let parsed = parse_tailwind(style)?;
+        let mut out = CssBundle::default();
+        for item in parsed {
+            let i = CssInstance::new(&*item.get_instance()?, self);
+            match i.inlinable {
+                true => out.insert(i.clone()),
+                false => self.objects.insert(i),
+            };
+        }
+        out.set_inline(mode);
+        Ok(out)
     }
-    /// Safe version of [`TailwindBuilder::inline`]
-    pub fn interpret(&mut self, style: &str, mode: Option<InlineMode>) -> Result<CssBundle> {
+    /// ## Trace mode
+    ///
+    ///
+    /// # Returns
+    /// **Not all instructions can be inline, if not, it will fall back to trace mode**
+    ///
+    /// - Anonymous style sheets, which can be placed inside `style` tags
+    ///
+    /// ## Example
+    /// - input
+    /// ```html
+    /// <div class="p-auto px-px pt-2 pb-2">Test</div>
+    /// ```
+    /// - output
+    /// ```html
+    /// <div class="p-auto px-px pt-2 pb-2">Test</div>
+    /// <style> {} </style>
+    /// ```
+    #[inline]
+    #[track_caller]
+    pub fn trace(&mut self, style: &str) -> Result<CssBundle> {
         let parsed = parse_tailwind(style)?;
         let mut out = CssBundle::default();
         for item in parsed {
@@ -83,7 +89,6 @@ impl TailwindBuilder {
             out.insert(i.clone());
             self.objects.insert(i);
         }
-        out.set_inline(mode.unwrap_or_default());
         Ok(out)
     }
     /// Bundle all used stylesheets
