@@ -1,13 +1,9 @@
-use std::hash::Hash;
-
-use base64::{encode_config, URL_SAFE_NO_PAD};
-use xxhash_rust::xxh3::Xxh3;
-
 use super::*;
 
 mod traits;
 
-#[derive(Debug, Clone)]
+#[allow(clippy::derive_hash_xor_eq)]
+#[derive(Debug, Clone, Hash)]
 pub struct CssInstance {
     pub inlinable: bool,
     pub selector: String,
@@ -42,10 +38,17 @@ impl CssInstance {
             }?
         }
         f.write_char('{')?;
+        self.write_style(f)?;
+        f.write_char('}')?;
+        self.write_addition(f)
+    }
+    pub fn write_style(&self, f: &mut (dyn Write)) -> Result<()> {
         for item in &self.attribute {
             write!(f, "{}", item)?
         }
-        f.write_char('}')?;
+        Ok(())
+    }
+    pub fn write_addition(&self, f: &mut (dyn Write)) -> Result<()> {
         f.write_str(&self.addition)?;
         Ok(())
     }

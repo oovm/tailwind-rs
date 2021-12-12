@@ -3,31 +3,33 @@ use super::*;
 #[doc = include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindHueRotate {
-    deg: usize,
-    backdrop: bool,
+    degree: IntegerOnly,
+    backdrop: Backdrop,
 }
 
 impl Display for TailwindHueRotate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        if self.backdrop {
-            f.write_str("backdrop-")?;
-        }
-        write!(f, "hue-rotate-{}", self.deg)
+        self.backdrop.write(f)?;
+        write!(f, "hue-rotate-{}", self.degree)
     }
 }
 
 impl TailwindInstance for TailwindHueRotate {
-    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        todo!()
+    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+        let class = self.backdrop.filter();
+        let value = match &self.degree {
+            IntegerOnly::Number(n) => format!("hue-rotate({}%)", n),
+            IntegerOnly::Arbitrary(n) => format!("hue-rotate({})", n),
+        };
+        css_attributes! {
+            class => value
+        }
     }
 }
 
 impl TailwindHueRotate {
     pub fn parse(rest: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after hue-rotate");
-        match rest {
-            [n] => Ok(Self { deg: parse_integer(n)?.1, backdrop }),
-            _ => syntax_error!("Unknown hue-rotate instructions"),
-        }
+        let percent = IntegerOnly::parser("hue-rotate")(rest, arbitrary)?;
+        Ok(Self { degree: percent, backdrop: Backdrop::from(backdrop) })
     }
 }

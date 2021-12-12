@@ -3,31 +3,33 @@ use super::*;
 #[doc = include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindContrast {
-    percent: usize,
-    backdrop: bool,
+    percent: IntegerOnly,
+    backdrop: Backdrop,
 }
 
 impl Display for TailwindContrast {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        if self.backdrop {
-            f.write_str("backdrop-")?;
-        }
+        self.backdrop.write(f)?;
         write!(f, "contrast-{}", self.percent)
     }
 }
 
 impl TailwindInstance for TailwindContrast {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        todo!()
+        let class = self.backdrop.filter();
+        let value = match &self.percent {
+            IntegerOnly::Number(n) => format!("contrast({}%)", n),
+            IntegerOnly::Arbitrary(n) => format!("contrast({})", n),
+        };
+        css_attributes! {
+            class => value
+        }
     }
 }
 
 impl TailwindContrast {
     pub fn parse(rest: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after contrast");
-        match rest {
-            [n] => Ok(Self { percent: parse_integer(n)?.1, backdrop }),
-            _ => syntax_error!("Unknown contrast instructions"),
-        }
+        let percent = IntegerOnly::parser("contrast")(rest, arbitrary)?;
+        Ok(Self { percent, backdrop: Backdrop::from(backdrop) })
     }
 }

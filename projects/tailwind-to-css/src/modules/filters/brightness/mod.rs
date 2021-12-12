@@ -3,38 +3,33 @@ use super::*;
 #[doc = include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindBrightness {
-    percent: usize,
-    backdrop: bool,
+    percent: IntegerOnly,
+    backdrop: Backdrop,
 }
 
 impl Display for TailwindBrightness {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        if self.backdrop {
-            f.write_str("backdrop-")?;
-        }
+        self.backdrop.write(f)?;
         write!(f, "brightness-{}", self.percent)
     }
 }
 
 impl TailwindInstance for TailwindBrightness {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let filter = match self.backdrop {
-            true => "backdrop-filter",
-            false => "filter",
+        let class = self.backdrop.filter();
+        let value = match &self.percent {
+            IntegerOnly::Number(n) => format!("brightness({}%)", n),
+            IntegerOnly::Arbitrary(n) => format!("brightness({})", n),
         };
-        let brightness = format!("brightness({})", self.percent as f32 / 100.0);
         css_attributes! {
-            filter => brightness
+            class => value
         }
     }
 }
 
 impl TailwindBrightness {
     pub fn parse(rest: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after brightness");
-        match rest {
-            [n] => Ok(Self { percent: parse_integer(n)?.1, backdrop }),
-            _ => syntax_error!("Unknown brightness instructions"),
-        }
+        let percent = IntegerOnly::parser("brightness")(rest, arbitrary)?;
+        Ok(Self { percent, backdrop: Backdrop::from(backdrop) })
     }
 }

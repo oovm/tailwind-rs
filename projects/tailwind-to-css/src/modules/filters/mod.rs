@@ -5,13 +5,11 @@ use std::{
 
 use tailwind_error::Result;
 
-use tailwind_ast::{parse_i_px_maybe, parse_integer};
-
 pub use self::{
     blur::TailwindBlur, brightness::TailwindBrightness, contrast::TailwindContrast, grayscale::TailwindGrayscale,
     hue_rotate::TailwindHueRotate, invert::TailwindInvert, saturate::TailwindSaturate, sepia::TailwindSepia,
 };
-use crate::{css_attributes, syntax_error, CssAttribute, IntegerOnly, TailwindArbitrary, TailwindBuilder, TailwindInstance};
+use crate::{css_attributes, CssAttribute, IntegerOnly, TailwindArbitrary, TailwindBuilder, TailwindInstance};
 
 mod blur;
 mod brightness;
