@@ -18,8 +18,8 @@ impl Display for Aspect {
 }
 
 impl Aspect {
-    pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let out = match kind {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        let out = match pattern {
             ["square"] => Self::Radio(1, 1),
             ["video"] => Self::Radio(16, 9),
             [s] if Self::check_valid(s) => Self::Standard(s.to_string()),

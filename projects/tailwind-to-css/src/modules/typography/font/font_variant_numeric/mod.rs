@@ -26,10 +26,10 @@ impl Display for TailwindFontVariantNumeric {
 
 impl TailwindFontVariantNumeric {
     /// https://tailwindcss.com/docs/font-variant-numeric
-    pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parser("font-number", &Self::check_valid)(kind, arbitrary)? })
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: KeywordOnly::parser("font-numeric", &Self::check_valid)(pattern, arbitrary)? })
     }
-    /// https://tailwindcss.com/docs/font-variant-numeric#arbitrary-values
+    /// dispatch to [font-variant-numeric](https://developer.mozilla.org/en-US/docs/Web/CSS/font-variant-numeric)
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
     }

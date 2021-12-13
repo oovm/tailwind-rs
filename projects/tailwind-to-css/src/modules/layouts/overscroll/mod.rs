@@ -34,8 +34,8 @@ impl TailwindInstance for TailwindOverscroll {
 
 impl TailwindOverscroll {
     /// https://tailwindcss.com/docs/overscroll-behavior
-    pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary, axis: Option<bool>) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parser("overscroll", &Self::check_valid)(kind, arbitrary)?, axis })
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, axis: Option<bool>) -> Result<Self> {
+        Ok(Self { kind: KeywordOnly::parser("overscroll", &Self::check_valid)(pattern, arbitrary)?, axis })
     }
     /// https://tailwindcss.com/docs/overscroll-behavior#arbitrary-values
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: Option<bool>) -> Result<Self> {

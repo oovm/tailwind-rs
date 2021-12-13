@@ -1,34 +1,22 @@
 use super::*;
 
 #[doc=include_str!("readme.md")]
-#[derive(Clone, Debug)]
+#[derive(Debug, Clone)]
 pub struct TailwindBoxSizing {
-    kind: String,
+    kind: KeywordOnly,
 }
 
-impl<T> From<T> for TailwindBoxSizing
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: kind.into() }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindBoxSizing => "box-sizing");
 
 impl Display for TailwindBoxSizing {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self.kind.as_str() {
-            "border-box" => write!(f, "box-border"),
-            "content-box" => write!(f, "box-content"),
-            _ => write!(f, "box-sizing-{}", self.kind),
-        }
-    }
-}
-
-impl TailwindInstance for TailwindBoxSizing {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        css_attributes! {
-            "box-sizing" => self.kind
+        match &self.kind {
+            KeywordOnly::Standard(s) => match s.as_str() {
+                "border-box" => write!(f, "box-border"),
+                "content-box" => write!(f, "box-content"),
+                _ => write!(f, "box-sizing-{}", s),
+            },
+            KeywordOnly::Arbitrary(s) => write!(f, "box-sizing-[{}]", s),
         }
     }
 }
@@ -36,23 +24,15 @@ impl TailwindInstance for TailwindBoxSizing {
 impl TailwindBoxSizing {
     /// <https://tailwindcss.com/docs/box-sizing>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after box-sizing");
-        let kind = pattern.join("-");
-        debug_assert!(Self::check_valid(&kind));
-        Ok(Self { kind })
+        Ok(Self { kind: KeywordOnly::parser("box-sizing", &Self::check_valid)(pattern, arbitrary)? })
     }
-    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing#syntax>
+    /// dispatch to [box-sizing](https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing)
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
+    }
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/cursor#syntax
     pub fn check_valid(mode: &str) -> bool {
-        let set = BTreeSet::from_iter(vec![
-            // Keyword values
-            "border-box",
-            "content-box",
-            // Global values
-            "inherit",
-            "initial",
-            "revert",
-            "unset",
-        ]);
+        let set = BTreeSet::from_iter(vec!["border-box", "content-box", "inherit", "initial", "revert", "unset"]);
         set.contains(mode)
     }
 }

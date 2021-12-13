@@ -3,7 +3,7 @@ use crate::GlobalConfig;
 use super::*;
 
 #[test]
-fn go() {
+fn test_layout() {
     let mut config = GlobalConfig::default();
     config.css.minify = false;
     config.tailwind.preflight.disable = true;

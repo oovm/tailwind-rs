@@ -6,11 +6,7 @@ pub struct TailwindFillColor {
     color: TailwindColor,
 }
 
-impl From<TailwindColor> for TailwindFillColor {
-    fn from(color: TailwindColor) -> Self {
-        Self { color }
-    }
-}
+crate::macros::sealed::color_instance!(TailwindFillColor);
 
 impl Display for TailwindFillColor {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -24,14 +20,5 @@ impl TailwindInstance for TailwindFillColor {
         css_attributes! {
             "fill" => color,
         }
-    }
-}
-
-impl TailwindFillColor {
-    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { color: TailwindColor::parse(input, arbitrary)? })
-    }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { color: TailwindColor::parse_arbitrary(arbitrary)? })
     }
 }

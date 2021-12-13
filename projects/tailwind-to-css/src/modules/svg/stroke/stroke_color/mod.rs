@@ -6,11 +6,7 @@ pub struct TailwindStrokeColor {
     color: TailwindColor,
 }
 
-impl From<TailwindColor> for TailwindStrokeColor {
-    fn from(color: TailwindColor) -> Self {
-        Self { color }
-    }
-}
+crate::macros::sealed::color_instance!(TailwindStrokeColor);
 
 impl Display for TailwindStrokeColor {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -24,14 +20,5 @@ impl TailwindInstance for TailwindStrokeColor {
         css_attributes! {
             "stroke" => color,
         }
-    }
-}
-
-impl TailwindStrokeColor {
-    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { color: TailwindColor::parse(input, arbitrary)? })
-    }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { color: TailwindColor::parse_arbitrary(arbitrary)? })
     }
 }

@@ -34,8 +34,8 @@ impl TailwindInstance for TailwindAspect {
 
 impl TailwindAspect {
     /// <https://tailwindcss.com/docs/aspect-ratio>
-    pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: Aspect::parse(kind, arbitrary)? })
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: Aspect::parse(pattern, arbitrary)? })
     }
     /// dispatch to [aspect-ratio](https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio)
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {

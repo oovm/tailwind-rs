@@ -238,8 +238,8 @@ impl TailwindInstruction {
             // https://tailwindcss.com/docs/box-decoration-break
             ["decoration", rest @ ..] => TailwindBoxDecoration::parse(rest, arbitrary)?.boxed(),
 
-            ["border"] => TailwindBoxSizing::from("border").boxed(),
-            ["content"] => TailwindBoxSizing::from("content").boxed(),
+            ["border"] => TailwindBoxSizing::from("border-box").boxed(),
+            ["content"] => TailwindBoxSizing::from("content-box").boxed(),
             _ => return syntax_error!("Unknown box instructions: {}", str.join("-")),
         };
         Ok(out)

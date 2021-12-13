@@ -53,6 +53,7 @@ impl TailwindBuilder {
         let mut out = CssBundle::default();
         for item in parsed {
             let i = CssInstance::new(&*item.get_instance()?, self);
+
             match i.inlinable {
                 true => out.insert(i.clone()),
                 false => self.objects.insert(i),

@@ -30,22 +30,7 @@ impl TailwindBackgroundAttachment {
     }
     /// <https://developer.mozilla.org/en-US/docs/Web/CSS/background-attachment#syntax>
     pub fn check_valid(mode: &str) -> bool {
-        let set = BTreeSet::from_iter(vec![
-            // Keyword values
-            "auto",
-            "avoid",
-            // Page break values
-            "avoid-page",
-            // Column break values
-            "avoid-column",
-            // Region break values
-            "avoid-region",
-            // Global values
-            "inherit",
-            "initial",
-            "revert",
-            "unset",
-        ]);
+        let set = BTreeSet::from_iter(vec!["fixed", "inherit", "initial", "local", "revert", "scroll", "unset"]);
         set.contains(mode)
     }
 }

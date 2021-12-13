@@ -6,11 +6,7 @@ pub struct TailwindRingColor {
     color: TailwindColor,
 }
 
-impl From<TailwindColor> for TailwindRingColor {
-    fn from(color: TailwindColor) -> Self {
-        Self { color }
-    }
-}
+crate::macros::sealed::color_instance!(TailwindRingColor);
 
 impl Display for TailwindRingColor {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {

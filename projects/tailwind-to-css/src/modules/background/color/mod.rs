@@ -5,6 +5,7 @@ use super::*;
 pub struct TailwindBackgroundColor {
     color: TailwindColor,
 }
+crate::macros::sealed::color_instance!(TailwindBackgroundColor);
 
 impl Display for TailwindBackgroundColor {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {

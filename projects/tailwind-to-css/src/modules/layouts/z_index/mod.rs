@@ -36,9 +36,9 @@ impl TailwindInstance for TailwindZIndex {
     }
 }
 impl TailwindZIndex {
-    pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary, neg: bool) -> Result<Self> {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, neg: bool) -> Result<Self> {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary after z-index");
-        match kind {
+        match pattern {
             ["auto"] => Ok(Self { kind: ZIndex::Auto, neg }),
             [n] => {
                 let a = TailwindArbitrary::from(*n);

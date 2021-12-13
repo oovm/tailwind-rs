@@ -1,18 +1,5 @@
 Utilities for controlling how a background image behaves when scrolling.
 
-## Example
-
-```rust
-use tailwind_css::TailwindBuilder;
-
-#[test]
-fn build_bg_attach() {
-    let builder = TailwindBuilder::default();
-    let out = builder.inline("bg-scroll");
-    assert_eq!(out, "background-attachment:scroll;");
-}
-```
-
 ## Patterns
 
 | Class       | Properties                       |
@@ -23,5 +10,5 @@ fn build_bg_attach() {
 
 ## Reference
 
-- [background-attachment](https://tailwindcss.com/docs/background-attachment)
-- [background-attachment/cn](https://tailwindcss.com/docs/background-attachment)
+- [TW/background-attachment](https://tailwindcss.com/docs/background-attachment)
+- [MDN/background-attachment](https://developer.mozilla.org/en-US/docs/Web/CSS/background-attachment)

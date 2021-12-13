@@ -1,9 +1,9 @@
 use super::*;
 
 impl SizingUnit {
-    pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         let px = |x| Ok(Self::Length(LengthUnit::em(x)));
-        match kind {
+        match pattern {
             ["min"] => Ok(Self::Min),
             ["max"] => Ok(Self::Max),
             ["auto"] => Ok(Self::Auto),
@@ -14,7 +14,7 @@ impl SizingUnit {
             ["px"] => px(1.0),
             [n] => Self::parse_arbitrary(&TailwindArbitrary::from(*n)),
             [] => Self::parse_arbitrary(arbitrary),
-            _ => syntax_error!("Unknown sizing instructions: {}", kind.join("-")),
+            _ => syntax_error!("Unknown sizing instructions: {}", pattern.join("-")),
         }
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
@@ -38,27 +38,27 @@ impl SizingUnit {
 
 impl TailwindSizing {
     #[inline]
-    pub fn parse_width(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: TailwindSizingKind::Width, size: SizingUnit::parse(kind, arbitrary)? })
+    pub fn parse_width(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: TailwindSizingKind::Width, size: SizingUnit::parse(pattern, arbitrary)? })
     }
     #[inline]
-    pub fn parse_width_max(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: TailwindSizingKind::MaxWidth, size: SizingUnit::parse(kind, arbitrary)? })
+    pub fn parse_width_max(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: TailwindSizingKind::MaxWidth, size: SizingUnit::parse(pattern, arbitrary)? })
     }
     #[inline]
-    pub fn parse_width_min(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: TailwindSizingKind::MinWidth, size: SizingUnit::parse(kind, arbitrary)? })
+    pub fn parse_width_min(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: TailwindSizingKind::MinWidth, size: SizingUnit::parse(pattern, arbitrary)? })
     }
     #[inline]
-    pub fn parse_height(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: TailwindSizingKind::Height, size: SizingUnit::parse(kind, arbitrary)? })
+    pub fn parse_height(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: TailwindSizingKind::Height, size: SizingUnit::parse(pattern, arbitrary)? })
     }
     #[inline]
-    pub fn parse_height_max(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: TailwindSizingKind::MaxHeight, size: SizingUnit::parse(kind, arbitrary)? })
+    pub fn parse_height_max(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: TailwindSizingKind::MaxHeight, size: SizingUnit::parse(pattern, arbitrary)? })
     }
     #[inline]
-    pub fn parse_height_min(kind: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: TailwindSizingKind::MinHeight, size: SizingUnit::parse(kind, arbitrary)? })
+    pub fn parse_height_min(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: TailwindSizingKind::MinHeight, size: SizingUnit::parse(pattern, arbitrary)? })
     }
 }

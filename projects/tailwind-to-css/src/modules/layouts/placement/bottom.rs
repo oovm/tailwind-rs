@@ -25,8 +25,8 @@ impl TailwindInstance for TailwindBottom {
 }
 
 impl TailwindBottom {
-    pub fn parse(kind: &[&str], arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
-        Ok(Self { negative, kind: PlacementSize::parse(kind, arbitrary)? })
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
+        Ok(Self { negative, kind: PlacementSize::parse(pattern, arbitrary)? })
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
         Ok(Self { negative, kind: PlacementSize::parse_arbitrary(arbitrary)? })
