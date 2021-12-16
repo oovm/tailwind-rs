@@ -3,7 +3,7 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindPadding {
-    negative: bool,
+    negative: Negative,
     axis: SpacingAxis,
     size: SpacingSize,
 }
@@ -11,9 +11,7 @@ pub struct TailwindPadding {
 // noinspection DuplicatedCode
 impl Display for TailwindPadding {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        if self.negative {
-            f.write_char('-')?
-        }
+        self.negative.write(f)?;
         write!(f, "{}-{}", self.axis, self.size)
     }
 }
@@ -30,7 +28,7 @@ impl TailwindInstance for TailwindPadding {
 // noinspection DuplicatedCode
 impl TailwindPadding {
     /// https://tailwindcss.com/docs/padding
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: Negative) -> Result<Self> {
         let (axis, rest) = match pattern {
             ["p", rest @ ..] => (SpacingAxis::new("p", &["padding"]), rest),
             ["pl", rest @ ..] => (SpacingAxis::new("pl", &["padding-left"]), rest),
@@ -45,7 +43,7 @@ impl TailwindPadding {
         Ok(Self { negative, axis, size })
     }
     /// https://tailwindcss.com/docs/padding#arbitrary-values
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: SpacingAxis, negative: bool) -> Result<Self> {
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: SpacingAxis, negative: Negative) -> Result<Self> {
         let size = SpacingSize::parse_arbitrary(arbitrary)?;
         Ok(Self { negative, axis, size })
     }

@@ -5,7 +5,7 @@ use crate::{
     css_attributes, syntax_error, AnchorPoint, AxisXY, CssAttributes, IntegerOnly, LengthUnit, Negative, Result,
     TailwindArbitrary, TailwindBuilder, TailwindInstance,
 };
-use std::fmt::{Debug, Display, Formatter, Write};
+use std::fmt::{Debug, Display, Formatter};
 
 mod origin;
 mod rotate;

@@ -34,7 +34,7 @@ impl TailwindInstance for TailwindSkew {
 
 impl TailwindSkew {
     // <https://tailwindcss.com/docs/skew>
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: Negative) -> Result<Self> {
         let (axis, rest) = match pattern {
             ["x", rest @ ..] => (AxisXY::X, rest),
             ["y", rest @ ..] => (AxisXY::Y, rest),
@@ -43,7 +43,7 @@ impl TailwindSkew {
         let degree = IntegerOnly::parser("skew")(rest, arbitrary)?;
         Ok(Self { negative: negative.into(), degree, axis })
     }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, negative: bool, axis: AxisXY) -> Result<Self> {
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, negative: Negative, axis: AxisXY) -> Result<Self> {
         let degree = IntegerOnly::parse_arbitrary(arbitrary)?;
         Ok(Self { negative: negative.into(), degree, axis })
     }

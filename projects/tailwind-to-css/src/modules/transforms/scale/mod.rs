@@ -1,19 +1,16 @@
-use std::fmt::Write;
 
 use super::*;
 
 #[doc=include_str!("readme.md")]
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindScale {
-    negative: bool,
+    negative: Negative,
     scale: usize,
     axis: Option<bool>,
 }
 impl Display for TailwindScale {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        if self.negative {
-            f.write_char('-')?
-        }
+        self.negative.write(f)?;
         match self.axis {
             None => write!(f, "scale-{}", self.scale),
             Some(true) => write!(f, "scale-x-{}", self.scale),
@@ -38,7 +35,7 @@ impl TailwindInstance for TailwindScale {
 
 impl TailwindScale {
     // https://tailwindcss.com/docs/scale
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: Negative) -> Result<Self> {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary");
         match pattern {
             ["x", rest @ ..] => parse_axis(rest, Some(true), negative),
@@ -48,7 +45,7 @@ impl TailwindScale {
     }
 }
 
-fn parse_axis(input: &[&str], axis: Option<bool>, negative: bool) -> Result<TailwindScale> {
+fn parse_axis(input: &[&str], axis: Option<bool>, negative: Negative) -> Result<TailwindScale> {
     match input {
         [n] => {
             let scale = TailwindArbitrary::from(*n).as_integer()?;

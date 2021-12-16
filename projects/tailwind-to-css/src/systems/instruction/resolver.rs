@@ -57,13 +57,13 @@ impl TailwindInstruction {
             ["visible"] => TailwindVisibility::from("visible").boxed(),
             ["invisible"] => TailwindVisibility::from("hidden").boxed(),
             // https://tailwindcss.com/docs/z-index
-            ["z", rest @ ..] => TailwindZIndex::parse(rest, arbitrary, self.negative)?.boxed(),
+            ["z", rest @ ..] => TailwindZIndex::parse(rest, arbitrary, neg)?.boxed(),
             // Flexbox & Grid
             ["basis", rest @ ..] => TailwindBasis::parse(rest, arbitrary)?.boxed(),
             ["flex", rest @ ..] => TailwindFlex::adapt(rest, arbitrary)?,
             ["grow", rest @ ..] => TailWindGrow::parse(rest, arbitrary)?.boxed(),
             ["shrink", rest @ ..] => TailWindShrink::parse(rest, arbitrary)?.boxed(),
-            ["order", rest @ ..] => TailWindOrder::parse(rest, arbitrary, self.negative)?.boxed(),
+            ["order", rest @ ..] => TailWindOrder::parse(rest, arbitrary, neg)?.boxed(),
             ["grid", rest @ ..] => TailwindGrid::adapt(rest, arbitrary)?,
             // https://tailwindcss.com/docs/grid-column
             ["col", rest @ ..] => TailwindColumn::parse(rest, arbitrary)?.boxed(),

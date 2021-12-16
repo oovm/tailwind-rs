@@ -7,9 +7,7 @@ impl Display for TailwindInstruction {
         for v in &self.variants {
             write!(f, "{}", v)?
         }
-        if self.negative {
-            write!(f, "-")?
-        }
+        self.negative.write(f)?;
         match self.arbitrary.is_some() {
             true => write!(f, "{}-[{}]", self.elements, self.arbitrary),
             false => write!(f, "{}", self.elements),

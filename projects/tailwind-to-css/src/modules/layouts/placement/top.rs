@@ -3,15 +3,13 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindTop {
-    negative: bool,
+    negative: Negative,
     kind: PlacementSize,
 }
 
 impl Display for TailwindTop {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        if self.negative {
-            f.write_char('-')?
-        }
+        self.negative.write(f)?;
         write!(f, "top-{}", self.kind)
     }
 }
@@ -25,10 +23,10 @@ impl TailwindInstance for TailwindTop {
 }
 
 impl TailwindTop {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: Negative) -> Result<Self> {
         Ok(Self { negative, kind: PlacementSize::parse(pattern, arbitrary)? })
     }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, negative: Negative) -> Result<Self> {
         Ok(Self { negative, kind: PlacementSize::parse_arbitrary(arbitrary)? })
     }
 }

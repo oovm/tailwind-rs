@@ -3,7 +3,7 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindTranslate {
-    negative: bool,
+    negative: Negative,
     axis: Option<bool>,
     kind: TranslateSize,
 }
@@ -30,9 +30,7 @@ impl Display for TranslateSize {
 
 impl Display for TailwindTranslate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        if self.negative {
-            f.write_char('-')?
-        }
+        self.negative.write(f)?;
         match self.axis {
             Some(true) => write!(f, "translate-x-{}", self.kind),
             Some(false) => write!(f, "translate-y-{}", self.kind),
@@ -56,7 +54,7 @@ impl TailwindInstance for TailwindTranslate {
 
 impl TailwindTranslate {
     /// https://tailwindcss.com/docs/translate
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: Negative) -> Result<Self> {
         match pattern {
             ["x", rest @ ..] => Ok(Self { negative, axis: Some(true), kind: TranslateSize::parse(rest, arbitrary)? }),
             ["y", rest @ ..] => Ok(Self { negative, axis: Some(false), kind: TranslateSize::parse(rest, arbitrary)? }),
@@ -64,7 +62,7 @@ impl TailwindTranslate {
         }
     }
     /// https://tailwindcss.com/docs/translate#arbitrary-values
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: Option<bool>, negative: bool) -> Result<Self> {
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: Option<bool>, negative: Negative) -> Result<Self> {
         Ok(Self { negative, axis, kind: TranslateSize::parse_arbitrary(arbitrary)? })
     }
 }

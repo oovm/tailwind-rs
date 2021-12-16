@@ -16,4 +16,13 @@ impl Negative {
             false => write!(f, ""),
         }
     }
+    pub fn get_properties(&self, value: &str) -> String {
+        match self.0 {
+            true => format!("-{}", value),
+            false => format!("{}", value),
+        }
+    }
+    pub fn unwrap(&self) -> bool {
+        self.0
+    }
 }

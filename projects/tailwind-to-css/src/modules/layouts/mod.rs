@@ -1,8 +1,3 @@
-use std::{
-    collections::BTreeSet,
-    fmt::{Debug, Display, Formatter, Write},
-};
-
 pub use self::{
     aspect_ratio::TailwindAspect,
     boxing::{box_decoration::TailwindBoxDecoration, box_sizing::TailwindBoxSizing},
@@ -22,8 +17,12 @@ pub use self::{
     z_index::TailwindZIndex,
 };
 use crate::{
-    css_attributes, syntax_error, AnchorPoint, CssAttributes, CssBehavior, KeywordOnly, LengthUnit, Result, TailwindArbitrary,
-    TailwindBuilder, TailwindInstance,
+    css_attributes, syntax_error, AnchorPoint, CssAttributes, CssBehavior, KeywordOnly, LengthUnit, Negative, Result,
+    TailwindArbitrary, TailwindBuilder, TailwindInstance,
+};
+use std::{
+    collections::BTreeSet,
+    fmt::{Debug, Display, Formatter},
 };
 
 mod aspect_ratio;

@@ -2,7 +2,7 @@ use std::{
     collections::BTreeSet,
     fmt::{Display, Formatter},
 };
-
+use crate::Negative;
 pub use self::{
     accent::TailwindAccentColor,
     appearance::TailwindAppearance,

@@ -3,7 +3,7 @@ use super::*;
 impl<'a> From<AstStyle<'a>> for TailwindInstruction {
     fn from(node: AstStyle<'a>) -> Self {
         Self {
-            negative: node.negative,
+            negative: Negative::from(node.negative),
             variants: node.variants.into_iter().map(|s| s.into()).collect(),
             elements: TailwindElements { inner: node.elements.into_iter().map(|s| s.to_string()).collect() },
             arbitrary: TailwindArbitrary::from(node.arbitrary.unwrap_or_default()),

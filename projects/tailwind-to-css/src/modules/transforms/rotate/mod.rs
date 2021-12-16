@@ -24,7 +24,7 @@ impl TailwindInstance for TailwindRotate {
 
 impl TailwindRotate {
     // https://tailwindcss.com/docs/rotate
-    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
+    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary, negative: Negative) -> Result<Self> {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary");
         match input {
             [n] => Ok(Self { negative: Negative::from(negative), degree: TailwindArbitrary::from(*n).as_integer()? }),

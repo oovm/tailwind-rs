@@ -3,16 +3,14 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindInset {
-    negative: bool,
+    negative: Negative,
     axis: Option<bool>,
     kind: PlacementSize,
 }
 
 impl Display for TailwindInset {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        if self.negative {
-            f.write_char('-')?
-        }
+        self.negative.write(f)?;
         match self.axis {
             None => write!(f, "inset-{}", self.kind),
             Some(true) => write!(f, "inset-x-{}", self.kind),
@@ -43,7 +41,7 @@ impl TailwindInstance for TailwindInset {
 }
 
 impl TailwindInset {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: Negative) -> Result<Self> {
         let (axis, rest) = match pattern {
             ["x", rest @ ..] => (Some(true), rest),
             ["y", rest @ ..] => (Some(false), rest),
@@ -55,7 +53,7 @@ impl TailwindInset {
         }
     }
 
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: Option<bool>, negative: bool) -> Result<Self> {
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: Option<bool>, negative: Negative) -> Result<Self> {
         Ok(Self { negative, axis, kind: PlacementSize::parse_arbitrary(arbitrary)? })
     }
 }

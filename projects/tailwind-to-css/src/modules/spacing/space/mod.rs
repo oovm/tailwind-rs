@@ -4,15 +4,13 @@ use super::*;
 #[derive(Clone, Debug)]
 pub struct TailwindSpace {
     axis: bool,
-    negative: bool,
+    negative: Negative,
     size: SpacingSize,
 }
 
 impl Display for TailwindSpace {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        if self.negative {
-            f.write_char('-')?
-        }
+        self.negative.write(f)?;
         match self.axis {
             true => write!(f, "space-x-{}", self.size),
             false => write!(f, "space-y-{}", self.size),
@@ -34,7 +32,7 @@ impl TailwindInstance for TailwindSpace {
 
 impl TailwindSpace {
     /// https://tailwindcss.com/docs/space
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: bool) -> Result<Box<dyn TailwindInstance>> {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: Negative) -> Result<Box<dyn TailwindInstance>> {
         match pattern {
             ["x", rest @ ..] => Self::parse_axis(rest, arbitrary, true, negative),
             ["y", rest @ ..] => Self::parse_axis(rest, arbitrary, false, negative),
@@ -45,7 +43,7 @@ impl TailwindSpace {
         pattern: &[&str],
         arbitrary: &TailwindArbitrary,
         axis: bool,
-        negative: bool,
+        negative: Negative,
     ) -> Result<Box<dyn TailwindInstance>> {
         match pattern {
             [] => Ok(Self::parse_arbitrary(arbitrary, negative, axis)?.boxed()),
@@ -57,7 +55,7 @@ impl TailwindSpace {
         }
     }
     /// https://tailwindcss.com/docs/margin#arbitrary-values
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, negative: bool, axis: bool) -> Result<Self> {
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, negative: Negative, axis: bool) -> Result<Self> {
         debug_assert!(arbitrary.is_some());
         let size = SpacingSize::parse_arbitrary(arbitrary)?;
         Ok(Self { axis, negative, size })
