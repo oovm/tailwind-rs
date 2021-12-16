@@ -1,5 +1,6 @@
 use super::*;
 
+/// 
 #[derive(Copy, Clone, Debug)]
 pub struct SpacingAxis {
     class: &'static str,
@@ -13,6 +14,7 @@ impl Display for SpacingAxis {
 }
 
 impl SpacingAxis {
+    /// 
     pub fn new(class: &'static str, attributes: &'static [&'static str]) -> Self {
         Self { class, attributes }
     }

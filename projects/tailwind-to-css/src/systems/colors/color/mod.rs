@@ -1,5 +1,7 @@
 use super::*;
 
+
+///
 #[derive(Clone, Debug)]
 pub enum TailwindColor {
     Transparent,
@@ -74,6 +76,7 @@ impl TailwindColor {
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<TailwindColor> {
         Ok(Self::RGB(arbitrary.as_color()?))
     }
+    ///
     #[inline]
     pub fn parse_themed(name: &str, weight: &str) -> Result<TailwindColor> {
         let name = name.to_string();

@@ -1,5 +1,12 @@
 use super::*;
 
+#[doc=include_str!("readme.md")]
+#[derive(Copy, Clone, Debug)]
+pub struct TailwindRounded {
+    kind: RoundedKind,
+    size: LengthUnit,
+}
+
 #[derive(Copy, Clone, Debug)]
 enum RoundedKind {
     Rounded,
@@ -11,12 +18,6 @@ enum RoundedKind {
     RoundedTR,
     RoundedBL,
     RoundedBR,
-}
-
-#[derive(Copy, Clone, Debug)]
-pub struct TailwindRounded {
-    kind: RoundedKind,
-    size: LengthUnit,
 }
 
 impl Display for RoundedKind {

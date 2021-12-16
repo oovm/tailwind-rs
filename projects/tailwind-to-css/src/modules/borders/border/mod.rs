@@ -12,6 +12,7 @@ pub struct TailwindBorder {
 }
 
 impl TailwindBorder {
+    /// Parse the instructions starting with `border`.
     pub fn adapt(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let color = |color| TailwindBorderColor::from(color).boxed();
         let out = match str {

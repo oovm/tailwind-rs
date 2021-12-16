@@ -1,3 +1,4 @@
+/// Define a css record with a map-like syntax
 #[macro_export]
 macro_rules! css_attributes {
     ($($k:expr => $v:expr),* $(,)?) => {{
@@ -5,6 +6,7 @@ macro_rules! css_attributes {
     }};
 }
 
+///
 #[macro_export]
 macro_rules! attributes_ensure {
     ($f:tt, $field:tt, $t:ty) => {
@@ -18,6 +20,7 @@ macro_rules! attributes_ensure {
     };
 }
 
+///
 #[macro_export]
 macro_rules! syntax_error {
     ($msg:literal $(,)?) => {

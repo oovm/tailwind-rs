@@ -139,7 +139,7 @@ impl TailwindInstruction {
             // Borders System
             ["rounded", rest @ ..] => TailwindRounded::parse(rest, arbitrary)?.boxed(),
             ["border", rest @ ..] => TailwindBorder::adapt(rest, arbitrary)?,
-            ["divide", rest @ ..] => TailwindDivide::parse(rest, arbitrary)?,
+            ["divide", rest @ ..] => TailwindDivide::adapt(rest, arbitrary)?,
             ["outline", rest @ ..] => TailwindOutline::adapt(rest, arbitrary)?,
             ["ring", rest @ ..] => TailwindRing::adapt(rest, arbitrary)?,
             // Effects System

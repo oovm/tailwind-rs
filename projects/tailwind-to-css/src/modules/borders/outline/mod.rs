@@ -8,6 +8,7 @@ pub(crate) mod outline_width;
 pub struct TailwindOutline {}
 
 impl TailwindOutline {
+    /// Parse the instructions starting with `outline`.
     pub fn adapt(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/outline-style

@@ -1,21 +1,20 @@
 use super::*;
 
 #[doc=include_str!("readme.md")]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Debug)]
 pub struct TailwindSkew {
-    neg: bool,
-    deg: usize,
-    axis: bool,
+    negative: Negative,
+    axis: AxisXY,
+    degree: IntegerOnly,
 }
 
 impl Display for TailwindSkew {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        if self.neg {
-            f.write_char('-')?
-        }
+        self.negative.write(f)?;
         match self.axis {
-            true => write!(f, "skew-x-{}", self.deg),
-            false => write!(f, "skew-y-{}", self.deg),
+            AxisXY::X => write!(f, "skew-x-{}", self.degree),
+            AxisXY::Y => write!(f, "skew-y-{}", self.degree),
+            AxisXY::N => write!(f, "skew-{}", self.degree),
         }
     }
 }
@@ -23,8 +22,9 @@ impl Display for TailwindSkew {
 impl TailwindInstance for TailwindSkew {
     fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
         let skew = match self.axis {
-            true => format!("skewX({}deg)", self.deg),
-            false => format!("skewY({}deg)", self.deg),
+            AxisXY::X => format!("skewX({}deg)", self.degree),
+            AxisXY::Y => format!("skewY({}deg)", self.degree),
+            AxisXY::N => format!("skew({}deg)", self.degree),
         };
         css_attributes! {
             "transform" => skew
@@ -33,13 +33,18 @@ impl TailwindInstance for TailwindSkew {
 }
 
 impl TailwindSkew {
-    // https://tailwindcss.com/docs/skew
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, neg: bool) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after skew");
-        match pattern {
-            ["x", n] => Ok(Self { neg, deg: TailwindArbitrary::from(*n).as_integer()?, axis: true }),
-            ["y", n] => Ok(Self { neg, deg: TailwindArbitrary::from(*n).as_integer()?, axis: false }),
-            _ => syntax_error!("Unknown skew instructions: {}", pattern.join("-")),
-        }
+    // <https://tailwindcss.com/docs/skew>
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: bool) -> Result<Self> {
+        let (axis, rest) = match pattern {
+            ["x", rest @ ..] => (AxisXY::X, rest),
+            ["y", rest @ ..] => (AxisXY::Y, rest),
+            _ => (AxisXY::X, pattern),
+        };
+        let degree = IntegerOnly::parser("skew")(rest, arbitrary)?;
+        Ok(Self { negative: negative.into(), degree, axis })
+    }
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, negative: bool, axis: AxisXY) -> Result<Self> {
+        let degree = IntegerOnly::parse_arbitrary(arbitrary)?;
+        Ok(Self { negative: negative.into(), degree, axis })
     }
 }

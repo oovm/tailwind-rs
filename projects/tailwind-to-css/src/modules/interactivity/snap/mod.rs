@@ -9,6 +9,7 @@ pub(crate) mod snap_type;
 pub struct TailwindSnap {}
 
 impl TailwindSnap {
+    /// <https://tailwindcss.com/docs/snap-align>
     pub fn adapt(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match pattern {
             // https://tailwindcss.com/docs/scroll-snap-align

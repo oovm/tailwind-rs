@@ -70,6 +70,7 @@ impl TailwindInstance for TailwindBasis {
 }
 
 impl TailwindBasis {
+    /// <https://tailwindcss.com/docs/basis>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         match pattern {
             ["auto"] => Ok(Self { kind: BasisSize::Auto }),
@@ -90,6 +91,7 @@ impl TailwindBasis {
             _ => syntax_error!("Unknown basis instructions"),
         }
     }
+
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         Self::maybe_length(arbitrary).or_else(|_| Self::maybe_frac(arbitrary)).or_else(|_| Self::maybe_unit(arbitrary))
     }

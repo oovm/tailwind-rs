@@ -28,6 +28,7 @@ impl TailwindInstance for TailwindSepia {
 }
 
 impl TailwindSepia {
+    /// 
     pub fn parse(rest: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
         let percent = match rest {
             [] if arbitrary.is_none() => 100usize.into(),

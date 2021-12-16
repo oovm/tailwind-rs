@@ -1,15 +1,25 @@
 use super::*;
 
+/// Anchor points are used to position elements relative to the viewport.
 #[derive(Clone, Debug)]
 pub enum AnchorPoint {
+    /// `0% 0%` to the viewport.
     LeftTop,
+    /// `50% 0%` to the viewport.
     Top,
+    /// `100% 0%` to the viewport.
     RightTop,
+    /// `0% 50%` to the viewport.
     Left,
+    /// `50% 50%` to the viewport.
     Center,
+    /// `100% 50%` to the viewport.
     Right,
+    /// `0% 100%` to the viewport.
     LeftBottom,
+    /// `50% 100%` to the viewport.
     Bottom,
+    /// `100% 100%` to the viewport.
     RightBottom,
     Custom(String),
     Global(CssBehavior),

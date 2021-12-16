@@ -40,10 +40,14 @@ impl FontSystem {
             Some(s) => s,
         }
     }
+    /// Insert a new font size
     #[inline]
     pub fn insert_size(&mut self, name: impl Into<String>, size: FontSize) -> Option<FontSize> {
         self.size.insert(name.into(), size)
     }
+    /// Get the named font family, 
+    /// 
+    /// never fail, fallback to the `serif, sans-serif, monospace`
     #[inline]
     pub fn get_family(&self, name: &str) -> String {
         match self.family.get(name) {
@@ -51,6 +55,7 @@ impl FontSystem {
             Some(s) => s.join(", "),
         }
     }
+    /// Insert a new font family
     #[inline]
     pub fn insert_family(&mut self, name: impl Into<String>, family: &str) -> Option<Vec<String>> {
         let family = Self::normalize_family(family)?;

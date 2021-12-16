@@ -43,7 +43,7 @@ fn inline_class(node: &mut Node, tw: &mut TailwindBuilder) -> Option<()> {
     let attributes = node.as_tag_mut()?.attributes_mut();
     let class = attributes.get_mut("class")??;
     let mut style = Bytes::new();
-    match tw.inline(class.try_as_utf8_str()?, InlineMode::Inline) {
+    match tw.inline(class.try_as_utf8_str()?) {
         Ok(o) => {
             let (c, s) = o.as_inlined();
             class.set(c).ok()?;

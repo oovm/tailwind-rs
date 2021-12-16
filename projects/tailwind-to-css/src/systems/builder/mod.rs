@@ -5,13 +5,14 @@ use crate::{systems::instruction::TailwindInstruction, *};
 mod methods;
 mod setter;
 
+///
 #[derive(Debug)]
 pub struct TailwindBuilder {
-    /// Whether to enable class name confusion
+    ///
     pub obfuscate: bool,
-    ///
+    /// The set of attributes that are allowed to be used in the `tailwind`
     pub objects: BTreeSet<CssInstance>,
-    ///
+    /// 
     pub preflight: PreflightSystem,
     /// All dynamic color properties
     ///
@@ -48,18 +49,16 @@ impl TailwindBuilder {
     /// ```
     #[inline]
     #[track_caller]
-    pub fn inline(&mut self, style: &str, mode: InlineMode) -> Result<CssBundle> {
+    pub fn inline(&mut self, style: &str) -> Result<CssBundle> {
         let parsed = parse_tailwind(style)?;
         let mut out = CssBundle::default();
         for item in parsed {
             let i = CssInstance::new(&*item.get_instance()?, self);
-
             match i.inlinable {
                 true => out.insert(i.clone()),
                 false => self.objects.insert(i),
             };
         }
-        out.set_inline(mode);
         Ok(out)
     }
     /// ## Trace mode

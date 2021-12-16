@@ -7,6 +7,7 @@ pub(crate) mod scroll_behavior;
 pub struct TailwindScroll {}
 
 impl TailwindScroll {
+    /// <https://tailwindcss.com/docs/scroll-behavior>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: bool) -> Result<Box<dyn TailwindInstance>> {
         let kind = match pattern {
             ["p" | "pl" | "pr" | "pb" | "pt" | "px" | "py", ..] =>

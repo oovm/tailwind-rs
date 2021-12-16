@@ -13,8 +13,8 @@ use tailwind_ast::{parse_f32, parse_fraction, parse_integer, ASTVariant, AstStyl
 
 #[cfg(test)]
 pub fn tw_idempotency(input1: &str, builder: &mut TailwindBuilder) {
-    let input2 = &builder.trace(input1);
-    assert_eq!(builder.inline(input1), builder.inline(input2))
+    let input2 = &builder.trace(input1).unwrap();
+    assert_eq!(builder.inline(input1)., builder.inline(input2))
 }
 
 /// `v:v:-a-a-[A]`

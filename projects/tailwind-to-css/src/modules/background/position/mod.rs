@@ -1,6 +1,6 @@
 use super::*;
 
-// https://tailwindcss.com/docs/background-origin
+#[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindBackgroundPosition {
     kind: AnchorPoint,

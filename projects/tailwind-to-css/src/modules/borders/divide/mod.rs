@@ -9,7 +9,8 @@ use super::*;
 pub struct TailwindDivide {}
 
 impl TailwindDivide {
-    pub fn parse(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+    /// Parse the instructions starting with `divide`.
+    pub fn adapt(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/divide-width
             ["x", "reverse"] => TailwindDivideReverse::from(true).boxed(),
