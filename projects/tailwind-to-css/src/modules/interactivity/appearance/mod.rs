@@ -22,7 +22,7 @@ impl Display for TailwindAppearance {
 }
 
 impl TailwindInstance for TailwindAppearance {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "appearance" => self.kind
         }

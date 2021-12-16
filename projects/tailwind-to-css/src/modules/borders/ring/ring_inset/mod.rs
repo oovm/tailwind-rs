@@ -11,7 +11,7 @@ impl Display for TailwindRingInset {
 }
 
 impl TailwindInstance for TailwindRingInset {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "--tw-ring-inset" => "inset"
         }

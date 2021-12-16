@@ -15,7 +15,7 @@ impl Display for TailwindHueRotate {
 }
 
 impl TailwindInstance for TailwindHueRotate {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let class = self.backdrop.filter();
         let value = match &self.degree {
             IntegerOnly::Number(n) => format!("hue-rotate({}%)", n),

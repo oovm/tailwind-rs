@@ -22,7 +22,7 @@ impl Display for TailwindBorderStyle {
 }
 
 impl TailwindInstance for TailwindBorderStyle {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "border-style" => self.kind
         }

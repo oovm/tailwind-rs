@@ -1,11 +1,10 @@
 use std::{
     cmp::Ordering,
-    collections::BTreeSet,
     fmt::{Debug, Display, Formatter},
     hash::{Hash, Hasher},
 };
 
-use crate::{CssAttribute, TailwindBuilder};
+use crate::{CssAttributes, TailwindBuilder};
 
 pub mod instance;
 
@@ -33,7 +32,7 @@ pub trait TailwindInstance: Display {
         format!(".{}", self.id())
     }
     /// Attributes in css
-    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute>;
+    fn attributes(&self, ctx: &TailwindBuilder) -> CssAttributes;
     /// Additional css in bundle
     fn additional(&self, ctx: &TailwindBuilder) -> String {
         String::new()

@@ -7,7 +7,7 @@ mod traits;
 pub struct CssInstance {
     pub inlinable: bool,
     pub selector: String,
-    pub attribute: BTreeSet<CssAttribute>,
+    pub attribute: CssAttributes,
     pub addition: String,
 }
 
@@ -44,9 +44,7 @@ impl CssInstance {
         self.write_addition(f)
     }
     pub fn write_style(&self, f: &mut (dyn Write)) -> Result<()> {
-        for item in &self.attribute {
-            write!(f, "{}", item)?
-        }
+        write!(f, "{}", self.attribute)?;
         Ok(())
     }
     pub fn write_addition(&self, f: &mut (dyn Write)) -> Result<()> {

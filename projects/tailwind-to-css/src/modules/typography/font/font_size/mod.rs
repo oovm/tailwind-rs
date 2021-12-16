@@ -13,7 +13,7 @@ impl Display for TailwindFontSize {
 }
 
 impl TailwindInstance for TailwindFontSize {
-    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, ctx: &TailwindBuilder) -> CssAttributes {
         ctx.fonts.get_size(&self.name).get_properties()
     }
 }

@@ -1,40 +1,29 @@
 use super::*;
+use std::collections::btree_map::IntoIter;
 
-impl Debug for CssAttribute {
+impl Display for CssAttributes {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}:{};", self.key, self.value)
+        for (k, v) in &self.normal {
+            write!(f, "{}:{};", k, v)?
+        }
+        Ok(())
     }
 }
 
-impl Display for CssAttribute {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        Debug::fmt(self, f)
+impl IntoIterator for CssAttributes {
+    type Item = (String, String);
+    type IntoIter = IntoIter<String, String>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.normal.into_iter()
     }
 }
 
-impl Eq for CssAttribute {}
+impl<'a> IntoIterator for &'a CssAttributes {
+    type Item = (&'a String, &'a String);
+    type IntoIter = Iter<'a, String, String>;
 
-impl PartialEq<Self> for CssAttribute {
-    fn eq(&self, other: &Self) -> bool {
-        self.key.eq(&other.key)
-    }
-}
-
-impl PartialOrd<Self> for CssAttribute {
-    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        self.key.partial_cmp(&other.key)
-    }
-}
-
-impl Ord for CssAttribute {
-    fn cmp(&self, other: &Self) -> Ordering {
-        self.key.cmp(&other.key)
-    }
-}
-
-impl Hash for CssAttribute {
-    fn hash<H: Hasher>(&self, state: &mut H) {
-        self.key.hash(state);
-        // self.value.hash(state);
+    fn into_iter(self) -> Self::IntoIter {
+        self.normal.iter()
     }
 }

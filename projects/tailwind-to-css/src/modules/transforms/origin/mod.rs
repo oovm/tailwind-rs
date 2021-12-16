@@ -12,7 +12,7 @@ impl Display for TailwindOrigin {
 }
 
 impl TailwindInstance for TailwindOrigin {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "transform-origin" => self.kind.get_properties()
         }

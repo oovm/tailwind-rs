@@ -17,7 +17,7 @@ pub use self::{
     will_change::TailwindWillChange,
 };
 use crate::{
-    css_attributes, CssAttribute, KeywordOnly, Result, TailwindArbitrary, TailwindBuilder, TailwindColor, TailwindInstance,
+    css_attributes, CssAttributes, KeywordOnly, Result, TailwindArbitrary, TailwindBuilder, TailwindColor, TailwindInstance,
     TailwindScrollMargin, TailwindScrollPadding,
 };
 

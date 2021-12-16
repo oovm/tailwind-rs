@@ -18,7 +18,7 @@ impl Display for TailwindGap {
 }
 
 impl TailwindInstance for TailwindGap {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let class = match self.axis {
             None => "gap",
             Some(true) => "column-gap",

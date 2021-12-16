@@ -15,7 +15,7 @@ impl Display for TailwindCaretColor {
 }
 
 impl TailwindInstance for TailwindCaretColor {
-    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, ctx: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "caret-color" => self.color.get_properties(ctx),
         }

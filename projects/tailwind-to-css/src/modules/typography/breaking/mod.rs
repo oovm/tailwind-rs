@@ -36,7 +36,7 @@ impl Display for TailwindBreak {
 }
 
 impl TailwindInstance for TailwindBreak {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         match &self.kind {
             WordBreak::Normal => css_attributes! {
                 "overflow-wrap" => "normal",

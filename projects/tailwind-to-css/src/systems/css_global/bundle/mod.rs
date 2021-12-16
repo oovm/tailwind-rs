@@ -48,17 +48,17 @@ impl CssBundle {
     pub fn as_inlined(&self) -> (String, String) {
         debug_assert!(self.inline);
         let mut class = BTreeSet::new();
-        let mut attribute = BTreeSet::new();
+        let mut attribute = CssAttributes::default();
         for i in self.items.iter() {
             match i.inlinable {
-                true => attribute.extend(i.attribute.iter()),
+                true => attribute.extend(i.attribute.clone().into_iter()),
                 false => {
                     class.insert(i.selector.to_string());
                 },
             }
         }
         let class = class.into_iter().join(" ");
-        let attribute = attribute.into_iter().join("");
+        let attribute = attribute.to_string();
         (class, attribute)
     }
     /// # Returns

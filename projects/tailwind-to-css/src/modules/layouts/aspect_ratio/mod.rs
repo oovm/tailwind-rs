@@ -25,7 +25,7 @@ impl Display for TailwindAspect {
 }
 
 impl TailwindInstance for TailwindAspect {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "aspect-ratio" => self.kind.get_properties()
         }

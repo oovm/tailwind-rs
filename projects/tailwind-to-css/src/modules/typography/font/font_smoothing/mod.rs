@@ -35,7 +35,7 @@ impl Display for TailwindFontSmoothing {
 }
 
 impl TailwindInstance for TailwindFontSmoothing {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         match &self.kind {
             FontSmoothing::Antialias => css_attributes! {
                 "-webkit-font-smoothing" => "antialiased",

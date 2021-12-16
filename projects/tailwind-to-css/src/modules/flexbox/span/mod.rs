@@ -29,7 +29,7 @@ impl Display for TailwindColumn {
 }
 
 impl TailwindInstance for TailwindColumn {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let class = match self.kind {
             GridKind::Start(_) => "grid-column-start",
             GridKind::End(_) => "grid-column-end",
@@ -42,7 +42,7 @@ impl TailwindInstance for TailwindColumn {
 }
 
 impl TailwindInstance for TailwindRow {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let class = match self.kind {
             GridKind::Start(_) => "grid-row-start",
             GridKind::End(_) => "grid-row-end",

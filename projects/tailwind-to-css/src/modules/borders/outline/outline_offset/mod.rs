@@ -24,7 +24,7 @@ impl Display for TailwindOutlineOffset {
 }
 
 impl TailwindInstance for TailwindOutlineOffset {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let width = match &self.kind {
             OutlineOffset::Unit(n) => format!("{}px", n),
             OutlineOffset::Standard(n) => n.to_string(),

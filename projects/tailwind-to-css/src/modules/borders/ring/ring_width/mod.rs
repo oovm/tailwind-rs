@@ -13,7 +13,7 @@ impl Display for TailwindRingWidth {
 }
 
 impl TailwindInstance for TailwindRingWidth {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "--tw-ring-offset-width" => self.width,
             "box-shadow" => "0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color), var(--tw-ring-shadow)"

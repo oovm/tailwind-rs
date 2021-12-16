@@ -2,13 +2,10 @@ pub use self::{
     origin::TailwindOrigin, rotate::TailwindRotate, scale::TailwindScale, skew::TailwindSkew, translate::TailwindTranslate,
 };
 use crate::{
-    css_attributes, syntax_error, AnchorPoint, AxisXY, CssAttribute, IntegerOnly, LengthUnit, Negative, Result,
+    css_attributes, syntax_error, AnchorPoint, AxisXY, CssAttributes, IntegerOnly, LengthUnit, Negative, Result,
     TailwindArbitrary, TailwindBuilder, TailwindInstance,
 };
-use std::{
-    collections::BTreeSet,
-    fmt::{Debug, Display, Formatter, Write},
-};
+use std::fmt::{Debug, Display, Formatter, Write};
 
 mod origin;
 mod rotate;

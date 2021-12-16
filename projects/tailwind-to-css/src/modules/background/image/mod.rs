@@ -28,7 +28,7 @@ impl Display for TailwindBackgroundImage {
 }
 
 impl TailwindInstance for TailwindBackgroundImage {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let clip = match &self.kind {
             BackgroundImage::Standard(s) => s.to_string(),
             BackgroundImage::Arbitrary(s) => s.to_string(),

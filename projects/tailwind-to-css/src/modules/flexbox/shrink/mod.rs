@@ -13,7 +13,7 @@ impl Display for TailWindShrink {
 }
 
 impl TailwindInstance for TailWindShrink {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "flex-shrink" => self.shrink
         }

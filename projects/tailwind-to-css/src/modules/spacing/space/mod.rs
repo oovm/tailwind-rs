@@ -21,7 +21,7 @@ impl Display for TailwindSpace {
 }
 
 impl TailwindInstance for TailwindSpace {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let class = match self.axis {
             true => "margin-left",
             false => "margin-top",

@@ -24,7 +24,7 @@ impl Display for TailwindZIndex {
 }
 
 impl TailwindInstance for TailwindZIndex {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let index = match self.kind {
             ZIndex::Auto => "auto".to_string(),
             ZIndex::Unit(n) if self.neg => format!("-{}", n),

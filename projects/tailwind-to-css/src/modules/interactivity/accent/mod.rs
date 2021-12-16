@@ -15,7 +15,7 @@ impl Display for TailwindAccentColor {
 }
 
 impl TailwindInstance for TailwindAccentColor {
-    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, ctx: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "accent-color" => self.color.get_properties(ctx),
         }

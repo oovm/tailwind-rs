@@ -15,7 +15,7 @@ impl Display for TailwindSepia {
 }
 
 impl TailwindInstance for TailwindSepia {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let class = self.backdrop.filter();
         let value = match &self.percent {
             IntegerOnly::Number(n) => format!("sepia({}%)", n),
@@ -28,7 +28,7 @@ impl TailwindInstance for TailwindSepia {
 }
 
 impl TailwindSepia {
-    /// 
+    ///
     pub fn parse(rest: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
         let percent = match rest {
             [] if arbitrary.is_none() => 100usize.into(),

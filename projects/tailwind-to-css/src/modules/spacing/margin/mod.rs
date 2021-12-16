@@ -20,8 +20,8 @@ impl Display for TailwindMargin {
 
 // noinspection DuplicatedCode
 impl TailwindInstance for TailwindMargin {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let mut out = BTreeSet::new();
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
+        let mut out = CssAttributes::default();
         self.axis.write_attributes(&mut out, self.size.get_properties());
         out
     }

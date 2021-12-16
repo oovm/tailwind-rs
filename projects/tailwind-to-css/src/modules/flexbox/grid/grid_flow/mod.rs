@@ -29,7 +29,7 @@ impl Display for TailwindGridFlow {
 }
 
 impl TailwindInstance for TailwindGridFlow {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "grid-auto-flow" => self.kind
         }

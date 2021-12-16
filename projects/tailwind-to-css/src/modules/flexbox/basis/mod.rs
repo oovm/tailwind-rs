@@ -62,7 +62,7 @@ impl BasisSize {
 }
 
 impl TailwindInstance for TailwindBasis {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "flex-basis" => self.kind.get_properties()
         }

@@ -1,8 +1,5 @@
-use crate::{css_attributes, CssAttribute, TailwindBuilder, TailwindInstance};
-use std::{
-    collections::BTreeSet,
-    fmt::{Display, Formatter},
-};
+use crate::{css_attributes, CssAttributes, TailwindBuilder, TailwindInstance};
+use std::fmt::{Display, Formatter};
 
 #[derive(Copy, Clone, Debug)]
 enum BackgroundSize {
@@ -34,7 +31,7 @@ impl Display for TailwindBackgroundSize {
 }
 
 impl TailwindInstance for TailwindBackgroundSize {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "background-size" => self.kind
         }

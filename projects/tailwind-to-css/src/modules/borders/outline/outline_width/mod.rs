@@ -28,7 +28,7 @@ impl Display for TailwindOutlineWidth {
 }
 
 impl TailwindInstance for TailwindOutlineWidth {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let width = match &self.kind {
             OutlineWidth::Unit(n) => format!("{}px", n),
             OutlineWidth::Standard(n) => n.to_string(),

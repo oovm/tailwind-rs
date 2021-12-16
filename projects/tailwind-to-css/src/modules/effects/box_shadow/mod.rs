@@ -39,7 +39,7 @@ impl Display for TailwindShadow {
 }
 
 impl TailwindInstance for TailwindShadow {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         match self.is_drop {
             true => {
                 let class = "filter";

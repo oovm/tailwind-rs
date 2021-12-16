@@ -22,7 +22,7 @@ impl Display for TailwindWhiteSpace {
 }
 
 impl TailwindInstance for TailwindWhiteSpace {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "white-space" => self.kind
         }

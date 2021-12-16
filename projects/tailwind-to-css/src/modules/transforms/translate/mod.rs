@@ -42,7 +42,7 @@ impl Display for TailwindTranslate {
 }
 
 impl TailwindInstance for TailwindTranslate {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let skew = match self.axis {
             Some(true) => format!("translateX({}deg)", self.kind),
             Some(false) => format!("translateY({}deg)", self.kind),

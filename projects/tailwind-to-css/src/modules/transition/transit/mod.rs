@@ -40,7 +40,7 @@ impl Display for TailwindTransition {
 }
 
 impl TailwindInstance for TailwindTransition {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {}
     }
 }

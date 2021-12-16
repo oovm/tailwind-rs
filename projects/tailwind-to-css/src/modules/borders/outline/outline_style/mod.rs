@@ -49,7 +49,7 @@ impl Display for TailwindOutlineStyle {
 }
 
 impl TailwindInstance for TailwindOutlineStyle {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         match &self.kind {
             OutlineStyle::None => css_attributes! {
                 "outline" => "2px solid transparent",

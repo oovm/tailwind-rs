@@ -13,7 +13,7 @@ impl Display for TailWindGrow {
 }
 
 impl TailwindInstance for TailWindGrow {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "flex-grow" => self.grow
         }

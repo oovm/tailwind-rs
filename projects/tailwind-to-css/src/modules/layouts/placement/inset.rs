@@ -22,7 +22,7 @@ impl Display for TailwindInset {
 }
 
 impl TailwindInstance for TailwindInset {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         match self.axis {
             None => css_attributes! {
                 "top" => self.kind.get_properties(),

@@ -28,7 +28,7 @@ impl Display for TailwindLeading {
 }
 
 impl TailwindInstance for TailwindLeading {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let leading = match &self.kind {
             LineHeight::Length(n) => n.get_properties(),
             LineHeight::Standard(g) => g.to_string(),

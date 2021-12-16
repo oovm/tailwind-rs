@@ -43,7 +43,7 @@ impl Display for TailwindRounded {
 }
 
 impl TailwindInstance for TailwindRounded {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let size = format!("{:?}", self.size);
         match self.kind {
             RoundedKind::Rounded => css_attributes! {

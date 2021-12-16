@@ -15,7 +15,7 @@ impl Display for TailwindColumns {
 }
 
 impl TailwindInstance for TailwindColumns {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "columns" => self.kind.get_properties()
         }

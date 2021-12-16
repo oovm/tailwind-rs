@@ -22,7 +22,7 @@ impl Display for TailwindBackgroundClip {
 }
 
 impl TailwindInstance for TailwindBackgroundClip {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "background-clip" => self.kind
         }

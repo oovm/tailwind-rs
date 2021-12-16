@@ -22,7 +22,7 @@ impl Display for TailwindTorch {
 }
 
 impl TailwindInstance for TailwindTorch {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "user-select" => self.kind
         }

@@ -1,4 +1,4 @@
-use crate::{css_attributes, CssAttribute, Result, TailwindArbitrary, TailwindBuilder, TailwindInstance};
+use crate::{css_attributes, CssAttributes, Result, TailwindArbitrary, TailwindBuilder, TailwindInstance};
 use std::{
     collections::BTreeSet,
     fmt::{Display, Formatter},
@@ -17,7 +17,7 @@ impl Display for TailwindBlend {
 }
 
 impl TailwindInstance for TailwindBlend {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "mix-blend-mode" => self.mode
         }

@@ -37,7 +37,7 @@ impl Display for TailwindTo {
     }
 }
 impl TailwindInstance for TailwindFrom {
-    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, ctx: &TailwindBuilder) -> CssAttributes {
         let color = self.color.get_properties(ctx);
         css_attributes! {
             "--tw-gradient-from" => color,
@@ -46,7 +46,7 @@ impl TailwindInstance for TailwindFrom {
     }
 }
 impl TailwindInstance for TailwindVia {
-    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, ctx: &TailwindBuilder) -> CssAttributes {
         let color = self.color.get_properties(ctx);
         css_attributes! {
             "--tw-gradient-stops" => format!("var(--tw-gradient-from),{color},var(--tw-gradient-to,{color})", color=color)
@@ -54,7 +54,7 @@ impl TailwindInstance for TailwindVia {
     }
 }
 impl TailwindInstance for TailwindTo {
-    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, ctx: &TailwindBuilder) -> CssAttributes {
         let color = self.color.get_properties(ctx);
         css_attributes! {
             "--tw-gradient-to" => color

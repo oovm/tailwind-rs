@@ -15,7 +15,7 @@ impl Display for TailwindTextColor {
 }
 
 impl TailwindInstance for TailwindTextColor {
-    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, ctx: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "color" => self.color.get_properties(ctx)
         }

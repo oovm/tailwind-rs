@@ -23,7 +23,7 @@ impl Display for TailwindPosition {
 }
 
 impl TailwindInstance for TailwindPosition {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "position" => self.kind
         }

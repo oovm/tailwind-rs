@@ -54,7 +54,7 @@ impl Display for TailwindSizing {
 }
 
 impl TailwindInstance for TailwindSizing {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let class = self.kind.to_string();
         let width = self.size.get_attribute(true);
         css_attributes! {

@@ -13,7 +13,7 @@ impl Display for TailwindClear {
 }
 
 impl TailwindInstance for TailwindClear {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "float" => self.kind
         }

@@ -27,7 +27,7 @@ impl Display for TailwindVisibility {
 }
 
 impl TailwindInstance for TailwindVisibility {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "visibility" => self.kind
         }

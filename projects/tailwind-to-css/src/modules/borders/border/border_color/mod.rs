@@ -15,7 +15,7 @@ impl Display for TailwindBorderColor {
 }
 
 impl TailwindInstance for TailwindBorderColor {
-    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, ctx: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "border-color" => self.color.get_properties(ctx)
         }

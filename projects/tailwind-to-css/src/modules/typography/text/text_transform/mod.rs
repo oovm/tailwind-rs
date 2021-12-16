@@ -22,7 +22,7 @@ impl Display for TailwindTextTransform {
 }
 
 impl TailwindInstance for TailwindTextTransform {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "text-transform" => self.kind
         }

@@ -17,7 +17,7 @@ impl Display for TailwindLeft {
 }
 
 impl TailwindInstance for TailwindLeft {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "left" => self.kind.get_properties()
         }

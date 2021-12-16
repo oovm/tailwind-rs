@@ -28,7 +28,7 @@ impl Display for TailwindSnapStop {
 }
 
 impl TailwindInstance for TailwindSnapStop {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "scroll-snap-stop" => self.kind
         }

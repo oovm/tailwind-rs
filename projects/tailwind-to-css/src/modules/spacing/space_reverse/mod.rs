@@ -22,7 +22,7 @@ impl Display for TailwindSpaceReverse {
 }
 
 impl TailwindInstance for TailwindSpaceReverse {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let class = match self.axis {
             true => "--tw-space-x-reverse",
             false => "--tw-space-y-reverse",

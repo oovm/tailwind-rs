@@ -22,7 +22,7 @@ impl Display for TailwindPointerEvents {
 }
 
 impl TailwindInstance for TailwindPointerEvents {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "pointer-events" => self.kind
         }

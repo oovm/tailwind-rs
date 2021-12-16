@@ -22,7 +22,7 @@ impl Display for TailwindContentAlign {
 }
 
 impl TailwindInstance for TailwindContentAlign {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let s = self.kind.as_str();
         let align = match s {
             "first-baseline" => "first baseline",

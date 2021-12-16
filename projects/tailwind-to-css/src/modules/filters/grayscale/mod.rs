@@ -15,7 +15,7 @@ impl Display for TailwindGrayscale {
 }
 
 impl TailwindInstance for TailwindGrayscale {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let class = self.backdrop.filter();
         let value = match &self.percent {
             IntegerOnly::Number(n) => format!("grayscale({}px)", n),

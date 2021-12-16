@@ -17,8 +17,10 @@ impl Display for TailwindFontWeight {
 }
 
 impl TailwindInstance for TailwindFontWeight {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        Iterator::collect(IntoIterator::into_iter([CssAttribute::new("font-weight", &self.weight.to_string())]))
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
+        css_attributes! {
+            "font-weight" => self.weight
+        }
     }
 }
 

@@ -1,6 +1,6 @@
 use super::*;
 
-/// 
+///
 #[derive(Copy, Clone, Debug)]
 pub struct SpacingAxis {
     class: &'static str,
@@ -14,15 +14,14 @@ impl Display for SpacingAxis {
 }
 
 impl SpacingAxis {
-    /// 
+    ///
     pub fn new(class: &'static str, attributes: &'static [&'static str]) -> Self {
         Self { class, attributes }
     }
 
-    pub fn write_attributes(&self, css: &mut BTreeSet<CssAttribute>, value: String) {
+    pub fn write_attributes(&self, css: &mut CssAttributes, value: String) {
         for attribute in self.attributes {
-            let a = CssAttribute::new(attribute.to_string(), value.to_string());
-            css.insert(a);
+            css.insert(attribute.to_string(), value.to_string());
         }
     }
 }

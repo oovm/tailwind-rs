@@ -4,7 +4,7 @@ use std::{
 };
 
 use crate::{
-    css_attributes, syntax_error, CssAttribute, Result, SpacingAxis, TailwindArbitrary, TailwindBuilder, TailwindInstance,
+    css_attributes, syntax_error, CssAttributes, Result, SpacingAxis, TailwindArbitrary, TailwindBuilder, TailwindInstance,
 };
 
 use self::size::SpacingSize;

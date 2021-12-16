@@ -13,7 +13,7 @@ impl Display for TailwindDuration {
 }
 
 impl TailwindInstance for TailwindDuration {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "transition-duration" => format!("{}ms", self.ms)
         }

@@ -23,7 +23,7 @@ impl Display for TailwindScale {
 }
 
 impl TailwindInstance for TailwindScale {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let scale = self.scale as f32 / 100.0;
         let scale = match self.axis {
             None => format!("scale({})", scale),

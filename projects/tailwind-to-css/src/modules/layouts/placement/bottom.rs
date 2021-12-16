@@ -17,7 +17,7 @@ impl Display for TailwindBottom {
 }
 
 impl TailwindInstance for TailwindBottom {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "bottom" => self.kind.get_properties()
         }

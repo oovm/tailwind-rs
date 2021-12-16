@@ -34,7 +34,7 @@ impl Display for TailwindDecorationThickness {
 }
 
 impl TailwindInstance for TailwindDecorationThickness {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let thickness = match &self.kind {
             Thickness::Unit(n) => format!("{}px", n),
             Thickness::Length(n) => n.get_properties(),

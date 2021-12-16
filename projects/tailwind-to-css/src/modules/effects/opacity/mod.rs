@@ -18,7 +18,7 @@ impl Display for TailwindOpacity {
 }
 
 impl TailwindInstance for TailwindOpacity {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         debug_assert!(self.opacity <= 100);
         let opacity = format!("{}", self.opacity as f32 / 100.0);
         css_attributes! {

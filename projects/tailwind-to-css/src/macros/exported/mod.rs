@@ -1,8 +1,13 @@
 /// Define a css record with a map-like syntax
 #[macro_export]
 macro_rules! css_attributes {
+    () => {
+        CssAttributes::default()
+    };
     ($($k:expr => $v:expr),* $(,)?) => {{
-        std::iter::Iterator::collect(std::iter::IntoIterator::into_iter([$(CssAttribute::new($k.to_string(), $v.to_string()),)*]))
+        let mut css = CssAttributes::default();
+        $(crate::macros::sealed::css_insert!(css, $k, $v);)*
+        css
     }};
 }
 

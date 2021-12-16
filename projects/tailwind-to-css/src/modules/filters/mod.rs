@@ -1,7 +1,4 @@
-use std::{
-    collections::BTreeSet,
-    fmt::{Debug, Display, Formatter},
-};
+use std::fmt::{Debug, Display, Formatter};
 
 use tailwind_error::Result;
 
@@ -9,7 +6,7 @@ pub use self::{
     blur::TailwindBlur, brightness::TailwindBrightness, contrast::TailwindContrast, grayscale::TailwindGrayscale,
     hue_rotate::TailwindHueRotate, invert::TailwindInvert, saturate::TailwindSaturate, sepia::TailwindSepia,
 };
-use crate::{css_attributes, CssAttribute, IntegerOnly, TailwindArbitrary, TailwindBuilder, TailwindInstance};
+use crate::{css_attributes, CssAttributes, IntegerOnly, TailwindArbitrary, TailwindBuilder, TailwindInstance};
 
 mod blur;
 mod brightness;

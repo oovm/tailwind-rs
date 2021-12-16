@@ -22,7 +22,7 @@ impl Display for TailwindScrollBehavior {
 }
 
 impl TailwindInstance for TailwindScrollBehavior {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "scroll-behavior" => self.kind
         }

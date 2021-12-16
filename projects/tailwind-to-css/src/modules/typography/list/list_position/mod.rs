@@ -26,7 +26,7 @@ impl Display for TailwindListPosition {
 }
 
 impl TailwindInstance for TailwindListPosition {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "resize" => self.kind
         }

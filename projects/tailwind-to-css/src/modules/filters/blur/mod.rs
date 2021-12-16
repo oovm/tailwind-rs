@@ -14,7 +14,7 @@ impl Display for TailwindBlur {
 }
 
 impl TailwindInstance for TailwindBlur {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let class = self.backdrop.filter();
         let value = match &self.px {
             IntegerOnly::Number(n) => format!("blur({}px)", n),

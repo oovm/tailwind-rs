@@ -15,7 +15,7 @@ impl Display for TailwindContrast {
 }
 
 impl TailwindInstance for TailwindContrast {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let class = self.backdrop.filter();
         let value = match &self.percent {
             IntegerOnly::Number(n) => format!("contrast({}%)", n),

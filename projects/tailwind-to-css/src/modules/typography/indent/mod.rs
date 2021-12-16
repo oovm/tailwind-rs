@@ -22,7 +22,7 @@ impl Display for TailwindIndent {
 }
 
 impl TailwindInstance for TailwindIndent {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let indent = match &self.kind {
             Indent::Unit(n) => format!("{}rem", n / 4.0),
             Indent::Length(n) => n.get_properties(),

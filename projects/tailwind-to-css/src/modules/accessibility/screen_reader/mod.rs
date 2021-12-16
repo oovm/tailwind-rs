@@ -1,8 +1,5 @@
-use crate::{css_attributes, CssAttribute, TailwindBuilder, TailwindInstance};
-use std::{
-    collections::BTreeSet,
-    fmt::{Display, Formatter},
-};
+use crate::{css_attributes, CssAttributes, TailwindBuilder, TailwindInstance};
+use std::fmt::{Display, Formatter};
 
 #[doc=include_str!("readme.md")]
 #[derive(Debug)]
@@ -20,7 +17,7 @@ impl Display for TailwindScreenReader {
 }
 
 impl TailwindInstance for TailwindScreenReader {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         match self.sr_only {
             true => {
                 css_attributes! {

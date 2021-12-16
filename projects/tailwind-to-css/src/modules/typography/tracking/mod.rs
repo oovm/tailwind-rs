@@ -30,7 +30,7 @@ impl Display for TailwindTracking {
 }
 
 impl TailwindInstance for TailwindTracking {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let spacing = match self.kind {
             Tracking::Length(n) => n.get_properties(),
             _ => self.kind.to_string(),

@@ -1,7 +1,7 @@
 use log::error;
 use tl::{parse, Bytes, Node, ParserOptions};
 
-use tailwind_css::{InlineMode, TailwindBuilder};
+use tailwind_css::TailwindBuilder;
 
 use crate::{config::HtmlConfig, Result};
 

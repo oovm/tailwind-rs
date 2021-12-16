@@ -28,7 +28,7 @@ impl Display for TailwindBackgroundOrigin {
 }
 
 impl TailwindInstance for TailwindBackgroundOrigin {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "background-origin" => self.kind
         }

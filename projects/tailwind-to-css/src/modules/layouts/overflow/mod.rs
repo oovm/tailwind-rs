@@ -19,7 +19,7 @@ impl Display for TailwindOverflow {
 }
 
 impl TailwindInstance for TailwindOverflow {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let class = match self.axis {
             None => "overflow",
             Some(true) => "overflow-x",

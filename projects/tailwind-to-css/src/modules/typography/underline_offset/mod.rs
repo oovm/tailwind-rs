@@ -30,7 +30,7 @@ impl Display for TailwindUnderlineOffset {
 }
 
 impl TailwindInstance for TailwindUnderlineOffset {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let offset = match self.kind {
             UnderlineOffset::Auto => "auto".to_string(),
             UnderlineOffset::Unit(n) => format!("{}px", n),

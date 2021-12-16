@@ -21,7 +21,7 @@ pub use self::{
     whitespace::TailwindWhiteSpace,
 };
 use crate::{
-    css_attributes, syntax_error, CssAttribute, CssBehavior, KeywordOnly, LengthUnit, Result, TailwindArbitrary,
+    css_attributes, syntax_error, CssAttributes, CssBehavior, KeywordOnly, LengthUnit, Result, TailwindArbitrary,
     TailwindBreakAfter, TailwindBreakBefore, TailwindBreakInside, TailwindBuilder, TailwindColor, TailwindInstance,
 };
 use std::{

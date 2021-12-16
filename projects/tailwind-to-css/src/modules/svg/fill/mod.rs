@@ -15,7 +15,7 @@ impl Display for TailwindFillColor {
 }
 
 impl TailwindInstance for TailwindFillColor {
-    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, ctx: &TailwindBuilder) -> CssAttributes {
         let color = self.color.get_properties(ctx);
         css_attributes! {
             "fill" => color,

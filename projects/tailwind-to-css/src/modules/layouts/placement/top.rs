@@ -17,7 +17,7 @@ impl Display for TailwindTop {
 }
 
 impl TailwindInstance for TailwindTop {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "top" => self.kind.get_properties()
         }

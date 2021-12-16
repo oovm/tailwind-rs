@@ -1,5 +1,3 @@
-use std::fmt::Write;
-
 use super::*;
 
 #[derive(Copy, Clone, Debug)]

@@ -40,7 +40,7 @@ impl Display for TailwindGridAuto {
 }
 
 impl TailwindInstance for TailwindGridAuto {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let class = match self.axis {
             true => "grid-auto-rows",
             false => "grid-auto-columns",

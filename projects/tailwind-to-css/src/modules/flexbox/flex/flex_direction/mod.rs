@@ -29,7 +29,7 @@ impl Display for TailwindFlexDirection {
 }
 
 impl TailwindInstance for TailwindFlexDirection {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "flex-direction" => self.kind
         }

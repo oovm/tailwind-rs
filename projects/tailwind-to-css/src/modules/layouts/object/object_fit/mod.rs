@@ -22,7 +22,7 @@ impl Display for TailwindObjectFit {
 }
 
 impl TailwindInstance for TailwindObjectFit {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "object-fit" => self.kind
         }

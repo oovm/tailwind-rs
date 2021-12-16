@@ -13,7 +13,7 @@ impl Display for TailwindGridColumns {
 }
 
 impl TailwindInstance for TailwindGridColumns {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "grid-template-columns" => self.kind.get_properties()
         }

@@ -1,3 +1,5 @@
+use std::collections::btree_map::Iter;
+
 use super::*;
 
 mod traits;
@@ -5,24 +7,67 @@ mod traits;
 /// A css property is used to remove duplicates.
 ///
 /// In principle, each css property will only appear once, and the one set later will override the previous one.
-#[derive(Clone)]
-pub struct CssAttribute {
-    key: String,
-    value: String,
+#[derive(Debug, Clone, Default, Ord, PartialOrd, Eq, PartialEq, Hash)]
+pub struct CssAttributes {
+    normal: BTreeMap<String, String>,
+    transforms: BTreeSet<String>,
 }
 
-impl CssAttribute {
+impl CssAttributes {
     /// # Arguments
     ///
     /// * `key`: css class
     /// * `value`: css property
     ///
     /// returns: [`CssAttribute`]
-    pub fn new<K, V>(key: K, value: V) -> Self
+    pub fn insert<K, V>(&mut self, key: K, value: V)
     where
         K: Into<String>,
         V: Into<String>,
     {
-        Self { key: key.into(), value: value.into() }
+        self.normal.insert(key.into(), value.into());
+    }
+
+    ///
+    ///
+    /// # Arguments
+    ///
+    /// * `items`:
+    ///
+    /// returns: ()
+    ///
+    /// # Examples
+    ///
+    /// ```
+    ///
+    /// ```
+    pub fn extend<T>(&mut self, items: T)
+    where
+        T: IntoIterator<Item = (String, String)>,
+    {
+        self.normal.extend(items)
+    }
+
+    ///
+    ///
+    /// # Arguments
+    ///
+    /// * `value`:
+    ///
+    /// returns: ()
+    ///
+    /// # Examples
+    ///
+    /// ```
+    ///
+    /// ```
+    pub fn transform<V>(&mut self, value: V)
+    where
+        V: Into<String>,
+    {
+        self.transforms.insert(value.into());
+    }
+    pub fn iter(&self) -> Iter<'_, String, String> {
+        self.normal.iter()
     }
 }

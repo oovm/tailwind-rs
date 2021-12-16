@@ -17,7 +17,7 @@ impl Display for TailWindOrder {
 }
 
 impl TailwindInstance for TailWindOrder {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let order = match self.negative {
             true => format!("-{}", self.order),
             false => format!("{}", self.order),

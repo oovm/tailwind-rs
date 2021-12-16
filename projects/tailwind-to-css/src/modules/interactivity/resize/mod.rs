@@ -28,7 +28,7 @@ impl Display for TailwindResize {
 }
 
 impl TailwindInstance for TailwindResize {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "resize" => self.kind
         }

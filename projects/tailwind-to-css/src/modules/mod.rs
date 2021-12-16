@@ -22,8 +22,5 @@ pub use self::{
 };
 
 use crate::*;
-use std::{
-    collections::BTreeSet,
-    fmt::{Debug, Display, Formatter},
-};
+use std::fmt::{Debug, Display, Formatter};
 use tailwind_error::Result;

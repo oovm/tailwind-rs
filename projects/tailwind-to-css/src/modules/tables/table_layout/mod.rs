@@ -22,7 +22,7 @@ impl Display for TailwindTableLayout {
 }
 
 impl TailwindInstance for TailwindTableLayout {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "table-layout" => self.kind
         }

@@ -22,7 +22,7 @@ impl Display for TailwindDivideReverse {
 }
 
 impl TailwindInstance for TailwindDivideReverse {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let class = match self.axis {
             true => "--tw-divide-x-reverse",
             false => "--tw-divide-y-reverse",

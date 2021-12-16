@@ -1,3 +1,4 @@
+#[derive(Copy, Clone, Debug)]
 pub enum AxisXY {
     X,
     Y,

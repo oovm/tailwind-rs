@@ -13,7 +13,7 @@ impl Display for TailwindObjectPosition {
 }
 
 impl TailwindInstance for TailwindObjectPosition {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "object-position" => self.kind.get_properties()
         }

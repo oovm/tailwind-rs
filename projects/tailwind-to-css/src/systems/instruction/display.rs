@@ -1,5 +1,3 @@
-use std::collections::BTreeSet;
-
 use log::error;
 
 use super::*;
@@ -20,8 +18,8 @@ impl Display for TailwindInstruction {
 }
 
 impl TailwindInstance for TailwindInstruction {
-    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
-        let mut out = BTreeSet::default();
+    fn attributes(&self, ctx: &TailwindBuilder) -> CssAttributes {
+        let mut out = CssAttributes::default();
         match self.get_instance() {
             Ok(o) => out.extend(o.attributes(ctx)),
             Err(e) => {

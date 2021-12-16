@@ -29,7 +29,7 @@ impl TailwindInstance for TailwindDivideStyle {
         // format!(".divide-{} > * + *", self.kind)
         format!(".divide-{}>:not([hidden])~:not([hidden])", self.kind)
     }
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "border-style" => self.kind
         }

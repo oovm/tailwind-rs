@@ -20,7 +20,7 @@ impl Display for TailwindOverscroll {
 }
 
 impl TailwindInstance for TailwindOverscroll {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let class = match self.axis {
             None => "overscroll-behavior",
             Some(true) => "overscroll-behavior-x",

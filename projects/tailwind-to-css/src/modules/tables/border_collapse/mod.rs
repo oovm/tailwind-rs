@@ -22,7 +22,7 @@ impl Display for TailwindBorderCollapse {
 }
 
 impl TailwindInstance for TailwindBorderCollapse {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "border-collapse" => self.kind
         }

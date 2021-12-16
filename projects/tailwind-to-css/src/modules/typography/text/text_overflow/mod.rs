@@ -24,7 +24,7 @@ impl Display for TailwindTextOverflow {
 }
 
 impl TailwindInstance for TailwindTextOverflow {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let align = match &self.kind {
             TextOverflow::Truncate =>
                 return css_attributes! {

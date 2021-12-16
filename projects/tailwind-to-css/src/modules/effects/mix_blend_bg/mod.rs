@@ -12,7 +12,7 @@ impl Display for TailwindBackgroundBlend {
 }
 
 impl TailwindInstance for TailwindBackgroundBlend {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "background-blend-mode" => self.wrapper.get_properties()
         }

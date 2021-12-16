@@ -9,7 +9,7 @@ macro_rules! keyword_instance {
             }
         }
         impl TailwindInstance for $t {
-            fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+            fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
                 css_attributes! {
                     $a => self.kind.get_properties()
                 }
@@ -37,6 +37,15 @@ macro_rules! color_instance {
         }
     };
 }
+macro_rules! css_insert {
+    ($css:expr, "transform", $v:expr) => {
+        $css.transform($v.to_string());
+    };
+    ($css:expr, $k:expr,  $v:expr) => {
+        $css.insert($k.to_string(), $v.to_string());
+    };
+}
 
 pub(crate) use color_instance;
+pub(crate) use css_insert;
 pub(crate) use keyword_instance;

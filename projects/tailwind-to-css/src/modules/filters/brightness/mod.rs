@@ -15,7 +15,7 @@ impl Display for TailwindBrightness {
 }
 
 impl TailwindInstance for TailwindBrightness {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let class = self.backdrop.filter();
         let value = match &self.percent {
             IntegerOnly::Number(n) => format!("brightness({}%)", n),

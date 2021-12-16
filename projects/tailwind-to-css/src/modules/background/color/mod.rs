@@ -14,7 +14,7 @@ impl Display for TailwindBackgroundColor {
 }
 
 impl TailwindInstance for TailwindBackgroundColor {
-    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, ctx: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "background-color" => self.color.get_properties(ctx)
         }

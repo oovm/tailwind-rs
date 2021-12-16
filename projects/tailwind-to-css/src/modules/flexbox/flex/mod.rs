@@ -17,7 +17,7 @@ impl Display for TailwindFlex {
 }
 
 impl TailwindInstance for TailwindFlex {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "flex" => self.kind.get_properties()
         }

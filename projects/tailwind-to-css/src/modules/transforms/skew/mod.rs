@@ -20,7 +20,7 @@ impl Display for TailwindSkew {
 }
 
 impl TailwindInstance for TailwindSkew {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let skew = match self.axis {
             AxisXY::X => format!("skewX({}deg)", self.degree),
             AxisXY::Y => format!("skewY({}deg)", self.degree),

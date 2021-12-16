@@ -17,7 +17,7 @@ impl Display for TailwindDivideWidth {
 }
 
 impl TailwindInstance for TailwindDivideWidth {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         match self.axis {
             true => css_attributes! {
                 "border-right-width" => format!("{}px", self.width),

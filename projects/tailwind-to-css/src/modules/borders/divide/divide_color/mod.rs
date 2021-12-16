@@ -15,7 +15,7 @@ impl Display for TailwindDivideColor {
 }
 
 impl TailwindInstance for TailwindDivideColor {
-    fn attributes(&self, ctx: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, ctx: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "--tw-ring-color" => self.color.get_properties(ctx)
         }

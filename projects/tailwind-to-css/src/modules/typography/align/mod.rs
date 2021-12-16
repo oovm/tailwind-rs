@@ -31,7 +31,7 @@ impl Display for TailwindAlign {
 }
 
 impl TailwindInstance for TailwindAlign {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let align = match &self.kind {
             VerticalAlign::Standard(s) => s.to_owned(),
             VerticalAlign::Length(s) => s.get_properties(),

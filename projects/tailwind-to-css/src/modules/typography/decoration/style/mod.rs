@@ -26,7 +26,7 @@ impl Display for TailwindDecorationStyle {
 }
 
 impl TailwindInstance for TailwindDecorationStyle {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "text-decoration-style" => self.kind
         }

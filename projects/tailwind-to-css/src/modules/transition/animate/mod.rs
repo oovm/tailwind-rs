@@ -17,7 +17,7 @@ impl Display for TailwindAnimate {
 }
 
 impl TailwindInstance for TailwindAnimate {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let animation = match &self.kind {
             Animation::None => "none".to_string(),
             Animation::Spin => "animation: spin 1s linear infinite;".to_string(),

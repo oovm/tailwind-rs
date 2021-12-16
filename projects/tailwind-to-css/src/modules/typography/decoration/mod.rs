@@ -57,7 +57,7 @@ impl Display for TailwindDecoration {
 }
 
 impl TailwindInstance for TailwindDecoration {
-    fn attributes(&self, _: &TailwindBuilder) -> BTreeSet<CssAttribute> {
+    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
             "text-decoration" => self.arbitrary
         }

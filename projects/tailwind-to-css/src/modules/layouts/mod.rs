@@ -22,7 +22,7 @@ pub use self::{
     z_index::TailwindZIndex,
 };
 use crate::{
-    css_attributes, syntax_error, AnchorPoint, CssAttribute, CssBehavior, KeywordOnly, LengthUnit, Result, TailwindArbitrary,
+    css_attributes, syntax_error, AnchorPoint, CssAttributes, CssBehavior, KeywordOnly, LengthUnit, Result, TailwindArbitrary,
     TailwindBuilder, TailwindInstance,
 };
 
