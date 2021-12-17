@@ -1,0 +1,178 @@
+.absolute {
+  position: absolute;
+}
+
+.aspect-1\/1 {
+  aspect-ratio: 1 / 1;
+}
+
+.aspect-16\/9 {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect-21\/9 {
+  aspect-ratio: 21 / 9;
+}
+
+.aspect-\[16\/9\] {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect-\[var\(--aspect\)\] {
+  aspect-ratio: var(--aspect);
+}
+
+.aspect-auto {
+  aspect-ratio: auto;
+}
+
+.aspect-unset {
+  aspect-ratio: unset;
+}
+
+.box-border {
+  box-sizing: border-box;
+}
+
+.box-clone {
+  box-decoration-break: clone;
+}
+
+.box-content {
+  box-sizing: content-box;
+}
+
+.box-slice {
+  box-decoration-break: slice;
+}
+
+.break-after-auto {
+  break-after: auto;
+}
+
+.break-before-auto {
+  break-before: auto;
+}
+
+.break-inside-auto {
+  break-inside: auto;
+}
+
+.columns-1 {
+  columns: 1;
+}
+
+.columns-\[20rem\] {
+  columns: 20rem;
+}
+
+.columns-\[320px\] {
+  columns: 320px;
+}
+
+.columns-\[auto_1\] {
+  columns: auto 1;
+}
+
+.columns-auto {
+  columns: auto;
+}
+
+.container {
+}
+
+.display-block {
+  display: block;
+}
+
+.display-flex {
+  display: flex;
+}
+
+.display-inline {
+  display: inline;
+}
+
+.display-inline-block {
+  display: inline-block;
+}
+
+.fixed {
+  position: fixed;
+}
+
+.float-none {
+  float: none;
+}
+
+.inset-\[0rem\] {
+  inset: 0;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.isolate {
+  isolation: isolate;
+}
+
+.isolation-auto {
+  isolation: auto;
+}
+
+.object-\[50\%_0\%\] {
+  object-position: 50% 0%;
+}
+
+.object-none {
+  object-fit: none;
+}
+
+.overflow-auto {
+  overflow: auto;
+}
+
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+.overscroll-auto {
+  overscroll-behavior: auto;
+}
+
+.overscroll-x-auto {
+  overscroll-behavior-x: auto;
+}
+
+.relative {
+  position: relative;
+}
+
+.static {
+  position: static;
+}
+
+.sticky {
+  position: sticky;
+}
+
+.visible {
+  visibility: visible;
+}
+
+.z-2333 {
+  z-index: 2333;
+}
+
+.z-\[var\(--depth\)\] {
+  z-index: var(--depth);
+}
+
+.z-auto {
+  z-index: auto;
+}

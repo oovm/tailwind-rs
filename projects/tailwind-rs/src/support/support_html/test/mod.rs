@@ -1,22 +1,12 @@
 use crate::GlobalConfig;
 
 use super::*;
-
-#[test]
-fn test_layout() {
-    let mut config = GlobalConfig::default();
-    config.css.minify = false;
-    config.tailwind.preflight.disable = true;
-    let (html, css) = config.compile_html_trace(include_str!("layout.html")).unwrap();
-    assert_eq!(html, include_str!("layout.trace.html"));
-    assert_eq!(css, include_str!("layout.trace.css"));
-    let (html, css) = config.compile_html_inline(include_str!("layout.html")).unwrap();
-    assert_eq!(html, include_str!("layout.inline.html"));
-    assert_eq!(css, include_str!("layout.inline.css"));
-}
+mod accessibility;
+mod layout;
+mod flex;
 
 impl GlobalConfig {
-    pub fn compile_html_trace(&mut self, input: &str) -> Result<(String, String)> {
+    pub fn compile_html_traced(&mut self, input: &str) -> Result<(String, String)> {
         let tw = &mut self.tailwind;
         let html = HtmlConfig::trace_all_class(input, tw)?;
         let bundle = tw.bundle()?;
@@ -26,6 +16,13 @@ impl GlobalConfig {
     pub fn compile_html_inline(&mut self, input: &str) -> Result<(String, String)> {
         let tw = &mut self.tailwind;
         let html = HtmlConfig::inline_all_class(input, tw)?;
+        let bundle = tw.bundle()?;
+        let css = self.css.compile(&bundle)?;
+        Ok((html, css))
+    }
+    pub fn compile_html_scoped(&mut self, input: &str) -> Result<(String, String)> {
+        let tw = &mut self.tailwind;
+        let html = HtmlConfig::scope_all_class(input, tw)?;
         let bundle = tw.bundle()?;
         let css = self.css.compile(&bundle)?;
         Ok((html, css))

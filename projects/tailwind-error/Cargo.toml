@@ -13,7 +13,6 @@ edition = "2021"
 
 [dependencies]
 url = "2.2.2"
-#yggdrasil-shared = { version = "0.2.1", default-features = false }
 # 3rd parts
 nom = { version = "7.1.0", optional = true }
 num = { version = "0.4.0", optional = true }

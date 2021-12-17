@@ -25,6 +25,14 @@ impl HtmlConfig {
         }
         Ok(dom.inner_html())
     }
+    pub fn scope_all_class(input: &str, tw: &mut TailwindBuilder) -> Result<String> {
+        let mut dom = parse(input, ParserOptions::default())?;
+        for node in dom.nodes_mut() {
+            // ignore if any problem
+            inline_class(node, tw);
+        }
+        Ok(dom.inner_html())
+    }
 }
 
 fn trace_class(node: &mut Node, tw: &mut TailwindBuilder) -> Option<()> {
