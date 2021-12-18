@@ -59,6 +59,7 @@ impl TailwindBuilder {
                 false => self.objects.insert(i),
             };
         }
+        out.set_inline(true);
         Ok(out)
     }
     /// ## Trace mode

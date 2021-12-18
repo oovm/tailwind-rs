@@ -39,8 +39,7 @@ impl TailwindFlex {
             ["col", "reverse"] => TailwindFlexDirection::from("column-reverse").boxed(),
             ["direction", rest @ ..] => TailwindFlexDirection::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/flex-wrap
-            ["wrap"] => TailwindFlexWrap::from("wrap").boxed(),
-            ["wrap", "reverse"] => TailwindFlexWrap::from("wrap-reverse").boxed(),
+            ["wrap", rest @ ..] => TailwindFlexWrap::parse(rest, arbitrary)?.boxed(),
             ["nowrap"] => TailwindFlexWrap::from("nowrap").boxed(),
             // https://tailwindcss.com/docs/flex
             _ => Self::parse(pattern, arbitrary)?.boxed(),

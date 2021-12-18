@@ -1,36 +1,23 @@
 use super::*;
 
-#[doc=include_str!("readme.md")]
+#[doc = include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindFlexWrap {
-    kind: String,
+    kind: KeywordOnly,
 }
 
-impl<T> From<T> for TailwindFlexWrap
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: kind.into() }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindFlexWrap => "flex-wrap");
 
 impl Display for TailwindFlexWrap {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let s = self.kind.as_str();
-        match s {
-            "wrap" => write!(f, "flex-wrap"),
-            "wrap-reverse" => write!(f, "flex-wrap-reverse"),
-            "nowrap" => write!(f, "flex-nowrap"),
-            _ => write!(f, "flex-wrap-{}", s),
-        }
-    }
-}
-
-impl TailwindInstance for TailwindFlexWrap {
-    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        css_attributes! {
-            "flex-wrap" => self.kind
+        match &self.kind {
+            KeywordOnly::Standard(s) => match s.as_str() {
+                "wrap" => write!(f, "flex-wrap"),
+                "wrap-reverse" => write!(f, "flex-wrap-reverse"),
+                "nowrap" => write!(f, "flex-nowrap"),
+                _ => write!(f, "flex-wrap-{}", s),
+            },
+            KeywordOnly::Arbitrary(s) => write!(f, "flex-wrap-[{}]", s),
         }
     }
 }
@@ -38,10 +25,18 @@ impl TailwindInstance for TailwindFlexWrap {
 impl TailwindFlexWrap {
     /// https://tailwindcss.com/docs/flex-wrap
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after flex-wrap");
-        let kind = pattern.join("-");
-        debug_assert!(Self::check_valid(&kind));
+        let kind = match pattern {
+            [] if arbitrary.is_none() => KeywordOnly::Standard("wrap".to_string()),
+            [] => KeywordOnly::parse_arbitrary(arbitrary)?,
+            ["none"] => KeywordOnly::Standard("nowrap".to_string()),
+            ["reverse"] => KeywordOnly::Standard("wrap-reverse".to_string()),
+            _ => KeywordOnly::parser("flex-wrap", &Self::check_valid)(pattern, arbitrary)?,
+        };
         Ok(Self { kind })
+    }
+    /// dispatch to [flex-wrap](https://developer.mozilla.org/en-US/docs/Web/CSS/flex-wrap)
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/flex-wrap#syntax
     pub fn check_valid(mode: &str) -> bool {

@@ -236,15 +236,17 @@ impl TailwindInstruction {
     fn box_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/box-decoration-break
-            ["decoration", rest @ ..] => TailwindBoxDecoration::parse(rest, arbitrary)?.boxed(),
-
+            ["decoration" | "break", rest @ ..] => TailwindBoxDecoration::parse(rest, arbitrary)?.boxed(),
+            ["clone"] => TailwindBoxDecoration::from("clone").boxed(),
+            ["slice"] => TailwindBoxDecoration::from("slice").boxed(),
+            // https://tailwindcss.com/docs/box-sizing
             ["border"] => TailwindBoxSizing::from("border-box").boxed(),
             ["content"] => TailwindBoxSizing::from("content-box").boxed(),
+            ["sizing", rest @ ..] => TailwindBoxSizing::parse(rest, arbitrary)?.boxed(),
             _ => return syntax_error!("Unknown box instructions: {}", str.join("-")),
         };
         Ok(out)
     }
-
     #[inline]
     fn justify_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         debug_assert!(arbitrary.is_none(), "forbidden arbitrary after justify");

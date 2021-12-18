@@ -25,7 +25,22 @@ impl TailwindPlaceSelf {
     }
     /// <https://developer.mozilla.org/en-US/docs/Web/CSS/place-self#syntax>
     pub fn check_valid(mode: &str) -> bool {
-        let set = BTreeSet::from_iter(vec!["center", "inherit", "initial", "revert", "unset"]);
+        let set = BTreeSet::from_iter(vec![
+            "center",
+            "end",
+            "flex-end",
+            "flex-start",
+            "inherit",
+            "initial",
+            "normal",
+            "revert",
+            "space-around",
+            "space-between",
+            "space-evenly",
+            "start",
+            "stretch",
+            "unset",
+        ]);
         set.contains(mode)
     }
 }
