@@ -1,4 +1,3 @@
-
 use self::scroll_behavior::TailwindScrollBehavior;
 use super::*;
 pub(crate) mod scroll_behavior;

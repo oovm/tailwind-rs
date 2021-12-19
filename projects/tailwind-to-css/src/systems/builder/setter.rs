@@ -16,6 +16,7 @@ impl Default for TailwindBuilder {
         Self {
             obfuscate: false,
             objects: Default::default(),
+            bundles: Default::default(),
             screens: BreakPointSystem::builtin(),
             palettes: PaletteSystem::builtin(),
             fonts: FontSystem::builtin(),

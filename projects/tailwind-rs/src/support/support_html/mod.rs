@@ -29,7 +29,7 @@ impl HtmlConfig {
         let mut dom = parse(input, ParserOptions::default())?;
         for node in dom.nodes_mut() {
             // ignore if any problem
-            inline_class(node, tw);
+            scope_class(node, tw);
         }
         Ok(dom.inner_html())
     }
@@ -39,8 +39,8 @@ fn trace_class(node: &mut Node, tw: &mut TailwindBuilder) -> Option<()> {
     let attributes = node.as_tag_mut()?.attributes_mut();
     let class = attributes.get_mut("class")??;
     match tw.trace(class.try_as_utf8_str()?) {
-        Ok(o) => {
-            class.set(o.as_traced()).ok()??;
+        Ok(c) => {
+            class.set(c).ok()?;
         },
         Err(e) => error!("{}", e),
     }
@@ -52,8 +52,7 @@ fn inline_class(node: &mut Node, tw: &mut TailwindBuilder) -> Option<()> {
     let class = attributes.get_mut("class")??;
     let mut style = Bytes::new();
     match tw.inline(class.try_as_utf8_str()?) {
-        Ok(o) => {
-            let (c, s) = o.as_inlined();
+        Ok((c, s)) => {
             class.set(c).ok()?;
             style.set(s).ok()?;
         },
@@ -63,5 +62,19 @@ fn inline_class(node: &mut Node, tw: &mut TailwindBuilder) -> Option<()> {
         },
     };
     attributes.insert("style", Some(style));
+    Some(())
+}
+
+fn scope_class(node: &mut Node, tw: &mut TailwindBuilder) -> Option<()> {
+    let attributes = node.as_tag_mut()?.attributes_mut();
+    let class = attributes.get_mut("class")??;
+    match tw.scope(class.try_as_utf8_str()?) {
+        Ok(c) => {
+            class.set(c).ok()?;
+        },
+        Err(e) => {
+            error!("{}", e);
+        },
+    };
     Some(())
 }

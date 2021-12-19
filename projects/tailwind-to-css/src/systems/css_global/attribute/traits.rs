@@ -1,5 +1,9 @@
+use std::{
+    collections::btree_map::IntoIter,
+    ops::{Add, AddAssign},
+};
+
 use super::*;
-use std::collections::btree_map::IntoIter;
 
 impl Display for CssAttributes {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -25,5 +29,22 @@ impl<'a> IntoIterator for &'a CssAttributes {
 
     fn into_iter(self) -> Self::IntoIter {
         self.normal.iter()
+    }
+}
+
+impl Add<Self> for CssAttributes {
+    type Output = CssAttributes;
+
+    fn add(self, rhs: Self) -> Self::Output {
+        let mut out = self;
+        out += rhs;
+        out
+    }
+}
+
+impl AddAssign<Self> for CssAttributes {
+    fn add_assign(&mut self, rhs: Self) {
+        self.normal.extend(rhs.normal.into_iter());
+        self.transforms.extend(rhs.transforms.into_iter());
     }
 }

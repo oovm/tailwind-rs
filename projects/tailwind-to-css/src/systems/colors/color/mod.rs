@@ -1,6 +1,5 @@
 use super::*;
 
-
 ///
 #[derive(Clone, Debug)]
 pub enum TailwindColor {

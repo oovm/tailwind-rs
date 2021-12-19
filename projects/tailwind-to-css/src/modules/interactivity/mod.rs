@@ -1,8 +1,3 @@
-use std::{
-    collections::BTreeSet,
-    fmt::{Display, Formatter},
-};
-use crate::Negative;
 pub use self::{
     accent::TailwindAccentColor,
     appearance::TailwindAppearance,
@@ -17,8 +12,12 @@ pub use self::{
     will_change::TailwindWillChange,
 };
 use crate::{
-    css_attributes, CssAttributes, KeywordOnly, Result, TailwindArbitrary, TailwindBuilder, TailwindColor, TailwindInstance,
-    TailwindScrollMargin, TailwindScrollPadding,
+    css_attributes, CssAttributes, KeywordOnly, Negative, Result, TailwindArbitrary, TailwindBuilder, TailwindColor,
+    TailwindInstance, TailwindScrollMargin, TailwindScrollPadding,
+};
+use std::{
+    collections::BTreeSet,
+    fmt::{Display, Formatter},
 };
 
 mod accent;

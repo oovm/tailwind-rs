@@ -1,110 +1,85 @@
-use itertools::Itertools;
-
 use super::*;
-
 mod traits;
 
 /// A collection of css objects
 ///
 /// Separate or merge as needed
-#[derive(Debug, Clone, Default)]
-pub struct CssBundle {
-    inline: bool,
-    items: BTreeSet<CssInstance>,
+#[derive(Debug, Clone, Default, Ord, PartialOrd, Eq, PartialEq)]
+pub(crate) struct CssBundle {
+    mode: CssInlineMode,
+    non_inlined_classes: BTreeSet<String>,
+    attribute: CssAttributes,
+    addition: BTreeSet<String>,
 }
 
+// noinspection DuplicatedCode
 impl CssBundle {
+    pub fn add_trace(&mut self, item: &CssInstance) {
+        self.non_inlined_classes.insert(item.get_class());
+    }
     /// insert new css instance to the html tag
-    pub fn insert(&mut self, item: CssInstance) -> bool {
-        self.items.insert(item)
+    pub fn add_inline(&mut self, item: CssInstance) {
+        self.attribute += item.attribute;
+        self.addition.insert(item.addition);
     }
-    /// clear all css instance in this html tag
-    pub fn clear(&mut self) {
-        self.items.clear()
+    pub fn obfuscate(css: &Self) -> String {
+        let mut hasher = Xxh3::new();
+        css.attribute.hash(&mut hasher);
+        css.addition.hash(&mut hasher);
+        base64(hasher.finish())
     }
-    /// Try inline styles, keep the class name if that fails.
-    ///
     /// # Returns
-    ///
     /// - css classes
-    ///
-    /// ```html
-    /// <img class="tw-1 tw-2"/>
-    /// ```
     pub fn as_traced(&self) -> String {
-        debug_assert!(!self.inline);
-        self.items.iter().map(|css| css.selector.as_str()).collect::<Vec<_>>().join(" ")
+        self.non_inlined_classes.iter().join(" ")
     }
-    /// Try inline styles, keep the class name if that fails.
-    ///
     /// # Returns
-    ///
     /// - `.0`: css classes rest, maybe empty
     /// - `.1`: css style
-    ///
-    /// ```html
-    /// <img class="not-inlinable" style="k1:v1;k2:v2;"/>
-    /// ```
     pub fn as_inlined(&self) -> (String, String) {
-        debug_assert!(self.inline);
-        let mut class = BTreeSet::new();
-        let mut attribute = CssAttributes::default();
-        for i in self.items.iter() {
-            match i.inlinable {
-                true => attribute.extend(i.attribute.clone().into_iter()),
-                false => {
-                    class.insert(i.selector.to_string());
-                },
-            }
-        }
-        let class = class.into_iter().join(" ");
-        let attribute = attribute.to_string();
-        (class, attribute)
+        (self.as_traced(), self.attribute.to_string())
     }
     /// # Returns
-    ///
     /// - scoped class name
-    ///
-    /// ```html
-    /// <img class="_b2JmdXNjYXRl"/>
-    /// ```
-    pub fn as_scope(&self) {
-        todo!()
+    pub fn as_scope(&self) -> String {
+        let id = Self::obfuscate(self);
+        self.non_inlined_classes.iter().chain(&[id]).join(" ")
     }
     /// # Returns
-    ///
     /// - data name without value
-    ///
-    /// ```html
-    /// <img data-tw-b2JmdXNjYXRl/>
-    /// ```
-    ///
-    /// ```css
-    /// [data-tw-b2JmdXNjYXRl] {
-    ///
-    /// }
-    /// ```
     pub fn as_data_key(&self) {
         todo!()
     }
     /// # Returns
-    ///
     /// - scoped class name
-    ///
-    /// ```html
-    /// <img data-tw="b2JmdXNjYXRl"/>
-    /// ```
-    ///
-    /// ```css
-    /// [data-tw="b2JmdXNjYXRl"] {
-    ///
-    /// }
-    /// ```
     pub fn as_data_value(&self) {
         todo!()
     }
-    /// Mark inline mode
-    pub fn set_inline(&mut self, inline: bool) {
-        self.inline = inline
+
+    pub fn set_mode(&mut self, mode: CssInlineMode) {
+        self.mode = mode
     }
+    pub fn write_css(&self, f: &mut (dyn Write)) -> Result<()> {
+        let id = Self::obfuscate(self);
+        match self.mode {
+            CssInlineMode::None => unreachable!(),
+            CssInlineMode::Inline => return Ok(()),
+            CssInlineMode::Scoped => write!(f, ".{}", id)?,
+            CssInlineMode::DataKey => write!(f, "[data-tw-{}]", id)?,
+            CssInlineMode::DataValue => write!(f, "[data-tw=\"{}\"]", id)?,
+        }
+        f.write_char('{')?;
+        write!(f, "{}", self.attribute)?;
+        f.write_char('}')?;
+        for item in &self.addition {
+            write!(f, "{}", item)?;
+        }
+        Ok(())
+    }
+}
+
+#[derive(Debug, Clone)]
+pub struct Inlined {
+    pub class: String,
+    pub style: String,
 }
