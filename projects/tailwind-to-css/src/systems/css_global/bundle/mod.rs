@@ -47,15 +47,10 @@ impl CssBundle {
     }
     /// # Returns
     /// - data name without value
-    pub fn as_data_key(&self) {
-        todo!()
+    pub fn as_dataset(&self) -> (String, String) {
+        let id = Self::obfuscate(self);
+        (self.as_traced(), id)
     }
-    /// # Returns
-    /// - scoped class name
-    pub fn as_data_value(&self) {
-        todo!()
-    }
-
     pub fn set_mode(&mut self, mode: CssInlineMode) {
         self.mode = mode
     }
@@ -65,8 +60,8 @@ impl CssBundle {
             CssInlineMode::None => unreachable!(),
             CssInlineMode::Inline => return Ok(()),
             CssInlineMode::Scoped => write!(f, ".{}", id)?,
-            CssInlineMode::DataKey => write!(f, "[data-tw-{}]", id)?,
-            CssInlineMode::DataValue => write!(f, "[data-tw=\"{}\"]", id)?,
+            CssInlineMode::DataKey => write!(f, "[data-tw-{}]", &id[1..12])?,
+            CssInlineMode::DataValue => write!(f, "[data-tw=\"{}\"]", &id[1..12])?,
         }
         f.write_char('{')?;
         write!(f, "{}", self.attribute)?;

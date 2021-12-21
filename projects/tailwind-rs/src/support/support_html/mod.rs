@@ -33,6 +33,22 @@ impl HtmlConfig {
         }
         Ok(dom.inner_html())
     }
+    pub fn keyed_all_class(input: &str, tw: &mut TailwindBuilder) -> Result<String> {
+        let mut dom = parse(input, ParserOptions::default())?;
+        for node in dom.nodes_mut() {
+            // ignore if any problem
+            key_class(node, tw);
+        }
+        Ok(dom.inner_html())
+    }
+    pub fn value_all_class(input: &str, tw: &mut TailwindBuilder) -> Result<String> {
+        let mut dom = parse(input, ParserOptions::default())?;
+        for node in dom.nodes_mut() {
+            // ignore if any problem
+            value_class(node, tw);
+        }
+        Ok(dom.inner_html())
+    }
 }
 
 fn trace_class(node: &mut Node, tw: &mut TailwindBuilder) -> Option<()> {
@@ -76,5 +92,41 @@ fn scope_class(node: &mut Node, tw: &mut TailwindBuilder) -> Option<()> {
             error!("{}", e);
         },
     };
+    Some(())
+}
+
+fn key_class(node: &mut Node, tw: &mut TailwindBuilder) -> Option<()> {
+    let attributes = node.as_tag_mut()?.attributes_mut();
+    let class = attributes.get_mut("class")??;
+    let mut key = Bytes::new();
+    match tw.data_key(class.try_as_utf8_str()?) {
+        Ok((c, k)) => {
+            class.set(c).ok()?;
+            debug_assert!(k.len() == 12);
+            key.set(format!("data-tw-{}", &k[1..12])).ok()?;
+        },
+        Err(e) => {
+            error!("{}", e);
+        },
+    };
+    attributes.insert::<_, &str>(key, None);
+    Some(())
+}
+
+fn value_class(node: &mut Node, tw: &mut TailwindBuilder) -> Option<()> {
+    let attributes = node.as_tag_mut()?.attributes_mut();
+    let class = attributes.get_mut("class")??;
+    let mut value = Bytes::new();
+    match tw.data_value(class.try_as_utf8_str()?) {
+        Ok((c, v)) => {
+            class.set(c).ok()?;
+            debug_assert!(v.len() == 12);
+            value.set(&v[1..12]).ok()?;
+        },
+        Err(e) => {
+            error!("{}", e);
+        },
+    };
+    attributes.insert("data-tw", Some(value));
     Some(())
 }

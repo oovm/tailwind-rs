@@ -29,14 +29,14 @@ impl GlobalConfig {
     }
     pub fn compile_html_keyed(&mut self, input: &str) -> Result<(String, String)> {
         let tw = &mut self.tailwind;
-        let html = HtmlConfig::scope_all_class(input, tw)?;
+        let html = HtmlConfig::keyed_all_class(input, tw)?;
         let bundle = tw.bundle()?;
         let css = self.css.compile(&bundle)?;
         Ok((html, css))
     }
     pub fn compile_html_value(&mut self, input: &str) -> Result<(String, String)> {
         let tw = &mut self.tailwind;
-        let html = HtmlConfig::scope_all_class(input, tw)?;
+        let html = HtmlConfig::value_all_class(input, tw)?;
         let bundle = tw.bundle()?;
         let css = self.css.compile(&bundle)?;
         Ok((html, css))

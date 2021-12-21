@@ -19,7 +19,7 @@ impl Negative {
     pub fn get_properties(&self, value: &str) -> String {
         match self.0 {
             true => format!("-{}", value),
-            false => format!("{}", value),
+            false => value.to_string(),
         }
     }
     pub fn unwrap(&self) -> bool {

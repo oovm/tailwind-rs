@@ -98,6 +98,52 @@ impl TailwindBuilder {
         let out = try_inline(self, style, CssInlineMode::Scoped)?;
         Ok(out.as_scope())
     }
+    /// ## Inline mode
+    ///
+    ///
+    /// # Returns
+    /// **Not all instructions can be inline, if not, it will fall back to trace mode**
+    ///
+    /// - Anonymous style sheets, which can be placed inside `style` tags
+    ///
+    /// ## Example
+    /// - input
+    /// ```html
+    /// <div class="p-auto px-px pt-2 pb-2">Test</div>
+    /// ```
+    /// - output
+    /// ```html
+    /// <div class="p-auto px-px pt-2 pb-2">Test</div>
+    /// <style> {} </style>
+    /// ```
+    #[inline]
+    pub fn data_key(&mut self, style: &str) -> Result<(String, String)> {
+        let out = try_inline(self, style, CssInlineMode::DataKey)?;
+        Ok(out.as_dataset())
+    }
+    /// ## Inline mode
+    ///
+    ///
+    /// # Returns
+    /// **Not all instructions can be inline, if not, it will fall back to trace mode**
+    ///
+    /// - Anonymous style sheets, which can be placed inside `style` tags
+    ///
+    /// ## Example
+    /// - input
+    /// ```html
+    /// <div class="p-auto px-px pt-2 pb-2">Test</div>
+    /// ```
+    /// - output
+    /// ```html
+    /// <div class="p-auto px-px pt-2 pb-2">Test</div>
+    /// <style> {} </style>
+    /// ```
+    #[inline]
+    pub fn data_value(&mut self, style: &str) -> Result<(String, String)> {
+        let out = try_inline(self, style, CssInlineMode::DataValue)?;
+        Ok(out.as_dataset())
+    }
     /// Bundle all used stylesheets
     pub fn bundle(&self) -> Result<String> {
         let mut out = String::with_capacity(1024 * 10);

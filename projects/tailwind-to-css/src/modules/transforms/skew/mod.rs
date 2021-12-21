@@ -41,10 +41,10 @@ impl TailwindSkew {
             _ => (AxisXY::X, pattern),
         };
         let degree = IntegerOnly::parser("skew")(rest, arbitrary)?;
-        Ok(Self { negative: negative.into(), degree, axis })
+        Ok(Self { negative, degree, axis })
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, negative: Negative, axis: AxisXY) -> Result<Self> {
         let degree = IntegerOnly::parse_arbitrary(arbitrary)?;
-        Ok(Self { negative: negative.into(), degree, axis })
+        Ok(Self { negative, degree, axis })
     }
 }

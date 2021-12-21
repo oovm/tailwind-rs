@@ -28,19 +28,11 @@ impl CssAttributes {
         self.normal.insert(key.into(), value.into());
     }
 
-    ///
-    ///
     /// # Arguments
     ///
     /// * `items`:
     ///
     /// returns: ()
-    ///
-    /// # Examples
-    ///
-    /// ```
-    ///
-    /// ```
     pub fn extend<T>(&mut self, items: T)
     where
         T: IntoIterator<Item = (String, String)>,
@@ -48,19 +40,11 @@ impl CssAttributes {
         self.normal.extend(items)
     }
 
-    ///
-    ///
     /// # Arguments
     ///
     /// * `value`:
     ///
     /// returns: ()
-    ///
-    /// # Examples
-    ///
-    /// ```
-    ///
-    /// ```
     pub fn transform<V>(&mut self, value: V)
     where
         V: Into<String>,

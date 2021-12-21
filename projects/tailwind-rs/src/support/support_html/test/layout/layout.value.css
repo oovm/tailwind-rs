@@ -38,177 +38,177 @@
   }
 }
 
-._pFW3S_ATUX4 {
+[data-tw="pFW3S_ATUX4"] {
   aspect-ratio: 1 / 1;
 }
 
-._4GkkKvq3jHc {
+[data-tw="4GkkKvq3jHc"] {
   aspect-ratio: 16 / 9;
 }
 
-._283ev9o-wvY {
+[data-tw="283ev9o-wvY"] {
   aspect-ratio: 21 / 9;
 }
 
-._NsitdjFPjUs {
+[data-tw="NsitdjFPjUs"] {
   aspect-ratio: auto;
 }
 
-._fEzOQpNdUZ0 {
+[data-tw="fEzOQpNdUZ0"] {
   aspect-ratio: unset;
 }
 
-._OO1sd8NXzcA {
+[data-tw="OO1sd8NXzcA"] {
   aspect-ratio: var(--aspect);
 }
 
-._o3E7-X8j4Xc {
+[data-tw="o3E7-X8j4Xc"] {
   inset: 0;
 }
 
-._vJLn70MMXpc {
+[data-tw="vJLn70MMXpc"] {
   box-decoration-break: clone;
 }
 
-._XvJltMWLBpI {
+[data-tw="XvJltMWLBpI"] {
   box-decoration-break: slice;
 }
 
-._cMGfm1tqtao {
+[data-tw="cMGfm1tqtao"] {
   box-sizing: border-box;
 }
 
-._oFeptxVmqAI {
+[data-tw="oFeptxVmqAI"] {
   box-sizing: content-box;
 }
 
-._x5oTOJQ5LTs {
+[data-tw="x5oTOJQ5LTs"] {
   break-after: auto;
 }
 
-._rmv_rSUHEFY {
+[data-tw="rmv_rSUHEFY"] {
   break-before: auto;
 }
 
-._oyCBr6mktV8 {
+[data-tw="oyCBr6mktV8"] {
   break-inside: auto;
 }
 
-._befGabWzCMI {
+[data-tw="befGabWzCMI"] {
   columns: 1;
 }
 
-._w46tfqvUB_c {
+[data-tw="w46tfqvUB_c"] {
   columns: 20rem;
 }
 
-._PF5aJkE2uZg {
+[data-tw="PF5aJkE2uZg"] {
   columns: 320px;
 }
 
-._0-UGClTCcuk {
+[data-tw="0-UGClTCcuk"] {
   columns: auto;
 }
 
-._WVyhaDkUyjw {
+[data-tw="WVyhaDkUyjw"] {
   columns: auto 1;
 }
 
-._-zYQUKtVDwE {
+[data-tw="-zYQUKtVDwE"] {
   display: block;
 }
 
-._kxEeuTIW93o {
+[data-tw="kxEeuTIW93o"] {
   display: flex;
 }
 
-._HQV_1j8A-vM {
+[data-tw="HQV_1j8A-vM"] {
   display: inline;
 }
 
-._-hjYETsveMk {
+[data-tw="-hjYETsveMk"] {
   display: inline-block;
 }
 
-._Xzv_HmJxODY {
+[data-tw="Xzv_HmJxODY"] {
   float: none;
 }
 
-._4CXSWSatedE {
+[data-tw="4CXSWSatedE"] {
   isolation: auto;
 }
 
-._coLFmV-4yZE {
+[data-tw="coLFmV-4yZE"] {
   isolation: isolate;
 }
 
-._BieqLwbQKB4 {
+[data-tw="BieqLwbQKB4"] {
   object-fit: none;
 }
 
-._Og2tflIljZ0 {
+[data-tw="Og2tflIljZ0"] {
   object-position: 50% 0%;
 }
 
-._tmniRw6nPSQ {
+[data-tw="tmniRw6nPSQ"] {
   overflow: auto;
 }
 
-._35utDVILi1Y {
+[data-tw="35utDVILi1Y"] {
   overflow-x: auto;
 }
 
-._SsIMbiIxS8o {
+[data-tw="SsIMbiIxS8o"] {
   overflow-y: auto;
 }
 
-._parEZkGrrRI {
+[data-tw="parEZkGrrRI"] {
   overscroll-behavior: auto;
 }
 
-._LdNT9vWO1yQ {
+[data-tw="LdNT9vWO1yQ"] {
   overscroll-behavior-x: auto;
 }
 
-._HolXeZw1qRE {
+[data-tw="HolXeZw1qRE"] {
   position: absolute;
 }
 
-._gC3akU4H8GI {
+[data-tw="gC3akU4H8GI"] {
   position: fixed;
 }
 
-._-Yq1iOzyzts {
+[data-tw="-Yq1iOzyzts"] {
   position: relative;
 }
 
-._2D66CfoJOGY {
+[data-tw="2D66CfoJOGY"] {
   position: static;
 }
 
-._IMSH6kFmA9M {
+[data-tw="IMSH6kFmA9M"] {
   position: sticky;
 }
 
-._jNLnVaxwdQA {
+[data-tw="jNLnVaxwdQA"] {
   visibility: hidden;
 }
 
-._Sbdjb5XLP2s {
+[data-tw="Sbdjb5XLP2s"] {
   visibility: visible;
 }
 
-._6WjFtMealD8 {
+[data-tw="6WjFtMealD8"] {
   z-index: 2333;
 }
 
-._7OyC0Ctw678 {
+[data-tw="7OyC0Ctw678"] {
   z-index: auto;
 }
 
-._3yX-RkETTQM {
+[data-tw="3yX-RkETTQM"] {
   z-index: var(--depth);
 }
 
-._dD35TuTHiio {
+[data-tw="dD35TuTHiio"] {
 }
