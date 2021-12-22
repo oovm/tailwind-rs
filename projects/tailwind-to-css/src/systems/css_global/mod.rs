@@ -21,13 +21,10 @@ mod instance;
 mod mode;
 
 fn normalize_class_name(f: &mut (dyn Write), name: &str) -> Result<()> {
-    // if name.starts_with(|c: char| c.is_numeric()) {
-    //     write!(f, "_")?
-    // }
     for c in name.chars() {
         match c {
             ' ' => write!(f, "_"),
-            r @ ('.' | '-' | '_') => write!(f, "{}", r),
+            r @ ('-' | '_') => write!(f, "{}", r),
             a if a.is_alphanumeric() => write!(f, "{}", a),
             _ => write!(f, "\\{}", c),
         }?

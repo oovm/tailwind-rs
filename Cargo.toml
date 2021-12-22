@@ -1,6 +1,7 @@
 [workspace]
 members = ["projects/*"]
 default-members = [
+    "projects/tailwind-to-css",
     "projects/tailwind-cli",
     "projects/tailwind-rs",
 ]

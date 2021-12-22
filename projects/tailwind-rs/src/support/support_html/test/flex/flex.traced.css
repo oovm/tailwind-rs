@@ -38,28 +38,44 @@
   flex-basis: 0;
 }
 
-.basis-0\/12 {
+.basis-0\/1 {
   flex-basis: 0%;
 }
 
-.basis-12\/12 {
+.basis-1\/1 {
   flex-basis: 100%;
 }
 
-.basis-2 {
-  flex-basis: .5rem;
+.basis-1\/2 {
+  flex-basis: 50%;
 }
 
-.basis-6\/12 {
-  flex-basis: 50%;
+.basis-2\.5 {
+  flex-basis: .625rem;
+}
+
+.basis-\[1px\] {
+  flex-basis: 1px;
+}
+
+.basis-\[calc\(20\%-30px\)\] {
+  flex-basis: calc(20%-30px);
 }
 
 .basis-auto {
   flex-basis: auto;
 }
 
-.basis-full {
-  flex-basis: 100%;
+.basis-fit {
+  flex-basis: fit-content;
+}
+
+.basis-max {
+  flex-basis: max-content;
+}
+
+.basis-min {
+  flex-basis: min-content;
 }
 
 .col-span-auto {

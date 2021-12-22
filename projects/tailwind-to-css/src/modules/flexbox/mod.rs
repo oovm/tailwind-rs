@@ -19,8 +19,8 @@ pub use self::{
     zelf::TailwindSelf,
 };
 use crate::{
-    css_attributes, syntax_error, CssAttributes, CssBehavior, KeywordOnly, LengthUnit, Negative, Result, TailwindArbitrary,
-    TailwindBuilder, TailwindInstance,
+    css_attributes, syntax_error, CssAttributes, KeywordOnly, LengthUnit, Negative, Result, TailwindArbitrary, TailwindBuilder,
+    TailwindInstance,
 };
 use std::{
     collections::BTreeSet,

@@ -1,108 +1,106 @@
 use super::*;
 
-#[derive(Debug, Copy, Clone)]
-enum BasisSize {
-    Auto,
-    Fill,
-    Max,
-    Min,
-    Fit,
-    Content,
-    Full,
-    Unit(usize),
+#[derive(Debug, Clone)]
+enum Basis {
+    Number(f32),
     Length(LengthUnit),
-    Global(CssBehavior),
+    Standard(String),
+    Arbitrary(String),
 }
 
 #[doc=include_str!("readme.md")]
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Clone)]
 pub struct TailwindBasis {
-    kind: BasisSize,
-}
-
-impl Display for BasisSize {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Auto => write!(f, "auto"),
-            Self::Full => write!(f, "full"),
-            Self::Fill => write!(f, "fill"),
-            Self::Max => write!(f, "max"),
-            Self::Min => write!(f, "min"),
-            Self::Fit => write!(f, "fit"),
-            Self::Content => write!(f, "content"),
-            Self::Unit(n) => write!(f, "{}", n),
-            Self::Length(n) if n.is_fraction() => write!(f, "{}", n.get_class()),
-            Self::Length(n) => write!(f, "{}", n.get_class_arbitrary()),
-            Self::Global(g) => write!(f, "{}", g),
-        }
-    }
+    kind: Basis,
 }
 
 impl Display for TailwindBasis {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "basis-{}", self.kind)
-    }
-}
-
-impl BasisSize {
-    pub fn get_properties(&self) -> String {
-        match self {
-            BasisSize::Auto => "auto".to_string(),
-            BasisSize::Fill => "fill".to_string(),
-            BasisSize::Max => "max-content".to_string(),
-            BasisSize::Min => "min-content".to_string(),
-            BasisSize::Fit => "fit-content".to_string(),
-            BasisSize::Content => "content".to_string(),
-            BasisSize::Full => "100%".to_string(),
-            BasisSize::Unit(n) => format!("{}rem", *n as f32 / 4.0),
-            BasisSize::Length(n) => n.get_properties(),
-            BasisSize::Global(g) => g.to_string(),
+        write!(f, "basis-")?;
+        match &self.kind {
+            Basis::Number(n) => write!(f, "{}", n),
+            Basis::Length(n) if n.is_fraction() => write!(f, "{}", n.get_class()),
+            Basis::Length(n) => write!(f, "{}", n.get_class_arbitrary()),
+            Basis::Standard(s) => match s.as_str() {
+                "fit-content" => write!(f, "fit"),
+                "min-content" => write!(f, "min"),
+                "max-content" => write!(f, "max"),
+                _ => write!(f, "{}", s),
+            },
+            Basis::Arbitrary(s) => write!(f, "[{}]", s),
         }
     }
 }
 
 impl TailwindInstance for TailwindBasis {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
+        let basis = match &self.kind {
+            Basis::Number(n) => format!("{}rem", *n as f32 / 4.0),
+            Basis::Length(n) => n.get_properties(),
+            Basis::Standard(s) => s.to_string(),
+            Basis::Arbitrary(s) => s.to_string(),
+        };
         css_attributes! {
-            "flex-basis" => self.kind.get_properties()
+            "flex-basis" => basis
         }
     }
 }
 
 impl TailwindBasis {
-    /// <https://tailwindcss.com/docs/basis>
+    /// <https://tailwindcss.com/docs/flex-basis>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        match pattern {
-            ["auto"] => Ok(Self { kind: BasisSize::Auto }),
-            ["fill"] => Ok(Self { kind: BasisSize::Fill }),
-            ["min"] => Ok(Self { kind: BasisSize::Min }),
-            ["max"] => Ok(Self { kind: BasisSize::Max }),
-            ["fit"] => Ok(Self { kind: BasisSize::Fit }),
-            ["content"] => Ok(Self { kind: BasisSize::Content }),
-            ["inherit"] => Ok(Self { kind: BasisSize::Global(CssBehavior::Inherit) }),
-            ["initial"] => Ok(Self { kind: BasisSize::Global(CssBehavior::Initial) }),
-            ["unset"] => Ok(Self { kind: BasisSize::Global(CssBehavior::Unset) }),
-            ["full"] => Ok(Self { kind: BasisSize::Full }),
-            [n] => {
-                let a = TailwindArbitrary::from(*n);
-                Self::maybe_frac(&a).or_else(|_| Self::maybe_unit(&a))
-            },
-            [] => Self::parse_arbitrary(arbitrary),
-            _ => syntax_error!("Unknown basis instructions"),
-        }
+        Ok(Self { kind: Basis::parse(pattern, arbitrary)? })
     }
 
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Self::maybe_length(arbitrary).or_else(|_| Self::maybe_frac(arbitrary)).or_else(|_| Self::maybe_unit(arbitrary))
+        Ok(Self { kind: Basis::parse_arbitrary(arbitrary) })
     }
-    fn maybe_unit(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: BasisSize::Unit(arbitrary.as_integer()?) })
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/flex-basis#syntax
+    pub fn check_valid(mode: &str) -> bool {
+        Basis::check_valid(mode)
+    }
+}
+
+impl Basis {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        let out = match pattern {
+            ["px"] => Self::Length(LengthUnit::px(1.0)),
+            ["full"] => Self::Length(LengthUnit::Fraction(1, 1)),
+            ["fit" | "min" | "max", "content"] => Self::Standard(pattern.join("-")),
+            [s @ ("fit" | "min" | "max")] => Self::Standard(format!("{}-content", s)),
+            [s] if Self::check_valid(s) => Self::Standard(s.to_string()),
+            [n] => {
+                let a = TailwindArbitrary::from(*n);
+                Self::maybe_length(&a).or_else(|_| Self::maybe_float(&a))?
+            },
+            [] => Self::parse_arbitrary(arbitrary),
+            _ => return syntax_error!("Unknown basis instructions"),
+        };
+        Ok(out)
+    }
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Self {
+        debug_assert!(arbitrary.is_some());
+        Self::Arbitrary(arbitrary.to_string())
+    }
+    fn maybe_float(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self::Number(arbitrary.as_float()?))
     }
     fn maybe_length(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: BasisSize::Length(arbitrary.as_length()?) })
+        Ok(Self::Length(arbitrary.as_length()?))
     }
-    fn maybe_frac(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let (a, b) = arbitrary.as_fraction()?;
-        Ok(Self { kind: BasisSize::Length(LengthUnit::Fraction(a, b)) })
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec![
+            "auto",
+            "content",
+            "fill",
+            "fit-content",
+            "inherit",
+            "initial",
+            "max-content",
+            "min-content",
+            "revert",
+            "unset",
+        ]);
+        set.contains(mode)
     }
 }

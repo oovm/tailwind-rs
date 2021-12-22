@@ -30,7 +30,7 @@ impl TailwindArbitrary {
     }
     #[inline]
     pub fn as_length(&self) -> Result<LengthUnit> {
-        LengthUnit::parse_length(&self.inner)
+        LengthUnit::parse_length(&self.inner).or_else(|_| LengthUnit::parse_faction(&self.inner))
     }
     #[inline]
     pub fn as_color(&self) -> Result<Srgb> {

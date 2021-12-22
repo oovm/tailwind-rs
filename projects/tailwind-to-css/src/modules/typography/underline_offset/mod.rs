@@ -25,7 +25,7 @@ impl Display for UnderlineOffset {
 
 impl Display for TailwindUnderlineOffset {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "underline-offset-{}", self)
+        write!(f, "underline-offset-{}", self.kind)
     }
 }
 
