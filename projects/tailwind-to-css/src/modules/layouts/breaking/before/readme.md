@@ -1,18 +1,5 @@
 Utilities for controlling how a column or page should break an element.
 
-## Examples
-
-```rust
-use tailwind_css::TailwindBuilder;
-
-#[test]
-fn build_break() {
-    let builder = TailwindBuilder::default();
-    let out = builder.inline("break-before-auto break-inside-auto break-after-auto");
-    assert_eq!(out, "break-after:auto;break-before:auto;break-inside:auto;");
-}
-```
-
 ## Reference
 
 - [break-before](https://tailwindcss.com/docs/break-before)

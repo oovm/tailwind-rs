@@ -3,8 +3,6 @@ use super::*;
 pub(crate) mod color;
 pub(crate) mod line;
 pub(crate) mod style;
-#[cfg(test)]
-mod test;
 pub(crate) mod thickness;
 
 #[derive(Debug, Clone)]

@@ -16,8 +16,6 @@ mod hue_rotate;
 mod invert;
 mod saturate;
 mod sepia;
-#[cfg(test)]
-mod test;
 
 #[derive(Clone, Debug)]
 struct Backdrop(bool);

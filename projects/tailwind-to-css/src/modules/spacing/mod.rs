@@ -20,5 +20,3 @@ mod padding_scroll;
 mod size;
 mod space;
 mod space_reverse;
-#[cfg(test)]
-mod test;

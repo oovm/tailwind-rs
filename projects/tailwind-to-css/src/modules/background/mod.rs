@@ -27,5 +27,3 @@ mod origin;
 mod position;
 mod repeat;
 mod size;
-#[cfg(test)]
-mod test;

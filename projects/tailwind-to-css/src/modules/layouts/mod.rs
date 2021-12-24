@@ -39,7 +39,5 @@ mod overflow;
 mod overscroll;
 mod placement;
 mod position;
-#[cfg(test)]
-mod test;
 mod visible;
 mod z_index;

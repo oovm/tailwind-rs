@@ -1,8 +1,6 @@
 pub(crate) mod place_content;
 pub(crate) mod place_item;
 pub(crate) mod place_self;
-#[cfg(test)]
-mod test;
 
 use super::*;
 

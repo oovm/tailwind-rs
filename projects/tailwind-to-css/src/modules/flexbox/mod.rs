@@ -40,6 +40,4 @@ mod order;
 mod place;
 mod shrink;
 mod span;
-#[cfg(test)]
-mod test;
 mod zelf;

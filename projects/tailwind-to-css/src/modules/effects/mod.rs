@@ -11,5 +11,3 @@ mod box_shadow;
 mod mix_blend;
 mod mix_blend_bg;
 mod opacity;
-#[cfg(test)]
-mod test;

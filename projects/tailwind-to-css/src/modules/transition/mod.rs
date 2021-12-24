@@ -2,8 +2,6 @@ mod animate;
 mod delay;
 mod duration;
 mod ease;
-#[cfg(test)]
-mod test;
 mod transit;
 
 pub use self::{

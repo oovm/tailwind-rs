@@ -9,5 +9,3 @@ pub use self::{border_collapse::TailwindBorderCollapse, table_layout::TailwindTa
 
 mod border_collapse;
 mod table_layout;
-#[cfg(test)]
-mod test;

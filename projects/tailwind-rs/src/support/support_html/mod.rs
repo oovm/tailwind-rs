@@ -1,12 +1,45 @@
+use crate::{config::HtmlConfig, GlobalConfig, Result};
 use log::error;
+use tailwind_css::TailwindBuilder;
 use tl::{parse, Bytes, Node, ParserOptions};
 
-use tailwind_css::TailwindBuilder;
-
-use crate::{config::HtmlConfig, Result};
-
-#[cfg(test)]
-mod test;
+impl GlobalConfig {
+    pub fn compile_html_traced(&mut self, input: &str) -> Result<(String, String)> {
+        let tw = &mut self.tailwind;
+        let html = HtmlConfig::trace_all_class(input, tw)?;
+        let bundle = tw.bundle()?;
+        let css = self.css.compile(&bundle)?;
+        Ok((html, css))
+    }
+    pub fn compile_html_inline(&mut self, input: &str) -> Result<(String, String)> {
+        let tw = &mut self.tailwind;
+        let html = HtmlConfig::inline_all_class(input, tw)?;
+        let bundle = tw.bundle()?;
+        let css = self.css.compile(&bundle)?;
+        Ok((html, css))
+    }
+    pub fn compile_html_scoped(&mut self, input: &str) -> Result<(String, String)> {
+        let tw = &mut self.tailwind;
+        let html = HtmlConfig::scope_all_class(input, tw)?;
+        let bundle = tw.bundle()?;
+        let css = self.css.compile(&bundle)?;
+        Ok((html, css))
+    }
+    pub fn compile_html_keyed(&mut self, input: &str) -> Result<(String, String)> {
+        let tw = &mut self.tailwind;
+        let html = HtmlConfig::keyed_all_class(input, tw)?;
+        let bundle = tw.bundle()?;
+        let css = self.css.compile(&bundle)?;
+        Ok((html, css))
+    }
+    pub fn compile_html_value(&mut self, input: &str) -> Result<(String, String)> {
+        let tw = &mut self.tailwind;
+        let html = HtmlConfig::value_all_class(input, tw)?;
+        let bundle = tw.bundle()?;
+        let css = self.css.compile(&bundle)?;
+        Ok((html, css))
+    }
+}
 
 impl HtmlConfig {
     pub fn trace_all_class(input: &str, tw: &mut TailwindBuilder) -> Result<String> {

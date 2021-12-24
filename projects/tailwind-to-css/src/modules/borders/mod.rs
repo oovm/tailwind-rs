@@ -31,5 +31,3 @@ mod border;
 mod divide;
 mod outline;
 mod ring;
-#[cfg(test)]
-mod test;
