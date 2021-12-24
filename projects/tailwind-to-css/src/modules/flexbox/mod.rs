@@ -24,7 +24,7 @@ use crate::{
 };
 use std::{
     collections::BTreeSet,
-    fmt::{Display, Formatter, Write},
+    fmt::{Display, Formatter},
 };
 use tailwind_ast::parse_integer;
 

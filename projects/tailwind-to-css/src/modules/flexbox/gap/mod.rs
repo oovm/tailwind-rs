@@ -1,18 +1,19 @@
 use super::*;
+use crate::AxisXY;
 
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Copy, Clone)]
 pub struct TailwindGap {
     size: LengthUnit,
-    axis: Option<bool>,
+    axis: AxisXY,
 }
 
 impl Display for TailwindGap {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self.axis {
-            None => write!(f, "gap-[{}]", self.size.get_class_arbitrary()),
-            Some(true) => write!(f, "gap-x-[{}]", self.size.get_class_arbitrary()),
-            Some(false) => write!(f, "gap-y-[{}]", self.size.get_class_arbitrary()),
+            AxisXY::N => write!(f, "gap-{}", self.size.get_class_arbitrary()),
+            AxisXY::X => write!(f, "gap-x-{}", self.size.get_class_arbitrary()),
+            AxisXY::Y => write!(f, "gap-y-{}", self.size.get_class_arbitrary()),
         }
     }
 }
@@ -20,9 +21,9 @@ impl Display for TailwindGap {
 impl TailwindInstance for TailwindGap {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let class = match self.axis {
-            None => "gap",
-            Some(true) => "column-gap",
-            Some(false) => "row-gap",
+            AxisXY::N => "gap",
+            AxisXY::X => "column-gap",
+            AxisXY::Y => "row-gap",
         };
         css_attributes! {
             class => self.size.get_properties()
@@ -33,9 +34,9 @@ impl TailwindInstance for TailwindGap {
 impl TailwindGap {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         match pattern {
-            ["x", rest @ ..] => Ok(Self { size: parse_size(rest, arbitrary)?, axis: Some(true) }),
-            ["y", rest @ ..] => Ok(Self { size: parse_size(rest, arbitrary)?, axis: Some(false) }),
-            _ => Ok(Self { size: parse_size(pattern, arbitrary)?, axis: None }),
+            ["x", rest @ ..] => Ok(Self { size: parse_size(rest, arbitrary)?, axis: AxisXY::X }),
+            ["y", rest @ ..] => Ok(Self { size: parse_size(rest, arbitrary)?, axis: AxisXY::Y }),
+            _ => Ok(Self { size: parse_size(pattern, arbitrary)?, axis: AxisXY::N }),
         }
     }
 }
