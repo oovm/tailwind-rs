@@ -15,7 +15,7 @@ impl Display for IntegerOnly {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::Number(s) => write!(f, "{}", s),
-            Self::Arbitrary(s) => write!(f, "[{}]", s),
+            Self::Arbitrary(s) => s.write(f),
         }
     }
 }

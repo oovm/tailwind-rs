@@ -191,7 +191,7 @@ impl TailwindInstruction {
             ["sr", "only"] => TailwindScreenReader::new(true).boxed(),
             ["not", "sr", "only"] => TailwindScreenReader::new(false).boxed(),
             // Form System Extension
-            _ => return syntax_error!("Unknown instructions: {} + [{}]", element.join("-"), arbitrary),
+            _ => return syntax_error!("Unknown instructions: {} + {}", element.join("-"), arbitrary.get_class()),
         };
         Ok(instance)
     }

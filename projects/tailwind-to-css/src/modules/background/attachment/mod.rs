@@ -3,7 +3,7 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindBackgroundAttachment {
-    kind: KeywordOnly,
+    kind: StandardValue,
 }
 
 crate::macros::sealed::keyword_instance!(TailwindBackgroundAttachment => "background-attachment");
@@ -22,11 +22,11 @@ impl Display for TailwindBackgroundAttachment {
 impl TailwindBackgroundAttachment {
     /// <https://tailwindcss.com/docs/background-attachment>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parser("bg-attach", &Self::check_valid)(pattern, arbitrary)? })
+        Ok(Self { kind: StandardValue::parser("bg-attach", &Self::check_valid)(pattern, arbitrary)? })
     }
     /// <https://tailwindcss.com/docs/background-attachment>
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
+        StandardValue::parse_arbitrary(arbitrary).map(|kind| Self { kind })
     }
     /// <https://developer.mozilla.org/en-US/docs/Web/CSS/background-attachment#syntax>
     pub fn check_valid(mode: &str) -> bool {

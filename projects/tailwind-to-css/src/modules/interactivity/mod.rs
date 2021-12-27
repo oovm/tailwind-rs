@@ -12,7 +12,7 @@ pub use self::{
     will_change::TailwindWillChange,
 };
 use crate::{
-    css_attributes, CssAttributes, KeywordOnly, Negative, Result, TailwindArbitrary, TailwindBuilder, TailwindColor,
+    css_attributes, CssAttributes, Negative, Result, StandardValue, TailwindArbitrary, TailwindBuilder, TailwindColor,
     TailwindInstance, TailwindScrollMargin, TailwindScrollPadding,
 };
 use std::{

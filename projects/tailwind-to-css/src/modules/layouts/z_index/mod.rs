@@ -4,7 +4,7 @@ use super::*;
 enum ZIndex {
     Unit(i32),
     Standard(String),
-    Arbitrary(String),
+    Arbitrary(TailwindArbitrary),
 }
 
 #[doc=include_str!("readme.md")]
@@ -24,7 +24,7 @@ impl Display for TailwindZIndex {
                 }
             },
             ZIndex::Standard(s) => write!(f, "z-{}", s),
-            ZIndex::Arbitrary(s) => write!(f, "z-[{}]", s),
+            ZIndex::Arbitrary(s) => s.write_class(f, "z-"),
         }
     }
 }
@@ -34,7 +34,7 @@ impl TailwindInstance for TailwindZIndex {
         let index = match &self.kind {
             ZIndex::Unit(n) => n.to_string(),
             ZIndex::Standard(s) => s.to_string(),
-            ZIndex::Arbitrary(s) => s.to_string(),
+            ZIndex::Arbitrary(s) => s.get_properties(),
         };
         css_attributes! {
             "z-index" => index
@@ -59,7 +59,7 @@ impl TailwindZIndex {
     }
     /// dispatch to [z-index](https://developer.mozilla.org/en-US/docs/Web/CSS/z-index)
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: ZIndex::Arbitrary(arbitrary.to_string()) })
+        Ok(Self { kind: ZIndex::Arbitrary(arbitrary.to_owned()) })
     }
     /// <https://developer.mozilla.org/en-US/docs/Web/CSS/z-index#syntax>
     pub fn check_valid(mode: &str) -> bool {

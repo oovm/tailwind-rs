@@ -1,3 +1,5 @@
+use crate::StandardValue;
+
 use super::*;
 
 pub(crate) mod border_color;
@@ -8,7 +10,7 @@ pub(crate) mod border_width;
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindBorder {
-    arbitrary: String,
+    kind: StandardValue,
 }
 
 impl TailwindBorder {
@@ -26,7 +28,7 @@ impl TailwindBorder {
             ["transparent"] => color(TailwindColor::Transparent),
             ["black"] => color(TailwindColor::Black),
             ["white"] => color(TailwindColor::White),
-            [] => TailwindBorder { arbitrary: arbitrary.to_string() }.boxed(),
+            [] => TailwindBorder { kind: StandardValue::parse_arbitrary(arbitrary)? }.boxed(),
             _ => return syntax_error!("Unknown border instructions: {}", str.join("-")),
         };
         Ok(out)
@@ -35,7 +37,7 @@ impl TailwindBorder {
 
 impl Display for TailwindBorder {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "border-[{}]", self.arbitrary)
+        write!(f, "border-[{}]", self.kind)
     }
 }
 

@@ -11,8 +11,7 @@ enum PlacementSize {
     Auto,
     Full,
     Length(LengthUnit),
-    Global(CssBehavior),
-    Arbitrary(String),
+    Standard(StandardValue),
 }
 
 impl Display for PlacementSize {
@@ -22,8 +21,7 @@ impl Display for PlacementSize {
             Self::Full => write!(f, "full"),
             Self::Length(n) if n.is_fraction() => write!(f, "{}", n.get_class()),
             Self::Length(n) => write!(f, "{}", n.get_class_arbitrary()),
-            Self::Global(g) => write!(f, "{}", g),
-            Self::Arbitrary(a) => write!(f, "[{}]", a),
+            Self::Standard(s) => write!(f, "{}", s),
         }
     }
 }
@@ -35,10 +33,6 @@ impl PlacementSize {
             ["px"] => Self::Length(LengthUnit::px(1.0)),
             ["full"] => Self::Full,
             ["auto"] => Self::Auto,
-            ["inherit"] => Self::Global(CssBehavior::Inherit),
-            ["initial"] => Self::Global(CssBehavior::Initial),
-            ["revert"] => Self::Global(CssBehavior::Revert),
-            ["unset"] => Self::Global(CssBehavior::Unset),
             [n] => {
                 let a = TailwindArbitrary::from(*n);
                 Self::maybe_no_unit(&a).or_else(|_| Self::maybe_length(&a))?
@@ -52,13 +46,11 @@ impl PlacementSize {
             Self::Auto => "auto".to_string(),
             Self::Full => "full".to_string(),
             Self::Length(x) => x.get_properties(),
-            Self::Global(x) => x.to_string(),
-            Self::Arbitrary(x) => x.to_string(),
+            Self::Standard(x) => x.get_properties().to_string(),
         }
     }
     fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_some());
-        Ok(Self::Arbitrary(arbitrary.to_string()))
+        Ok(Self::Standard(StandardValue::parse_arbitrary(arbitrary)?))
     }
     #[inline]
     fn maybe_length(arbitrary: &TailwindArbitrary) -> Result<Self> {

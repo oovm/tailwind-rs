@@ -9,7 +9,7 @@ pub struct TailwindBackgroundImage {
 #[derive(Clone, Debug)]
 enum BackgroundImage {
     Standard(String),
-    Arbitrary(String),
+    Arbitrary(TailwindArbitrary),
     // From(AnchorPoint),
     // To(AnchorPoint),
 }
@@ -22,7 +22,7 @@ impl Display for TailwindBackgroundImage {
                 "none" => write!(f, "none"),
                 _ => write!(f, "image-{}", s),
             },
-            BackgroundImage::Arbitrary(s) => write!(f, "image-[{}]", s),
+            BackgroundImage::Arbitrary(s) => write!(f, "image-{}", s.get_class()),
         }
     }
 }
@@ -31,7 +31,7 @@ impl TailwindInstance for TailwindBackgroundImage {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let clip = match &self.kind {
             BackgroundImage::Standard(s) => s.to_string(),
-            BackgroundImage::Arbitrary(s) => s.to_string(),
+            BackgroundImage::Arbitrary(s) => s.get_properties(),
         };
         css_attributes! {
             "background-image" => clip
@@ -60,8 +60,7 @@ impl BackgroundImage {
         Ok(out)
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_some());
-        Ok(Self::Arbitrary(arbitrary.to_string()))
+        Ok(Self::Arbitrary(TailwindArbitrary::new(arbitrary)?))
     }
     /// <https://developer.mozilla.org/en-US/docs/Web/CSS/background-origin#syntax>
     pub fn check_valid(mode: &str) -> bool {

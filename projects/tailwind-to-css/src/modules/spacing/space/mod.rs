@@ -49,15 +49,19 @@ impl TailwindSpace {
             [] => Ok(Self::parse_arbitrary(arbitrary, negative, axis)?.boxed()),
             ["reverse"] => Ok(TailwindSpaceReverse::from(axis).boxed()),
             _ => {
-                let size = SpacingSize::parse(pattern, arbitrary)?;
+                let size = SpacingSize::parse(pattern, arbitrary, &Self::check_valid)?;
                 Ok(Self { axis, negative, size }.boxed())
             },
         }
     }
     /// https://tailwindcss.com/docs/margin#arbitrary-values
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, negative: Negative, axis: bool) -> Result<Self> {
-        debug_assert!(arbitrary.is_some());
         let size = SpacingSize::parse_arbitrary(arbitrary)?;
         Ok(Self { axis, negative, size })
+    }
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/margin#syntax
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec!["auto", "inherit", "initial", "revert", "unset"]);
+        set.contains(mode)
     }
 }

@@ -3,7 +3,7 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindDecorationLine {
-    kind: KeywordOnly,
+    kind: StandardValue,
 }
 
 crate::macros::sealed::keyword_instance!(TailwindDecorationLine => "text-decoration-line");
@@ -11,12 +11,12 @@ crate::macros::sealed::keyword_instance!(TailwindDecorationLine => "text-decorat
 impl Display for TailwindDecorationLine {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match &self.kind {
-            KeywordOnly::Standard(s) => match s.as_str() {
+            StandardValue::Keyword(s) => match s.as_str() {
                 "underline" | "overline" | "line-through" => write!(f, "{}", s),
                 "none" => write!(f, "no-underline"),
                 _ => write!(f, "decoration-line-{}", s),
             },
-            KeywordOnly::Arbitrary(s) => write!(f, "decoration-line-[{}]", s),
+            StandardValue::Arbitrary(s) => write!(f, "decoration-line-{}", s.get_class()),
         }
     }
 }
@@ -29,14 +29,13 @@ impl TailwindDecorationLine {
             _ => {
                 let s = pattern.join("-");
                 debug_assert!(Self::check_valid(&s));
-                Ok(Self { kind: KeywordOnly::Standard(s) })
+                Ok(Self { kind: StandardValue::Keyword(s) })
             },
         }
     }
     /// https://tailwindcss.com/docs/cursor#arbitrary-values
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_some());
-        Ok(Self { kind: KeywordOnly::Arbitrary(arbitrary.to_string()) })
+        Ok(Self { kind: StandardValue::Arbitrary(arbitrary.to_owned()) })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/cursor#syntax
     pub fn check_valid(mode: &str) -> bool {

@@ -5,7 +5,7 @@ macro_rules! keyword_instance {
             T: Into<String>,
         {
             fn from(input: T) -> Self {
-                Self { kind: KeywordOnly::from(input) }
+                Self { kind: StandardValue::from(input.into()) }
             }
         }
         impl TailwindInstance for $t {

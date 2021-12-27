@@ -13,7 +13,7 @@ enum TranslateSize {
     Unit(f32),
     Length(LengthUnit),
     Standard(String),
-    Arbitrary(String),
+    Arbitrary(TailwindArbitrary),
 }
 
 impl Display for TranslateSize {
@@ -22,8 +22,8 @@ impl Display for TranslateSize {
             Self::Unit(n) => write!(f, "{}", n),
             Self::Length(n) if n.is_fraction() => write!(f, "{}", n.get_class()),
             Self::Length(n) => write!(f, "{}", n.get_class_arbitrary()),
-            Self::Standard(g) => write!(f, "{}", g),
-            Self::Arbitrary(g) => write!(f, "[{}]", g),
+            Self::Standard(s) => write!(f, "{}", s),
+            Self::Arbitrary(s) => s.write(f),
         }
     }
 }
@@ -81,8 +81,7 @@ impl TranslateSize {
         }
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_some());
-        Ok(Self::Arbitrary(arbitrary.to_string()))
+        Ok(Self::Arbitrary(TailwindArbitrary::new(arbitrary)?))
     }
     fn maybe_no_unit(arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self::Unit(arbitrary.as_float()?))

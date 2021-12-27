@@ -10,7 +10,7 @@ pub use self::{
     size::TailwindBackgroundSize,
 };
 use crate::{
-    css_attributes, syntax_error, AnchorPoint, CssAttributes, KeywordOnly, Result, TailwindArbitrary, TailwindBuilder,
+    css_attributes, syntax_error, AnchorPoint, CssAttributes, Result, StandardValue, TailwindArbitrary, TailwindBuilder,
     TailwindColor, TailwindInstance,
 };
 use std::{

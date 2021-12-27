@@ -7,7 +7,7 @@ pub(super) enum Animation {
     Ping,
     Pulse,
     Bounce,
-    Arbitrary(String),
+    Arbitrary(TailwindArbitrary),
 }
 
 impl Display for Animation {
@@ -18,7 +18,7 @@ impl Display for Animation {
             Self::Ping => write!(f, "ping"),
             Self::Pulse => write!(f, "pulse"),
             Self::Bounce => write!(f, "bounce"),
-            Self::Arbitrary(s) => write!(f, "{}", s),
+            Self::Arbitrary(s) => s.write(f),
         }
     }
 }
@@ -37,7 +37,6 @@ impl Animation {
         Ok(kind)
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_some());
-        Ok(Self::Arbitrary(arbitrary.to_string()))
+        Ok(Self::Arbitrary(TailwindArbitrary::new(arbitrary)?))
     }
 }

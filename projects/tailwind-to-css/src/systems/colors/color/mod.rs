@@ -7,7 +7,7 @@ pub enum TailwindColor {
     Current,
     RGB(Srgb),
     Themed(String, usize),
-    Arbitrary(String),
+    Arbitrary(TailwindArbitrary),
     Global(CssBehavior),
 }
 
@@ -35,7 +35,7 @@ impl Display for TailwindColor {
             Self::Current => write!(f, "current"),
             Self::RGB(c) => write!(f, "[{}]", ColorWrapper(*c)),
             Self::Themed(name, weight) => write!(f, "{}-{}", name, weight),
-            Self::Arbitrary(a) => write!(f, "[{}]", a),
+            Self::Arbitrary(a) => a.write(f),
             Self::Global(g) => write!(f, "{}", g),
         }
     }
@@ -99,7 +99,7 @@ impl TailwindColor {
             Self::Current => "currentColor".to_string(),
             Self::RGB(c) => format!("#{:02X?}", &[c.red, c.green, c.blue, c.alpha]),
             Self::Global(g) => format!("{}", g),
-            Self::Arbitrary(a) => a.to_string(),
+            Self::Arbitrary(a) => a.get_properties(),
             Self::Themed(name, weight) => match ctx.palettes.get_color(name, *weight) {
                 Ok(c) => ColorWrapper(c).to_string(),
                 Err(_) => "currentColor".to_string(),

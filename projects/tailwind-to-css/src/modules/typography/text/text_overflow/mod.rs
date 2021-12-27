@@ -10,7 +10,7 @@ pub struct TailwindTextOverflow {
 enum TextOverflow {
     Truncate,
     Standard(String),
-    Arbitrary(String),
+    Arbitrary(TailwindArbitrary),
 }
 
 impl Display for TailwindTextOverflow {
@@ -18,7 +18,7 @@ impl Display for TailwindTextOverflow {
         match &self.kind {
             TextOverflow::Truncate => write!(f, "truncate"),
             TextOverflow::Standard(s) => write!(f, "font-overflow-{}", s),
-            TextOverflow::Arbitrary(s) => write!(f, "font-overflow-[{}]", s),
+            TextOverflow::Arbitrary(s) => write!(f, "font-overflow-{}", s.get_class()),
         }
     }
 }
@@ -33,7 +33,7 @@ impl TailwindInstance for TailwindTextOverflow {
                     "white-space" => "nowrap",
                 },
             TextOverflow::Standard(s) => s.to_string(),
-            TextOverflow::Arbitrary(s) => s.to_string(),
+            TextOverflow::Arbitrary(s) => s.get_properties(),
         };
         css_attributes! {
             "text-overflow" => align
@@ -47,10 +47,7 @@ impl TailwindTextOverflow {
     /// https://tailwindcss.com/docs/text-overflow
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         let kind = match pattern {
-            [] => {
-                debug_assert!(arbitrary.is_some());
-                TextOverflow::Arbitrary(arbitrary.to_string())
-            },
+            [] => TextOverflow::Arbitrary(arbitrary.to_owned()),
             _ => {
                 let input = pattern.join("-");
                 debug_assert!(Self::check_valid(&input));

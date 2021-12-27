@@ -9,7 +9,7 @@ enum Transition {
     Opacity,
     Shadow,
     Transform,
-    Arbitrary(String),
+    Arbitrary(TailwindArbitrary),
 }
 
 #[doc=include_str!("readme.md")]
@@ -28,7 +28,7 @@ impl Display for Transition {
             Self::Opacity => write!(f, "-opacity"),
             Self::Shadow => write!(f, "-shadow"),
             Self::Transform => write!(f, "-transform"),
-            Self::Arbitrary(g) => write!(f, "-[{}]", g),
+            Self::Arbitrary(g) => write!(f, "-[{}]", g.get_class()),
         }
     }
 }
@@ -70,7 +70,6 @@ impl Transition {
         Ok(t)
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_some());
-        Ok(Self::Arbitrary(arbitrary.to_string()))
+        Ok(Self::Arbitrary(TailwindArbitrary::new(arbitrary)?))
     }
 }

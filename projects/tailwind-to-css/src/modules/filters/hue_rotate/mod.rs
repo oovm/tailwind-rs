@@ -19,7 +19,7 @@ impl TailwindInstance for TailwindHueRotate {
         let class = self.backdrop.filter();
         let value = match &self.degree {
             IntegerOnly::Number(n) => format!("hue-rotate({}%)", n),
-            IntegerOnly::Arbitrary(n) => format!("hue-rotate({})", n),
+            IntegerOnly::Arbitrary(n) => format!("hue-rotate({})", n.get_properties()),
         };
         css_attributes! {
             class => value

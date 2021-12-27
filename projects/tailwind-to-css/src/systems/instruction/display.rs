@@ -9,7 +9,7 @@ impl Display for TailwindInstruction {
         }
         self.negative.write(f)?;
         match self.arbitrary.is_some() {
-            true => write!(f, "{}-[{}]", self.elements, self.arbitrary),
+            true => write!(f, "{}-{}", self.elements, self.arbitrary.get_class()),
             false => write!(f, "{}", self.elements),
         }
     }

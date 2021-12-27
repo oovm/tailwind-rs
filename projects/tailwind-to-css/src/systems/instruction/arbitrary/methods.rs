@@ -11,7 +11,7 @@ impl TailwindArbitrary {
     }
     #[inline]
     pub fn as_str(&self) -> &str {
-        self.inner.as_str()
+        self.inner.as_ref()
     }
     #[inline]
     pub fn as_integer<T>(&self) -> Result<T>

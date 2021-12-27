@@ -19,7 +19,7 @@ impl TailwindInstance for TailwindSepia {
         let class = self.backdrop.filter();
         let value = match &self.percent {
             IntegerOnly::Number(n) => format!("sepia({}%)", n),
-            IntegerOnly::Arbitrary(n) => format!("sepia({})", n),
+            IntegerOnly::Arbitrary(n) => format!("sepia({})", n.get_properties()),
         };
         css_attributes! {
             class => value

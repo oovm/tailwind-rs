@@ -26,6 +26,9 @@ features = ["nom", "css-color"]
 
 [features]
 default = []
+# More compile-time checks, hardcoding adds some bulk and slows things down a bit
+# You can remove these checks as a runtime framework
+compile_time = []
 
 [package.metadata.wee]
 t = "cargo test"

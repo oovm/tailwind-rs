@@ -3,7 +3,7 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindJustifyItems {
-    kind: KeywordOnly,
+    kind: StandardValue,
 }
 
 crate::macros::sealed::keyword_instance!(TailwindJustifyItems => "justify-items");
@@ -17,11 +17,11 @@ impl Display for TailwindJustifyItems {
 impl TailwindJustifyItems {
     /// <https://tailwindcss.com/docs/justify-items>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parser("justify-items", &Self::check_valid)(pattern, arbitrary)? })
+        Ok(Self { kind: StandardValue::parser("justify-items", &Self::check_valid)(pattern, arbitrary)? })
     }
     /// dispatch to [justify-items](https://developer.mozilla.org/en-US/docs/Web/CSS/justify-items)
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
+        StandardValue::parse_arbitrary(arbitrary).map(|kind| Self { kind })
     }
     /// <https://developer.mozilla.org/en-US/docs/Web/CSS/justify-items#syntax>
     pub fn check_valid(mode: &str) -> bool {

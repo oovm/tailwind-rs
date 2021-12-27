@@ -4,7 +4,7 @@ use super::*;
 pub enum Order {
     Number(i32, Negative),
     Standard(String),
-    Arbitrary(String),
+    Arbitrary(TailwindArbitrary),
 }
 
 impl Display for Order {
@@ -12,7 +12,7 @@ impl Display for Order {
         match self {
             Order::Number(number, _) => write!(f, "{}", number.abs()),
             Order::Standard(value) => write!(f, "{}", value),
-            Order::Arbitrary(value) => write!(f, "[{}]", value),
+            Order::Arbitrary(value) => value.write(f),
         }
     }
 }
@@ -38,8 +38,7 @@ impl Order {
         Ok(out)
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_some());
-        Ok(Self::Arbitrary(arbitrary.to_string()))
+        Ok(Self::Arbitrary(TailwindArbitrary::new(arbitrary)?))
     }
     pub fn check_valid(mode: &str) -> bool {
         let set = BTreeSet::from_iter(vec!["inherit", "initial", "revert", "unset"]);

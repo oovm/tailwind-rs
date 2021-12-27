@@ -19,7 +19,7 @@ impl TailwindInstance for TailwindBrightness {
         let class = self.backdrop.filter();
         let value = match &self.percent {
             IntegerOnly::Number(n) => format!("brightness({}%)", n),
-            IntegerOnly::Arbitrary(n) => format!("brightness({})", n),
+            IntegerOnly::Arbitrary(n) => format!("brightness({})", n.get_properties()),
         };
         css_attributes! {
             class => value

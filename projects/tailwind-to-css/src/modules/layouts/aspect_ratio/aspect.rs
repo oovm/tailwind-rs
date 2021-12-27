@@ -4,7 +4,7 @@ use super::*;
 pub enum Aspect {
     Radio(usize, usize),
     Standard(String),
-    Arbitrary(String),
+    Arbitrary(TailwindArbitrary),
 }
 
 impl Display for Aspect {
@@ -12,7 +12,7 @@ impl Display for Aspect {
         match self {
             Self::Radio(a, b) => write!(f, "{}/{}", a, b),
             Self::Standard(s) => write!(f, "{}", s),
-            Self::Arbitrary(s) => write!(f, "[{}]", s),
+            Self::Arbitrary(s) => s.write(f),
         }
     }
 }
@@ -33,8 +33,7 @@ impl Aspect {
         Ok(out)
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_some());
-        Ok(Self::Arbitrary(arbitrary.to_string()))
+        Ok(Self::Arbitrary(TailwindArbitrary::new(arbitrary)?))
     }
     pub fn check_valid(mode: &str) -> bool {
         let set = BTreeSet::from_iter(vec!["auto", "inherit", "initial", "revert", "unset"]);
@@ -44,7 +43,7 @@ impl Aspect {
         match self {
             Self::Radio(a, b) => format!("{}/{}", a, b),
             Self::Standard(s) => s.to_string(),
-            Self::Arbitrary(s) => s.to_string(),
+            Self::Arbitrary(s) => s.get_properties(),
         }
     }
 }

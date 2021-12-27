@@ -16,7 +16,7 @@ enum Shadow {
     Large,
     ExtraLarge,
     ExtraLarge2,
-    Arbitrary(String),
+    Arbitrary(TailwindArbitrary),
 }
 
 impl Display for TailwindShadow {
@@ -33,7 +33,7 @@ impl Display for TailwindShadow {
             Shadow::Large => write!(f, "-lg",),
             Shadow::ExtraLarge => write!(f, "-xl",),
             Shadow::ExtraLarge2 => write!(f, "-2xl",),
-            Shadow::Arbitrary(s) => write!(f, "-[{}]", s),
+            Shadow::Arbitrary(s) => write!(f, "-{}", s.get_properties()),
         }
     }
 }
@@ -95,7 +95,7 @@ impl Shadow {
         Ok(kind)
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self::Arbitrary(arbitrary.to_string()))
+        Ok(Self::Arbitrary(TailwindArbitrary::new(arbitrary)?))
     }
 }
 

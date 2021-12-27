@@ -19,7 +19,7 @@ impl TailwindInstance for TailwindGrayscale {
         let class = self.backdrop.filter();
         let value = match &self.percent {
             IntegerOnly::Number(n) => format!("grayscale({}px)", n),
-            IntegerOnly::Arbitrary(n) => format!("grayscale({})", n),
+            IntegerOnly::Arbitrary(n) => format!("grayscale({})", n.get_properties()),
         };
         css_attributes! {
             class => value

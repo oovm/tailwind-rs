@@ -5,7 +5,7 @@ mod traits;
 #[derive(Debug, Clone)]
 pub enum IntegerOnly {
     Number(usize),
-    Arbitrary(String),
+    Arbitrary(TailwindArbitrary),
 }
 
 impl IntegerOnly {
@@ -17,7 +17,6 @@ impl IntegerOnly {
         }
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_some());
-        Ok(Self::Arbitrary(arbitrary.to_string()))
+        Ok(Self::Arbitrary(TailwindArbitrary::new(arbitrary)?))
     }
 }

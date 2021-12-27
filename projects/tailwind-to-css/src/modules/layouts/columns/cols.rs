@@ -5,7 +5,7 @@ pub enum Columns {
     Columns(u8),
     Length(LengthUnit),
     Standard(String),
-    Arbitrary(String),
+    Arbitrary(TailwindArbitrary),
 }
 
 impl Display for Columns {
@@ -14,7 +14,7 @@ impl Display for Columns {
             Self::Columns(n) => write!(f, "{}", n),
             Self::Length(n) => write!(f, "{}", n.get_class_arbitrary()),
             Self::Standard(s) => write!(f, "{}", s),
-            Self::Arbitrary(s) => write!(f, "[{}]", s),
+            Self::Arbitrary(s) => s.write(f),
         }
     }
 }
@@ -48,8 +48,7 @@ impl Columns {
         Ok(out)
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_some());
-        Ok(Self::Arbitrary(arbitrary.to_string()))
+        Ok(Self::Arbitrary(TailwindArbitrary::new(arbitrary)?))
     }
     pub fn check_valid(mode: &str) -> bool {
         let set = BTreeSet::from_iter(vec!["auto", "inherit", "initial", "revert", "unset"]);
@@ -60,7 +59,7 @@ impl Columns {
             Columns::Columns(s) => s.to_string(),
             Columns::Length(s) => s.get_properties(),
             Columns::Standard(s) => s.to_string(),
-            Columns::Arbitrary(s) => s.to_string(),
+            Columns::Arbitrary(s) => s.get_properties(),
         }
     }
 }

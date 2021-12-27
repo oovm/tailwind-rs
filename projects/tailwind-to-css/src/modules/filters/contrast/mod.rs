@@ -19,7 +19,7 @@ impl TailwindInstance for TailwindContrast {
         let class = self.backdrop.filter();
         let value = match &self.percent {
             IntegerOnly::Number(n) => format!("contrast({}%)", n),
-            IntegerOnly::Arbitrary(n) => format!("contrast({})", n),
+            IntegerOnly::Arbitrary(n) => format!("contrast({})", n.get_properties()),
         };
         css_attributes! {
             class => value

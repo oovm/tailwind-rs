@@ -39,12 +39,17 @@ impl TailwindMargin {
             ["my", rest @ ..] => (SpacingAxis::new("my", &["margin"]), rest),
             _ => return syntax_error!("Unknown margin axis"),
         };
-        let size = SpacingSize::parse(rest, arbitrary)?;
+        let size = SpacingSize::parse(rest, arbitrary, &Self::check_valid)?;
         Ok(Self { negative, axis, size })
     }
     /// https://tailwindcss.com/docs/margin#arbitrary-values
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: SpacingAxis, negative: Negative) -> Result<Self> {
         let size = SpacingSize::parse_arbitrary(arbitrary)?;
         Ok(Self { negative, axis, size })
+    }
+    /// https://developer.mozilla.org/en-US/docs/Web/CSS/padding#syntax
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec!["auto", "inherit", "initial", "revert", "unset"]);
+        set.contains(mode)
     }
 }

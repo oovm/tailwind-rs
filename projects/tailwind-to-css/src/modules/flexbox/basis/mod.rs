@@ -5,7 +5,7 @@ enum Basis {
     Number(f32),
     Length(LengthUnit),
     Standard(String),
-    Arbitrary(String),
+    Arbitrary(TailwindArbitrary),
 }
 
 #[doc=include_str!("readme.md")]
@@ -27,7 +27,7 @@ impl Display for TailwindBasis {
                 "max-content" => write!(f, "max"),
                 _ => write!(f, "{}", s),
             },
-            Basis::Arbitrary(s) => write!(f, "[{}]", s),
+            Basis::Arbitrary(s) => s.write(f),
         }
     }
 }
@@ -38,7 +38,7 @@ impl TailwindInstance for TailwindBasis {
             Basis::Number(n) => format!("{}rem", *n as f32 / 4.0),
             Basis::Length(n) => n.get_properties(),
             Basis::Standard(s) => s.to_string(),
-            Basis::Arbitrary(s) => s.to_string(),
+            Basis::Arbitrary(s) => s.get_properties(),
         };
         css_attributes! {
             "flex-basis" => basis
@@ -53,7 +53,7 @@ impl TailwindBasis {
     }
 
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: Basis::parse_arbitrary(arbitrary) })
+        Ok(Self { kind: Basis::parse_arbitrary(arbitrary)? })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/flex-basis#syntax
     pub fn check_valid(mode: &str) -> bool {
@@ -73,14 +73,13 @@ impl Basis {
                 let a = TailwindArbitrary::from(*n);
                 Self::maybe_length(&a).or_else(|_| Self::maybe_float(&a))?
             },
-            [] => Self::parse_arbitrary(arbitrary),
+            [] => Self::parse_arbitrary(arbitrary)?,
             _ => return syntax_error!("Unknown basis instructions"),
         };
         Ok(out)
     }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Self {
-        debug_assert!(arbitrary.is_some());
-        Self::Arbitrary(arbitrary.to_string())
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self::Arbitrary(TailwindArbitrary::new(arbitrary)?))
     }
     fn maybe_float(arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self::Number(arbitrary.as_float()?))

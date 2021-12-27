@@ -5,17 +5,14 @@ pub(crate) mod content_align;
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindContent {
-    kind: KeywordOnly,
+    kind: StandardValue,
 }
 
 crate::macros::sealed::keyword_instance!(TailwindContent => "content");
 
 impl Display for TailwindContent {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match &self.kind {
-            KeywordOnly::Standard(s) => write!(f, "{}", s),
-            KeywordOnly::Arbitrary(s) => write!(f, "[{}]", s),
-        }
+        self.kind.fmt(f)
     }
 }
 
@@ -38,7 +35,7 @@ impl TailwindContent {
         Ok(instance)
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::Arbitrary(arbitrary.to_string()) })
+        Ok(Self { kind: StandardValue::Arbitrary(arbitrary.to_owned()) })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/content#syntax
     pub fn check_valid(mode: &str) -> bool {

@@ -66,10 +66,7 @@ impl TailwindFontSmoothing {
                 let l = TailwindArbitrary::from(*n).as_length()?;
                 FontSmoothing::Length(l)
             },
-            [] => {
-                debug_assert!(arbitrary.is_some());
-                FontSmoothing::Length(arbitrary.as_length()?)
-            },
+            [] => FontSmoothing::Length(arbitrary.as_length()?),
             _ => return syntax_error!("Unknown font-smoothing instructions: {}", pattern.join("-")),
         };
         Ok(Self { kind })

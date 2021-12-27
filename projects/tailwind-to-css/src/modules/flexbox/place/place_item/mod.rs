@@ -3,7 +3,7 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindPlaceItems {
-    kind: KeywordOnly,
+    kind: StandardValue,
 }
 
 crate::macros::sealed::keyword_instance!(TailwindPlaceItems => "place-items");
@@ -17,11 +17,11 @@ impl Display for TailwindPlaceItems {
 impl TailwindPlaceItems {
     /// <https://tailwindcss.com/docs/place-self>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parser("place-items", &Self::check_valid)(pattern, arbitrary)? })
+        Ok(Self { kind: StandardValue::parser("place-items", &Self::check_valid)(pattern, arbitrary)? })
     }
     /// dispatch to [place-items](https://developer.mozilla.org/en-US/docs/Web/CSS/place-items)
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
+        StandardValue::parse_arbitrary(arbitrary).map(|kind| Self { kind })
     }
     /// <https://developer.mozilla.org/en-US/docs/Web/CSS/place-items#syntax>
     pub fn check_valid(mode: &str) -> bool {

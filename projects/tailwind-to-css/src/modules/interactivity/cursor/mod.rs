@@ -1,11 +1,11 @@
-use crate::KeywordOnly;
+use crate::StandardValue;
 
 use super::*;
 
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindCursor {
-    kind: KeywordOnly,
+    kind: StandardValue,
 }
 
 crate::macros::sealed::keyword_instance!(TailwindCursor => "cursor");
@@ -19,11 +19,11 @@ impl Display for TailwindCursor {
 impl TailwindCursor {
     /// <https://tailwindcss.com/docs/cursor>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parser("cursor", &Self::check_valid)(pattern, arbitrary)? })
+        Ok(Self { kind: StandardValue::parser("cursor", &Self::check_valid)(pattern, arbitrary)? })
     }
     /// dispatch to [cursor](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor)
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
+        StandardValue::parse_arbitrary(arbitrary).map(|kind| Self { kind })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/cursor#syntax
     pub fn check_valid(mode: &str) -> bool {

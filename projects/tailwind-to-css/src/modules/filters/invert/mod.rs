@@ -19,7 +19,7 @@ impl TailwindInstance for TailwindInvert {
         let class = self.backdrop.filter();
         let value = match &self.percent {
             IntegerOnly::Number(n) => format!("invert({}%)", n),
-            IntegerOnly::Arbitrary(n) => format!("invert({})", n),
+            IntegerOnly::Arbitrary(n) => format!("invert({})", n.get_properties()),
         };
         css_attributes! {
             class => value

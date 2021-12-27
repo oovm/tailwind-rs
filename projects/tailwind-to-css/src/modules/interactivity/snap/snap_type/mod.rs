@@ -3,7 +3,7 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindSnapType {
-    kind: KeywordOnly,
+    kind: StandardValue,
 }
 
 crate::macros::sealed::keyword_instance!(TailwindSnapType => "scroll-snap-type");
@@ -22,14 +22,13 @@ impl TailwindSnapType {
             _ => {
                 let s = pattern.join("-");
                 debug_assert!(Self::check_valid(&s));
-                Ok(Self { kind: KeywordOnly::Standard(s) })
+                Ok(Self { kind: StandardValue::Keyword(s) })
             },
         }
     }
     /// https://tailwindcss.com/docs/scroll-snap-type
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_some());
-        Ok(Self { kind: KeywordOnly::Arbitrary(arbitrary.to_string()) })
+        Ok(Self { kind: StandardValue::Arbitrary(arbitrary.to_owned()) })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-snap-type#syntax
     pub fn check_valid(mode: &str) -> bool {

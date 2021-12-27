@@ -21,8 +21,8 @@ pub enum AnchorPoint {
     Bottom,
     /// `100% 100%` to the viewport.
     RightBottom,
-    Custom(String),
-    Global(CssBehavior),
+    Standard(String),
+    Arbitrary(TailwindArbitrary),
 }
 
 impl AnchorPoint {
@@ -43,14 +43,22 @@ impl AnchorPoint {
         Ok(out)
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_some());
-        Ok(Self::Custom(arbitrary.to_string()))
+        Ok(Self::Arbitrary(TailwindArbitrary::new(arbitrary)?))
     }
 
     pub fn get_class(&self) -> String {
         match self {
-            Self::Global(g) => g.to_string(),
-            _ => format!("[{}]", self.get_properties()),
+            Self::LeftTop => "7".to_string(),
+            Self::Top => "8".to_string(),
+            Self::RightTop => "9".to_string(),
+            Self::Left => "4".to_string(),
+            Self::Center => "5".to_string(),
+            Self::Right => "6".to_string(),
+            Self::LeftBottom => "1".to_string(),
+            Self::Bottom => "2".to_string(),
+            Self::RightBottom => "3".to_string(),
+            Self::Standard(s) => s.to_string(),
+            Self::Arbitrary(s) => s.get_class(),
         }
     }
 
@@ -65,8 +73,8 @@ impl AnchorPoint {
             Self::LeftBottom => "0% 100%".to_string(),
             Self::Bottom => "50% 100%".to_string(),
             Self::RightBottom => "100% 100%".to_string(),
-            Self::Custom(c) => c.to_string(),
-            Self::Global(g) => g.to_string(),
+            Self::Standard(s) => s.to_string(),
+            Self::Arbitrary(s) => s.get_properties(),
         }
     }
 }

@@ -3,7 +3,7 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindBreakAfter {
-    kind: KeywordOnly,
+    kind: StandardValue,
 }
 
 crate::macros::sealed::keyword_instance!(TailwindBreakAfter => "break-after");
@@ -17,11 +17,11 @@ impl Display for TailwindBreakAfter {
 impl TailwindBreakAfter {
     /// <https://tailwindcss.com/docs/break-after>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parser("break-after", &Self::check_valid)(pattern, arbitrary)? })
+        Ok(Self { kind: StandardValue::parser("break-after", &Self::check_valid)(pattern, arbitrary)? })
     }
 
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
+        StandardValue::parse_arbitrary(arbitrary).map(|kind| Self { kind })
     }
     /// <https://developer.mozilla.org/en-US/docs/Web/CSS/break-after#syntax>
     pub fn check_valid(mode: &str) -> bool {

@@ -1,10 +1,10 @@
 use super::*;
-use crate::KeywordOnly;
+use crate::StandardValue;
 
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindEase {
-    kind: KeywordOnly,
+    kind: StandardValue,
 }
 crate::macros::sealed::keyword_instance!(TailwindEase => "transition-timing-function");
 
@@ -17,11 +17,11 @@ impl Display for TailwindEase {
 impl TailwindEase {
     /// https://tailwindcss.com/docs/transition-timing-function
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parser("ease", &Self::check_valid)(pattern, arbitrary)? })
+        Ok(Self { kind: StandardValue::parser("ease", &Self::check_valid)(pattern, arbitrary)? })
     }
     /// https://tailwindcss.com/docs/transition-timing-function#arbitrary-values
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
+        StandardValue::parse_arbitrary(arbitrary).map(|kind| Self { kind })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/transition-timing-function#syntax
     pub fn check_valid(mode: &str) -> bool {

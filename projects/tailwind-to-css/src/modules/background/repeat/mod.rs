@@ -1,11 +1,11 @@
-use crate::KeywordOnly;
+use crate::StandardValue;
 
 use super::*;
 
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindBackgroundRepeat {
-    kind: KeywordOnly,
+    kind: StandardValue,
 }
 
 crate::macros::sealed::keyword_instance!(TailwindBackgroundRepeat => "background-repeat");
@@ -13,14 +13,14 @@ crate::macros::sealed::keyword_instance!(TailwindBackgroundRepeat => "background
 impl Display for TailwindBackgroundRepeat {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match &self.kind {
-            KeywordOnly::Standard(s) => match s.as_str() {
+            StandardValue::Keyword(s) => match s.as_str() {
                 "repeat" => write!(f, "bg-repeat"),
                 "no-repeat" => write!(f, "bg-no-repeat"),
                 "repeat-x" => write!(f, "bg-repeat-x"),
                 "repeat-y" => write!(f, "bg-repeat-y"),
                 _ => write!(f, "bg-repeat-{}", s),
             },
-            KeywordOnly::Arbitrary(s) => write!(f, "bg-repeat-[{}]", s),
+            StandardValue::Arbitrary(s) => write!(f, "bg-repeat-{}", s.get_class()),
         }
     }
 }
@@ -32,7 +32,7 @@ impl TailwindBackgroundRepeat {
     }
     /// https://tailwindcss.com/docs/background-repeat
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
+        StandardValue::parse_arbitrary(arbitrary).map(|kind| Self { kind })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat#syntax
     pub fn check_valid(mode: &str) -> bool {
@@ -52,14 +52,14 @@ impl TailwindBackgroundRepeat {
     }
 }
 
-fn parse_kind(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<KeywordOnly> {
+fn parse_kind(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<StandardValue> {
     let out = match pattern {
-        [] if arbitrary.is_none() => KeywordOnly::Standard("repeat".to_string()),
-        [] => KeywordOnly::parse_arbitrary(arbitrary)?,
-        ["none"] => KeywordOnly::Standard("no-repeat".to_string()),
-        ["x"] => KeywordOnly::Standard("repeat-x".to_string()),
-        ["y"] => KeywordOnly::Standard("repeat-y".to_string()),
-        _ => KeywordOnly::parse_standard(pattern, "bg-repeat", &TailwindBackgroundRepeat::check_valid)?,
+        [] if arbitrary.is_none() => StandardValue::from("repeat"),
+        [] => StandardValue::parse_arbitrary(arbitrary)?,
+        ["none"] => StandardValue::from("no-repeat"),
+        ["x"] => StandardValue::from("repeat-x"),
+        ["y"] => StandardValue::from("repeat-y"),
+        _ => StandardValue::parse_keyword(pattern, "bg-repeat", &TailwindBackgroundRepeat::check_valid)?,
     };
     Ok(out)
 }

@@ -18,7 +18,7 @@ impl TailwindInstance for TailwindBlur {
         let class = self.backdrop.filter();
         let value = match &self.px {
             IntegerOnly::Number(n) => format!("blur({}px)", n),
-            IntegerOnly::Arbitrary(n) => format!("blur({})", n),
+            IntegerOnly::Arbitrary(n) => format!("blur({})", n.get_properties()),
         };
         css_attributes! {
             class => value

@@ -29,7 +29,7 @@ impl TailwindGrid {
 enum GridTemplate {
     None,
     Unit(usize),
-    Arbitrary(String),
+    Arbitrary(TailwindArbitrary),
 }
 
 impl Display for GridTemplate {
@@ -37,7 +37,7 @@ impl Display for GridTemplate {
         match self {
             GridTemplate::None => write!(f, "none"),
             GridTemplate::Unit(s) => write!(f, "{}", s),
-            GridTemplate::Arbitrary(s) => write!(f, "{}", s),
+            GridTemplate::Arbitrary(s) => s.write(f),
         }
     }
 }
@@ -51,14 +51,13 @@ impl GridTemplate {
         Ok(kind)
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_some());
-        Ok(Self::Arbitrary(arbitrary.to_string()))
+        Ok(Self::Arbitrary(TailwindArbitrary::new(arbitrary)?))
     }
     pub fn get_properties(&self) -> String {
         match self {
             GridTemplate::None => "none".to_string(),
             GridTemplate::Unit(s) => format!("repeat({},minmax(0,1fr))", s),
-            GridTemplate::Arbitrary(s) => s.to_string(),
+            GridTemplate::Arbitrary(s) => s.get_properties(),
         }
     }
 }

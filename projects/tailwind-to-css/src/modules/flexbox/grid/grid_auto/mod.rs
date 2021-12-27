@@ -6,7 +6,7 @@ enum GridAutoKind {
     Min,
     Max,
     Fr,
-    Arbitrary(String),
+    Arbitrary(TailwindArbitrary),
 }
 
 #[doc=include_str!("readme.md")]
@@ -25,7 +25,7 @@ impl Display for GridAutoKind {
             Self::Min => write!(f, "min"),
             Self::Max => write!(f, "max"),
             Self::Fr => write!(f, "fr"),
-            Self::Arbitrary(s) => write!(f, "[{}]", s),
+            Self::Arbitrary(s) => s.write(f),
         }
     }
 }
@@ -50,7 +50,7 @@ impl TailwindInstance for TailwindGridAuto {
             GridAutoKind::Min => "min-content".to_string(),
             GridAutoKind::Max => "max-content".to_string(),
             GridAutoKind::Fr => "minmax(0,1fr)".to_string(),
-            GridAutoKind::Arbitrary(a) => a.to_string(),
+            GridAutoKind::Arbitrary(a) => a.get_properties(),
         };
 
         css_attributes! {
@@ -72,8 +72,7 @@ impl GridAutoKind {
         Ok(kind)
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_some());
-        Ok(Self::Arbitrary(arbitrary.to_string()))
+        Ok(Self::Arbitrary(TailwindArbitrary::new(arbitrary)?))
     }
 }
 

@@ -5,12 +5,11 @@ use tailwind_error::TailwindError;
 
 use tailwind_ast::parse_f32;
 
-use crate::{syntax_error, CssAttributes, CssBehavior, Result, TailwindArbitrary};
-
 pub use self::{
-    anchor::AnchorPoint, axis::SpacingAxis, axis_xy::AxisXY, integer_only::IntegerOnly, keyword_only::KeywordOnly,
+    anchor::AnchorPoint, axis::SpacingAxis, axis_xy::AxisXY, integer_only::IntegerOnly, keyword_only::StandardValue,
     length::LengthUnit, negative::Negative,
 };
+use crate::{syntax_error, CssAttributes, Result, TailwindArbitrary};
 
 mod anchor;
 mod axis;

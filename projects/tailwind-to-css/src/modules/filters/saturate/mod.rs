@@ -19,7 +19,7 @@ impl TailwindInstance for TailwindSaturate {
         let class = self.backdrop.filter();
         let value = match &self.percent {
             IntegerOnly::Number(n) => format!("saturate({}%)", n),
-            IntegerOnly::Arbitrary(n) => format!("saturate({})", n),
+            IntegerOnly::Arbitrary(n) => format!("saturate({})", n.get_properties()),
         };
         css_attributes! {
             class => value

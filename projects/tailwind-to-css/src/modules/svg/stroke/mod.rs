@@ -18,10 +18,7 @@ impl TailwindStroke {
             ["inherit"] => color(TailwindColor::Inherit),
             ["black"] => color(TailwindColor::Black),
             ["white"] => color(TailwindColor::White),
-            ["color"] => {
-                debug_assert!(arbitrary.is_some());
-                color(TailwindColor::parse_arbitrary(arbitrary)?)
-            },
+            ["color"] => color(TailwindColor::parse_arbitrary(arbitrary)?),
             ["color", rest] => {
                 let a = TailwindArbitrary::from(*rest);
                 color(TailwindColor::parse_arbitrary(&a)?)

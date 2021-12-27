@@ -3,7 +3,7 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindJustifyContent {
-    kind: KeywordOnly,
+    kind: StandardValue,
 }
 
 crate::macros::sealed::keyword_instance!(TailwindJustifyContent => "justify-content");
@@ -11,7 +11,7 @@ crate::macros::sealed::keyword_instance!(TailwindJustifyContent => "justify-cont
 impl Display for TailwindJustifyContent {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match &self.kind {
-            KeywordOnly::Standard(s) => match s.as_str() {
+            StandardValue::Keyword(s) => match s.as_str() {
                 "flex-start" => write!(f, "justify-start"),
                 "flex-end" => write!(f, "justify-end"),
                 "center" => write!(f, "justify-center"),
@@ -20,7 +20,7 @@ impl Display for TailwindJustifyContent {
                 "space-evenly" => write!(f, "justify-evenly"),
                 _ => write!(f, "justify-content-{}", s),
             },
-            KeywordOnly::Arbitrary(s) => write!(f, "justify-content-[{}]", s),
+            StandardValue::Arbitrary(s) => s.write_class(f, "justify-content-"),
         }
     }
 }
@@ -28,11 +28,11 @@ impl Display for TailwindJustifyContent {
 impl TailwindJustifyContent {
     /// <https://tailwindcss.com/docs/justify-content>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parser("justify-content", &Self::check_valid)(pattern, arbitrary)? })
+        Ok(Self { kind: StandardValue::parser("justify-content", &Self::check_valid)(pattern, arbitrary)? })
     }
     /// dispatch to [justify-content](https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content)
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)? })
+        StandardValue::parse_arbitrary(arbitrary).map(|kind| Self { kind })
     }
     /// <https://developer.mozilla.org/en-US/docs/Web/CSS/justify-content#syntax>
     pub fn check_valid(mode: &str) -> bool {

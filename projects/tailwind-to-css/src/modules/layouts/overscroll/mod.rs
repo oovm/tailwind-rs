@@ -1,11 +1,11 @@
-use crate::KeywordOnly;
+use crate::StandardValue;
 
 use super::*;
 
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindOverscroll {
-    kind: KeywordOnly,
+    kind: StandardValue,
     axis: Option<bool>,
 }
 
@@ -35,11 +35,11 @@ impl TailwindInstance for TailwindOverscroll {
 impl TailwindOverscroll {
     /// https://tailwindcss.com/docs/overscroll-behavior
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, axis: Option<bool>) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parser("overscroll", &Self::check_valid)(pattern, arbitrary)?, axis })
+        Ok(Self { kind: StandardValue::parser("overscroll", &Self::check_valid)(pattern, arbitrary)?, axis })
     }
     /// https://tailwindcss.com/docs/overscroll-behavior#arbitrary-values
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: Option<bool>) -> Result<Self> {
-        Ok(Self { kind: KeywordOnly::parse_arbitrary(arbitrary)?, axis })
+        Ok(Self { kind: StandardValue::parse_arbitrary(arbitrary)?, axis })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/overscroll-behavior#syntax
     pub fn check_valid(mode: &str) -> bool {

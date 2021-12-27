@@ -24,7 +24,7 @@ impl TailwindInstance for TailwindAnimate {
             Animation::Ping => "animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;".to_string(),
             Animation::Pulse => "animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;".to_string(),
             Animation::Bounce => "animation: bounce 1s infinite;".to_string(),
-            Animation::Arbitrary(s) => s.to_string(),
+            Animation::Arbitrary(s) => s.get_properties(),
         };
         css_attributes! {
             "animation" => animation
