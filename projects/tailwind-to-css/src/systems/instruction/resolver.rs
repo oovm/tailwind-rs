@@ -21,16 +21,7 @@ impl TailwindInstruction {
             ["inline"] => TailwindDisplay::from("inline").boxed(),
             ["flex"] => TailwindDisplay::from("flex").boxed(),
             ["inline", "flex"] => TailwindDisplay::from("inline-flex").boxed(),
-            ["table"] => TailwindDisplay::from("table").boxed(),
             ["inline", "table"] => TailwindDisplay::from("inline-table").boxed(),
-            ["table", "caption"] => TailwindDisplay::from("table-caption").boxed(),
-            ["table", "cell"] => TailwindDisplay::from("table-cell").boxed(),
-            ["table", "column"] => TailwindDisplay::from("table-column").boxed(),
-            ["table", "column", "group"] => TailwindDisplay::from("table-column-group").boxed(),
-            ["table", "footer", "group"] => TailwindDisplay::from("table-footer-group").boxed(),
-            ["table", "header", "group"] => TailwindDisplay::from("table-header-group").boxed(),
-            ["table", "row", "group"] => TailwindDisplay::from("table-row-group").boxed(),
-            ["table", "row"] => TailwindDisplay::from("table-row").boxed(),
             ["flow", "root"] => TailwindDisplay::from("flow-root").boxed(),
             ["grid"] => TailwindDisplay::from("grid").boxed(),
             ["inline", "grid"] => TailwindDisplay::from("inline-grid").boxed(),
@@ -138,7 +129,7 @@ impl TailwindInstruction {
             ["to", rest @ ..] => TailwindTo::parse(rest, arbitrary)?.boxed(),
             // Borders System
             ["rounded", rest @ ..] => TailwindRounded::parse(rest, arbitrary)?.boxed(),
-            ["border", rest @ ..] => TailwindBorder::adapt(rest, arbitrary)?,
+            ["border", rest @ ..] => Self::border_adaptor(rest, arbitrary)?,
             ["divide", rest @ ..] => TailwindDivide::adapt(rest, arbitrary)?,
             ["outline", rest @ ..] => TailwindOutline::adapt(rest, arbitrary)?,
             ["ring", rest @ ..] => TailwindRing::adapt(rest, arbitrary)?,
@@ -222,6 +213,27 @@ impl TailwindInstruction {
         Ok(out)
     }
     #[inline]
+    fn border_adaptor(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+        let color = |color| TailwindBorderColor::from(color).boxed();
+        let out = match pattern {
+            // https://tailwindcss.com/docs/border-style
+            [s @ ("solid" | "dashed" | "dotted" | "double" | "hidden" | "none")] => TailwindBorderStyle::from(*s).boxed(),
+            // https://tailwindcss.com/docs/border-collapse
+            ["separate"] => TailwindBorderCollapse::from("separate").boxed(),
+            ["collapse"] if arbitrary.is_none() => TailwindBorderCollapse::from("collapse").boxed(),
+            ["collapse", rest @ ..] => TailwindBorderCollapse::parse(rest, arbitrary)?.boxed(),
+            // https://tailwindcss.com/docs/border-color
+            ["inherit"] => color(TailwindColor::Inherit),
+            ["current"] => color(TailwindColor::Current),
+            ["transparent"] => color(TailwindColor::Transparent),
+            ["black"] => color(TailwindColor::Black),
+            ["white"] => color(TailwindColor::White),
+            [] => todo!(),
+            _ => return syntax_error!("Unknown border instructions: {}", pattern.join("-")),
+        };
+        Ok(out)
+    }
+    #[inline]
     fn shadow_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/box-shadow
@@ -288,13 +300,20 @@ impl TailwindInstruction {
         Ok(out)
     }
     #[inline]
-    fn table_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        let out = match str {
+    fn table_adaptor(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+        let out = match pattern {
             // https://tailwindcss.com/docs/display#flex
-            // This won't happen
-            [] => TailwindDisplay::from("table").boxed(),
+            [] if arbitrary.is_none() => TailwindDisplay::from("table").boxed(),
+            ["caption"] => TailwindDisplay::from("table-caption").boxed(),
+            ["cell"] => TailwindDisplay::from("table-cell").boxed(),
+            ["column"] => TailwindDisplay::from("table-column").boxed(),
+            ["column", "group"] => TailwindDisplay::from("table-column-group").boxed(),
+            ["footer", "group"] => TailwindDisplay::from("table-footer-group").boxed(),
+            ["header", "group"] => TailwindDisplay::from("table-header-group").boxed(),
+            ["row", "group"] => TailwindDisplay::from("table-row-group").boxed(),
+            ["row"] => TailwindDisplay::from("table-row").boxed(),
             // https://tailwindcss.com/docs/table-layout
-            _ => TailwindTableLayout::parse(str, arbitrary)?.boxed(),
+            _ => TailwindTableLayout::parse(pattern, arbitrary)?.boxed(),
         };
         Ok(out)
     }

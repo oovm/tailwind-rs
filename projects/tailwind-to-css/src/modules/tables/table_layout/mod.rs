@@ -3,17 +3,10 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindTableLayout {
-    kind: String,
+    kind: StandardValue,
 }
 
-impl<T> From<T> for TailwindTableLayout
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: kind.into() }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindTableLayout => "table-layout");
 
 impl Display for TailwindTableLayout {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -21,23 +14,16 @@ impl Display for TailwindTableLayout {
     }
 }
 
-impl TailwindInstance for TailwindTableLayout {
-    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        css_attributes! {
-            "table-layout" => self.kind
-        }
-    }
-}
-
 impl TailwindTableLayout {
-    /// https://tailwindcss.com/docs/table-layout
+    /// <https://tailwindcss.com/docs/table-layout>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after table");
-        let kind = pattern.join("-");
-        debug_assert!(Self::check_valid(&kind));
-        Ok(Self { kind })
+        Ok(Self { kind: StandardValue::parser("table-layout", &Self::check_valid)(pattern, arbitrary)? })
     }
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/table-layout#syntax
+    /// dispatch to [table-layout](https://developer.mozilla.org/en-US/docs/Web/CSS/table-layout)
+    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+        Ok(Self { kind: StandardValue::parse_arbitrary(arbitrary)? })
+    }
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/table-layout#syntax>
     pub fn check_valid(mode: &str) -> bool {
         let set = BTreeSet::from_iter(vec!["auto", "fixed", "inherit", "initial", "unset"]);
         set.contains(mode)

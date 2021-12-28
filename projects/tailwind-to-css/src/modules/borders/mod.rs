@@ -4,14 +4,14 @@ use std::{
 };
 
 use crate::{
-    css_attributes, syntax_error, CssAttributes, LengthUnit, Result, TailwindArbitrary, TailwindBorderCollapse,
-    TailwindBuilder, TailwindColor, TailwindInstance,
+    css_attributes, syntax_error, CssAttributes, LengthUnit, Result, TailwindArbitrary, TailwindBuilder, TailwindColor,
+    TailwindInstance,
 };
 
 pub use self::{
     border::{
         border_color::TailwindBorderColor, border_radius::TailwindRounded, border_style::TailwindBorderStyle,
-        border_width::TailwindBorderWidth, TailwindBorder,
+        border_width::TailwindBorderWidth,
     },
     divide::{
         divide_color::TailwindDivideColor, divide_reverse::TailwindDivideReverse, divide_style::TailwindDivideStyle,

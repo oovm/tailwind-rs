@@ -1,8 +1,12 @@
-.border-collapse-collapse {
+.border-collapse {
   border-collapse: collapse;
 }
 
-.border-collapse-separate {
+.border-collapse-\[unset\], .border-collapse-unset {
+  border-collapse: unset;
+}
+
+.border-separate {
   border-collapse: separate;
 }
 
@@ -36,6 +40,10 @@
 
 .display-table-row {
   display: table-row;
+}
+
+.table-\[unset\] {
+  table-layout: unset;
 }
 
 .table-auto {
