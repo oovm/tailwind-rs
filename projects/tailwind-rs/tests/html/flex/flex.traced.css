@@ -1,5 +1,9 @@
-.-order--9999 {
-  order: -9999;
+.-order-1 {
+  order: 1;
+}
+
+.-order-9999 {
+  order: 9999;
 }
 
 .auto-cols-auto {
@@ -58,8 +62,8 @@
   flex-basis: 1px;
 }
 
-.basis-\[calc\(20\%-30px\)\] {
-  flex-basis: calc(20%-30px);
+.basis-\[calc\(20\%_-_30px\)\] {
+  flex-basis: calc(20% - 30px);
 }
 
 .basis-auto {
@@ -126,15 +130,15 @@
   flex-wrap: wrap-reverse;
 }
 
-.gap-\[\[0rem\]\] {
+.gap-\[0rem\] {
   gap: 0;
 }
 
-.gap-x-\[\[0rem\]\] {
+.gap-x-\[0rem\] {
   column-gap: 0;
 }
 
-.gap-y-\[\[0rem\]\] {
+.gap-y-\[0rem\] {
   row-gap: 0;
 }
 
@@ -204,6 +208,10 @@
 
 .order-9999 {
   order: 9999;
+}
+
+.order-unset {
+  order: unset;
 }
 
 .place-content-start {

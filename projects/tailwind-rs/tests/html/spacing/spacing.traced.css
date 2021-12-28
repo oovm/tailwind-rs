@@ -1,0 +1,159 @@
+.-p-0 {
+  padding: 0;
+}
+
+.-p-1 {
+  padding: .25rem;
+}
+
+.m-\[10\%_10\%\] {
+  margin: 10%;
+}
+
+.m-\[1px\] {
+  margin: 1px;
+}
+
+.m-auto {
+  margin: auto;
+}
+
+.m-unset {
+  margin: unset;
+}
+
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.ml-0 {
+  margin-left: 0;
+}
+
+.mr-0 {
+  margin-right: 0;
+}
+
+.mt-0 {
+  margin-top: 0;
+}
+
+.mx-0 {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.mx-\[10\%\] {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.my-0 {
+  margin: 0;
+}
+
+.my-\[5px_5px\] {
+  margin: 5px;
+}
+
+.my-unset {
+  margin: unset;
+}
+
+.p-0 {
+  padding: 0;
+}
+
+.p-0\.5 {
+  padding: .125rem;
+}
+
+.p-1 {
+  padding: .25rem;
+}
+
+.p-\[10\%_10\%\] {
+  padding: 10%;
+}
+
+.p-\[1px\] {
+  padding: 1px;
+}
+
+.p-\[1px_2\%_3em_4vw\] {
+  padding: 1px 2% 3em 4vw;
+}
+
+.p-\[1rem_2rem_3rem\] {
+  padding: 1rem 2rem 3rem;
+}
+
+.p-unset {
+  padding: unset;
+}
+
+.pb-0 {
+  padding-bottom: 0;
+}
+
+.pl-0 {
+  padding-left: 0;
+}
+
+.pr-0 {
+  padding-right: 0;
+}
+
+.pt-0 {
+  padding-top: 0;
+}
+
+.px-0 {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.px-\[10\%\] {
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.py-0 {
+  padding: 0;
+}
+
+.py-\[5px_5px\] {
+  padding: 5px;
+}
+
+.py-unset {
+  padding: unset;
+}
+
+.space-x-0 {
+  margin-left: 0;
+}
+
+.space-x-0\.5 {
+  margin-left: .125rem;
+}
+
+.space-x-1 {
+  margin-left: .25rem;
+}
+
+.space-x-\[1px\] {
+  margin-left: 1px;
+}
+
+.space-x-auto {
+  margin-left: auto;
+}
+
+.space-x-reverse {
+  --tw-space-x-reverse: 1;
+}
+
+.space-x-unset {
+  margin-left: unset;
+}

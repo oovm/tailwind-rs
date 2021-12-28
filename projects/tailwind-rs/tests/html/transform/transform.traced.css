@@ -1,0 +1,67 @@
+.-rotate-0 {
+  transform: rotate(0deg);
+}
+
+.-scale-x-0 {
+  transform: scaleX(0);
+}
+
+.-scale-x-100 {
+  transform: scaleX(1);
+}
+
+.-scale-x-50 {
+  transform: scaleX(.5);
+}
+
+.origin-5 {
+  transform-origin: 50%;
+}
+
+.rotate-0 {
+  transform: rotate(0deg);
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+.rotate-90 {
+  transform: rotate(90deg);
+}
+
+.scale-x-0 {
+  transform: scaleX(0);
+}
+
+.scale-x-100 {
+  transform: scaleX(1);
+}
+
+.scale-x-50 {
+  transform: scaleX(.5);
+}
+
+.scale-y-0 {
+  transform: scaleY(0);
+}
+
+.skew-x-0 {
+  transform: skewX(0deg);
+}
+
+.skew-y-0 {
+  transform: skewY(0deg);
+}
+
+.translate-x-0 {
+  transform: translateX(0deg);
+}
+
+.translate-x-1 {
+  transform: translateX(1deg);
+}
+
+.translate-x-2 {
+  transform: translateX(2deg);
+}

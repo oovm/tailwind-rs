@@ -1,0 +1,87 @@
+.max-w-\[0em\] {
+  max-w: 0em;
+}
+
+.max-w-\[12em\] {
+  max-w: 12em;
+}
+
+.max-w-screen {
+  max-w: 100vw;
+}
+
+.min-w-\[0em\] {
+  min-w: 0em;
+}
+
+.min-w-fit {
+  min-w: fit-content;
+}
+
+.min-w-full {
+  min-w: 100%;
+}
+
+.min-w-max {
+  min-w: max-content;
+}
+
+.min-w-min {
+  min-w: min-content;
+}
+
+.min-w-screen {
+  min-w: 100vw;
+}
+
+.w-0\/12 {
+  w: 0%;
+}
+
+.w-1\/1 {
+  w: 1%;
+}
+
+.w-1\/2 {
+  w: 0.5%;
+}
+
+.w-12\/12, .w-2\/2 {
+  w: 1%;
+}
+
+.w-\[0em\] {
+  w: 0em;
+}
+
+.w-\[1em\] {
+  w: 1em;
+}
+
+.w-\[2em\] {
+  w: 2em;
+}
+
+.w-auto {
+  w: auto;
+}
+
+.w-fit {
+  w: fit-content;
+}
+
+.w-full {
+  w: 100%;
+}
+
+.w-max {
+  w: max-content;
+}
+
+.w-min {
+  w: min-content;
+}
+
+.w-screen {
+  w: 100vw;
+}
