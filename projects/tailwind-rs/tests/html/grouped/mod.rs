@@ -2,10 +2,9 @@ use super::*;
 
 #[test]
 fn test_grouped_trace() {
-    let mut config = GlobalConfig::default();
-    config.css.minify = false;
-    config.tailwind.preflight.disable = true;
-    let (html, css) = config.compile_html_traced(include_str!("grouped.html")).unwrap();
+    let (config, mut builder) = pre_config();
+    let mode = CssInlineMode::None;
+    let (html, css) = config.compile_html(include_str!("grouped.html"), &mut builder, &mode).unwrap();
     std::fs::write("tests/html/grouped/grouped.traced.html", html.as_bytes()).unwrap();
     std::fs::write("tests/html/grouped/grouped.traced.css", css.as_bytes()).unwrap();
     assert_eq!(html, include_str!("grouped.traced.html"));
@@ -14,10 +13,9 @@ fn test_grouped_trace() {
 
 #[test]
 fn test_grouped_inline() {
-    let mut config = GlobalConfig::default();
-    config.css.minify = false;
-    config.tailwind.preflight.disable = true;
-    let (html, css) = config.compile_html_inline(include_str!("grouped.html")).unwrap();
+    let (config, mut builder) = pre_config();
+    let mode = CssInlineMode::Inline;
+    let (html, css) = config.compile_html(include_str!("grouped.html"), &mut builder, &mode).unwrap();
     std::fs::write("tests/html/grouped/grouped.inline.html", html.as_bytes()).unwrap();
     std::fs::write("tests/html/grouped/grouped.inline.css", css.as_bytes()).unwrap();
     assert_eq!(html, include_str!("grouped.inline.html"));
@@ -26,10 +24,9 @@ fn test_grouped_inline() {
 
 #[test]
 fn test_grouped_scoped() {
-    let mut config = GlobalConfig::default();
-    config.css.minify = false;
-    config.tailwind.preflight.disable = true;
-    let (html, css) = config.compile_html_scoped(include_str!("grouped.html")).unwrap();
+    let (config, mut builder) = pre_config();
+    let mode = CssInlineMode::Scoped;
+    let (html, css) = config.compile_html(include_str!("grouped.html"), &mut builder, &mode).unwrap();
     std::fs::write("tests/html/grouped/grouped.scoped.html", html.as_bytes()).unwrap();
     std::fs::write("tests/html/grouped/grouped.scoped.css", css.as_bytes()).unwrap();
     assert_eq!(html, include_str!("grouped.scoped.html"));
@@ -38,10 +35,9 @@ fn test_grouped_scoped() {
 
 #[test]
 fn test_grouped_keyed() {
-    let mut config = GlobalConfig::default();
-    config.css.minify = false;
-    config.tailwind.preflight.disable = true;
-    let (html, css) = config.compile_html_keyed(include_str!("grouped.html")).unwrap();
+    let (config, mut builder) = pre_config();
+    let mode = CssInlineMode::DataKey;
+    let (html, css) = config.compile_html(include_str!("grouped.html"), &mut builder, &mode).unwrap();
     std::fs::write("tests/html/grouped/grouped.keyed.html", html.as_bytes()).unwrap();
     std::fs::write("tests/html/grouped/grouped.keyed.css", css.as_bytes()).unwrap();
     assert_eq!(html, include_str!("grouped.keyed.html"));
@@ -50,10 +46,9 @@ fn test_grouped_keyed() {
 
 #[test]
 fn test_grouped_value() {
-    let mut config = GlobalConfig::default();
-    config.css.minify = false;
-    config.tailwind.preflight.disable = true;
-    let (html, css) = config.compile_html_value(include_str!("grouped.html")).unwrap();
+    let (config, mut builder) = pre_config();
+    let mode = CssInlineMode::DataValue;
+    let (html, css) = config.compile_html(include_str!("grouped.html"), &mut builder, &mode).unwrap();
     std::fs::write("tests/html/grouped/grouped.value.html", html.as_bytes()).unwrap();
     std::fs::write("tests/html/grouped/grouped.value.css", css.as_bytes()).unwrap();
     assert_eq!(html, include_str!("grouped.value.html"));

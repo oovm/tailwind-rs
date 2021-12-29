@@ -10,8 +10,6 @@ pub use url::Url;
 
 #[cfg(feature = "git2")]
 pub extern crate git2;
-#[cfg(feature = "globset")]
-pub extern crate globset;
 #[cfg(feature = "nom")]
 pub extern crate nom;
 #[cfg(feature = "num")]

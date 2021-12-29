@@ -11,8 +11,8 @@ use xxhash_rust::xxh3::Xxh3;
 
 use crate::{Result, TailwindBuilder, TailwindInstance};
 
-pub use self::{attribute::CssAttributes, behavior::CssBehavior};
-pub(crate) use self::{bundle::CssBundle, instance::CssInstance, mode::CssInlineMode};
+pub use self::{attribute::CssAttributes, behavior::CssBehavior, mode::CssInlineMode};
+pub(crate) use self::{bundle::CssBundle, instance::CssInstance};
 
 mod attribute;
 mod behavior;

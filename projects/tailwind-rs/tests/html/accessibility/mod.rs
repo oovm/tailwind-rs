@@ -2,10 +2,9 @@ use super::*;
 
 #[test]
 fn test_accessibility() {
-    let mut config = GlobalConfig::default();
-    config.css.minify = false;
-    config.tailwind.preflight.disable = true;
-    let (html, css) = config.compile_html_traced(include_str!("accessibility.html")).unwrap();
+    let (config, mut builder) = pre_config();
+    let mode = CssInlineMode::None;
+    let (html, css) = config.compile_html(include_str!("accessibility.html"), &mut builder, &mode).unwrap();
     // std::fs::write("tests/html/accessibility/accessibility.trace.html", html.as_bytes()).unwrap();
     // std::fs::write("tests/html/accessibility/accessibility.trace.css", css.as_bytes()).unwrap();
     assert_eq!(html, include_str!("accessibility.trace.html"));
@@ -14,11 +13,10 @@ fn test_accessibility() {
 
 #[test]
 fn test_obfuscate() {
-    let mut config = GlobalConfig::default();
-    config.css.minify = false;
-    config.tailwind.preflight.disable = true;
-    config.tailwind.obfuscate = true;
-    let (html, css) = config.compile_html_traced(include_str!("accessibility.html")).unwrap();
+    let (config, mut builder) = pre_config();
+    builder.obfuscate = true;
+    let mode = CssInlineMode::None;
+    let (html, css) = config.compile_html(include_str!("accessibility.html"), &mut builder, &mode).unwrap();
     // std::fs::write("tests/html/accessibility/accessibility.obfuscate.html", html.as_bytes()).unwrap();
     // std::fs::write("tests/html/accessibility/accessibility.obfuscate.css", css.as_bytes()).unwrap();
     assert_eq!(html, include_str!("accessibility.obfuscate.html"));

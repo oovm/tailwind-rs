@@ -4,6 +4,8 @@ mod for_css_color;
 mod for_docx;
 #[cfg(feature = "git2")]
 mod for_git2;
+#[cfg(feature = "glob")]
+mod for_glob;
 #[cfg(feature = "globset")]
 mod for_globset;
 #[cfg(feature = "html_parser")]

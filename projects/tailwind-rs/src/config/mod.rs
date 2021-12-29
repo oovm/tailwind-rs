@@ -1,18 +1,19 @@
 use std::collections::HashSet;
-use tailwind_css::TailwindBuilder;
+use tailwind_css::CssInlineMode;
 
 /// The `Tailwind` configuration.
 #[derive(Debug, Default)]
 pub struct GlobalConfig {
+    pub dry_run: bool,
     pub css: CssProcessor,
     pub html: HtmlConfig,
-    pub tailwind: TailwindBuilder,
 }
 
 /// The `css` configuration.
 #[derive(Clone, Debug, Default)]
 pub struct CssProcessor {
     pub minify: bool,
+    pub mode: CssInlineMode,
     pub unused_symbols: HashSet<String>,
 }
 

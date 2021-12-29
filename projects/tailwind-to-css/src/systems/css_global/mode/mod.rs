@@ -1,7 +1,7 @@
 use super::*;
 
 #[derive(Debug, Clone, Ord, PartialOrd, Eq, PartialEq, Hash)]
-pub(crate) enum CssInlineMode {
+pub enum CssInlineMode {
     /// ```html
     /// <img class="tailwind"/>
     /// ```

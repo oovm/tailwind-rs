@@ -1,40 +1,22 @@
-use crate::{config::HtmlConfig, GlobalConfig, Result};
 use log::error;
-use tailwind_css::TailwindBuilder;
 use tl::{parse, Bytes, Node, ParserOptions};
 
+use tailwind_css::{CssInlineMode, TailwindBuilder};
+
+use crate::{config::HtmlConfig, GlobalConfig, Result};
+
 impl GlobalConfig {
-    pub fn compile_html_traced(&mut self, input: &str) -> Result<(String, String)> {
-        let tw = &mut self.tailwind;
-        let html = HtmlConfig::trace_all_class(input, tw)?;
-        let bundle = tw.bundle()?;
-        let css = self.css.compile(&bundle)?;
-        Ok((html, css))
+    pub fn builder(&self) -> TailwindBuilder {
+        TailwindBuilder::default()
     }
-    pub fn compile_html_inline(&mut self, input: &str) -> Result<(String, String)> {
-        let tw = &mut self.tailwind;
-        let html = HtmlConfig::inline_all_class(input, tw)?;
-        let bundle = tw.bundle()?;
-        let css = self.css.compile(&bundle)?;
-        Ok((html, css))
-    }
-    pub fn compile_html_scoped(&mut self, input: &str) -> Result<(String, String)> {
-        let tw = &mut self.tailwind;
-        let html = HtmlConfig::scope_all_class(input, tw)?;
-        let bundle = tw.bundle()?;
-        let css = self.css.compile(&bundle)?;
-        Ok((html, css))
-    }
-    pub fn compile_html_keyed(&mut self, input: &str) -> Result<(String, String)> {
-        let tw = &mut self.tailwind;
-        let html = HtmlConfig::keyed_all_class(input, tw)?;
-        let bundle = tw.bundle()?;
-        let css = self.css.compile(&bundle)?;
-        Ok((html, css))
-    }
-    pub fn compile_html_value(&mut self, input: &str) -> Result<(String, String)> {
-        let tw = &mut self.tailwind;
-        let html = HtmlConfig::value_all_class(input, tw)?;
+    pub fn compile_html(&self, input: &str, tw: &mut TailwindBuilder, mode: &CssInlineMode) -> Result<(String, String)> {
+        let html = match mode {
+            CssInlineMode::None => HtmlConfig::trace_all_class(input, tw)?,
+            CssInlineMode::Inline => HtmlConfig::inline_all_class(input, tw)?,
+            CssInlineMode::Scoped => HtmlConfig::scope_all_class(input, tw)?,
+            CssInlineMode::DataKey => HtmlConfig::keyed_all_class(input, tw)?,
+            CssInlineMode::DataValue => HtmlConfig::value_all_class(input, tw)?,
+        };
         let bundle = tw.bundle()?;
         let css = self.css.compile(&bundle)?;
         Ok((html, css))

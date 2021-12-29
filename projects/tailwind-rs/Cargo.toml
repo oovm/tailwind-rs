@@ -18,7 +18,7 @@ log = "0.4.14"
 xxhash-rust = "0.8.3"
 
 [dependencies.tailwind-error]
-version = "1.1.4"
+version = "1.1.5"
 features = ["parcel_css", "nom", "css-color"]
 
 [dev-dependencies]
