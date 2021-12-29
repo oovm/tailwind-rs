@@ -3,7 +3,7 @@ use super::*;
 #[doc = include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindBlur {
-    px: IntegerOnly,
+    px: NumericValue,
     backdrop: Backdrop,
 }
 impl Display for TailwindBlur {
@@ -17,8 +17,9 @@ impl TailwindInstance for TailwindBlur {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let class = self.backdrop.filter();
         let value = match &self.px {
-            IntegerOnly::Number(n) => format!("blur({}px)", n),
-            IntegerOnly::Arbitrary(n) => format!("blur({})", n.get_properties()),
+            NumericValue::Number(n, _) => format!("blur({}px)", n),
+            NumericValue::Arbitrary(n) => format!("blur({})", n.get_properties()),
+            NumericValue::Standard(_) => unreachable!(),
         };
         css_attributes! {
             class => value
@@ -41,7 +42,7 @@ impl TailwindBlur {
             ["xl"] => 24usize.into(),
             ["2xl"] => 40usize.into(),
             ["3xl"] => 64usize.into(),
-            _ => IntegerOnly::parser("blur")(rest, arbitrary)?,
+            _ => NumericValue::positive_parser("blur")(rest, arbitrary)?,
         };
         Ok(Self { px, backdrop: Backdrop::from(backdrop) })
     }

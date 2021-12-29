@@ -42,9 +42,9 @@ impl Display for TailwindTranslate {
 impl TailwindInstance for TailwindTranslate {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let skew = match self.axis {
-            Some(true) => format!("translateX({}deg)", self.kind),
-            Some(false) => format!("translateY({}deg)", self.kind),
-            None => format!("translate({}deg)", self.kind),
+            Some(true) => format!("translateX({}rem)", self.kind),
+            Some(false) => format!("translateY({}rem)", self.kind),
+            None => format!("translate({}rem)", self.kind),
         };
         css_attributes! {
             "transform" => skew

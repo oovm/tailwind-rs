@@ -2,7 +2,7 @@ pub use self::{
     origin::TailwindOrigin, rotate::TailwindRotate, scale::TailwindScale, skew::TailwindSkew, translate::TailwindTranslate,
 };
 use crate::{
-    css_attributes, syntax_error, AnchorPoint, AxisXY, CssAttributes, IntegerOnly, LengthUnit, Negative, Result,
+    css_attributes, syntax_error, AnchorPoint, AxisXY, CssAttributes, LengthUnit, Negative, NumericValue, Result,
     TailwindArbitrary, TailwindBuilder, TailwindInstance,
 };
 use std::fmt::{Debug, Display, Formatter};

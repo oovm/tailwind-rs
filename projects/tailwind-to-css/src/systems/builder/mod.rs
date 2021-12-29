@@ -94,7 +94,7 @@ impl TailwindBuilder {
     /// <style> {} </style>
     /// ```
     #[inline]
-    pub fn scope(&mut self, style: &str) -> Result<String> {
+    pub fn scope(&mut self, style: &str) -> Result<(String, String)> {
         let out = try_inline(self, style, CssInlineMode::Scoped)?;
         Ok(out.as_scope())
     }

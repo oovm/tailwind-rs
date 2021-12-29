@@ -3,7 +3,7 @@ use super::*;
 #[doc = include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindContrast {
-    percent: IntegerOnly,
+    percent: NumericValue,
     backdrop: Backdrop,
 }
 
@@ -18,8 +18,9 @@ impl TailwindInstance for TailwindContrast {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let class = self.backdrop.filter();
         let value = match &self.percent {
-            IntegerOnly::Number(n) => format!("contrast({}%)", n),
-            IntegerOnly::Arbitrary(n) => format!("contrast({})", n.get_properties()),
+            NumericValue::Number(n, _) => format!("contrast({}%)", n),
+            NumericValue::Arbitrary(n) => format!("contrast({})", n.get_properties()),
+            NumericValue::Standard(_) => unreachable!(),
         };
         css_attributes! {
             class => value
@@ -29,7 +30,7 @@ impl TailwindInstance for TailwindContrast {
 
 impl TailwindContrast {
     pub fn parse(rest: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
-        let percent = IntegerOnly::parser("contrast")(rest, arbitrary)?;
+        let percent = NumericValue::positive_parser("contrast")(rest, arbitrary)?;
         Ok(Self { percent, backdrop: Backdrop::from(backdrop) })
     }
 }

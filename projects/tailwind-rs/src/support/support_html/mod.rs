@@ -118,8 +118,8 @@ fn scope_class(node: &mut Node, tw: &mut TailwindBuilder) -> Option<()> {
     let attributes = node.as_tag_mut()?.attributes_mut();
     let class = attributes.get_mut("class")??;
     match tw.scope(class.try_as_utf8_str()?) {
-        Ok(c) => {
-            class.set(c).ok()?;
+        Ok((c1, c2)) => {
+            class.set([c1, c2].join(" ")).ok()?;
         },
         Err(e) => {
             error!("{}", e);

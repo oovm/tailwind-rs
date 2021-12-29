@@ -1,30 +1,33 @@
 use super::*;
 
 #[doc=include_str!("readme.md")]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Debug)]
 pub struct TailwindScale {
-    negative: Negative,
-    scale: usize,
-    axis: Option<bool>,
+    kind: NumericValue,
+    axis: AxisXY,
 }
 impl Display for TailwindScale {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        self.negative.write(f)?;
+        self.kind.write_negative(f)?;
         match self.axis {
-            None => write!(f, "scale-{}", self.scale),
-            Some(true) => write!(f, "scale-x-{}", self.scale),
-            Some(false) => write!(f, "scale-y-{}", self.scale),
+            AxisXY::N => write!(f, "scale-{}", self.kind),
+            AxisXY::X => write!(f, "scale-x-{}", self.kind),
+            AxisXY::Y => write!(f, "scale-y-{}", self.kind),
         }
     }
 }
 
 impl TailwindInstance for TailwindScale {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        let scale = self.scale as f32 / 100.0;
+        let scale = match &self.kind {
+            NumericValue::Number(n, _) => (*n as f32 / 100.0).to_string(),
+            NumericValue::Arbitrary(s) => s.get_properties(),
+            NumericValue::Standard(_) => unreachable!(),
+        };
         let scale = match self.axis {
-            None => format!("scale({})", scale),
-            Some(true) => format!("scaleX({})", scale),
-            Some(false) => format!("scaleY({})", scale),
+            AxisXY::N => format!("scale({})", scale),
+            AxisXY::X => format!("scaleX({})", scale),
+            AxisXY::Y => format!("scaleY({})", scale),
         };
         css_attributes! {
             "transform" => scale
@@ -35,21 +38,12 @@ impl TailwindInstance for TailwindScale {
 impl TailwindScale {
     // https://tailwindcss.com/docs/scale
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: Negative) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary");
-        match pattern {
-            ["x", rest @ ..] => parse_axis(rest, Some(true), negative),
-            ["y", rest @ ..] => parse_axis(rest, Some(false), negative),
-            _ => parse_axis(pattern, Some(true), negative),
-        }
-    }
-}
-
-fn parse_axis(input: &[&str], axis: Option<bool>, negative: Negative) -> Result<TailwindScale> {
-    match input {
-        [n] => {
-            let scale = TailwindArbitrary::from(*n).as_integer()?;
-            Ok(TailwindScale { negative, scale, axis })
-        },
-        _ => syntax_error!("Unknown scale instructions: {}", input.join("-")),
+        let (rest, axis) = match pattern {
+            ["x", rest @ ..] => (rest, AxisXY::X),
+            ["y", rest @ ..] => (rest, AxisXY::Y),
+            [..] => (pattern, AxisXY::N),
+        };
+        let kind = NumericValue::negative_parser("scale")(rest, arbitrary, negative)?;
+        Ok(TailwindScale { kind, axis })
     }
 }

@@ -3,7 +3,7 @@ use super::*;
 #[doc = include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindHueRotate {
-    degree: IntegerOnly,
+    degree: NumericValue,
     backdrop: Backdrop,
 }
 
@@ -18,8 +18,9 @@ impl TailwindInstance for TailwindHueRotate {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let class = self.backdrop.filter();
         let value = match &self.degree {
-            IntegerOnly::Number(n) => format!("hue-rotate({}%)", n),
-            IntegerOnly::Arbitrary(n) => format!("hue-rotate({})", n.get_properties()),
+            NumericValue::Number(n, _) => format!("hue-rotate({}%)", n),
+            NumericValue::Arbitrary(n) => format!("hue-rotate({})", n.get_properties()),
+            NumericValue::Standard(_) => unreachable!(),
         };
         css_attributes! {
             class => value
@@ -29,7 +30,7 @@ impl TailwindInstance for TailwindHueRotate {
 
 impl TailwindHueRotate {
     pub fn parse(rest: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
-        let percent = IntegerOnly::parser("hue-rotate")(rest, arbitrary)?;
+        let percent = NumericValue::positive_parser("hue-rotate")(rest, arbitrary)?;
         Ok(Self { degree: percent, backdrop: Backdrop::from(backdrop) })
     }
 }

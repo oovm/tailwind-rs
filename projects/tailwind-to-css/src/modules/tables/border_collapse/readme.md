@@ -1,6 +1,6 @@
 Utilities for controlling whether table borders should collapse or be separated.
 
-## Pattern
+## Patterns
 
 | Class             | Css                         | 
 |-------------------|-----------------------------| 

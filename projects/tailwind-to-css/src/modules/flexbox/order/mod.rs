@@ -1,11 +1,10 @@
-use self::ordering::Order;
 use super::*;
-mod ordering;
+use crate::NumericValue;
 
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailWindOrder {
-    kind: Order,
+    kind: NumericValue,
 }
 
 impl Display for TailWindOrder {
@@ -25,13 +24,21 @@ impl TailwindInstance for TailWindOrder {
 
 impl TailWindOrder {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: Negative) -> Result<Self> {
-        Ok(Self { kind: Order::parse(pattern, arbitrary, negative)? })
+        let kind = match pattern {
+            ["none"] => NumericValue::Number(0.0, Negative::from(false)),
+            ["first"] => NumericValue::Number(9999.0, Negative::from(false)),
+            ["last"] => NumericValue::Number(-9999.0, Negative::from(true)),
+            [s] if Self::check_valid(s) => NumericValue::Standard(s.to_string()),
+            _ => NumericValue::negative_checker_parser("order", &Self::check_valid)(pattern, arbitrary, negative)?,
+        };
+        Ok(Self { kind })
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: Order::parse_arbitrary(arbitrary)? })
+        Ok(Self { kind: NumericValue::parse_arbitrary(arbitrary)? })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit#syntax
     pub fn check_valid(mode: &str) -> bool {
-        Order::check_valid(mode)
+        let set = BTreeSet::from_iter(vec!["inherit", "initial", "revert", "unset"]);
+        set.contains(mode)
     }
 }

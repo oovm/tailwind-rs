@@ -1,6 +1,6 @@
 Utilities for controlling the table layout algorithm.
 
-## Pattern
+## Patterns
 
 | Class           | Css                   | 
 |-----------------|-----------------------| 

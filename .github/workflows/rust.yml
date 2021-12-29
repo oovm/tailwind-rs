@@ -26,4 +26,4 @@ jobs:
       - name: Clippy
         run: cargo clippy
       - name: Tests
-        run: cargo test --release
+        run: cargo test --all --no-fail-fast

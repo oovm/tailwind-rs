@@ -2,38 +2,36 @@ use std::cmp::Ordering;
 
 use super::*;
 
-impl<T> From<T> for IntegerOnly
-where
-    T: Into<usize>,
-{
-    fn from(kind: T) -> Self {
-        Self::Number(kind.into())
+impl From<usize> for NumericValue {
+    fn from(kind: usize) -> Self {
+        Self::Number(kind as f32, Negative::from(false))
     }
 }
 
-impl Display for IntegerOnly {
+impl Display for NumericValue {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::Number(s) => write!(f, "{}", s),
-            Self::Arbitrary(s) => s.write(f),
+            Self::Number(number, _) => write!(f, "{}", number.abs()),
+            Self::Standard(value) => write!(f, "{}", value),
+            Self::Arbitrary(value) => value.write(f),
         }
     }
 }
 
-impl PartialEq<usize> for IntegerOnly {
+impl PartialEq<usize> for NumericValue {
     fn eq(&self, other: &usize) -> bool {
         match self {
-            Self::Number(s) => s.eq(other),
-            Self::Arbitrary(_) => false,
+            Self::Number(n, _) => n.eq(&(*other as f32)),
+            _ => false,
         }
     }
 }
 
-impl PartialOrd<usize> for IntegerOnly {
+impl PartialOrd<usize> for NumericValue {
     fn partial_cmp(&self, other: &usize) -> Option<Ordering> {
         match self {
-            Self::Number(s) => s.partial_cmp(other),
-            Self::Arbitrary(_) => None,
+            Self::Number(n, _) => n.partial_cmp(&(*other as f32)),
+            _ => None,
         }
     }
 }

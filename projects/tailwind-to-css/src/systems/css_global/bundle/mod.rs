@@ -41,9 +41,9 @@ impl CssBundle {
     }
     /// # Returns
     /// - scoped class name
-    pub fn as_scope(&self) -> String {
+    pub fn as_scope(&self) -> (String, String) {
         let id = Self::obfuscate(self);
-        self.non_inlined_classes.iter().chain(&[id]).join(" ")
+        (self.as_traced(), id)
     }
     /// # Returns
     /// - data name without value

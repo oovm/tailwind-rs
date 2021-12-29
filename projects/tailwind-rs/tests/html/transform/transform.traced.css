@@ -2,16 +2,12 @@
   transform: rotate(0deg);
 }
 
-.-scale-x-0 {
-  transform: scaleX(0);
+.-scale-100 {
+  transform: scale(-1);
 }
 
-.-scale-x-100 {
-  transform: scaleX(1);
-}
-
-.-scale-x-50 {
-  transform: scaleX(.5);
+.-scale-50 {
+  transform: scale(-.5);
 }
 
 .origin-5 {
@@ -30,16 +26,20 @@
   transform: rotate(90deg);
 }
 
+.scale-0 {
+  transform: scale(0);
+}
+
+.scale-100 {
+  transform: scale(1);
+}
+
+.scale-50 {
+  transform: scale(.5);
+}
+
 .scale-x-0 {
   transform: scaleX(0);
-}
-
-.scale-x-100 {
-  transform: scaleX(1);
-}
-
-.scale-x-50 {
-  transform: scaleX(.5);
 }
 
 .scale-y-0 {
@@ -55,13 +55,13 @@
 }
 
 .translate-x-0 {
-  transform: translateX(0deg);
+  transform: translateX(0);
 }
 
 .translate-x-1 {
-  transform: translateX(1deg);
+  transform: translateX(1rem);
 }
 
 .translate-x-2 {
-  transform: translateX(2deg);
+  transform: translateX(2rem);
 }

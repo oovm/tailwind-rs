@@ -1,6 +1,6 @@
 Utilities for controlling an element's padding.
 
-## Pattern
+## Patterns
 
 
 ## Arbitrary

@@ -5,7 +5,7 @@ use super::*;
 pub struct TailwindSkew {
     negative: Negative,
     axis: AxisXY,
-    degree: IntegerOnly,
+    degree: NumericValue,
 }
 
 impl Display for TailwindSkew {
@@ -40,11 +40,11 @@ impl TailwindSkew {
             ["y", rest @ ..] => (AxisXY::Y, rest),
             _ => (AxisXY::X, pattern),
         };
-        let degree = IntegerOnly::parser("skew")(rest, arbitrary)?;
+        let degree = NumericValue::negative_parser("skew")(rest, arbitrary, negative)?;
         Ok(Self { negative, degree, axis })
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, negative: Negative, axis: AxisXY) -> Result<Self> {
-        let degree = IntegerOnly::parse_arbitrary(arbitrary)?;
+        let degree = NumericValue::parse_arbitrary(arbitrary)?;
         Ok(Self { negative, degree, axis })
     }
 }
