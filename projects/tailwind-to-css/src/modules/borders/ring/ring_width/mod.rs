@@ -22,7 +22,6 @@ impl TailwindInstance for TailwindRingWidth {
 }
 impl TailwindRingWidth {
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after ring-width");
         let out = match input {
             [] => Self { width: LengthUnit::px(3.0) },
             [n] => {

@@ -38,7 +38,6 @@ impl TailwindInstance for TailwindResize {
 impl TailwindResize {
     /// https://tailwindcss.com/docs/user-select
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after resize");
         match pattern {
             [] => Ok(Self::from("both")),
             ["x"] => Ok(Self::from("horizontal")),

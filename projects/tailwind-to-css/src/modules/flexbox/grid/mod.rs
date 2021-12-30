@@ -11,7 +11,6 @@ pub struct TailwindGrid {}
 
 impl TailwindGrid {
     pub fn adapt(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after place");
         let out = match str {
             // https://tailwindcss.com/docs/grid-template-rows
             ["rows", rest @ ..] => TailwindGridRows::parse(rest, arbitrary)?.boxed(),

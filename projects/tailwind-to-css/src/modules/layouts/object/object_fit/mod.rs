@@ -32,7 +32,6 @@ impl TailwindInstance for TailwindObjectFit {
 impl TailwindObjectFit {
     /// https://tailwindcss.com/docs/object-fit
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after object");
         let kind = pattern.join("-");
         debug_assert!(Self::check_valid(&kind));
         Ok(Self { kind })

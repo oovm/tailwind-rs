@@ -23,7 +23,6 @@ impl TailwindInstance for TailwindDuration {
 impl TailwindDuration {
     /// https://tailwindcss.com/docs/transition-duration
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after duration");
         match input {
             [n] => {
                 let a = TailwindArbitrary::from(*n);

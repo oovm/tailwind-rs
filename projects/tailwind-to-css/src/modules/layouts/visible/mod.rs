@@ -37,7 +37,6 @@ impl TailwindInstance for TailwindVisibility {
 impl TailwindVisibility {
     /// https://tailwindcss.com/docs/visibility
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after visible");
         let kind = pattern.join("-");
         debug_assert!(Self::check_valid(&kind));
         Ok(Self { kind })

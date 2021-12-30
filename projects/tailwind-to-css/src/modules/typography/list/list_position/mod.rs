@@ -36,7 +36,6 @@ impl TailwindInstance for TailwindListPosition {
 impl TailwindListPosition {
     /// https://tailwindcss.com/docs/list-style-position
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after resize");
         let kind = pattern.join("-");
         debug_assert!(Self::check_valid(&kind));
         Ok(Self { kind })

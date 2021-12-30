@@ -74,7 +74,6 @@ impl TailwindBreak {
 
 impl WordBreak {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after break");
         let kind = match pattern {
             ["normal"] => Self::Normal,
             ["words"] => Self::Words,

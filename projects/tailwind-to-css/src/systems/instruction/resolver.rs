@@ -261,7 +261,6 @@ impl TailwindInstruction {
     }
     #[inline]
     fn justify_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after justify");
         let out = match str {
             // https://tailwindcss.com/docs/justify-items
             ["items", rest @ ..] => TailwindJustifyItems::parse(rest, arbitrary)?.boxed(),
@@ -275,7 +274,6 @@ impl TailwindInstruction {
 
     #[inline]
     fn backdrop_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after justify");
         let out = match str {
             // https://tailwindcss.com/docs/backdrop-blur
             ["blur", rest @ ..] => TailwindBlur::parse(rest, arbitrary, true)?.boxed(),

@@ -23,7 +23,6 @@ impl TailwindInstance for TailwindDelay {
 impl TailwindDelay {
     /// https://tailwindcss.com/docs/transition-delay
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after delay");
         match input {
             [n] => {
                 let a = TailwindArbitrary::from(*n);

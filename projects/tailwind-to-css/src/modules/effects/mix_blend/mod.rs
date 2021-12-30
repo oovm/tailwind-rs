@@ -27,7 +27,6 @@ impl TailwindInstance for TailwindBlend {
 impl TailwindBlend {
     /// https://tailwindcss.com/docs/mix-blend-mode
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after blur");
         let mode = input.join("-");
         debug_assert!(Self::check_valid(&mode), "invalid blend mode");
         Ok(Self { mode })

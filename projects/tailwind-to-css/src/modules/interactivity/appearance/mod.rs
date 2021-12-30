@@ -32,7 +32,6 @@ impl TailwindInstance for TailwindAppearance {
 impl TailwindAppearance {
     /// https://tailwindcss.com/docs/appearance
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after appearance");
         let kind = pattern.join("-");
         debug_assert!(Self::check_valid(&kind));
         Ok(Self { kind })

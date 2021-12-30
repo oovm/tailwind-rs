@@ -40,7 +40,6 @@ impl TailwindInstance for TailwindItems {
 impl TailwindItems {
     /// <https://tailwindcss.com/docs/align-items>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after items");
         let kind = pattern.join("-");
         debug_assert!(Self::check_valid(&kind));
         Ok(Self { kind })

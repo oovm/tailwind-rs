@@ -30,7 +30,6 @@ impl TailwindInstance for TailwindOpacity {
 impl TailwindOpacity {
     /// https://tailwindcss.com/docs/opacity
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after opacity");
         match input {
             [n] => {
                 let a = TailwindArbitrary::from(*n);

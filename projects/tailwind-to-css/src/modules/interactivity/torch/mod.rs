@@ -32,7 +32,6 @@ impl TailwindInstance for TailwindTorch {
 impl TailwindTorch {
     /// https://tailwindcss.com/docs/touch-action
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after torch");
         let kind = pattern.join("-");
         debug_assert!(Self::check_valid(&kind));
         Ok(Self { kind })

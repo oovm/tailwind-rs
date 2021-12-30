@@ -32,7 +32,6 @@ impl TailwindInstance for TailwindWhiteSpace {
 impl TailwindWhiteSpace {
     /// https://tailwindcss.com/docs/whitespace
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after whitespace");
         let kind = pattern.join("-");
         debug_assert!(Self::check_valid(&kind));
         Ok(Self { kind })

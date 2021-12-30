@@ -70,7 +70,6 @@ impl TailwindOutlineStyle {
     pub const None: Self = Self { kind: OutlineStyle::None };
     /// https://tailwindcss.com/docs/outline-style
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after object");
         let kind = match pattern {
             ["none"] => OutlineStyle::None,
             [] => OutlineStyle::Default,

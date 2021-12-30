@@ -23,7 +23,6 @@ impl TailwindInstance for TailwindClear {
 impl TailwindClear {
     /// https://tailwindcss.com/docs/clear
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after clear");
         let kind = pattern.join("-");
         debug_assert!(Self::check_valid(&kind));
         Ok(Self { kind })

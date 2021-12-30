@@ -41,7 +41,6 @@ impl TailwindIndent {
 
 impl Indent {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after indent");
         match pattern {
             ["px"] => Ok(Self::Length(LengthUnit::px(1.0))),
             [n] => {

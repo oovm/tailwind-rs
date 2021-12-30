@@ -32,7 +32,6 @@ impl TailwindInstance for TailwindSelect {
 impl TailwindSelect {
     /// https://tailwindcss.com/docs/user-select
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after select");
         let kind = pattern.join("-");
         debug_assert!(Self::check_valid(&kind));
         Ok(Self { kind })

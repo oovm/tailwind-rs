@@ -52,7 +52,6 @@ impl TailwindTracking {
     pub const Unset: Self = Self { kind: Tracking::Global(CssBehavior::Unset) };
     /// https://tailwindcss.com/docs/letter-spacing
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after tracking");
         match input {
             ["tighter"] => em(-0.05),
             ["tight"] => em(-0.025),

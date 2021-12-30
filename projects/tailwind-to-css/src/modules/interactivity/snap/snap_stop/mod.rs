@@ -38,7 +38,6 @@ impl TailwindInstance for TailwindSnapStop {
 impl TailwindSnapStop {
     /// https://tailwindcss.com/docs/scroll-snap-stop
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after snap-stop");
         let kind = pattern.join("-");
         debug_assert!(Self::check_valid(&kind));
         Ok(Self { kind })

@@ -32,7 +32,6 @@ impl TailwindInstance for TailwindPointerEvents {
 impl TailwindPointerEvents {
     /// https://tailwindcss.com/docs/pointer-events
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after pointer-events");
         let kind = pattern.join("-");
         debug_assert!(Self::check_valid(&kind));
         Ok(Self { kind })

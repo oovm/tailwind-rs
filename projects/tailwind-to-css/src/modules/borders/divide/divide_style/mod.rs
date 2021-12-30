@@ -39,7 +39,6 @@ impl TailwindInstance for TailwindDivideStyle {
 impl TailwindDivideStyle {
     /// https://tailwindcss.com/docs/divide-style
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after object");
         let kind = pattern.join("-");
         debug_assert!(Self::check_valid(&kind));
         Ok(Self { kind })

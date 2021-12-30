@@ -36,7 +36,6 @@ impl TailwindInstance for TailwindIsolation {
 impl TailwindIsolation {
     /// https://tailwindcss.com/docs/isolation
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after isolation");
         let kind = pattern.join("-");
         debug_assert!(Self::check_valid(&kind));
         Ok(Self { kind })

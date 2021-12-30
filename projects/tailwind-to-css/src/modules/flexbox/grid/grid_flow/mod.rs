@@ -39,7 +39,6 @@ impl TailwindInstance for TailwindGridFlow {
 impl TailwindGridFlow {
     /// https://tailwindcss.com/docs/grid-auto-flow
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after grid-flow");
         let kind = match pattern {
             ["col"] => Self::from("column"),
             ["col", "dense"] => Self::from("column dense"),

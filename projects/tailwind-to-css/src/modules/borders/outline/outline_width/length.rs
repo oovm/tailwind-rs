@@ -10,7 +10,6 @@ pub(super) enum OutlineWidth {
 impl OutlineWidth {
     /// https://tailwindcss.com/docs/outline-offset
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after outline-offset");
         match pattern {
             [n] if Self::check_valid(n) => Ok(Self::Standard(n.to_string())),
             [n] => {

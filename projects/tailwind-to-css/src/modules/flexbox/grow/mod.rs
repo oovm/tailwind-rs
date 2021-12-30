@@ -22,7 +22,6 @@ impl TailwindInstance for TailWindGrow {
 
 impl TailWindGrow {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after flex-grow");
         match pattern {
             [] => Ok(Self { grow: 0 }),
             [n] => Ok(Self { grow: parse_integer(n)?.1 }),

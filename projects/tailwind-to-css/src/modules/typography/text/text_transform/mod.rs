@@ -32,7 +32,6 @@ impl TailwindInstance for TailwindTextTransform {
 impl TailwindTextTransform {
     /// https://tailwindcss.com/docs/text-transform
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after text-transform");
         let kind = pattern.join("-");
         debug_assert!(Self::check_valid(&kind));
         Ok(Self { kind })

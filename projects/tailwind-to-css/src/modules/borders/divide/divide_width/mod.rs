@@ -34,7 +34,6 @@ impl TailwindInstance for TailwindDivideWidth {
 impl TailwindDivideWidth {
     /// https://tailwindcss.com/docs/divide-width
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary, axis: bool) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after divide-width");
         let out = match input {
             [] => Self { axis, width: 1 },
             [n] => {

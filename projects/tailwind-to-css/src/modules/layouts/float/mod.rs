@@ -23,7 +23,6 @@ impl TailwindInstance for TailwindFloat {
 impl TailwindFloat {
     /// https://tailwindcss.com/docs/float
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after float");
         let kind = pattern.join("-");
         debug_assert!(Self::check_valid(&kind));
         Ok(Self { kind })

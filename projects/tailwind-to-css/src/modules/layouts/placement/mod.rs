@@ -28,7 +28,6 @@ impl Display for PlacementSize {
 
 impl PlacementSize {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after left/right/top/bottom");
         let kind = match pattern {
             ["px"] => Self::Length(LengthUnit::px(1.0)),
             ["full"] => Self::Full,

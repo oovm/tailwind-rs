@@ -22,7 +22,6 @@ impl TailwindInstance for TailWindShrink {
 
 impl TailWindShrink {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        debug_assert!(arbitrary.is_none(), "forbidden arbitrary after flex-shrink");
         match pattern {
             [] => Ok(Self { shrink: 0 }),
             [n] => Ok(Self { shrink: parse_integer(n)?.1 }),
