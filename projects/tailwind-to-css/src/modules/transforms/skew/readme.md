@@ -1,17 +1,8 @@
 Utilities for skewing elements with transform.
 
-## Example
+## Patterns
 
-```rust
-use tailwind_css::TailwindBuilder;
 
-#[test]
-fn build_skew() {
-    let builder = TailwindBuilder::default();
-    let out = format!("{:?}", builder.inline("skew-x-0"));
-    assert_eq!(out, "{transform: skewX(0deg);}")
-}
-```
 
 ## Reference
 

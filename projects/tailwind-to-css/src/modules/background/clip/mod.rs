@@ -30,7 +30,7 @@ impl TailwindInstance for TailwindBackgroundClip {
 }
 
 impl TailwindBackgroundClip {
-    /// https://tailwindcss.com/docs/background-clip
+    /// <https://tailwindcss.com/docs/background-clip>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         let kind = pattern.join("-");
         debug_assert!(Self::check_valid(&kind));

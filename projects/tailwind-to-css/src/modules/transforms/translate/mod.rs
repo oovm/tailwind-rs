@@ -4,7 +4,7 @@ use super::*;
 #[derive(Clone, Debug)]
 pub struct TailwindTranslate {
     negative: Negative,
-    axis: Option<bool>,
+    axis: AxisXY,
     kind: TranslateSize,
 }
 
@@ -32,9 +32,9 @@ impl Display for TailwindTranslate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         self.negative.write(f)?;
         match self.axis {
-            Some(true) => write!(f, "translate-x-{}", self.kind),
-            Some(false) => write!(f, "translate-y-{}", self.kind),
-            None => write!(f, "translate-{}", self.kind),
+            AxisXY::X => write!(f, "translate-x-{}", self.kind),
+            AxisXY::Y => write!(f, "translate-y-{}", self.kind),
+            AxisXY::N => write!(f, "translate-{}", self.kind),
         }
     }
 }
@@ -42,9 +42,9 @@ impl Display for TailwindTranslate {
 impl TailwindInstance for TailwindTranslate {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let skew = match self.axis {
-            Some(true) => format!("translateX({}rem)", self.kind),
-            Some(false) => format!("translateY({}rem)", self.kind),
-            None => format!("translate({}rem)", self.kind),
+            AxisXY::X => format!("translateX({}rem)", self.kind),
+            AxisXY::Y => format!("translateY({}rem)", self.kind),
+            AxisXY::N => format!("translate({}rem)", self.kind),
         };
         css_attributes! {
             "transform" => skew
@@ -52,18 +52,17 @@ impl TailwindInstance for TailwindTranslate {
     }
 }
 
+// noinspection DuplicatedCode
 impl TailwindTranslate {
-    /// https://tailwindcss.com/docs/translate
+    /// <https://tailwindcss.com/docs/translate>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: Negative) -> Result<Self> {
-        match pattern {
-            ["x", rest @ ..] => Ok(Self { negative, axis: Some(true), kind: TranslateSize::parse(rest, arbitrary)? }),
-            ["y", rest @ ..] => Ok(Self { negative, axis: Some(false), kind: TranslateSize::parse(rest, arbitrary)? }),
-            _ => Ok(Self { negative, axis: None, kind: TranslateSize::parse(pattern, arbitrary)? }),
-        }
-    }
-    /// https://tailwindcss.com/docs/translate#arbitrary-values
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: Option<bool>, negative: Negative) -> Result<Self> {
-        Ok(Self { negative, axis, kind: TranslateSize::parse_arbitrary(arbitrary)? })
+        let (rest, axis) = match pattern {
+            ["x", rest @ ..] => (rest, AxisXY::X),
+            ["y", rest @ ..] => (rest, AxisXY::Y),
+            [..] => (pattern, AxisXY::N),
+        };
+        let kind = TranslateSize::parse(rest, arbitrary)?;
+        Ok(Self { negative, axis, kind })
     }
 }
 

@@ -1,21 +1,25 @@
 use super::*;
 
 #[doc=include_str!("readme.md")]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Debug)]
 pub struct TailwindRotate {
-    negative: Negative,
-    degree: usize,
+    kind: NumericValue,
 }
+
 impl Display for TailwindRotate {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        self.negative.write(f)?;
-        write!(f, "rotate-{}", self.degree)
+        self.kind.write_negative(f)?;
+        self.kind.write_class(f, "rotate-")
     }
 }
 
 impl TailwindInstance for TailwindRotate {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        let rotate = format!("rotate({}deg)", self.degree);
+        let rotate = match &self.kind {
+            NumericValue::Number(n, _) => format!("rotate({}deg)", n),
+            NumericValue::Arbitrary(s) => format!("rotate({})", s.get_properties()),
+            NumericValue::Standard(_) => unreachable!(),
+        };
         css_attributes! {
             "transform" => rotate
         }
@@ -23,11 +27,9 @@ impl TailwindInstance for TailwindRotate {
 }
 
 impl TailwindRotate {
-    // https://tailwindcss.com/docs/rotate
+    // <https://tailwindcss.com/docs/rotate>
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary, negative: Negative) -> Result<Self> {
-        match input {
-            [n] => Ok(Self { negative, degree: TailwindArbitrary::from(*n).as_integer()? }),
-            _ => syntax_error!("Unknown rotate instructions: {}", input.join("-")),
-        }
+        let kind = NumericValue::negative_parser("scale")(input, arbitrary, negative)?;
+        Ok(Self { kind })
     }
 }
