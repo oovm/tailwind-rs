@@ -9,7 +9,7 @@ pub struct TailwindUnderlineOffset {
 #[derive(Debug, Clone)]
 enum UnderlineOffset {
     Auto,
-    Unit(usize),
+    Unit(i32),
     Length(LengthUnit),
 }
 
@@ -60,7 +60,7 @@ impl TailwindUnderlineOffset {
         Self::maybe_no_unit(arbitrary).or_else(|_| Self::maybe_length(arbitrary))
     }
     fn maybe_length(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let n = arbitrary.as_length()?;
+        let n = arbitrary.as_length_or_fraction()?;
         Ok(Self { kind: UnderlineOffset::Length(n) })
     }
     fn maybe_no_unit(arbitrary: &TailwindArbitrary) -> Result<Self> {

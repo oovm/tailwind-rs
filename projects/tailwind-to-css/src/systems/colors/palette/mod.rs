@@ -10,12 +10,12 @@ pub struct Palette {
     gradient: bool,
     /// min-width
     /// unit: px
-    key_points: BTreeMap<usize, Srgb>,
+    key_points: BTreeMap<u32, Srgb>,
 }
 
 impl Palette {
     ///
-    pub fn get_color(&self, weight: usize) -> Result<Srgb> {
+    pub fn get_color(&self, weight: u32) -> Result<Srgb> {
         match self.key_points.get(&weight) {
             Some(s) => Ok(*s),
             None if self.gradient => {

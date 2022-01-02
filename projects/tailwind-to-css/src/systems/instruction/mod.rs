@@ -9,7 +9,7 @@ use std::{
     fmt::{Debug, Display, Formatter},
     str::FromStr,
 };
-use tailwind_ast::{parse_f32, parse_fraction, parse_integer, ASTVariant, AstStyle};
+use tailwind_ast::{parse_fraction, ASTVariant, AstStyle};
 
 /// `v:v:-a-a-[A]`
 #[derive(Debug, Clone)]

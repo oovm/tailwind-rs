@@ -3,28 +3,28 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindSkew {
-    negative: Negative,
     axis: AxisXY,
-    degree: NumericValue,
+    kind: UnitValue,
 }
 
 impl Display for TailwindSkew {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        self.negative.write(f)?;
+        self.kind.write_negative(f)?;
         match self.axis {
-            AxisXY::X => write!(f, "skew-x-{}", self.degree),
-            AxisXY::Y => write!(f, "skew-y-{}", self.degree),
-            AxisXY::N => write!(f, "skew-{}", self.degree),
+            AxisXY::X => write!(f, "skew-x-{}", self.kind),
+            AxisXY::Y => write!(f, "skew-y-{}", self.kind),
+            AxisXY::N => write!(f, "skew-{}", self.kind),
         }
     }
 }
 
 impl TailwindInstance for TailwindSkew {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
+        let deg = self.kind.get_properties(|n| format!("{}deg", n));
         let skew = match self.axis {
-            AxisXY::X => format!("skewX({}deg)", self.degree),
-            AxisXY::Y => format!("skewY({}deg)", self.degree),
-            AxisXY::N => format!("skew({}deg)", self.degree),
+            AxisXY::X => format!("skewX({})", deg),
+            AxisXY::Y => format!("skewY({})", deg),
+            AxisXY::N => format!("skew({})", deg),
         };
         css_attributes! {
             "transform" => skew
@@ -40,11 +40,7 @@ impl TailwindSkew {
             ["y", rest @ ..] => (AxisXY::Y, rest),
             _ => (AxisXY::X, pattern),
         };
-        let degree = NumericValue::negative_parser("skew")(rest, arbitrary, negative)?;
-        Ok(Self { negative, degree, axis })
-    }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, negative: Negative, axis: AxisXY) -> Result<Self> {
-        let degree = NumericValue::parse_arbitrary(arbitrary)?;
-        Ok(Self { negative, degree, axis })
+        let kind = UnitValue::negative_parser("skew", |_| false, false, false, false)(rest, arbitrary, negative)?;
+        Ok(Self { kind, axis })
     }
 }

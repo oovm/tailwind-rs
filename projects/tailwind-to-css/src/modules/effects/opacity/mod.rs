@@ -3,7 +3,7 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindOpacity {
-    opacity: usize,
+    opacity: i32,
     backdrop: bool,
 }
 

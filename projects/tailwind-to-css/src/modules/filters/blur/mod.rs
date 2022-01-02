@@ -19,7 +19,7 @@ impl TailwindInstance for TailwindBlur {
         let value = match &self.px {
             NumericValue::Number(n, _) => format!("blur({}px)", n),
             NumericValue::Arbitrary(n) => format!("blur({})", n.get_properties()),
-            NumericValue::Standard(_) => unreachable!(),
+            NumericValue::Keyword(_) => unreachable!(),
         };
         css_attributes! {
             class => value

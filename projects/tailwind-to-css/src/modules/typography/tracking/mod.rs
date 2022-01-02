@@ -71,7 +71,7 @@ impl TailwindTracking {
         }
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: Tracking::Length(arbitrary.as_length()?) })
+        Ok(Self { kind: Tracking::Length(arbitrary.as_length_or_fraction()?) })
     }
 }
 

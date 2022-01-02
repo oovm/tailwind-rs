@@ -43,7 +43,7 @@ impl TailwindGap {
 
 fn parse_size(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<LengthUnit> {
     let size = match pattern {
-        [] => arbitrary.as_length()?,
+        [] => arbitrary.as_length_or_fraction()?,
         ["px"] => LengthUnit::px(1.0),
         [n] => {
             let a = TailwindArbitrary::from(*n);

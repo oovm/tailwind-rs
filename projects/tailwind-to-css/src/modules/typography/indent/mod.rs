@@ -54,6 +54,6 @@ impl Indent {
         Ok(Self::Unit(arbitrary.as_float()?))
     }
     fn maybe_length(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self::Length(arbitrary.as_length()?))
+        Ok(Self::Length(arbitrary.as_length_or_fraction()?))
     }
 }

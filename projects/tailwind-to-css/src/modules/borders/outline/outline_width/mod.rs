@@ -1,39 +1,37 @@
 use super::*;
-mod length;
-use self::length::OutlineWidth;
 
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindOutlineWidth {
-    kind: OutlineWidth,
+    kind: UnitValue,
 }
 
 impl<T> From<T> for TailwindOutlineWidth
 where
-    T: Into<String>,
+    T: Into<UnitValue>,
 {
     fn from(kind: T) -> Self {
-        Self { kind: OutlineWidth::Standard(kind.into()) }
+        Self { kind: kind.into() }
     }
 }
 
 impl Display for TailwindOutlineWidth {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match &self.kind {
-            OutlineWidth::Unit(s) => write!(f, "outline-{}", s),
-            OutlineWidth::Standard(s) => write!(f, "outline-width-{}", s),
-            OutlineWidth::Length(s) => write!(f, "outline-width-{}", s),
+            UnitValue::Number(s, _) => write!(f, "outline-{}", s),
+            UnitValue::Length(s) => write!(f, "outline-{}", s),
+            UnitValue::Keyword(s) => write!(f, "outline-width-{}", s),
+            UnitValue::Arbitrary(s) => write!(f, "outline-width-{}", s),
         }
     }
 }
 
 impl TailwindInstance for TailwindOutlineWidth {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        let width = match &self.kind {
-            OutlineWidth::Unit(n) => format!("{}px", n),
-            OutlineWidth::Standard(n) => n.to_string(),
-            OutlineWidth::Length(n) => format!("{}", n),
-        };
+        if cfg!(compile_time) {
+            // TODO: not percent
+        }
+        let width = self.kind.get_properties(|f| format!("{}px", f));
         css_attributes! {
             "outline-width" => width
         }
@@ -41,8 +39,13 @@ impl TailwindInstance for TailwindOutlineWidth {
 }
 
 impl TailwindOutlineWidth {
-    /// https://tailwindcss.com/docs/outline-offset
+    /// <https://tailwindcss.com/docs/outline-width>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: OutlineWidth::parse(pattern, arbitrary)? })
+        let kind = UnitValue::positive_parser("outline-width", Self::check_valid, true, false, false)(pattern, arbitrary)?;
+        Ok(Self { kind })
+    }
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec!["inherit", "initial", "medium", "revert", "thick", "thin", "unset"]);
+        set.contains(mode)
     }
 }

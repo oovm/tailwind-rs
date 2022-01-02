@@ -20,7 +20,7 @@ impl TailwindInstance for TailwindContrast {
         let value = match &self.percent {
             NumericValue::Number(n, _) => format!("contrast({}%)", n),
             NumericValue::Arbitrary(n) => format!("contrast({})", n.get_properties()),
-            NumericValue::Standard(_) => unreachable!(),
+            NumericValue::Keyword(_) => unreachable!(),
         };
         css_attributes! {
             class => value

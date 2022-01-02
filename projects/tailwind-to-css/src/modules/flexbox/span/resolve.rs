@@ -11,7 +11,7 @@ pub(super) enum GridKind {
 pub(super) enum GridSize {
     Auto,
     Full,
-    Unit(usize),
+    Unit(i32),
 }
 
 impl Display for GridKind {

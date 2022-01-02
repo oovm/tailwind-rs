@@ -27,7 +27,7 @@ impl TailwindGrid {
 #[derive(Debug, Clone)]
 enum GridTemplate {
     None,
-    Unit(usize),
+    Unit(i32),
     Arbitrary(TailwindArbitrary),
 }
 

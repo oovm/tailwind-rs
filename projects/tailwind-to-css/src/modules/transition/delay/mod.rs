@@ -3,7 +3,7 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindDelay {
-    ms: usize,
+    ms: i32,
 }
 
 impl Display for TailwindDelay {

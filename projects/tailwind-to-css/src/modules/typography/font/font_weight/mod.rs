@@ -3,7 +3,7 @@ use super::*;
 // #[doc = include_str!("font-weight.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindFontWeight {
-    weight: usize,
+    weight: i32,
 }
 
 impl Display for TailwindFontWeight {
@@ -35,7 +35,7 @@ impl TailwindFontWeight {
     pub const EXTRA_BOLD: Self = Self { weight: 800 };
     pub const BLACK: Self = Self { weight: 900 };
     #[inline]
-    pub fn new(weight: usize) -> Self {
+    pub fn new(weight: i32) -> Self {
         Self { weight }
     }
 }

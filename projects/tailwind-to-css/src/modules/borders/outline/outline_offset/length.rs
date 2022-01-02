@@ -2,7 +2,7 @@ use super::*;
 
 #[derive(Clone, Debug)]
 pub(super) enum OutlineOffset {
-    Unit(usize),
+    Unit(i32),
     Standard(String),
     Length(LengthUnit),
 }
@@ -38,6 +38,6 @@ impl OutlineOffset {
         Ok(Self::Unit(arbitrary.as_integer()?))
     }
     pub fn maybe_length(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self::Length(arbitrary.as_length()?))
+        Ok(Self::Length(arbitrary.as_length_or_fraction()?))
     }
 }

@@ -6,25 +6,37 @@ mod traits;
 #[derive(Debug, Clone)]
 pub enum NumericValue {
     Number(f32, Negative),
-    Standard(String),
+    Keyword(String),
     Arbitrary(TailwindArbitrary),
 }
 
 impl NumericValue {
-    pub fn negative_parser(id: &'static str) -> impl Fn(&[&str], &TailwindArbitrary, Negative) -> Result<Self> {
-        move |pattern: &[&str], arbitrary: &TailwindArbitrary, negative: Negative| match pattern {
-            [] => Self::parse_arbitrary(arbitrary),
-            [n] => Self::parse_number(n, negative),
-            _ => Err(TailwindError::syntax_error(format!("Unknown {} pattern", id))),
+    pub fn get_properties(&self, number: impl FnOnce(&f32) -> String) -> String {
+        match self {
+            Self::Number(n, _) => number(n),
+            Self::Keyword(s) => s.to_string(),
+            Self::Arbitrary(s) => s.get_properties(),
         }
     }
-    pub fn negative_checker_parser(
+    pub fn write_negative(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Number(n, neg) if n.ne(&0.0) && neg.eq(&true) => write!(f, "-"),
+            _ => write!(f, ""),
+        }
+    }
+    pub fn write_class(&self, f: &mut Formatter, before: &str) -> std::fmt::Result {
+        write!(f, "{}{}", before, self)
+    }
+}
+
+impl NumericValue {
+    pub fn negative_parser(
         id: &'static str,
-        checker: &'static impl Fn(&str) -> bool,
+        checker: impl Fn(&str) -> bool,
     ) -> impl Fn(&[&str], &TailwindArbitrary, Negative) -> Result<Self> {
         move |pattern: &[&str], arbitrary: &TailwindArbitrary, negative: Negative| match pattern {
             [] => Self::parse_arbitrary(arbitrary),
-            [n] if checker(n) => Ok(Self::Standard(n.to_string())),
+            [n] if checker(n) => Ok(Self::Keyword(n.to_string())),
             [n] => Self::parse_number(n, negative),
             _ => Err(TailwindError::syntax_error(format!("Unknown {} pattern", id))),
         }
@@ -33,7 +45,7 @@ impl NumericValue {
         move |pattern: &[&str], arbitrary: &TailwindArbitrary| match pattern {
             [] => Self::parse_arbitrary(arbitrary),
             [n] => {
-                let i: u32 = TailwindArbitrary::from(*n).as_integer()?;
+                let i = TailwindArbitrary::from(*n).as_integer()?;
                 Ok(Self::Number(i as f32, Negative::from(false)))
             },
             _ => Err(TailwindError::syntax_error(format!("Unknown {} pattern", id))),
@@ -48,14 +60,5 @@ impl NumericValue {
             i = -i
         }
         Ok(Self::Number(i, negative))
-    }
-    pub fn write_negative(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Number(n, neg) if n.ne(&0.0) && neg.eq(&true) => write!(f, "-"),
-            _ => write!(f, ""),
-        }
-    }
-    pub fn write_class(&self, f: &mut Formatter, before: &str) -> std::fmt::Result {
-        write!(f, "{}{}", before, self)
     }
 }

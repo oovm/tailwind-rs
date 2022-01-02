@@ -53,7 +53,7 @@ impl PlacementSize {
     }
     #[inline]
     fn maybe_length(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self::Length(arbitrary.as_length()?))
+        Ok(Self::Length(arbitrary.as_length_or_fraction()?))
     }
     #[inline]
     fn maybe_no_unit(arbitrary: &TailwindArbitrary) -> Result<Self> {

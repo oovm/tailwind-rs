@@ -20,7 +20,7 @@ impl TailwindInstance for TailwindHueRotate {
         let value = match &self.degree {
             NumericValue::Number(n, _) => format!("hue-rotate({}%)", n),
             NumericValue::Arbitrary(n) => format!("hue-rotate({})", n.get_properties()),
-            NumericValue::Standard(_) => unreachable!(),
+            NumericValue::Keyword(_) => unreachable!(),
         };
         css_attributes! {
             class => value

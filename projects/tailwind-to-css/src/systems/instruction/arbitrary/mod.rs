@@ -1,10 +1,24 @@
 use super::*;
+use std::fmt::Write;
 
 mod methods;
 
 #[derive(Debug, Clone)]
 pub struct TailwindArbitrary {
     inner: Box<str>,
+}
+
+impl Display for TailwindArbitrary {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.write_char('[')?;
+        for c in self.inner.chars() {
+            match c {
+                ' ' => f.write_char('_')?,
+                _ => f.write_char(c)?,
+            }
+        }
+        f.write_char(']')
+    }
 }
 
 impl From<&str> for TailwindArbitrary {

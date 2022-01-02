@@ -20,7 +20,7 @@ impl TailwindInstance for TailwindBrightness {
         let value = match &self.percent {
             NumericValue::Number(n, _) => format!("brightness({}%)", n),
             NumericValue::Arbitrary(n) => format!("brightness({})", n.get_properties()),
-            NumericValue::Standard(_) => unreachable!(),
+            NumericValue::Keyword(_) => unreachable!(),
         };
         css_attributes! {
             class => value

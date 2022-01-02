@@ -26,7 +26,7 @@ impl TailwindRingOffsetWidth {
             [] => Self { width: LengthUnit::px(3.0) },
             [n] => {
                 let a = TailwindArbitrary::from(*n);
-                Self { width: a.as_length()? }
+                Self { width: a.as_length_or_fraction()? }
             },
             _ => return syntax_error!("Unknown ring-width instructions"),
         };

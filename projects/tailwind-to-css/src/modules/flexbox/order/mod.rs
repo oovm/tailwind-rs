@@ -28,8 +28,8 @@ impl TailWindOrder {
             ["none"] => NumericValue::Number(0.0, Negative::from(false)),
             ["first"] => NumericValue::Number(9999.0, Negative::from(false)),
             ["last"] => NumericValue::Number(-9999.0, Negative::from(true)),
-            [s] if Self::check_valid(s) => NumericValue::Standard(s.to_string()),
-            _ => NumericValue::negative_checker_parser("order", &Self::check_valid)(pattern, arbitrary, negative)?,
+            [s] if Self::check_valid(s) => NumericValue::Keyword(s.to_string()),
+            _ => NumericValue::negative_parser("order", &Self::check_valid)(pattern, arbitrary, negative)?,
         };
         Ok(Self { kind })
     }

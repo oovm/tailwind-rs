@@ -36,7 +36,7 @@ impl PaletteSystem {
         new
     }
 
-    pub fn get_color(&self, name: &str, weight: usize) -> Result<Srgb> {
+    pub fn get_color(&self, name: &str, weight: u32) -> Result<Srgb> {
         match self.inner.get(name) {
             Some(p) => p.get_color(weight),
             None => syntax_error!("no such palette"),

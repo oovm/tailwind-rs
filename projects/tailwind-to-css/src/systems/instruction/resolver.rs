@@ -131,7 +131,7 @@ impl TailwindInstruction {
             ["rounded", rest @ ..] => TailwindRounded::parse(rest, arbitrary)?.boxed(),
             ["border", rest @ ..] => Self::border_adaptor(rest, arbitrary)?,
             ["divide", rest @ ..] => TailwindDivide::adapt(rest, arbitrary)?,
-            ["outline", rest @ ..] => TailwindOutline::adapt(rest, arbitrary)?,
+            ["outline", rest @ ..] => outline_adaptor(rest, arbitrary)?,
             ["ring", rest @ ..] => TailwindRing::adapt(rest, arbitrary)?,
             // Effects System
             ["shadow", rest @ ..] => Self::shadow_adaptor(rest, arbitrary)?,
@@ -223,9 +223,6 @@ impl TailwindInstruction {
             ["collapse"] if arbitrary.is_none() => TailwindBorderCollapse::from("collapse").boxed(),
             ["collapse", rest @ ..] => TailwindBorderCollapse::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/border-color
-            ["inherit"] => color(TailwindColor::Inherit),
-            ["current"] => color(TailwindColor::Current),
-            ["transparent"] => color(TailwindColor::Transparent),
             ["black"] => color(TailwindColor::Black),
             ["white"] => color(TailwindColor::White),
             [] => todo!(),

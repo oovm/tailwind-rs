@@ -20,7 +20,7 @@ impl TailwindInstance for TailwindInvert {
         let value = match &self.percent {
             NumericValue::Number(n, _) => format!("invert({}%)", n),
             NumericValue::Arbitrary(n) => format!("invert({})", n.get_properties()),
-            NumericValue::Standard(_) => unreachable!(),
+            NumericValue::Keyword(_) => unreachable!(),
         };
         css_attributes! {
             class => value

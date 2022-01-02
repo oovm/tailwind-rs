@@ -21,9 +21,6 @@ impl TailwindDecoration {
             ["auto"] => TailwindDecorationThickness::from("auto").boxed(),
             ["from", "font"] => TailwindDecorationThickness::from("from-font").boxed(),
             // https://tailwindcss.com/docs/text-decoration-color
-            ["current"] => color(TailwindColor::Current),
-            ["transparent"] => color(TailwindColor::Transparent),
-            ["inherit"] => color(TailwindColor::Inherit),
             ["black"] => color(TailwindColor::Black),
             ["white"] => color(TailwindColor::White),
             ["color"] => color(TailwindColor::parse_arbitrary(arbitrary)?),

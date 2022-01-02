@@ -20,7 +20,7 @@ impl TailwindInstance for TailwindGrayscale {
         let value = match &self.percent {
             NumericValue::Number(n, _) => format!("grayscale({}px)", n),
             NumericValue::Arbitrary(n) => format!("grayscale({})", n.get_properties()),
-            NumericValue::Standard(_) => unreachable!(),
+            NumericValue::Keyword(_) => unreachable!(),
         };
         css_attributes! {
             class => value

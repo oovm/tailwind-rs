@@ -22,7 +22,7 @@ impl TailwindInstance for TailwindScale {
         let scale = match &self.kind {
             NumericValue::Number(n, _) => (*n as f32 / 100.0).to_string(),
             NumericValue::Arbitrary(s) => s.get_properties(),
-            NumericValue::Standard(_) => unreachable!(),
+            NumericValue::Keyword(_) => unreachable!(),
         };
         let scale = match self.axis {
             AxisXY::N => format!("scale({})", scale),
@@ -35,6 +35,7 @@ impl TailwindInstance for TailwindScale {
     }
 }
 
+// noinspection DuplicatedCode
 impl TailwindScale {
     // https://tailwindcss.com/docs/scale
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: Negative) -> Result<Self> {
@@ -43,7 +44,7 @@ impl TailwindScale {
             ["y", rest @ ..] => (rest, AxisXY::Y),
             [..] => (pattern, AxisXY::N),
         };
-        let kind = NumericValue::negative_parser("scale")(rest, arbitrary, negative)?;
+        let kind = NumericValue::negative_parser("scale", |_| false)(rest, arbitrary, negative)?;
         Ok(TailwindScale { kind, axis })
     }
 }

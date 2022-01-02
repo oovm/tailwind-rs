@@ -1,3 +1,5 @@
+use std::num::{ParseFloatError, ParseIntError};
+
 use super::*;
 
 macro_rules! error_wrap {
@@ -27,5 +29,17 @@ impl From<Infallible> for TailwindError {
 impl From<()> for TailwindError {
     fn from(_: ()) -> Self {
         Self::unreachable()
+    }
+}
+
+impl From<ParseIntError> for TailwindError {
+    fn from(e: ParseIntError) -> Self {
+        Self::syntax_error(e.to_string())
+    }
+}
+
+impl From<ParseFloatError> for TailwindError {
+    fn from(e: ParseFloatError) -> Self {
+        Self::syntax_error(e.to_string())
     }
 }

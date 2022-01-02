@@ -2,7 +2,7 @@ use super::*;
 
 #[derive(Clone, Debug)]
 pub enum Columns {
-    Columns(u8),
+    Columns(i32),
     Length(LengthUnit),
     Standard(String),
     Arbitrary(TailwindArbitrary),

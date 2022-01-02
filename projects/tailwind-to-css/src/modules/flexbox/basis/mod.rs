@@ -85,7 +85,7 @@ impl Basis {
         Ok(Self::Number(arbitrary.as_float()?))
     }
     fn maybe_length(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self::Length(arbitrary.as_length()?))
+        Ok(Self::Length(arbitrary.as_length_or_fraction()?))
     }
     pub fn check_valid(mode: &str) -> bool {
         let set = BTreeSet::from_iter(vec![

@@ -12,7 +12,7 @@ impl Display for NumericValue {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::Number(number, _) => write!(f, "{}", number.abs()),
-            Self::Standard(value) => write!(f, "{}", value),
+            Self::Keyword(value) => write!(f, "{}", value),
             Self::Arbitrary(value) => value.write(f),
         }
     }

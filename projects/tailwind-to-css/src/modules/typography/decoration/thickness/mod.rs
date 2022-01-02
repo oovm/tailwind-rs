@@ -8,7 +8,7 @@ pub struct TailwindDecorationThickness {
 
 #[derive(Debug, Clone)]
 enum Thickness {
-    Unit(usize),
+    Unit(i32),
     Length(LengthUnit),
     Standard(String),
 }
@@ -63,6 +63,6 @@ impl Thickness {
         Ok(Self::Unit(arbitrary.as_integer()?))
     }
     fn maybe_length(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self::Length(arbitrary.as_length()?))
+        Ok(Self::Length(arbitrary.as_length_or_fraction()?))
     }
 }

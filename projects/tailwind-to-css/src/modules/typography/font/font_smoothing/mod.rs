@@ -63,10 +63,10 @@ impl TailwindFontSmoothing {
             ["subpixel", "antialiased"] | ["subpixel"] => FontSmoothing::Subpixel,
             [n] if Self::check_valid(n) => FontSmoothing::Standard(n.to_string()),
             [n] => {
-                let l = TailwindArbitrary::from(*n).as_length()?;
+                let l = TailwindArbitrary::from(*n).as_length_or_fraction()?;
                 FontSmoothing::Length(l)
             },
-            [] => FontSmoothing::Length(arbitrary.as_length()?),
+            [] => FontSmoothing::Length(arbitrary.as_length_or_fraction()?),
             _ => return syntax_error!("Unknown font-smoothing instructions: {}", pattern.join("-")),
         };
         Ok(Self { kind })

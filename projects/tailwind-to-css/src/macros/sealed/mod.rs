@@ -20,9 +20,12 @@ macro_rules! keyword_instance {
 
 macro_rules! color_instance {
     ($t:ty) => {
-        impl From<TailwindColor> for $t {
-            fn from(color: TailwindColor) -> Self {
-                Self { color }
+        impl<T> From<T> for $t
+        where
+            T: Into<TailwindColor>,
+        {
+            fn from(color: T) -> Self {
+                Self { color: color.into() }
             }
         }
         impl $t {

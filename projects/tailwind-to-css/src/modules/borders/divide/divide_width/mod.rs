@@ -4,7 +4,7 @@ use super::*;
 #[derive(Copy, Clone, Debug)]
 pub struct TailwindDivideWidth {
     axis: bool,
-    width: usize,
+    width: i32,
 }
 
 impl Display for TailwindDivideWidth {

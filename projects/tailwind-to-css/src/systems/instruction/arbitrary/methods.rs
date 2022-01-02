@@ -14,15 +14,12 @@ impl TailwindArbitrary {
         self.inner.as_ref()
     }
     #[inline]
-    pub fn as_integer<T>(&self) -> Result<T>
-    where
-        T: FromStr,
-    {
-        Ok(parse_integer(&self.inner)?.1)
+    pub fn as_integer(&self) -> Result<i32> {
+        Ok(i32::from_str(&self.inner)?)
     }
     #[inline]
     pub fn as_float(&self) -> Result<f32> {
-        Ok(parse_f32(&self.inner)?.1)
+        Ok(f32::from_str(&self.inner)?)
     }
     #[inline]
     pub fn as_fraction(&self) -> Result<(usize, usize)> {
@@ -30,7 +27,15 @@ impl TailwindArbitrary {
     }
     #[inline]
     pub fn as_length(&self) -> Result<LengthUnit> {
+        LengthUnit::parse_length(&self.inner)
+    }
+    #[inline]
+    pub fn as_length_or_fraction(&self) -> Result<LengthUnit> {
         LengthUnit::parse_length(&self.inner).or_else(|_| LengthUnit::parse_faction(&self.inner))
+    }
+    #[inline]
+    pub fn as_angle(&self) -> Result<LengthUnit> {
+        LengthUnit::parse_angle(&self.inner)
     }
     #[inline]
     pub fn as_color(&self) -> Result<Srgb> {

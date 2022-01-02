@@ -7,7 +7,7 @@ pub struct TailwindStrokeWidth {
 
 #[derive(Debug, Clone)]
 enum StrokeWidth {
-    Unit(usize),
+    Unit(i32),
     Length(LengthUnit),
 }
 
@@ -54,6 +54,6 @@ impl StrokeWidth {
         Ok(Self::Unit(arbitrary.as_integer()?))
     }
     fn maybe_length(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self::Length(arbitrary.as_length()?))
+        Ok(Self::Length(arbitrary.as_length_or_fraction()?))
     }
 }

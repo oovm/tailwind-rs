@@ -1,6 +1,6 @@
 [package]
 name = "tailwind-error"
-version = "1.1.5"
+version = "1.1.6"
 authors = ["Aster <192607617@qq.com>"]
 description = "Tailwind Error Handlers"
 repository = "https://github.com/oovm/tailwind-rs"

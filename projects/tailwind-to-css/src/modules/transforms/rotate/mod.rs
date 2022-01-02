@@ -3,7 +3,7 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindRotate {
-    kind: NumericValue,
+    kind: UnitValue,
 }
 
 impl Display for TailwindRotate {
@@ -15,11 +15,8 @@ impl Display for TailwindRotate {
 
 impl TailwindInstance for TailwindRotate {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        let rotate = match &self.kind {
-            NumericValue::Number(n, _) => format!("rotate({}deg)", n),
-            NumericValue::Arbitrary(s) => format!("rotate({})", s.get_properties()),
-            NumericValue::Standard(_) => unreachable!(),
-        };
+        let deg = self.kind.get_properties(|f| format!("{}deg", f));
+        let rotate = format!("rotate({})", deg);
         css_attributes! {
             "transform" => rotate
         }
@@ -29,7 +26,7 @@ impl TailwindInstance for TailwindRotate {
 impl TailwindRotate {
     // <https://tailwindcss.com/docs/rotate>
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary, negative: Negative) -> Result<Self> {
-        let kind = NumericValue::negative_parser("scale")(input, arbitrary, negative)?;
+        let kind = UnitValue::negative_parser("scale", |_| false, false, false, false)(input, arbitrary, negative)?;
         Ok(Self { kind })
     }
 }

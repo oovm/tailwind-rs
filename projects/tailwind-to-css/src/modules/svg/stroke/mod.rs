@@ -13,9 +13,6 @@ impl TailwindStroke {
         let color = |color| TailwindStrokeColor::from(color).boxed();
         let out = match str {
             // https://tailwindcss.com/docs/text-decoration-color
-            ["current"] => color(TailwindColor::Current),
-            ["transparent"] => color(TailwindColor::Transparent),
-            ["inherit"] => color(TailwindColor::Inherit),
             ["black"] => color(TailwindColor::Black),
             ["white"] => color(TailwindColor::White),
             ["color"] => color(TailwindColor::parse_arbitrary(arbitrary)?),

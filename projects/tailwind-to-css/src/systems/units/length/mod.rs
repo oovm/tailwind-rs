@@ -31,7 +31,7 @@ impl LengthUnit {
         Ok(Self::Unit(f, unit))
     }
     pub fn parse_angle(input: &str) -> Result<Self> {
-        let valid = (unit("deg"), unit("rad"));
+        let valid = (unit("deg"), unit("rad"), unit("grad"), unit("turn"));
         let (f, unit) = tuple((parse_f32, alt(valid)))(input)?.1;
         Ok(Self::Unit(f, unit))
     }
@@ -48,6 +48,9 @@ impl LengthUnit {
         Self::Unit(x, "%")
     }
     pub fn radio(a: u32, b: u32) -> Self {
+        if b.eq(&0) {
+            return Self::Fraction(0, 1);
+        }
         let n = gcd(a, b);
         Self::Fraction(a / n, b / n)
     }
