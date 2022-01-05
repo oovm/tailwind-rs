@@ -29,3 +29,9 @@ impl From<&TailwindArbitrary> for UnitValue {
         Self::Arbitrary(a.clone())
     }
 }
+
+impl From<i32> for UnitValue {
+    fn from(a: i32) -> Self {
+        Self::Number(a as f32, Some(Negative::from(a < 0)))
+    }
+}

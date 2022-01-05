@@ -27,7 +27,7 @@ impl Display for TailwindOutlineStyle {
                 s @ ("dashed" | "dotted" | "double" | "hidden") => write!(f, "-{}", s),
                 _ => write!(f, "-style-{}", s),
             },
-            StandardValue::Arbitrary(a) => a.write(f),
+            StandardValue::Arbitrary(a) => a.write_class(f, "-style-"),
         }
     }
 }
@@ -38,7 +38,7 @@ impl TailwindInstance for TailwindOutlineStyle {
             StandardValue::Keyword(s) => match s.as_str() {
                 "<NONE>" => css_attributes! {
                     "outline" => "2px solid transparent",
-                    "outline-style" => "2px"
+                    "outline-offset" => "2px"
                 },
                 _ => css_attributes! {
                     "outline-style" => s

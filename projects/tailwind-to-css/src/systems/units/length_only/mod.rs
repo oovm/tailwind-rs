@@ -107,12 +107,12 @@ impl UnitValue {
         negative: Negative,
         is_length: bool,
         is_integer: bool,
-        allow_fraction: bool,
+        can_be_fraction: bool,
         can_be_negative: bool,
     ) -> Result<Self> {
         let a = TailwindArbitrary::from(n);
         match is_length {
-            true => Self::maybe_length(&a, allow_fraction),
+            true => Self::maybe_length(&a, can_be_fraction),
             false => Self::maybe_angle(&a),
         }
         .or_else(|_| Self::maybe_number(&a, negative, is_integer, can_be_negative))
@@ -127,10 +127,15 @@ impl UnitValue {
             true => arbitrary.as_integer()? as f32,
             false => arbitrary.as_float()?,
         };
-        if negative.unwrap() {
-            i = -i
+        let negative = if can_be_negative {
+            if negative.unwrap() {
+                i = -i
+            }
+            Some(negative)
         }
-        let negative = if can_be_negative { Some(negative) } else { None };
+        else {
+            None
+        };
         Ok(Self::Number(i, negative))
     }
     fn maybe_length(arbitrary: &TailwindArbitrary, allow_fraction: bool) -> Result<Self> {

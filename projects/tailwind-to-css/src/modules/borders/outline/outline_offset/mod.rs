@@ -1,20 +1,9 @@
 use super::*;
-mod length;
-use self::length::OutlineOffset;
 
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindOutlineOffset {
-    kind: OutlineOffset,
-}
-
-impl<T> From<T> for TailwindOutlineOffset
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: OutlineOffset::Standard(kind.into()) }
-    }
+    kind: UnitValue,
 }
 
 impl Display for TailwindOutlineOffset {
@@ -25,20 +14,21 @@ impl Display for TailwindOutlineOffset {
 
 impl TailwindInstance for TailwindOutlineOffset {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        let width = match &self.kind {
-            OutlineOffset::Unit(n) => format!("{}px", n),
-            OutlineOffset::Standard(n) => n.to_string(),
-            OutlineOffset::Length(n) => format!("{}", n),
-        };
+        let offset = self.kind.get_properties(|n| format!("{}px", n));
         css_attributes! {
-            "outline-width" => width
+            "outline-offset" => offset
         }
     }
 }
 
 impl TailwindOutlineOffset {
-    /// https://tailwindcss.com/docs/outline-offset
+    /// <https://tailwindcss.com/docs/outline-offset>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: OutlineOffset::parse(pattern, arbitrary)? })
+        let kind = UnitValue::positive_parser("outline-offset", Self::check_valid, true, true, false)(pattern, arbitrary)?;
+        Ok(Self { kind })
+    }
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec!["inherit", "initial", "revert", "unset"]);
+        set.contains(mode)
     }
 }

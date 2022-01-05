@@ -1,5 +1,86 @@
-.bg-scroll {
-  background-attachment: scroll;
+.outline {
+  outline-style: solid;
+}
+
+.outline-0 {
+  outline-width: 0;
+}
+
+.outline-1, .outline-1px {
+  outline-width: 1px;
+}
+
+.outline-1rem {
+  outline-width: 1rem;
+}
+
+.outline-color-\[\#000000FF\] {
+  outline-color: #000;
+}
+
+.outline-color-\[\#FFFFFFFF\] {
+  outline-color: #fff;
+}
+
+.outline-color-current {
+  outline-color: currentColor;
+}
+
+.outline-color-inherit {
+  outline-color: inherit;
+}
+
+.outline-color-red-0 {
+  outline-color: currentColor;
+}
+
+.outline-color-slate-100 {
+  outline-color: #f1f5f9;
+}
+
+.outline-color-slate-50 {
+  outline-color: #f8fafc;
+}
+
+.outline-color-transparent {
+  outline-color: #0000;
+}
+
+.outline-color-unset {
+  outline-color: unset;
+}
+
+.outline-dashed {
+  outline-style: dashed;
+}
+
+.outline-none {
+  outline-offset: 2px;
+  outline: 2px solid #0000;
+}
+
+.outline-offset-0 {
+  outline-offset: 0px;
+}
+
+.outline-offset-1, .outline-offset-1px {
+  outline-offset: 1px;
+}
+
+.outline-offset-1rem, .outline-offset-\[1rem\] {
+  outline-offset: 1rem;
+}
+
+.outline-style-\[unset\] {
+  outline-style: unset;
+}
+
+.outline-width-\[1rem\] {
+  outline-width: 1rem;
+}
+
+.outline-width-\[unset\], .outline-width-unset {
+  outline-width: unset;
 }
 
 .rounded-\[0px\] {

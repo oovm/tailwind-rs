@@ -6,6 +6,10 @@
   transform: scale(-.5);
 }
 
+.-translate-1 {
+  transform: translate(-.25rem);
+}
+
 .origin-5 {
   transform-origin: 50%;
 }
@@ -62,14 +66,38 @@
   transform: skewY(0deg);
 }
 
-.translate-x-0 {
-  transform: translateX(0);
+.translate-0 {
+  transform: translate(0);
 }
 
-.translate-x-1 {
-  transform: translateX(1rem);
+.translate-0\.5 {
+  transform: translate(.125rem);
 }
 
-.translate-x-2 {
-  transform: translateX(2rem);
+.translate-0\/1 {
+  transform: translate(0%);
+}
+
+.translate-0px {
+  transform: translate(0);
+}
+
+.translate-1\/1 {
+  transform: translate(100%);
+}
+
+.translate-1\/2 {
+  transform: translate(50%);
+}
+
+.translate-1px, .translate-\[1px\] {
+  transform: translate(1px);
+}
+
+.translate-x-1px {
+  transform: translateX(1px);
+}
+
+.translate-y-1px {
+  transform: translateY(1px);
 }

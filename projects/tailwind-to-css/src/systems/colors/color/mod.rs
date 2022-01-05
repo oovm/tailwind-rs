@@ -11,27 +11,17 @@ pub enum TailwindColor {
     Arbitrary(TailwindArbitrary),
 }
 
-struct ColorWrapper(Srgb);
-
-impl Display for ColorWrapper {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "#{:02X?}",
-            &[
-                (255.0 * self.0.red) as u8,
-                (255.0 * self.0.green) as u8,
-                (255.0 * self.0.blue) as u8,
-                (255.0 * self.0.alpha) as u8
-            ]
-        )
-    }
-}
-
 impl Display for TailwindColor {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::RGB(c) => write!(f, "[{}]", ColorWrapper(*c)),
+            Self::RGB(c) => write!(
+                f,
+                "[#{:02X?}{:02X?}{:02X?}{:02X?}]",
+                (255.0 * c.red) as u8,
+                (255.0 * c.green) as u8,
+                (255.0 * c.blue) as u8,
+                (255.0 * c.alpha) as u8
+            ),
             Self::Themed(name, weight) => write!(f, "{}-{}", name, weight),
             Self::Arbitrary(a) => a.write(f),
             Self::Keyword(s) => match s.as_str() {
@@ -42,8 +32,6 @@ impl Display for TailwindColor {
         }
     }
 }
-
-impl ColorWrapper {}
 
 #[allow(non_upper_case_globals)]
 impl TailwindColor {
@@ -88,7 +76,7 @@ impl TailwindColor {
     #[inline]
     pub fn get_properties(&self, ctx: &TailwindBuilder) -> String {
         match self {
-            Self::RGB(c) => format!("#{:02X?}", &[c.red, c.green, c.blue, c.alpha]),
+            Self::RGB(c) => format!("rgba({}, {}, {}, {})", 255.0 * c.red, 255.0 * c.green, 255.0 * c.blue, c.alpha),
             Self::Arbitrary(a) => a.get_properties(),
             Self::Keyword(s) => match s.as_str() {
                 "transparent" => "transparent".to_string(),
@@ -96,7 +84,7 @@ impl TailwindColor {
                 _ => s.to_string(),
             },
             Self::Themed(name, weight) => match ctx.palettes.get_color(name, *weight) {
-                Ok(c) => ColorWrapper(c).to_string(),
+                Ok(c) => format!("rgba({}, {}, {}, {})", 255.0 * c.red, 255.0 * c.green, 255.0 * c.blue, c.alpha),
                 Err(_) => "currentColor".to_string(),
             },
         }
