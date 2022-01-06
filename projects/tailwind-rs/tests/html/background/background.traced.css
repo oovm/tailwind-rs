@@ -1,1 +1,35 @@
+.bg-clip-\[unset\] {
+  background-clip: unset;
+}
 
+.bg-clip-border {
+  background-clip: border-box;
+}
+
+.bg-clip-content {
+  background-clip: content-box;
+}
+
+.bg-clip-padding {
+  background-clip: padding-box;
+}
+
+.bg-clip-text {
+  background-clip: text;
+}
+
+.bg-clip-unset {
+  background-clip: unset;
+}
+
+.bg-fixed {
+  background-attachment: fixed;
+}
+
+.bg-local {
+  background-attachment: local;
+}
+
+.bg-scroll {
+  background-attachment: scroll;
+}

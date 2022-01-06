@@ -3,28 +3,22 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindBackgroundClip {
-    kind: String,
+    kind: StandardValue,
 }
 
-impl<T> From<T> for TailwindBackgroundClip
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: kind.into() }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindBackgroundClip => "background-clip");
 
 impl Display for TailwindBackgroundClip {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "bg-clip-{}", self.kind)
-    }
-}
-
-impl TailwindInstance for TailwindBackgroundClip {
-    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        css_attributes! {
-            "background-clip" => self.kind
+        write!(f, "bg-clip-")?;
+        match &self.kind {
+            StandardValue::Keyword(s) => match s.as_str() {
+                "border-box" => write!(f, "border"),
+                "padding-box" => write!(f, "padding"),
+                "content-box" => write!(f, "content"),
+                _ => write!(f, "{}", self.kind),
+            },
+            StandardValue::Arbitrary(s) => write!(f, "{}", s),
         }
     }
 }
@@ -32,11 +26,15 @@ impl TailwindInstance for TailwindBackgroundClip {
 impl TailwindBackgroundClip {
     /// <https://tailwindcss.com/docs/background-clip>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let kind = pattern.join("-");
-        debug_assert!(Self::check_valid(&kind));
+        let kind = match pattern {
+            ["border"] => StandardValue::from("border-box"),
+            ["padding"] => StandardValue::from("padding-box"),
+            ["content"] => StandardValue::from("content-box"),
+            _ => StandardValue::parser("bg-clip", &Self::check_valid)(pattern, arbitrary)?,
+        };
         Ok(Self { kind })
     }
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-clip#syntax
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/background-clip#syntax>
     pub fn check_valid(mode: &str) -> bool {
         let set = BTreeSet::from_iter(vec![
             "border-box",

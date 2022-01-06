@@ -193,10 +193,7 @@ impl TailwindInstruction {
             [s @ ("fixed" | "local" | "scroll")] => TailwindBackgroundAttachment::from(*s).boxed(),
             ["attach", rest @ ..] => TailwindBackgroundAttachment::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/background-clip
-            ["clip", "border"] => TailwindBackgroundClip::from("border-box").boxed(),
-            ["clip", "padding"] => TailwindBackgroundClip::from("padding-box").boxed(),
-            ["clip", "content"] => TailwindBackgroundClip::from("content-box").boxed(),
-            ["clip", "text"] => TailwindBackgroundClip::from("text").boxed(),
+            ["clip", rest @ ..] => TailwindBackgroundClip::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/background-origin
             ["origin", rest @ ..] => TailwindBackgroundOrigin::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/background-repeat

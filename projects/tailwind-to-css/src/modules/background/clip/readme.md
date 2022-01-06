@@ -1,17 +1,13 @@
-Utilities for controlling how a background image behaves when scrolling.
+Utilities for controlling the bounding box of an element's background.
 
-## Example
+## Patterns
 
-```rust
-use tailwind_css::TailwindBuilder;
-
-#[test]
-fn build_bg_clip() {
-    let builder = TailwindBuilder::default();
-    let out = builder.inline("bg-clip-content");
-    assert_eq!(out, "background-clip:content-box;");
-}
-```
+| Class             | Css                            | 
+|-------------------|--------------------------------| 
+| `bg-clip-border`  | `background-clip: border-box`  |
+| `bg-clip-padding` | `background-clip: padding-box` |
+| `bg-clip-content` | `background-clip: content-box` |
+| `bg-clip-text`    | `background-clip: text`        |
 
 ## Reference
 

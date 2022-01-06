@@ -2,6 +2,7 @@ use tailwind_css::{CssInlineMode, TailwindBuilder};
 use tailwind_rs::GlobalConfig;
 
 mod accessibility;
+mod background;
 mod border;
 mod effect;
 mod filter;
