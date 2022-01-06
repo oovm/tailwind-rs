@@ -11,10 +11,12 @@ crate::macros::sealed::keyword_instance!(TailwindBackgroundAttachment => "backgr
 impl Display for TailwindBackgroundAttachment {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "bg-")?;
-        let s = self.kind.get_properties();
-        match s {
-            s @ ("fixed" | "local" | "scroll") => write!(f, "{}", s),
-            _ => write!(f, "attach-{}", s),
+        match &self.kind {
+            StandardValue::Keyword(s) => match s.as_str() {
+                s @ ("fixed" | "local" | "scroll") => write!(f, "{}", s),
+                _ => write!(f, "attach-{}", s),
+            },
+            StandardValue::Arbitrary(s) => s.write_class(f, "attach-"),
         }
     }
 }

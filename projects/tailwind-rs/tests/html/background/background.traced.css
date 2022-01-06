@@ -1,3 +1,7 @@
+.bg-attach-\[unset\], .bg-attach-unset {
+  background-attachment: unset;
+}
+
 .bg-clip-\[unset\] {
   background-clip: unset;
 }
@@ -28,6 +32,26 @@
 
 .bg-local {
   background-attachment: local;
+}
+
+.bg-origin-\[unset\] {
+  background-origin: unset;
+}
+
+.bg-origin-border {
+  background-origin: border-box;
+}
+
+.bg-origin-content {
+  background-origin: content-box;
+}
+
+.bg-origin-padding {
+  background-origin: padding-box;
+}
+
+.bg-origin-unset {
+  background-origin: unset;
 }
 
 .bg-scroll {
