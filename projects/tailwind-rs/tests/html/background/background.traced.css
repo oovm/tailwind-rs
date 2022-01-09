@@ -34,6 +34,10 @@
   background-attachment: local;
 }
 
+.bg-no-repeat {
+  background-repeat: no-repeat;
+}
+
 .bg-origin-\[unset\] {
   background-origin: unset;
 }
@@ -52,6 +56,34 @@
 
 .bg-origin-unset {
   background-origin: unset;
+}
+
+.bg-repeat {
+  background-repeat: repeat;
+}
+
+.bg-repeat-\[unset\] {
+  background-repeat: unset;
+}
+
+.bg-repeat-round {
+  background-repeat: round;
+}
+
+.bg-repeat-space {
+  background-repeat: space;
+}
+
+.bg-repeat-unset {
+  background-repeat: unset;
+}
+
+.bg-repeat-x {
+  background-repeat: repeat-x;
+}
+
+.bg-repeat-y {
+  background-repeat: repeat-y;
 }
 
 .bg-scroll {

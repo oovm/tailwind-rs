@@ -197,7 +197,7 @@ impl TailwindInstruction {
             // https://tailwindcss.com/docs/background-origin
             ["origin", rest @ ..] => TailwindBackgroundOrigin::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/background-repeat
-            ["no", "repeat"] => TailwindBackgroundRepeat::from("repeat").boxed(),
+            ["no", "repeat"] => TailwindBackgroundRepeat::from("no-repeat").boxed(),
             ["repeat", rest @ ..] => TailwindBackgroundRepeat::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/background-size
             ["auto"] => TailwindBackgroundSize::Auto.boxed(),
