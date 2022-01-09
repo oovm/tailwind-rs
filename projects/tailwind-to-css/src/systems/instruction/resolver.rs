@@ -200,9 +200,8 @@ impl TailwindInstruction {
             ["no", "repeat"] => TailwindBackgroundRepeat::from("no-repeat").boxed(),
             ["repeat", rest @ ..] => TailwindBackgroundRepeat::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/background-size
-            ["auto"] => TailwindBackgroundSize::Auto.boxed(),
-            ["cover"] => TailwindBackgroundSize::Cover.boxed(),
-            ["contain"] => TailwindBackgroundSize::Contain.boxed(),
+            [s @ ("auto" | "cover" | "contain")] => TailwindBackgroundSize::from(*s).boxed(),
+            ["size", rest @ ..] => TailwindBackgroundSize::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/background-blend-mode
             ["blend", rest @ ..] => TailwindBackgroundBlend::parse(rest, arbitrary)?.boxed(),
             _ => return syntax_error!("Unknown bg instructions: {}", str.join("-")),

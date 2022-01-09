@@ -1,5 +1,3 @@
-use crate::StandardValue;
-
 use super::*;
 
 #[doc=include_str!("readme.md")]
@@ -20,13 +18,13 @@ impl Display for TailwindBackgroundRepeat {
                 "repeat-y" => write!(f, "bg-repeat-y"),
                 _ => write!(f, "bg-repeat-{}", s),
             },
-            StandardValue::Arbitrary(s) => write!(f, "bg-repeat-{}", s.get_class()),
+            StandardValue::Arbitrary(s) => s.write_class(f, "bg-repeat-"),
         }
     }
 }
 
 impl TailwindBackgroundRepeat {
-    /// https://tailwindcss.com/docs/background-repeat
+    /// <https://tailwindcss.com/docs/background-repeat>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         let kind = match pattern {
             [] if arbitrary.is_none() => StandardValue::from("repeat"),
@@ -37,7 +35,7 @@ impl TailwindBackgroundRepeat {
         };
         Ok(Self { kind })
     }
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat#syntax
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/background-repeat#syntax>
     pub fn check_valid(mode: &str) -> bool {
         let set = BTreeSet::from_iter(vec![
             "inherit",

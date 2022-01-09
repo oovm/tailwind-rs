@@ -1,48 +1,34 @@
-use crate::{css_attributes, CssAttributes, TailwindBuilder, TailwindInstance};
-use std::fmt::{Display, Formatter};
-
-#[derive(Copy, Clone, Debug)]
-enum BackgroundSize {
-    Auto,
-    Cover,
-    Contain,
-}
+use super::*;
 
 #[doc=include_str!("readme.md")]
-#[derive(Copy, Clone, Debug)]
+#[derive(Debug, Clone)]
 pub struct TailwindBackgroundSize {
-    kind: BackgroundSize,
+    kind: StandardValue,
 }
 
-impl Display for BackgroundSize {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Auto => write!(f, "auto"),
-            Self::Cover => write!(f, "cover"),
-            Self::Contain => write!(f, "contain"),
-        }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindBackgroundSize => "background-size");
 
 impl Display for TailwindBackgroundSize {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "bg-{}", self.kind)
-    }
-}
-
-impl TailwindInstance for TailwindBackgroundSize {
-    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        css_attributes! {
-            "background-size" => self.kind
+        match &self.kind {
+            StandardValue::Keyword(s) => match s.as_str() {
+                s @ ("auto" | "cover" | "contain") => write!(f, "bg-{}", s),
+                _ => write!(f, "bg-size-{}", s),
+            },
+            StandardValue::Arbitrary(s) => s.write_class(f, "bg-size-"),
         }
     }
 }
 
 impl TailwindBackgroundSize {
-    /// `bg-auto`
-    pub const Auto: Self = Self { kind: BackgroundSize::Auto };
-    /// `bg-cover`
-    pub const Cover: Self = Self { kind: BackgroundSize::Cover };
-    /// `bg-contain`
-    pub const Contain: Self = Self { kind: BackgroundSize::Contain };
+    /// <https://tailwindcss.com/docs/background-size>
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        let kind = StandardValue::parser("bg-size", &Self::check_valid)(pattern, arbitrary)?;
+        Ok(Self { kind })
+    }
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/background-size#syntax>
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec!["auto", "contain", "cover", "inherit", "initial", "revert", "unset"]);
+        set.contains(mode)
+    }
 }
