@@ -21,8 +21,8 @@ pub use self::{
     whitespace::TailwindWhiteSpace,
 };
 use crate::{
-    css_attributes, syntax_error, CssAttributes, CssBehavior, LengthUnit, Result, StandardValue, TailwindArbitrary,
-    TailwindBreakAfter, TailwindBreakBefore, TailwindBreakInside, TailwindBuilder, TailwindColor, TailwindInstance,
+    css_attributes, syntax_error, CssAttributes, LengthUnit, Result, StandardValue, TailwindArbitrary, TailwindBreakAfter,
+    TailwindBreakBefore, TailwindBreakInside, TailwindBuilder, TailwindColor, TailwindInstance,
 };
 use std::{
     collections::BTreeSet,

@@ -10,14 +10,12 @@ pub struct TailwindTracking {
 enum Tracking {
     Normal,
     Length(LengthUnit),
-    Global(CssBehavior),
 }
 
 impl Display for Tracking {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::Normal => write!(f, "normal"),
-            Self::Global(g) => write!(f, "{}", g),
             Self::Length(l) => write!(f, "[{}]", l),
         }
     }
@@ -44,12 +42,6 @@ impl TailwindInstance for TailwindTracking {
 impl TailwindTracking {
     /// `tracking-normal`
     pub const Normal: Self = Self { kind: Tracking::Normal };
-    /// `tracking-inherit`
-    pub const Inherit: Self = Self { kind: Tracking::Global(CssBehavior::Inherit) };
-    /// `tracking-initial`
-    pub const Initial: Self = Self { kind: Tracking::Global(CssBehavior::Initial) };
-    /// `tracking-unset`
-    pub const Unset: Self = Self { kind: Tracking::Global(CssBehavior::Unset) };
     /// https://tailwindcss.com/docs/letter-spacing
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         match input {
@@ -62,9 +54,6 @@ impl TailwindTracking {
             ["widest" | "loose"] => em(0.1),
             // https://developer.mozilla.org/zh-CN/docs/Web/CSS/letter-spacing#%E5%80%BC
             ["normal"] => Ok(Self::Normal),
-            ["inherit"] => Ok(Self::Inherit),
-            ["initial"] => Ok(Self::Initial),
-            ["unset"] => Ok(Self::Unset),
             [] => Self::parse_arbitrary(arbitrary),
             [n] => Self::parse_arbitrary(&TailwindArbitrary::from(*n)),
             _ => syntax_error!("Unknown tracking instructions: {}", input.join("-")),
