@@ -1,3 +1,4 @@
+pub(crate) use self::list::list_adaptor;
 pub use self::{
     align::TailwindAlign,
     breaking::TailwindBreak,
@@ -11,7 +12,7 @@ pub use self::{
     },
     indent::TailwindIndent,
     leading::TailwindLeading,
-    list::{list_position::TailwindListPosition, list_type::TailwindListStyle, TailwindList},
+    list::{list_position::TailwindListPosition, list_type::TailwindListStyle},
     text::{
         text_adaptor, text_align::TailwindTextAlignment, text_color::TailwindTextColor, text_overflow::TailwindTextOverflow,
         text_transform::TailwindTextTransform,

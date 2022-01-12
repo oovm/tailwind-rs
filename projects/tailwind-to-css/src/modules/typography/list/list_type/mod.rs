@@ -10,13 +10,7 @@ crate::macros::sealed::keyword_instance!(TailwindListStyle => "list-style-type")
 
 impl Display for TailwindListStyle {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match &self.kind {
-            StandardValue::Keyword(s) => match s.as_str() {
-                "none" | "disc" | "decimal" => write!(f, "list-{}", s),
-                _ => write!(f, "list-style-{}", s),
-            },
-            StandardValue::Arbitrary(s) => write!(f, "list-type-{}", s.get_class()),
-        }
+        write!(f, "list-{}", self.kind)
     }
 }
 

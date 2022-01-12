@@ -99,7 +99,7 @@ impl TailwindInstruction {
             // https://tailwindcss.com/docs/letter-spacing
             ["tracking", rest @ ..] => TailwindTracking::parse(rest, arbitrary)?.boxed(),
             ["leading", rest @ ..] => TailwindLeading::parse(rest, arbitrary)?.boxed(),
-            ["list", rest @ ..] => TailwindList::parse(rest, arbitrary)?,
+            ["list", rest @ ..] => list_adaptor(rest, arbitrary)?,
             // https://tailwindcss.com/docs/text-decoration
             ["underline"] => TailwindDecorationLine::from("underline").boxed(),
             ["overline"] => TailwindDecorationLine::from("overline").boxed(),

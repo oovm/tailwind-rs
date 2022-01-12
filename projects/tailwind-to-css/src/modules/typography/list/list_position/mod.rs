@@ -3,41 +3,27 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindListPosition {
-    kind: String,
+    kind: StandardValue,
 }
 
-impl<T> From<T> for TailwindListPosition
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: kind.into() }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindListPosition => "list-style-position");
 
 impl Display for TailwindListPosition {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let s = self.kind.as_str();
-        match s {
-            "inside" | "outside" => write!(f, "list-{}", s),
-            _ => write!(f, "list-position-{}", s),
-        }
-    }
-}
-
-impl TailwindInstance for TailwindListPosition {
-    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        css_attributes! {
-            "resize" => self.kind
+        match &self.kind {
+            StandardValue::Keyword(s) => match s.as_str() {
+                "inside" | "outside" => write!(f, "list-{}", s),
+                _ => write!(f, "list-position-{}", s),
+            },
+            StandardValue::Arbitrary(s) => s.write_class(f, "list-position-"),
         }
     }
 }
 
 impl TailwindListPosition {
-    /// https://tailwindcss.com/docs/list-style-position
+    /// <https://tailwindcss.com/docs/list-style-position>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let kind = pattern.join("-");
-        debug_assert!(Self::check_valid(&kind));
+        let kind = StandardValue::parser("list-position", &Self::check_valid)(pattern, arbitrary)?;
         Ok(Self { kind })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-position#syntax
