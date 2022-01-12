@@ -2,37 +2,17 @@ use super::*;
 
 pub use self::font_size::FontSize;
 
+mod builtin;
 mod font_size;
 
 #[derive(Clone, Debug, Default)]
 pub struct FontSystem {
     size: HashMap<String, FontSize>,
     family: HashMap<String, Vec<String>>,
+    tracking: HashMap<String, f32>,
 }
 
 impl FontSystem {
-    /// Builtin fonts' config
-    pub fn builtin() -> Self {
-        let mut new = Self::default();
-        // https://tailwindcss.com/docs/font-size
-        new.insert_size("xs", FontSize::new(0.75, 1.0));
-        new.insert_size("sm", FontSize::new(0.875, 1.25));
-        new.insert_size("md", FontSize::new(1.0, 1.5));
-        new.insert_size("lg", FontSize::new(1.125, 1.75));
-        new.insert_size("xl", FontSize::new(1.25, 1.75));
-        new.insert_size("2xl", FontSize::new(1.5, 2.0));
-        new.insert_size("3xl", FontSize::new(1.875, 2.25));
-        new.insert_size("4xl", FontSize::new(2.25, 2.5));
-        new.insert_size("5xl", FontSize::new(3.0, -1.0));
-        new.insert_size("6xl", FontSize::new(3.75, -1.0));
-        new.insert_size("7xl", FontSize::new(4.5, -1.0));
-        new.insert_size("8xl", FontSize::new(6.0, -1.0));
-        new.insert_size("9xl", FontSize::new(8.0, -1.0));
-        new.insert_family("sans", r#"ui-sans-serif"#);
-        new.insert_family("serif", r#"ui-serif"#);
-        new.insert_family("mono", r#"ui-sans-monospace"#);
-        new
-    }
     #[inline]
     pub fn get_size(&self, name: &str) -> FontSize {
         match self.size.get(name).cloned() {
@@ -64,5 +44,17 @@ impl FontSystem {
     #[inline]
     fn normalize_family(input: &str) -> Option<Vec<String>> {
         Some(vec![input.to_string()])
+    }
+    #[inline]
+    pub fn get_tracking(&self, name: &str) -> f32 {
+        match self.tracking.get(name).cloned() {
+            Some(s) => s,
+            None => 0.0,
+        }
+    }
+    /// Insert a new font size
+    #[inline]
+    pub fn insert_tracking(&mut self, name: impl Into<String>, size: f32) -> Option<f32> {
+        self.tracking.insert(name.into(), size)
     }
 }

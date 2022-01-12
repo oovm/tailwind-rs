@@ -1,24 +1,9 @@
 use super::*;
 
 #[doc=include_str!("readme.md")]
-#[derive(Copy, Debug, Clone)]
+#[derive(Debug, Clone)]
 pub struct TailwindTracking {
-    kind: Tracking,
-}
-
-#[derive(Copy, Debug, Clone)]
-enum Tracking {
-    Normal,
-    Length(LengthUnit),
-}
-
-impl Display for Tracking {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Normal => write!(f, "normal"),
-            Self::Length(l) => write!(f, "[{}]", l),
-        }
-    }
+    kind: StandardValue,
 }
 
 impl Display for TailwindTracking {
@@ -28,43 +13,29 @@ impl Display for TailwindTracking {
 }
 
 impl TailwindInstance for TailwindTracking {
-    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        let spacing = match self.kind {
-            Tracking::Length(n) => n.get_properties(),
-            _ => self.kind.to_string(),
+    fn attributes(&self, ctx: &TailwindBuilder) -> CssAttributes {
+        let tracking = match &self.kind {
+            StandardValue::Keyword(s) => match s.as_str() {
+                s if Self::check_valid(s) => s.to_string(),
+                _ => format!("{}em", ctx.fonts.get_tracking(s)),
+            },
+            StandardValue::Arbitrary(s) => s.get_properties(),
         };
         css_attributes! {
-            "letter-spacing" => spacing
+            "letter-spacing" => tracking
         }
     }
 }
 
 impl TailwindTracking {
-    /// `tracking-normal`
-    pub const Normal: Self = Self { kind: Tracking::Normal };
-    /// https://tailwindcss.com/docs/letter-spacing
+    /// <https://tailwindcss.com/docs/letter-spacing>
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        match input {
-            ["tighter"] => em(-0.05),
-            ["tight"] => em(-0.025),
-            // different from tailwind.js
-            ["none"] => em(0.0),
-            ["wide"] => em(0.025),
-            ["wider" | "relaxed"] => em(0.05),
-            ["widest" | "loose"] => em(0.1),
-            // https://developer.mozilla.org/zh-CN/docs/Web/CSS/letter-spacing#%E5%80%BC
-            ["normal"] => Ok(Self::Normal),
-            [] => Self::parse_arbitrary(arbitrary),
-            [n] => Self::parse_arbitrary(&TailwindArbitrary::from(*n)),
-            _ => syntax_error!("Unknown tracking instructions: {}", input.join("-")),
-        }
+        let kind = StandardValue::parser("tracking", &|_| true)(input, arbitrary)?;
+        Ok(Self { kind })
     }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: Tracking::Length(arbitrary.as_length_or_fraction()?) })
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/letter-spacing#syntax>
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec!["inherit", "initial", "normal", "unset"]);
+        set.contains(mode)
     }
-}
-
-#[inline(always)]
-fn em(n: f32) -> Result<TailwindTracking> {
-    Ok(TailwindTracking { kind: Tracking::Length(LengthUnit::em(n)) })
 }

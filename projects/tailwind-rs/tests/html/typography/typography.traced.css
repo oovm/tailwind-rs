@@ -1,1 +1,39 @@
+.tracking-\[0\.5em\] {
+  letter-spacing: .5em;
+}
 
+.tracking-normal {
+  letter-spacing: normal;
+}
+
+.tracking-not-found {
+  letter-spacing: 0;
+}
+
+.tracking-tight {
+  letter-spacing: -.025em;
+}
+
+.tracking-tighter {
+  letter-spacing: -.05em;
+}
+
+.tracking-tightest {
+  letter-spacing: -.75em;
+}
+
+.tracking-unset {
+  letter-spacing: unset;
+}
+
+.tracking-wide {
+  letter-spacing: .025em;
+}
+
+.tracking-wider {
+  letter-spacing: .05em;
+}
+
+.tracking-widest {
+  letter-spacing: .1em;
+}
