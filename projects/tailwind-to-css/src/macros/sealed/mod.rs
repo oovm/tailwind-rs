@@ -44,6 +44,12 @@ macro_rules! css_insert {
     ($css:expr, "transform", $v:expr) => {
         $css.transform($v.to_string());
     };
+    ($css:expr, "filter", $v:expr) => {
+        $css.filter($v.to_string());
+    };
+    ($css:expr, "backdrop-filter", $v:expr) => {
+        $css.backdrop_filter($v.to_string());
+    };
     ($css:expr, $k:expr,  $v:expr) => {
         $css.insert($k.to_string(), $v.to_string());
     };

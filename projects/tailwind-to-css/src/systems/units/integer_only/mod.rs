@@ -41,9 +41,13 @@ impl NumericValue {
             _ => Err(TailwindError::syntax_error(format!("Unknown {} pattern", id))),
         }
     }
-    pub fn positive_parser(id: &'static str) -> impl Fn(&[&str], &TailwindArbitrary) -> Result<Self> {
+    pub fn positive_parser(
+        id: &'static str,
+        checker: impl Fn(&str) -> bool,
+    ) -> impl Fn(&[&str], &TailwindArbitrary) -> Result<Self> {
         move |pattern: &[&str], arbitrary: &TailwindArbitrary| match pattern {
             [] => Self::parse_arbitrary(arbitrary),
+            [n] if checker(n) => Ok(Self::Keyword(n.to_string())),
             [n] => {
                 let i = TailwindArbitrary::from(*n).as_integer()?;
                 Ok(Self::Number(i as f32, Negative::from(false)))

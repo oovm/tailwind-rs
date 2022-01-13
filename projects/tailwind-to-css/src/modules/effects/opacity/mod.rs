@@ -1,41 +1,45 @@
 use super::*;
 
 #[doc=include_str!("readme.md")]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Debug)]
 pub struct TailwindOpacity {
-    opacity: i32,
-    backdrop: bool,
+    percent: NumericValue,
+    backdrop: Backdrop,
 }
 
 impl Display for TailwindOpacity {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        debug_assert!(self.opacity <= 100);
-        if self.backdrop {
-            f.write_str("backdrop-")?
-        }
-        write!(f, "opacity-{}", self.opacity)
+        self.backdrop.write(f)?;
+        write!(f, "opacity-{}", self.percent)
     }
 }
 
 impl TailwindInstance for TailwindOpacity {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        debug_assert!(self.opacity <= 100);
-        let opacity = format!("{}", self.opacity as f32 / 100.0);
-        css_attributes! {
-            "opacity" => opacity
+        let opacity = self.percent.get_properties(|f| format!("{}%", f));
+        match self.backdrop.unwrap() {
+            true => css_attributes! {
+                "backdrop-filter" => format!("opacity({})", opacity)
+            },
+            false => css_attributes! {
+                "opacity" => opacity
+            },
         }
     }
 }
 
 impl TailwindOpacity {
-    /// https://tailwindcss.com/docs/opacity
+    /// <https://tailwindcss.com/docs/opacity>
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
-        match input {
-            [n] => {
-                let a = TailwindArbitrary::from(*n);
-                Ok(Self { opacity: a.as_integer()?, backdrop })
-            },
-            _ => syntax_error!("Unknown opacity instructions: {}", input.join("-")),
-        }
+        let percent = match backdrop {
+            true => NumericValue::positive_parser("opacity", |_| false)(input, arbitrary)?,
+            false => NumericValue::positive_parser("opacity", Self::check_valid)(input, arbitrary)?,
+        };
+        Ok(Self { percent, backdrop: Backdrop::from(backdrop) })
+    }
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/opacity#syntax>
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec!["always", "inherit", "initial", "normal", "unset"]);
+        set.contains(mode)
     }
 }

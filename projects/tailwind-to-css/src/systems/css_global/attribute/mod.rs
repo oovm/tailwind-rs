@@ -1,5 +1,3 @@
-use std::collections::btree_map::Iter;
-
 use super::*;
 
 mod traits;
@@ -11,6 +9,8 @@ mod traits;
 pub struct CssAttributes {
     normal: BTreeMap<String, String>,
     transforms: BTreeSet<String>,
+    backdrop_filter: BTreeSet<String>,
+    filter: BTreeSet<String>,
 }
 
 impl CssAttributes {
@@ -50,6 +50,28 @@ impl CssAttributes {
         V: Into<String>,
     {
         self.transforms.insert(value.into());
+    }
+    /// # Arguments
+    ///
+    /// * `value`:
+    ///
+    /// returns: ()
+    pub fn filter<V>(&mut self, value: V)
+    where
+        V: Into<String>,
+    {
+        self.filter.insert(value.into());
+    }
+    /// # Arguments
+    ///
+    /// * `value`:
+    ///
+    /// returns: ()
+    pub fn backdrop_filter<V>(&mut self, value: V)
+    where
+        V: Into<String>,
+    {
+        self.backdrop_filter.insert(value.into());
     }
     pub fn iter(&self) -> Iter<'_, String, String> {
         self.normal.iter()
