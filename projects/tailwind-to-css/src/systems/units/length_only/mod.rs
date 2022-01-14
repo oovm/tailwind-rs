@@ -128,7 +128,7 @@ impl UnitValue {
             false => arbitrary.as_float()?,
         };
         let negative = if can_be_negative {
-            if negative.unwrap() {
+            if negative.0 {
                 i = -i
             }
             Some(negative)

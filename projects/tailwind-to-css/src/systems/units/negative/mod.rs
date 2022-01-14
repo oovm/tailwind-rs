@@ -3,7 +3,7 @@ use super::*;
 mod traits;
 
 #[derive(Copy, Clone, Debug)]
-pub struct Negative(bool);
+pub struct Negative(pub(crate) bool);
 
 impl Negative {
     pub fn write(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -17,8 +17,5 @@ impl Negative {
             true => format!("-{}", value),
             false => value.to_string(),
         }
-    }
-    pub fn unwrap(&self) -> bool {
-        self.0
     }
 }

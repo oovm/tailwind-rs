@@ -49,7 +49,7 @@ impl TailwindZIndex {
             [s] if Self::check_valid(s) => Ok(Self { kind: ZIndex::Standard(s.to_string()) }),
             [n] => {
                 let mut i: i32 = TailwindArbitrary::from(*n).as_integer()?;
-                if negative.unwrap() {
+                if negative.0 {
                     i = -i;
                 }
                 Ok(Self { kind: ZIndex::Unit(i) })

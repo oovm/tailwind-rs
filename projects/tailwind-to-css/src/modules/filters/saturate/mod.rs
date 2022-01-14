@@ -16,14 +16,15 @@ impl Display for TailwindSaturate {
 
 impl TailwindInstance for TailwindSaturate {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        let class = self.backdrop.filter();
-        let value = match &self.percent {
-            NumericValue::Number(n, _) => format!("saturate({}%)", n),
-            NumericValue::Arbitrary(n) => format!("saturate({})", n.get_properties()),
-            NumericValue::Keyword(_) => unreachable!(),
-        };
-        css_attributes! {
-            class => value
+        let n = self.percent.get_properties(|f| format!("{}%", f));
+        let value = format!("saturate({})", n);
+        match self.backdrop.0 {
+            true => css_attributes! {
+                "backdrop-filter" => value
+            },
+            false => css_attributes! {
+                "filter" => value
+            },
         }
     }
 }
@@ -31,11 +32,7 @@ impl TailwindInstance for TailwindSaturate {
 impl TailwindSaturate {
     /// <https://tailwindcss.com/docs/saturate>
     pub fn parse(rest: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
-        let percent = NumericValue::positive_parser("saturate")(rest, arbitrary)?;
-        Ok(Self { percent, backdrop: Backdrop::from(backdrop) })
-    }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
-        let percent = NumericValue::parse_arbitrary(arbitrary)?;
+        let percent = NumericValue::positive_parser("saturate", |_| false)(rest, arbitrary)?;
         Ok(Self { percent, backdrop: Backdrop::from(backdrop) })
     }
 }

@@ -1,4 +1,5 @@
 use super::*;
+use crate::Negative;
 
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
@@ -16,21 +17,22 @@ impl Display for TailwindHueRotate {
 
 impl TailwindInstance for TailwindHueRotate {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        let class = self.backdrop.filter();
-        let value = match &self.degree {
-            NumericValue::Number(n, _) => format!("hue-rotate({}%)", n),
-            NumericValue::Arbitrary(n) => format!("hue-rotate({})", n.get_properties()),
-            NumericValue::Keyword(_) => unreachable!(),
-        };
-        css_attributes! {
-            class => value
+        let n = self.degree.get_properties(|f| format!("{}deg", f));
+        let value = format!("hue-rotate({})", n);
+        match self.backdrop.0 {
+            true => css_attributes! {
+                "backdrop-filter" => value
+            },
+            false => css_attributes! {
+                "filter" => value
+            },
         }
     }
 }
 
 impl TailwindHueRotate {
-    pub fn parse(rest: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
-        let percent = NumericValue::positive_parser("hue-rotate")(rest, arbitrary)?;
+    pub fn parse(rest: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool, negative: Negative) -> Result<Self> {
+        let percent = NumericValue::negative_parser("hue-rotate", |_| false)(rest, arbitrary, negative)?;
         Ok(Self { degree: percent, backdrop: Backdrop::from(backdrop) })
     }
 }

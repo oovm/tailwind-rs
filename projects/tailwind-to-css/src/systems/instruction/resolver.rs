@@ -143,11 +143,11 @@ impl TailwindInstruction {
             ["contrast", rest @ ..] => TailwindContrast::parse(rest, arbitrary, false)?.boxed(),
             ["drop", "shadow", rest @ ..] => TailwindShadow::parse(rest, arbitrary, true)?.boxed(),
             ["grayscale", rest @ ..] => TailwindGrayscale::parse(rest, arbitrary, false)?.boxed(),
-            ["hue", "rotate", rest @ ..] => TailwindHueRotate::parse(rest, arbitrary, false)?.boxed(),
+            ["hue", "rotate", rest @ ..] => TailwindHueRotate::parse(rest, arbitrary, false, neg)?.boxed(),
             ["invert", rest @ ..] => TailwindInvert::parse(rest, arbitrary, false)?.boxed(),
             ["saturate", rest @ ..] => TailwindSaturate::parse(rest, arbitrary, false)?.boxed(),
             ["sepia", rest @ ..] => TailwindSepia::parse(rest, arbitrary, false)?.boxed(),
-            ["backdrop", rest @ ..] => Self::backdrop_adaptor(rest, arbitrary)?,
+            ["backdrop", rest @ ..] => Self::backdrop_adaptor(rest, arbitrary, neg)?,
             // Tables System
             ["table", rest @ ..] => Self::table_adaptor(rest, arbitrary)?,
             // Transitions System
@@ -266,7 +266,7 @@ impl TailwindInstruction {
     }
 
     #[inline]
-    fn backdrop_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+    fn backdrop_adaptor(str: &[&str], arbitrary: &TailwindArbitrary, negative: Negative) -> Result<Box<dyn TailwindInstance>> {
         let out = match str {
             // https://tailwindcss.com/docs/backdrop-blur
             ["blur", rest @ ..] => TailwindBlur::parse(rest, arbitrary, true)?.boxed(),
@@ -277,7 +277,7 @@ impl TailwindInstruction {
             // https://tailwindcss.com/docs/backdrop-grayscale
             ["grayscale", rest @ ..] => TailwindGrayscale::parse(rest, arbitrary, true)?.boxed(),
             // https://tailwindcss.com/docs/backdrop-hue-rotate
-            ["hue", "rotate", rest @ ..] => TailwindHueRotate::parse(rest, arbitrary, true)?.boxed(),
+            ["hue", "rotate", rest @ ..] => TailwindHueRotate::parse(rest, arbitrary, true, negative)?.boxed(),
             // https://tailwindcss.com/docs/backdrop-invert
             ["invert", rest @ ..] => TailwindInvert::parse(rest, arbitrary, true)?.boxed(),
             // https://tailwindcss.com/docs/backdrop-opacity

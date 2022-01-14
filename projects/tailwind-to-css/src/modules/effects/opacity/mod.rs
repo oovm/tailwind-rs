@@ -17,7 +17,7 @@ impl Display for TailwindOpacity {
 impl TailwindInstance for TailwindOpacity {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let opacity = self.percent.get_properties(|f| format!("{}%", f));
-        match self.backdrop.unwrap() {
+        match self.backdrop.0 {
             true => css_attributes! {
                 "backdrop-filter" => format!("opacity({})", opacity)
             },

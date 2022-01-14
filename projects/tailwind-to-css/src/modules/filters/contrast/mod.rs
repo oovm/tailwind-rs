@@ -16,21 +16,22 @@ impl Display for TailwindContrast {
 
 impl TailwindInstance for TailwindContrast {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        let class = self.backdrop.filter();
-        let value = match &self.percent {
-            NumericValue::Number(n, _) => format!("contrast({}%)", n),
-            NumericValue::Arbitrary(n) => format!("contrast({})", n.get_properties()),
-            NumericValue::Keyword(_) => unreachable!(),
-        };
-        css_attributes! {
-            class => value
+        let n = self.percent.get_properties(|f| format!("{}%", f));
+        let value = format!("contrast({})", n);
+        match self.backdrop.0 {
+            true => css_attributes! {
+                "backdrop-filter" => value
+            },
+            false => css_attributes! {
+                "filter" => value
+            },
         }
     }
 }
 
 impl TailwindContrast {
     pub fn parse(rest: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
-        let percent = NumericValue::positive_parser("contrast")(rest, arbitrary)?;
+        let percent = NumericValue::positive_parser("contrast", |_| false)(rest, arbitrary)?;
         Ok(Self { percent, backdrop: Backdrop::from(backdrop) })
     }
 }

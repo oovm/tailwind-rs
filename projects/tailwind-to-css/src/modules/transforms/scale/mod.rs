@@ -19,11 +19,7 @@ impl Display for TailwindScale {
 
 impl TailwindInstance for TailwindScale {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        let scale = match &self.kind {
-            NumericValue::Number(n, _) => (*n as f32 / 100.0).to_string(),
-            NumericValue::Arbitrary(s) => s.get_properties(),
-            NumericValue::Keyword(_) => unreachable!(),
-        };
+        let scale = self.kind.get_properties(|f| (f / 100.0).to_string());
         let scale = match self.axis {
             AxisXY::N => format!("scale({})", scale),
             AxisXY::X => format!("scaleX({})", scale),

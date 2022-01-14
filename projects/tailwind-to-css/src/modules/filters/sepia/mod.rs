@@ -8,7 +8,6 @@ pub struct TailwindSepia {
 }
 impl Display for TailwindSepia {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        debug_assert!(self.percent <= 100);
         self.backdrop.write(f)?;
         write!(f, "sepia-{}", self.percent)
     }
@@ -16,11 +15,15 @@ impl Display for TailwindSepia {
 
 impl TailwindInstance for TailwindSepia {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        let class = self.backdrop.filter();
         let n = self.percent.get_properties(|f| format!("{}%", f));
-        let sepia = format!("sepia({})", n);
-        css_attributes! {
-            class => sepia
+        let value = format!("sepia({})", n);
+        match self.backdrop.0 {
+            true => css_attributes! {
+                "backdrop-filter" => value
+            },
+            false => css_attributes! {
+                "filter" => value
+            },
         }
     }
 }
@@ -29,8 +32,8 @@ impl TailwindSepia {
     /// <https://tailwindcss.com/docs/sepia>
     pub fn parse(rest: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
         let percent = match rest {
-            [] if arbitrary.is_none() => 100usize.into(),
-            _ => NumericValue::positive_parser("sepia")(rest, arbitrary)?,
+            [] if arbitrary.is_none() => 100i32.into(),
+            _ => NumericValue::positive_parser("sepia", |_| false)(rest, arbitrary)?,
         };
         Ok(Self { percent, backdrop: Backdrop::from(backdrop) })
     }

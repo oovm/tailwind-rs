@@ -5,7 +5,7 @@ mod traits;
 /// Used to represent those attributes that only have integers
 #[derive(Debug, Clone)]
 pub enum NumericValue {
-    Number(f32, Negative),
+    Number { n: f32, negative: bool, can_be_negative: bool },
     Keyword(String),
     Arbitrary(TailwindArbitrary),
 }
@@ -13,14 +13,14 @@ pub enum NumericValue {
 impl NumericValue {
     pub fn get_properties(&self, number: impl FnOnce(&f32) -> String) -> String {
         match self {
-            Self::Number(n, _) => number(n),
+            Self::Number { n, .. } => number(n),
             Self::Keyword(s) => s.to_string(),
             Self::Arbitrary(s) => s.get_properties(),
         }
     }
     pub fn write_negative(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Number(n, neg) if n.ne(&0.0) && neg.eq(&true) => write!(f, "-"),
+        match *self {
+            Self::Number { n, negative, can_be_negative } if can_be_negative && n < 0.0 => write!(f, "-"),
             _ => write!(f, ""),
         }
     }
@@ -50,7 +50,7 @@ impl NumericValue {
             [n] if checker(n) => Ok(Self::Keyword(n.to_string())),
             [n] => {
                 let i = TailwindArbitrary::from(*n).as_integer()?;
-                Ok(Self::Number(i as f32, Negative::from(false)))
+                Ok(Self::Number { n: i as f32, negative: false, can_be_negative: true })
             },
             _ => Err(TailwindError::syntax_error(format!("Unknown {} pattern", id))),
         }
@@ -59,10 +59,10 @@ impl NumericValue {
         Ok(Self::Arbitrary(TailwindArbitrary::new(arbitrary)?))
     }
     pub fn parse_number(n: &str, negative: Negative) -> Result<Self> {
-        let mut i = TailwindArbitrary::from(n).as_float()?;
-        if negative.unwrap() {
-            i = -i
+        let mut n = TailwindArbitrary::from(n).as_float()?;
+        if negative.0 {
+            n = -n
         }
-        Ok(Self::Number(i, negative))
+        Ok(Self::Number { n, negative: negative.0, can_be_negative: false })
     }
 }

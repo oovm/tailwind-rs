@@ -25,9 +25,9 @@ impl TailwindInstance for TailWindOrder {
 impl TailWindOrder {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: Negative) -> Result<Self> {
         let kind = match pattern {
-            ["none"] => NumericValue::Number(0.0, Negative::from(false)),
-            ["first"] => NumericValue::Number(9999.0, Negative::from(false)),
-            ["last"] => NumericValue::Number(-9999.0, Negative::from(true)),
+            ["none"] => NumericValue::from(0i32),
+            ["first"] => NumericValue::from(9999i32),
+            ["last"] => NumericValue::from(-9999i32),
             [s] if Self::check_valid(s) => NumericValue::Keyword(s.to_string()),
             _ => NumericValue::negative_parser("order", &Self::check_valid)(pattern, arbitrary, negative)?,
         };
