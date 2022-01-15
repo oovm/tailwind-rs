@@ -6,33 +6,15 @@ impl Display for CssAttributes {
             write!(f, "{}:{};", k, v)?
         }
         if !self.transforms.is_empty() {
-            write!(f, "transforms:{};", self.transforms.iter().join(" "))?
+            write!(f, "transform:{};", self.transforms.iter().join(" "))?
         }
         if !self.filter.is_empty() {
             write!(f, "filter:{};", self.filter.iter().join(" "))?
         }
         if !self.backdrop_filter.is_empty() {
-            write!(f, "backdrop_filter:{};", self.backdrop_filter.iter().join(" "))?
+            write!(f, "backdrop-filter:{};", self.backdrop_filter.iter().join(" "))?
         }
         Ok(())
-    }
-}
-
-impl IntoIterator for CssAttributes {
-    type Item = (String, String);
-    type IntoIter = IntoIter<String, String>;
-
-    fn into_iter(self) -> Self::IntoIter {
-        self.normal.into_iter()
-    }
-}
-
-impl<'a> IntoIterator for &'a CssAttributes {
-    type Item = (&'a String, &'a String);
-    type IntoIter = Iter<'a, String, String>;
-
-    fn into_iter(self) -> Self::IntoIter {
-        self.normal.iter()
     }
 }
 

@@ -1,5 +1,3 @@
-use log::error;
-
 use super::*;
 
 impl Display for TailwindInstruction {
@@ -19,10 +17,11 @@ impl TailwindInstance for TailwindInstruction {
     fn attributes(&self, ctx: &TailwindBuilder) -> CssAttributes {
         let mut out = CssAttributes::default();
         match self.get_instance() {
-            Ok(o) => out.extend(o.attributes(ctx)),
+            Ok(o) => {
+                out += o.attributes(ctx);
+            },
             Err(e) => {
-                #[cfg(debug_assertions)]
-                error!("{:?}", e)
+                unimplemented!("{}", e);
             },
         }
         out

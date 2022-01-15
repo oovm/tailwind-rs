@@ -16,15 +16,7 @@ impl Display for TailwindBlur {
 impl TailwindInstance for TailwindBlur {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let n = self.px.get_properties(|f| format!("{}px", f));
-        let value = format!("blur({})", n);
-        match self.backdrop.0 {
-            true => css_attributes! {
-                "backdrop-filter" => value
-            },
-            false => css_attributes! {
-                "filter" => value
-            },
-        }
+        self.backdrop.get_filter(format!("blur({})", n))
     }
 }
 

@@ -16,15 +16,7 @@ impl Display for TailwindGrayscale {
 impl TailwindInstance for TailwindGrayscale {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let n = self.percent.get_properties(|f| format!("{}%", f));
-        let value = format!("hue-rotate({})", n);
-        match self.backdrop.0 {
-            true => css_attributes! {
-                "backdrop-filter" => value
-            },
-            false => css_attributes! {
-                "filter" => value
-            },
-        }
+        self.backdrop.get_filter(format!("grayscale({})", n))
     }
 }
 

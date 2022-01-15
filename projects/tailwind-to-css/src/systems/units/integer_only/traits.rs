@@ -1,5 +1,3 @@
-use std::cmp::Ordering;
-
 use super::*;
 
 impl From<u32> for NumericValue {

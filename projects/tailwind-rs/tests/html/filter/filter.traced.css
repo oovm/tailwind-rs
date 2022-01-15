@@ -26,10 +26,6 @@
   backdrop-filter: brightness(50%);
 }
 
-.backdrop-brightness-\[\] {
-  backdrop-filter: brightness();
-}
-
 .backdrop-contrast-0 {
   backdrop-filter: contrast(0%);
 }
@@ -42,20 +38,16 @@
   backdrop-filter: contrast(50%);
 }
 
-.backdrop-contrast-\[\] {
-  backdrop-filter: contrast();
-}
-
 .backdrop-grayscale-0 {
-  backdrop-filter: hue-rotate(0%);
+  backdrop-filter: grayscale(0%);
 }
 
 .backdrop-grayscale-100 {
-  backdrop-filter: hue-rotate(100%);
+  backdrop-filter: grayscale();
 }
 
 .backdrop-grayscale-50 {
-  backdrop-filter: hue-rotate(50%);
+  backdrop-filter: grayscale(50%);
 }
 
 .backdrop-hue-rotate-0 {
@@ -66,12 +58,12 @@
   backdrop-filter: hue-rotate(100deg);
 }
 
-.backdrop-hue-rotate-50 {
-  backdrop-filter: hue-rotate(50deg);
+.backdrop-hue-rotate-180 {
+  backdrop-filter: hue-rotate(180deg);
 }
 
-.backdrop-hue-rotate-\[\] {
-  backdrop-filter: hue-rotate();
+.backdrop-hue-rotate-50 {
+  backdrop-filter: hue-rotate(50deg);
 }
 
 .backdrop-invert-0 {
@@ -98,10 +90,6 @@
   backdrop-filter: opacity(50%);
 }
 
-.backdrop-opacity-\[\] {
-  backdrop-filter: opacity();
-}
-
 .backdrop-saturate-0 {
   backdrop-filter: saturate(0%);
 }
@@ -112,10 +100,6 @@
 
 .backdrop-saturate-50 {
   backdrop-filter: saturate(50%);
-}
-
-.backdrop-saturate-\[\] {
-  backdrop-filter: saturate();
 }
 
 .backdrop-sepia-0 {
@@ -140,36 +124,4 @@
 
 .blur-8 {
   filter: blur(8px);
-}
-
-.brightness-\[\] {
-  filter: brightness();
-}
-
-.contrast-\[\] {
-  filter: contrast();
-}
-
-.grayscale-100 {
-  filter: hue-rotate(100%);
-}
-
-.hue-rotate-\[\] {
-  filter: hue-rotate();
-}
-
-.invert-100 {
-  filter: invert();
-}
-
-.opacity-\[\] {
-  opacity: ;
-}
-
-.saturate-\[\] {
-  filter: saturate();
-}
-
-.sepia-100 {
-  filter: sepia();
 }

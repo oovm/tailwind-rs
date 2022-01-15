@@ -20,12 +20,18 @@ impl CssAttributes {
     /// * `value`: css property
     ///
     /// returns: [`CssAttribute`]
+    #[track_caller]
     pub fn insert<K, V>(&mut self, key: K, value: V)
     where
         K: Into<String>,
         V: Into<String>,
     {
-        self.normal.insert(key.into(), value.into());
+        let key = key.into();
+        let forbid = BTreeSet::from_iter(vec!["transform", "backdrop-filter", "filter"]);
+        if forbid.contains(key.as_str()) {
+            panic!("can't use insert on {}", key);
+        }
+        self.normal.insert(key, value.into());
     }
 
     /// # Arguments
@@ -72,8 +78,5 @@ impl CssAttributes {
         V: Into<String>,
     {
         self.backdrop_filter.insert(value.into());
-    }
-    pub fn iter(&self) -> Iter<'_, String, String> {
-        self.normal.iter()
     }
 }

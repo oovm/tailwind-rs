@@ -2,7 +2,7 @@ use std::fmt::{Debug, Display, Formatter};
 
 use tailwind_error::Result;
 
-use crate::{css_attributes, CssAttributes, NumericValue, TailwindArbitrary, TailwindBuilder, TailwindInstance};
+use crate::{CssAttributes, NumericValue, TailwindArbitrary, TailwindBuilder, TailwindInstance};
 
 pub use self::{
     blur::TailwindBlur, brightness::TailwindBrightness, contrast::TailwindContrast, grayscale::TailwindGrayscale,
@@ -37,5 +37,27 @@ impl Backdrop {
                 write!(f, "")
             },
         }
+    }
+    pub fn get_filter<T>(&self, value: T) -> CssAttributes
+    where
+        T: Into<String>,
+    {
+        let mut css = CssAttributes::default();
+        match self.0 {
+            true => css.backdrop_filter(value.into()),
+            false => css.filter(value.into()),
+        }
+        css
+    }
+    pub fn get_opacity<T>(&self, value: T) -> CssAttributes
+    where
+        T: Into<String>,
+    {
+        let mut css = CssAttributes::default();
+        match self.0 {
+            true => css.backdrop_filter(format!("opacity({})", value.into())),
+            false => css.insert("opacity", value.into()),
+        }
+        css
     }
 }

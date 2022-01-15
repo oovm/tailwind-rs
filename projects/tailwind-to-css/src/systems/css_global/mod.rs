@@ -1,9 +1,6 @@
 use std::{
     cmp::Ordering,
-    collections::{
-        btree_map::{IntoIter, Iter},
-        BTreeMap, BTreeSet,
-    },
+    collections::{BTreeMap, BTreeSet},
     fmt::{Debug, Display, Formatter, Write},
     hash::{Hash, Hasher},
     ops::{Add, AddAssign},

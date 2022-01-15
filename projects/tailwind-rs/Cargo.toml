@@ -12,7 +12,7 @@ edition = "2018"
 [dependencies]
 tl = { version = "0.7.1", optional = true }
 parcel_css = "1.0.0-alpha.18"
-tailwind-css = {version = "0.11.6", path = "../tailwind-to-css"}
+tailwind-css = {version = "0.11.6", path = "../tailwind-to-css", features = ["compile_time"]}
 itertools = "0.10.3"
 log = "0.4.14"
 xxhash-rust = "0.8.3"

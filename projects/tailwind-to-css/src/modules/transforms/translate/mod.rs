@@ -21,14 +21,14 @@ impl Display for TailwindTranslate {
 impl TailwindInstance for TailwindTranslate {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let size = self.kind.get_properties(|n| format!("{}rem", n / 4.0));
-        let translate = match self.axis {
+        let transform = match self.axis {
             AxisXY::X => format!("translateX({})", size),
             AxisXY::Y => format!("translateY({})", size),
             AxisXY::N => format!("translate({})", size),
         };
-        css_attributes! {
-            "transform" => translate
-        }
+        let mut css = CssAttributes::default();
+        css.transform(transform);
+        css
     }
 }
 

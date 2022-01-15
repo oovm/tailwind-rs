@@ -21,14 +21,14 @@ impl Display for TailwindSkew {
 impl TailwindInstance for TailwindSkew {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let deg = self.kind.get_properties(|n| format!("{}deg", n));
-        let skew = match self.axis {
+        let transform = match self.axis {
             AxisXY::X => format!("skewX({})", deg),
             AxisXY::Y => format!("skewY({})", deg),
             AxisXY::N => format!("skew({})", deg),
         };
-        css_attributes! {
-            "transform" => skew
-        }
+        let mut css = CssAttributes::default();
+        css.transform(transform);
+        css
     }
 }
 

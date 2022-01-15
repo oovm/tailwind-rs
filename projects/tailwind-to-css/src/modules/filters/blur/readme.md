@@ -1,8 +1,8 @@
-Utilities for applying brightness filters to an element.
+Utilities for applying blur filters to an element.
 
 ## Patterns
 
 ## Reference
 
-- [brightness](https://tailwindcss.com/docs/brightness)
-- [brightness/cn](https://tailwindcss.cn/docs/brightness)
+- [blur](https://tailwindcss.com/docs/blur)
+- [blur/cn](https://tailwindcss.cn/docs/blur)

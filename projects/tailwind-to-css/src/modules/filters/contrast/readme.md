@@ -1,8 +1,8 @@
-Utilities for applying brightness filters to an element.
+https://tailwindcss.com/docs/contrast
 
 ## Patterns
 
 ## Reference
 
-- [brightness](https://tailwindcss.com/docs/brightness)
-- [brightness/cn](https://tailwindcss.cn/docs/brightness)
+- [contrast](https://tailwindcss.com/docs/contrast)
+- [contrast/cn](https://tailwindcss.cn/docs/contrast)

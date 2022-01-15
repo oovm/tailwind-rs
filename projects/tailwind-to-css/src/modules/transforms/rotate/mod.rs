@@ -16,10 +16,10 @@ impl Display for TailwindRotate {
 impl TailwindInstance for TailwindRotate {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let deg = self.kind.get_properties(|f| format!("{}deg", f));
-        let rotate = format!("rotate({})", deg);
-        css_attributes! {
-            "transform" => rotate
-        }
+        let transform = format!("rotate({})", deg);
+        let mut css = CssAttributes::default();
+        css.transform(transform);
+        css
     }
 }
 

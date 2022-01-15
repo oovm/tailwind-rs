@@ -17,25 +17,22 @@ impl Display for TailwindOpacity {
 impl TailwindInstance for TailwindOpacity {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let opacity = self.percent.get_properties(|f| format!("{}%", f));
-        match self.backdrop.0 {
-            true => css_attributes! {
-                "backdrop-filter" => format!("opacity({})", opacity)
-            },
-            false => css_attributes! {
-                "opacity" => opacity
-            },
-        }
+        self.backdrop.get_opacity(opacity)
     }
 }
 
 impl TailwindOpacity {
     /// <https://tailwindcss.com/docs/opacity>
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
-        let percent = match backdrop {
+        let backdrop = Backdrop::from(backdrop);
+        if input.is_empty() {
+            return Ok(Self { percent: NumericValue::from(50u32), backdrop });
+        };
+        let percent = match backdrop.0 {
             true => NumericValue::positive_parser("opacity", |_| false)(input, arbitrary)?,
             false => NumericValue::positive_parser("opacity", Self::check_valid)(input, arbitrary)?,
         };
-        Ok(Self { percent, backdrop: Backdrop::from(backdrop) })
+        Ok(Self { percent, backdrop })
     }
     /// <https://developer.mozilla.org/en-US/docs/Web/CSS/opacity#syntax>
     pub fn check_valid(mode: &str) -> bool {

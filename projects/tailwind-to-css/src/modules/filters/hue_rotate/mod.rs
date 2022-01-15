@@ -18,21 +18,17 @@ impl Display for TailwindHueRotate {
 impl TailwindInstance for TailwindHueRotate {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let n = self.degree.get_properties(|f| format!("{}deg", f));
-        let value = format!("hue-rotate({})", n);
-        match self.backdrop.0 {
-            true => css_attributes! {
-                "backdrop-filter" => value
-            },
-            false => css_attributes! {
-                "filter" => value
-            },
-        }
+        self.backdrop.get_filter(format!("hue-rotate({})", n))
     }
 }
 
 impl TailwindHueRotate {
+    /// <https://tailwindcss.com/docs/hue-rotate>
     pub fn parse(rest: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool, negative: Negative) -> Result<Self> {
-        let percent = NumericValue::negative_parser("hue-rotate", |_| false)(rest, arbitrary, negative)?;
-        Ok(Self { degree: percent, backdrop: Backdrop::from(backdrop) })
+        let degree = match rest {
+            [] if arbitrary.is_none() => 180u32.into(),
+            _ => NumericValue::positive_parser("hue-rotate", |_| false)(rest, arbitrary)?,
+        };
+        Ok(Self { degree, backdrop: Backdrop::from(backdrop) })
     }
 }

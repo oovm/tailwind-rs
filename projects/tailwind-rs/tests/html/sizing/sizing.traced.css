@@ -2,8 +2,8 @@
   max-w: 0em;
 }
 
-.max-w-\[12em\] {
-  max-w: 12em;
+.max-w-\[50\%\] {
+  max-w: 50%;
 }
 
 .max-w-screen {
@@ -54,12 +54,16 @@
   w: 0em;
 }
 
+.w-\[10\%\] {
+  w: 10%;
+}
+
 .w-\[1em\] {
   w: 1em;
 }
 
-.w-\[2em\] {
-  w: 2em;
+.w-\[1px\] {
+  w: 1px;
 }
 
 .w-auto {

@@ -1,9 +1,9 @@
-.-scale-100 {
-  transform: scale(-1);
+.-rotate-0 {
+  transform: rotate(-0deg);
 }
 
-.-scale-50 {
-  transform: scale(-.5);
+.-translate-0 {
+  transform: translate(0);
 }
 
 .-translate-1 {
@@ -15,7 +15,7 @@
 }
 
 .rotate-0 {
-  transform: rotate(-0deg);
+  transform: rotate(0deg);
 }
 
 .rotate-180 {
@@ -74,20 +74,12 @@
   transform: translate(.125rem);
 }
 
-.translate-0\/1 {
-  transform: translate(0%);
-}
-
 .translate-0px {
   transform: translate(0);
 }
 
 .translate-1\/1 {
   transform: translate(100%);
-}
-
-.translate-1\/2 {
-  transform: translate(50%);
 }
 
 .translate-1px, .translate-\[1px\] {

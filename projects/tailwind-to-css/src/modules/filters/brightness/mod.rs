@@ -17,21 +17,16 @@ impl Display for TailwindBrightness {
 impl TailwindInstance for TailwindBrightness {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let n = self.percent.get_properties(|f| format!("{}%", f));
-        let value = format!("brightness({})", n);
-        match self.backdrop.0 {
-            true => css_attributes! {
-                "backdrop-filter" => value
-            },
-            false => css_attributes! {
-                "filter" => value
-            },
-        }
+        self.backdrop.get_filter(format!("brightness({})", n))
     }
 }
 
 impl TailwindBrightness {
     pub fn parse(rest: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
-        let percent = NumericValue::positive_parser("brightness", |_| false)(rest, arbitrary)?;
+        let percent = match rest {
+            [] if arbitrary.is_none() => 100u32.into(),
+            _ => NumericValue::positive_parser("brightness", |_| false)(rest, arbitrary)?,
+        };
         Ok(Self { percent, backdrop: Backdrop::from(backdrop) })
     }
 }

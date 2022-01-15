@@ -10,6 +10,6 @@
   opacity: .5;
 }
 
-.opacity-\[unset\], .opacity-unset {
+.opacity-unset {
   opacity: unset;
 }

@@ -20,14 +20,14 @@ impl Display for TailwindScale {
 impl TailwindInstance for TailwindScale {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let scale = self.kind.get_properties(|f| (f / 100.0).to_string());
-        let scale = match self.axis {
+        let transform = match self.axis {
             AxisXY::N => format!("scale({})", scale),
             AxisXY::X => format!("scaleX({})", scale),
             AxisXY::Y => format!("scaleY({})", scale),
         };
-        css_attributes! {
-            "transform" => scale
-        }
+        let mut css = CssAttributes::default();
+        css.transform(transform);
+        css
     }
 }
 

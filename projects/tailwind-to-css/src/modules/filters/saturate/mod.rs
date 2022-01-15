@@ -17,22 +17,17 @@ impl Display for TailwindSaturate {
 impl TailwindInstance for TailwindSaturate {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let n = self.percent.get_properties(|f| format!("{}%", f));
-        let value = format!("saturate({})", n);
-        match self.backdrop.0 {
-            true => css_attributes! {
-                "backdrop-filter" => value
-            },
-            false => css_attributes! {
-                "filter" => value
-            },
-        }
+        self.backdrop.get_filter(format!("saturate({})", n))
     }
 }
 
 impl TailwindSaturate {
     /// <https://tailwindcss.com/docs/saturate>
     pub fn parse(rest: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
-        let percent = NumericValue::positive_parser("saturate", |_| false)(rest, arbitrary)?;
+        let percent = match rest {
+            [] if arbitrary.is_none() => 100u32.into(),
+            _ => NumericValue::positive_parser("saturate", |_| false)(rest, arbitrary)?,
+        };
         Ok(Self { percent, backdrop: Backdrop::from(backdrop) })
     }
 }

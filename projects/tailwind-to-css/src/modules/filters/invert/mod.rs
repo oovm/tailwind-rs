@@ -16,19 +16,12 @@ impl Display for TailwindInvert {
 impl TailwindInstance for TailwindInvert {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let n = self.percent.get_properties(|f| format!("{}%", f));
-        let value = format!("invert({})", n);
-        match self.backdrop.0 {
-            true => css_attributes! {
-                "backdrop-filter" => value
-            },
-            false => css_attributes! {
-                "filter" => value
-            },
-        }
+        self.backdrop.get_filter(format!("invert({})", n))
     }
 }
 
 impl TailwindInvert {
+    /// <https://tailwindcss.com/docs/invert>
     pub fn parse(rest: &[&str], arbitrary: &TailwindArbitrary, backdrop: bool) -> Result<Self> {
         let percent = match rest {
             [] if arbitrary.is_none() => 100u32.into(),
