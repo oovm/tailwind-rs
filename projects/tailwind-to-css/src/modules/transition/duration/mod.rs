@@ -1,9 +1,9 @@
 use super::*;
 
 #[doc=include_str!("readme.md")]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Debug)]
 pub struct TailwindDuration {
-    ms: i32,
+    ms: NumericValue,
 }
 
 impl Display for TailwindDuration {
@@ -14,21 +14,25 @@ impl Display for TailwindDuration {
 
 impl TailwindInstance for TailwindDuration {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
+        let duration = self.ms.get_properties(|f| format!("{}ms", f));
         css_attributes! {
-            "transition-duration" => format!("{}ms", self.ms)
+            "transition-duration" => duration
         }
     }
 }
 
 impl TailwindDuration {
-    /// https://tailwindcss.com/docs/transition-duration
-    pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        match input {
-            [n] => {
-                let a = TailwindArbitrary::from(*n);
-                Ok(Self { ms: a.as_integer()? })
-            },
-            _ => syntax_error!("Unknown duration instructions: {}", input.join("-")),
-        }
+    /// <https://tailwindcss.com/docs/transition-duration>
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        let ms = match pattern {
+            [] if arbitrary.is_none() => 150u32.into(),
+            _ => NumericValue::positive_parser("duration", Self::check_valid)(pattern, arbitrary)?,
+        };
+        Ok(Self { ms })
+    }
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/transition-delay#syntax>
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec!["inherit", "initial", "revert", "unset"]);
+        set.contains(mode)
     }
 }

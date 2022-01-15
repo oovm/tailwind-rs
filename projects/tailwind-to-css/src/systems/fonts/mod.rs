@@ -47,10 +47,7 @@ impl FontSystem {
     }
     #[inline]
     pub fn get_tracking(&self, name: &str) -> f32 {
-        match self.tracking.get(name).cloned() {
-            Some(s) => s,
-            None => 0.0,
-        }
+        self.tracking.get(name).cloned().unwrap_or(0.0)
     }
     /// Insert a new font size
     #[inline]
