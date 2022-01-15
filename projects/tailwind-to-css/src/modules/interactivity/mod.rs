@@ -1,3 +1,14 @@
+use std::{
+    collections::BTreeSet,
+    fmt::{Display, Formatter},
+};
+
+use crate::{
+    css_attributes, CssAttributes, Negative, Result, StandardValue, TailwindArbitrary, TailwindBuilder, TailwindColor,
+    TailwindInstance, TailwindScrollMargin, TailwindScrollPadding,
+};
+
+pub(crate) use self::snap::snap_adaptor;
 pub use self::{
     accent::TailwindAccentColor,
     appearance::TailwindAppearance,
@@ -7,17 +18,9 @@ pub use self::{
     resize::TailwindResize,
     scroll::TailwindScroll,
     select::TailwindSelect,
-    snap::{snap_align::TailwindSnapAlign, snap_stop::TailwindSnapStop, snap_type::TailwindSnapType, TailwindSnap},
+    snap::{snap_align::TailwindSnapAlign, snap_stop::TailwindSnapStop, snap_type::TailwindSnapType},
     torch::TailwindTorch,
     will_change::TailwindWillChange,
-};
-use crate::{
-    css_attributes, CssAttributes, Negative, Result, StandardValue, TailwindArbitrary, TailwindBuilder, TailwindColor,
-    TailwindInstance, TailwindScrollMargin, TailwindScrollPadding,
-};
-use std::{
-    collections::BTreeSet,
-    fmt::{Display, Formatter},
 };
 
 mod accent;

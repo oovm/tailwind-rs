@@ -171,7 +171,7 @@ impl TailwindInstruction {
             ["pointer", "events", rest @ ..] => TailwindPointerEvents::parse(rest, arbitrary)?.boxed(),
             ["resize", rest @ ..] => TailwindResize::parse(rest, arbitrary)?.boxed(),
             ["scroll", rest @ ..] => TailwindScroll::parse(rest, arbitrary, neg)?,
-            ["snap", rest @ ..] => TailwindSnap::adapt(rest, arbitrary)?,
+            ["snap", rest @ ..] => snap_adaptor(rest, arbitrary)?,
             ["touch", rest @ ..] => TailwindTorch::parse(rest, arbitrary)?.boxed(),
             ["select", rest @ ..] => TailwindSelect::parse(rest, arbitrary)?.boxed(),
             ["will", "change", rest @ ..] => TailwindWillChange::parse(rest, arbitrary)?.boxed(),

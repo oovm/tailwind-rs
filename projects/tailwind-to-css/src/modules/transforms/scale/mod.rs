@@ -25,9 +25,9 @@ impl TailwindInstance for TailwindScale {
             AxisXY::X => format!("scaleX({})", scale),
             AxisXY::Y => format!("scaleY({})", scale),
         };
-        let mut css = CssAttributes::default();
-        css.transform(transform);
-        css
+        css_attributes! {
+            "transform" => transform,
+        }
     }
 }
 

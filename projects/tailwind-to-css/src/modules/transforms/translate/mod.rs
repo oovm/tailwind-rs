@@ -26,9 +26,9 @@ impl TailwindInstance for TailwindTranslate {
             AxisXY::Y => format!("translateY({})", size),
             AxisXY::N => format!("translate({})", size),
         };
-        let mut css = CssAttributes::default();
-        css.transform(transform);
-        css
+        css_attributes! {
+            "transform" => transform,
+        }
     }
 }
 

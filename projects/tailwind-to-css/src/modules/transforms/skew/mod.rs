@@ -26,9 +26,9 @@ impl TailwindInstance for TailwindSkew {
             AxisXY::Y => format!("skewY({})", deg),
             AxisXY::N => format!("skew({})", deg),
         };
-        let mut css = CssAttributes::default();
-        css.transform(transform);
-        css
+        css_attributes! {
+            "transform" => transform,
+        }
     }
 }
 

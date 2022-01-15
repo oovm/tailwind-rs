@@ -27,11 +27,12 @@ impl CssAttributes {
         V: Into<String>,
     {
         let key = key.into();
-        let forbid = BTreeSet::from_iter(vec!["transform", "backdrop-filter", "filter"]);
-        if forbid.contains(key.as_str()) {
-            panic!("can't use insert on {}", key);
-        }
-        self.normal.insert(key, value.into());
+        match key.as_str() {
+            "transform" => self.transforms.insert(value.into()),
+            "backdrop-filter" => self.backdrop_filter.insert(value.into()),
+            "filter" => self.filter.insert(value.into()),
+            _ => self.normal.insert(key, value.into()).is_some(),
+        };
     }
 
     /// # Arguments
@@ -43,40 +44,8 @@ impl CssAttributes {
     where
         T: IntoIterator<Item = (String, String)>,
     {
-        self.normal.extend(items)
-    }
-
-    /// # Arguments
-    ///
-    /// * `value`:
-    ///
-    /// returns: ()
-    pub fn transform<V>(&mut self, value: V)
-    where
-        V: Into<String>,
-    {
-        self.transforms.insert(value.into());
-    }
-    /// # Arguments
-    ///
-    /// * `value`:
-    ///
-    /// returns: ()
-    pub fn filter<V>(&mut self, value: V)
-    where
-        V: Into<String>,
-    {
-        self.filter.insert(value.into());
-    }
-    /// # Arguments
-    ///
-    /// * `value`:
-    ///
-    /// returns: ()
-    pub fn backdrop_filter<V>(&mut self, value: V)
-    where
-        V: Into<String>,
-    {
-        self.backdrop_filter.insert(value.into());
+        for i in items {
+            self.insert(i.0, i.1);
+        }
     }
 }

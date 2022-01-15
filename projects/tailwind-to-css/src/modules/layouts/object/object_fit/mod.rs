@@ -3,17 +3,10 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindObjectFit {
-    kind: String,
+    kind: StandardValue,
 }
 
-impl<T> From<T> for TailwindObjectFit
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: kind.into() }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindObjectFit => "object-fit");
 
 impl Display for TailwindObjectFit {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -21,22 +14,13 @@ impl Display for TailwindObjectFit {
     }
 }
 
-impl TailwindInstance for TailwindObjectFit {
-    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        css_attributes! {
-            "object-fit" => self.kind
-        }
-    }
-}
-
 impl TailwindObjectFit {
-    /// https://tailwindcss.com/docs/object-fit
+    /// <https://tailwindcss.com/docs/object-fit>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let kind = pattern.join("-");
-        debug_assert!(Self::check_valid(&kind));
+        let kind = StandardValue::parser("object-fit", &Self::check_valid)(pattern, arbitrary)?;
         Ok(Self { kind })
     }
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit#syntax
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit#syntax>
     pub fn check_valid(mode: &str) -> bool {
         let set = BTreeSet::from_iter(vec![
             "contain",

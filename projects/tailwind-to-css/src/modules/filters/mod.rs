@@ -44,8 +44,8 @@ impl Backdrop {
     {
         let mut css = CssAttributes::default();
         match self.0 {
-            true => css.backdrop_filter(value.into()),
-            false => css.filter(value.into()),
+            true => css.insert("backdrop_filter", value.into()),
+            false => css.insert("filter", value.into()),
         }
         css
     }
@@ -55,7 +55,7 @@ impl Backdrop {
     {
         let mut css = CssAttributes::default();
         match self.0 {
-            true => css.backdrop_filter(format!("opacity({})", value.into())),
+            true => css.insert("backdrop_filter", format!("opacity({})", value.into())),
             false => css.insert("opacity", value.into()),
         }
         css

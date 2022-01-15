@@ -15,20 +15,10 @@ impl Display for TailwindSnapType {
 }
 
 impl TailwindSnapType {
-    /// https://tailwindcss.com/docs/scroll-snap-type
+    /// <https://tailwindcss.com/docs/scroll-snap-type>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        match pattern {
-            [] => Self::parse_arbitrary(arbitrary),
-            _ => {
-                let s = pattern.join("-");
-                debug_assert!(Self::check_valid(&s));
-                Ok(Self { kind: StandardValue::Keyword(s) })
-            },
-        }
-    }
-    /// https://tailwindcss.com/docs/scroll-snap-type
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: StandardValue::Arbitrary(arbitrary.to_owned()) })
+        let kind = StandardValue::parser("scroll-type", &Self::check_valid)(pattern, arbitrary)?;
+        Ok(Self { kind })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-snap-type#syntax
     pub fn check_valid(mode: &str) -> bool {
