@@ -3,17 +3,10 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindWhiteSpace {
-    kind: String,
+    kind: StandardValue,
 }
 
-impl<T> From<T> for TailwindWhiteSpace
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: kind.into() }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindWhiteSpace => "white-space");
 
 impl Display for TailwindWhiteSpace {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -21,22 +14,13 @@ impl Display for TailwindWhiteSpace {
     }
 }
 
-impl TailwindInstance for TailwindWhiteSpace {
-    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        css_attributes! {
-            "white-space" => self.kind
-        }
-    }
-}
-
 impl TailwindWhiteSpace {
-    /// https://tailwindcss.com/docs/whitespace
+    /// <https://tailwindcss.com/docs/whitespace>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let kind = pattern.join("-");
-        debug_assert!(Self::check_valid(&kind));
+        let kind = StandardValue::parser("white-space", &Self::check_valid)(pattern, arbitrary)?;
         Ok(Self { kind })
     }
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/white-space#syntax
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/white-space#syntax>
     pub fn check_valid(mode: &str) -> bool {
         let set = BTreeSet::from_iter(vec![
             "break-spaces",

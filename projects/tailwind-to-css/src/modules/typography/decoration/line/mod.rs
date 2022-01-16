@@ -22,22 +22,15 @@ impl Display for TailwindDecorationLine {
 }
 
 impl TailwindDecorationLine {
-    /// https://tailwindcss.com/docs/cursor
+    /// <https://tailwindcss.com/docs/cursor>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        match pattern {
-            [] => Self::parse_arbitrary(arbitrary),
-            _ => {
-                let s = pattern.join("-");
-                debug_assert!(Self::check_valid(&s));
-                Ok(Self { kind: StandardValue::Keyword(s) })
-            },
-        }
+        let kind = match pattern {
+            ["through"] => StandardValue::from("line-through"),
+            _ => StandardValue::parser("decoration-line", &Self::check_valid)(pattern, arbitrary)?,
+        };
+        Ok(Self { kind })
     }
-    /// https://tailwindcss.com/docs/cursor#arbitrary-values
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: StandardValue::Arbitrary(arbitrary.to_owned()) })
-    }
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/cursor#syntax
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/cursor#syntax>
     pub fn check_valid(mode: &str) -> bool {
         let set =
             BTreeSet::from_iter(vec!["blink", "inherit", "initial", "line-through", "none", "overline", "underline", "unset"]);

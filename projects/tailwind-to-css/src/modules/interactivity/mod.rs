@@ -8,7 +8,6 @@ use crate::{
     TailwindInstance, TailwindScrollMargin, TailwindScrollPadding,
 };
 
-pub(crate) use self::snap::snap_adaptor;
 pub use self::{
     accent::TailwindAccentColor,
     appearance::TailwindAppearance,
@@ -16,12 +15,13 @@ pub use self::{
     cursor::TailwindCursor,
     pointer::TailwindPointerEvents,
     resize::TailwindResize,
-    scroll::TailwindScroll,
+    scroll::scroll_behavior::TailwindScrollBehavior,
     select::TailwindSelect,
     snap::{snap_align::TailwindSnapAlign, snap_stop::TailwindSnapStop, snap_type::TailwindSnapType},
     torch::TailwindTorch,
     will_change::TailwindWillChange,
 };
+pub(crate) use self::{scroll::scroll_adaptor, snap::snap_adaptor};
 
 mod accent;
 mod appearance;
@@ -32,7 +32,5 @@ mod resize;
 mod scroll;
 mod select;
 mod snap;
-#[cfg(test)]
-mod test;
 mod torch;
 mod will_change;

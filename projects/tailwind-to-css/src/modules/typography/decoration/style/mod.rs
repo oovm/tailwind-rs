@@ -3,44 +3,30 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindDecorationStyle {
-    kind: String,
+    kind: StandardValue,
 }
 
-impl<T> From<T> for TailwindDecorationStyle
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: kind.into() }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindDecorationStyle => "text-decoration-style");
 
 impl Display for TailwindDecorationStyle {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let s = self.kind.as_str();
-        match s {
-            "solid" | "double" | "dotted" | "dashed" | "wavy" => write!(f, "decoration-{}", s),
-            _ => write!(f, "decoration-style-{}", s),
-        }
-    }
-}
-
-impl TailwindInstance for TailwindDecorationStyle {
-    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        css_attributes! {
-            "text-decoration-style" => self.kind
+        match &self.kind {
+            StandardValue::Keyword(s) => match s.as_str() {
+                "solid" | "double" | "dotted" | "dashed" | "wavy" => write!(f, "decoration-{}", s),
+                _ => write!(f, "decoration-style-{}", s),
+            },
+            StandardValue::Arbitrary(s) => s.write_class(f, "decoration-style-"),
         }
     }
 }
 
 impl TailwindDecorationStyle {
-    /// https://tailwindcss.com/docs/object-fit
+    /// <https://tailwindcss.com/docs/object-fit>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let kind = pattern.join("-");
-        debug_assert!(Self::check_valid(&kind));
+        let kind = StandardValue::parser("decoration-style", &Self::check_valid)(pattern, arbitrary)?;
         Ok(Self { kind })
     }
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-style#syntax
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/border-style#syntax>
     pub fn check_valid(mode: &str) -> bool {
         let set =
             BTreeSet::from_iter(vec!["dashed", "dotted", "double", "inherit", "initial", "revert", "solid", "unset", "wavy"]);

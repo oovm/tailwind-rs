@@ -1,68 +1,55 @@
+use crate::NumericValue;
+
 use super::*;
 
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindDecorationThickness {
-    kind: Thickness,
-}
-
-#[derive(Debug, Clone)]
-enum Thickness {
-    Unit(i32),
-    Length(LengthUnit),
-    Standard(String),
+    px: NumericValue,
 }
 
 impl<T> From<T> for TailwindDecorationThickness
 where
-    T: Into<String>,
+    T: Into<NumericValue>,
 {
-    fn from(kind: T) -> Self {
-        Self { kind: Thickness::Standard(kind.into()) }
+    fn from(value: T) -> Self {
+        Self { px: value.into() }
     }
 }
 
 impl Display for TailwindDecorationThickness {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "decoration-")?;
-        match &self.kind {
-            Thickness::Unit(n) => write!(f, "{}", n),
-            Thickness::Length(n) => write!(f, "{}", n.get_class_arbitrary()),
-            Thickness::Standard(g) => write!(f, "thick-{}", g),
+
+        match &self.px {
+            NumericValue::Number { n, .. } => write!(f, "{}", n),
+            NumericValue::Keyword(s) => match s.as_str() {
+                "from-font" | "auto" => write!(f, "{}", s),
+                _ => write!(f, "thick-{}", s),
+            },
+            NumericValue::Arbitrary(s) => s.write_class(f, "thick-"),
         }
     }
 }
 
 impl TailwindInstance for TailwindDecorationThickness {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        let thickness = match &self.kind {
-            Thickness::Unit(n) => format!("{}px", n),
-            Thickness::Length(n) => n.get_properties(),
-            Thickness::Standard(n) => n.to_string(),
-        };
+        let thick = self.px.get_properties(|f| format!("{}px", f));
         css_attributes! {
-            "text-decoration-thickness" => thickness
+            "text-decoration-thickness" => thick
         }
     }
 }
 
 impl TailwindDecorationThickness {
-    /// https://tailwindcss.com/docs/text-decoration-thickness
-    pub fn parse(input: &str) -> Result<Self> {
-        let kind = Thickness::parse(input)?;
-        Ok(Self { kind })
+    /// <https://tailwindcss.com/docs/text-decoration-thickness>
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        let kind = NumericValue::positive_parser("decoration-thick", Self::check_valid)(pattern, arbitrary)?;
+        Ok(Self { px: kind })
     }
-}
-
-impl Thickness {
-    pub fn parse(input: &str) -> Result<Self> {
-        let a = TailwindArbitrary::from(input);
-        Self::maybe_length(&a).or_else(|_| Self::maybe_no_unit(&a))
-    }
-    fn maybe_no_unit(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self::Unit(arbitrary.as_integer()?))
-    }
-    fn maybe_length(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self::Length(arbitrary.as_length_or_fraction()?))
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration-thickness#syntax>
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec!["auto", "from-font", "inherit", "initial", "revert", "unset"]);
+        set.contains(mode)
     }
 }

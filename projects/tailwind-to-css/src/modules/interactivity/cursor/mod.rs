@@ -19,11 +19,8 @@ impl Display for TailwindCursor {
 impl TailwindCursor {
     /// <https://tailwindcss.com/docs/cursor>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: StandardValue::parser("cursor", &Self::check_valid)(pattern, arbitrary)? })
-    }
-    /// dispatch to [cursor](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor)
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        StandardValue::parse_arbitrary(arbitrary).map(|kind| Self { kind })
+        let kind = StandardValue::parser("cursor", &Self::check_valid)(pattern, arbitrary)?;
+        Ok(Self { kind })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/cursor#syntax
     pub fn check_valid(mode: &str) -> bool {

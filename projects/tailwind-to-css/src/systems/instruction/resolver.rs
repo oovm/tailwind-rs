@@ -106,7 +106,7 @@ impl TailwindInstruction {
             ["line", "through"] => TailwindDecorationLine::from("line-through").boxed(),
             ["no", "underline"] => TailwindDecorationLine::from("none").boxed(),
             // https://tailwindcss.com/docs/text-decoration-color
-            ["decoration", rest @ ..] => TailwindDecoration::parse(rest, arbitrary)?,
+            ["decoration", rest @ ..] => TailwindDecoration::adapt(rest, arbitrary)?,
             ["underline", "offset", rest @ ..] => TailwindUnderlineOffset::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/text-transform
             ["uppercase"] => TailwindTextTransform::from("uppercase").boxed(),
@@ -170,7 +170,7 @@ impl TailwindInstruction {
             ["caret", rest @ ..] => TailwindCaretColor::parse(rest, arbitrary)?.boxed(),
             ["pointer", "events", rest @ ..] => TailwindPointerEvents::parse(rest, arbitrary)?.boxed(),
             ["resize", rest @ ..] => TailwindResize::parse(rest, arbitrary)?.boxed(),
-            ["scroll", rest @ ..] => TailwindScroll::parse(rest, arbitrary, neg)?,
+            ["scroll", rest @ ..] => scroll_adaptor(rest, arbitrary, neg)?,
             ["snap", rest @ ..] => snap_adaptor(rest, arbitrary)?,
             ["touch", rest @ ..] => TailwindTorch::parse(rest, arbitrary)?.boxed(),
             ["select", rest @ ..] => TailwindSelect::parse(rest, arbitrary)?.boxed(),

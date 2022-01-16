@@ -11,29 +11,26 @@ pub struct TailwindDecoration {
 }
 
 impl TailwindDecoration {
-    pub fn parse(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        let color = |color| TailwindDecorationColor::from(color).boxed();
-        let out = match str {
+    pub fn adapt(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+        let out = match pattern {
+            // https://tailwindcss.com/docs/text-decoration
+            ["line", rest @ ..] => TailwindDecorationLine::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/text-decoration-style
             [s @ ("solid" | "double" | "dotted" | "dashed" | "wavy")] => TailwindDecorationStyle::from(*s).boxed(),
             ["style", rest @ ..] => TailwindDecorationStyle::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/text-decoration-thickness
             ["auto"] => TailwindDecorationThickness::from("auto").boxed(),
             ["from", "font"] => TailwindDecorationThickness::from("from-font").boxed(),
+            ["thick", rest @ ..] => TailwindDecorationThickness::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/text-decoration-color
-            ["black"] => color(TailwindColor::Black),
-            ["white"] => color(TailwindColor::White),
-            ["color"] => color(TailwindColor::parse_arbitrary(arbitrary)?),
-            ["color", rest] => {
-                let a = TailwindArbitrary::from(*rest);
-                color(TailwindColor::parse_arbitrary(&a)?)
+            ["color", rest @ ..] => {
+                let color = TailwindColor::parse(rest, arbitrary)?;
+                TailwindDecorationColor::from(color).boxed()
             },
-            // https://tailwindcss.com/docs/text-decoration-color
-            [theme, weight] => color(TailwindColor::parse_themed(theme, weight)?),
             // https://tailwindcss.com/docs/text-decoration-thickness
-            [n] => TailwindDecorationThickness::parse(n)?.boxed(),
             [] => TailwindDecoration { arbitrary: TailwindArbitrary::new(arbitrary)? }.boxed(),
-            _ => return syntax_error!("Unknown decoration instructions: {}", str.join("-")),
+            [n] => resolve1(n)?,
+            _ => TailwindDecorationColor::parse(pattern, arbitrary)?.boxed(),
         };
         Ok(out)
     }
@@ -51,4 +48,23 @@ impl TailwindInstance for TailwindDecoration {
             "text-decoration" => self.arbitrary.get_properties()
         }
     }
+}
+
+fn resolve1(n: &str) -> Result<Box<dyn TailwindInstance>> {
+    let a = TailwindArbitrary::from(n);
+    if n.starts_with(|c: char| c.is_numeric()) {
+        return Ok(resolve1_unit(&a)?.boxed());
+    }
+    if n.starts_with(|c: char| c == '#') {
+        return Ok(resolve1_color(&a)?.boxed());
+    }
+    Ok(TailwindDecorationColor::from(TailwindColor::Themed(n.to_string(), 0)).boxed())
+}
+
+fn resolve1_unit(a: &TailwindArbitrary) -> Result<TailwindDecorationThickness> {
+    Ok(TailwindDecorationThickness::from(a.as_integer()?))
+}
+
+fn resolve1_color(a: &TailwindArbitrary) -> Result<TailwindDecorationColor> {
+    Ok(TailwindDecorationColor::from(a.as_color()?))
 }

@@ -16,18 +16,6 @@ Utilities for controlling the style of text decorations.
 <p style="text-decoration-line:underline;text-decoration-style:wavy;">The quick brown fox jumps over the lazy dog.</p>
 
 
-## Example
-
-```rust
-use tailwind_css::TailwindBuilder;
-
-#[test]
-fn build_aspect() {
-    let builder = crate::TailwindBuilder::default();
-    let out = format!("{:?}", builder.inline("aspect-square"));
-    assert_eq!(out, "{aspect-ratio: 1 / 1;}")
-}
-```
 
 ## Reference
 

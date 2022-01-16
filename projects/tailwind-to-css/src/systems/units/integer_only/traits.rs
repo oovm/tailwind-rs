@@ -21,3 +21,15 @@ impl Display for NumericValue {
         }
     }
 }
+
+impl From<&str> for NumericValue {
+    fn from(s: &str) -> Self {
+        Self::Keyword(s.to_string())
+    }
+}
+
+impl From<String> for NumericValue {
+    fn from(s: String) -> Self {
+        Self::Keyword(s)
+    }
+}
