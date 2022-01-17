@@ -82,6 +82,22 @@
   align-content: start;
 }
 
+.flex-0 {
+  flex: 0;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-\[10_30px\] {
+  flex: 10 30px;
+}
+
+.flex-\[2_2_10\%\] {
+  flex: 2 2 10%;
+}
+
 .flex-auto {
   flex: auto;
 }
@@ -92,6 +108,10 @@
 
 .flex-col-reverse {
   flex-direction: column-reverse;
+}
+
+.flex-direction-\[unset\], .flex-direction-unset {
+  flex-direction: unset;
 }
 
 .flex-initial {

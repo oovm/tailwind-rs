@@ -26,10 +26,10 @@ impl TailwindFlexWrap {
     /// https://tailwindcss.com/docs/flex-wrap
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         let kind = match pattern {
-            [] if arbitrary.is_none() => StandardValue::Keyword("wrap".to_string()),
+            [] if arbitrary.is_none() => StandardValue::from("wrap"),
             [] => StandardValue::parse_arbitrary(arbitrary)?,
-            ["none"] => StandardValue::Keyword("nowrap".to_string()),
-            ["reverse"] => StandardValue::Keyword("wrap-reverse".to_string()),
+            ["none"] => StandardValue::from("nowrap"),
+            ["reverse"] => StandardValue::from("wrap-reverse"),
             _ => StandardValue::parser("flex-wrap", &Self::check_valid)(pattern, arbitrary)?,
         };
         Ok(Self { kind })

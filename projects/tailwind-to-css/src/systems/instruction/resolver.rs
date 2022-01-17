@@ -19,7 +19,7 @@ impl TailwindInstruction {
             ["block"] => TailwindDisplay::from("block").boxed(),
             ["inline", "block"] => TailwindDisplay::from("inline-block").boxed(),
             ["inline"] => TailwindDisplay::from("inline").boxed(),
-            ["flex"] => TailwindDisplay::from("flex").boxed(),
+            // skip ["flex]
             ["inline", "flex"] => TailwindDisplay::from("inline-flex").boxed(),
             ["inline", "table"] => TailwindDisplay::from("inline-table").boxed(),
             ["flow", "root"] => TailwindDisplay::from("flow-root").boxed(),

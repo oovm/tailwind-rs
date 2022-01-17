@@ -1,5 +1,7 @@
+use crate::{NumericValue, TailwindDisplay};
+use std::str::FromStr;
+
 use super::*;
-use crate::TailwindDisplay;
 
 pub(crate) mod flex_direction;
 pub(crate) mod flex_wrap;
@@ -7,7 +9,7 @@ pub(crate) mod flex_wrap;
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindFlex {
-    kind: StandardValue,
+    kind: NumericValue,
 }
 
 impl Display for TailwindFlex {
@@ -18,8 +20,9 @@ impl Display for TailwindFlex {
 
 impl TailwindInstance for TailwindFlex {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
+        let flex = self.kind.get_properties(|f| f.to_string());
         css_attributes! {
-            "flex" => self.kind.get_properties()
+            "flex" => flex
         }
     }
 }
@@ -46,12 +49,16 @@ impl TailwindFlex {
         };
         Ok(out)
     }
+    /// <https://tailwindcss.com/docs/flex>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<TailwindFlex> {
-        Ok(TailwindFlex { kind: StandardValue::parser("flex", &Self::check_valid)(pattern, arbitrary)? })
+        let kind = NumericValue::positive_parser("flex", &Self::check_valid)(pattern, arbitrary)?;
+        Ok(TailwindFlex { kind })
     }
+    /// dispatch to [flex](https://developer.mozilla.org/en-US/docs/Web/CSS/flex)
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        StandardValue::parse_arbitrary(arbitrary).map(|kind| Self { kind })
+        NumericValue::parse_arbitrary(arbitrary).map(|kind| Self { kind })
     }
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/flex#syntax>
     pub fn check_valid(mode: &str) -> bool {
         let set = BTreeSet::from_iter(vec!["auto", "inherit", "initial", "initial", "none", "revert", "unset"]);
         set.contains(mode)
