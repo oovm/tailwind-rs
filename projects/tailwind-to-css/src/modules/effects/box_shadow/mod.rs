@@ -23,6 +23,7 @@ impl Display for TailwindShadow {
 impl TailwindInstance for TailwindShadow {
     fn attributes(&self, ctx: &TailwindBuilder) -> CssAttributes {
         let shadow = match &self.kind {
+            // TODO: resolve color
             StandardValue::Keyword(s) if self.drop.0 => ctx.effects.get_drop_shadow(s),
             StandardValue::Keyword(s) => ctx.effects.get_box_shadow(s),
             StandardValue::Arbitrary(s) => s.get_properties(),

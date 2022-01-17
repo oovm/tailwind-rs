@@ -83,7 +83,7 @@ impl TailwindColor {
                 "current" => "currentColor".to_string(),
                 _ => s.to_string(),
             },
-            Self::Themed(name, weight) => match ctx.palettes.get_color(name, *weight) {
+            Self::Themed(name, weight) => match ctx.palettes.try_get_color(name, *weight) {
                 Ok(c) => format!("rgba({}, {}, {}, {})", 255.0 * c.red, 255.0 * c.green, 255.0 * c.blue, c.alpha),
                 Err(_) => "currentColor".to_string(),
             },

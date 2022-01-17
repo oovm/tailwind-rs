@@ -227,13 +227,13 @@ impl TailwindInstruction {
         Ok(out)
     }
     #[inline]
-    fn shadow_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        let out = match str {
+    fn shadow_adaptor(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+        let out = match pattern {
             // https://tailwindcss.com/docs/box-shadow
-            [] => todo!(),
-            ["sm"] => todo!(),
+            ["black" | "white" | "current" | "transparent"] => TailwindShadowColor::parse(pattern, arbitrary)?.boxed(),
+            ["color", rest @ ..] => TailwindShadowColor::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/box-shadow-color
-            _ => TailwindShadow::parse(str, arbitrary, false)?.boxed(),
+            _ => TailwindShadow::parse(pattern, arbitrary, false)?.boxed(),
         };
         Ok(out)
     }

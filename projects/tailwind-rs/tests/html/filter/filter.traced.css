@@ -118,10 +118,114 @@
   filter: blur();
 }
 
-.blur-4 {
-  filter: blur(4px);
+.blur-100 {
+  filter: blur(100px);
+}
+
+.blur-50 {
+  filter: blur(50px);
 }
 
 .blur-8 {
   filter: blur(8px);
+}
+
+.brightness-0 {
+  filter: brightness(0%);
+}
+
+.brightness-100 {
+  filter: brightness();
+}
+
+.brightness-50 {
+  filter: brightness(50%);
+}
+
+.contrast-0 {
+  filter: contrast(0%);
+}
+
+.contrast-100 {
+  filter: contrast();
+}
+
+.contrast-50 {
+  filter: contrast(50%);
+}
+
+.grayscale-0 {
+  filter: grayscale(0%);
+}
+
+.grayscale-100 {
+  filter: grayscale();
+}
+
+.grayscale-50 {
+  filter: grayscale(50%);
+}
+
+.hue-rotate-0 {
+  filter: hue-rotate();
+}
+
+.hue-rotate-100 {
+  filter: hue-rotate(100deg);
+}
+
+.hue-rotate-180 {
+  filter: hue-rotate(180deg);
+}
+
+.hue-rotate-50 {
+  filter: hue-rotate(50deg);
+}
+
+.invert-0 {
+  filter: invert(0%);
+}
+
+.invert-100 {
+  filter: invert();
+}
+
+.invert-50 {
+  filter: invert(50%);
+}
+
+.opacity-0 {
+  opacity: 0;
+}
+
+.opacity-100 {
+  opacity: 1;
+}
+
+.opacity-50 {
+  opacity: .5;
+}
+
+.saturate-0 {
+  filter: saturate(0%);
+}
+
+.saturate-100 {
+  filter: saturate();
+}
+
+.saturate-50 {
+  filter: saturate(50%);
+}
+
+.sepia-0 {
+  filter: sepia(0%);
+}
+
+.sepia-100 {
+  filter: sepia();
+}
+
+.sepia-50 {
+  filter: sepia(50%);
 }
