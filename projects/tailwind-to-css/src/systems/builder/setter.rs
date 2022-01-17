@@ -21,6 +21,7 @@ impl Default for TailwindBuilder {
             palettes: PaletteSystem::builtin(),
             fonts: FontSystem::builtin(),
             preflight: PreflightSystem::default(),
+            effects: EffectSystem::builtin(),
         }
     }
 }

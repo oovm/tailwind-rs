@@ -3,7 +3,7 @@ pub use self::{
     mix_blend_bg::TailwindBackgroundBlend, opacity::TailwindOpacity,
 };
 use crate::{
-    css_attributes, syntax_error, Backdrop, CssAttributes, NumericValue, Result, TailwindArbitrary, TailwindBuilder,
+    css_attributes, Backdrop, CssAttributes, NumericValue, Result, StandardValue, TailwindArbitrary, TailwindBuilder,
     TailwindInstance,
 };
 use std::{

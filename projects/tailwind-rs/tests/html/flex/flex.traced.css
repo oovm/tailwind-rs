@@ -138,8 +138,16 @@
   flex-wrap: wrap;
 }
 
+.flex-wrap-\[unset\] {
+  flex-wrap: unset;
+}
+
 .flex-wrap-reverse {
   flex-wrap: wrap-reverse;
+}
+
+.flex-wrap-unset {
+  flex-wrap: unset;
 }
 
 .gap-\[0rem\] {

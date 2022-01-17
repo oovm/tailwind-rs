@@ -60,4 +60,15 @@ impl Backdrop {
         }
         css
     }
+    pub fn get_shadow<T>(&self, value: T) -> CssAttributes
+    where
+        T: Into<String>,
+    {
+        let mut css = CssAttributes::default();
+        match self.0 {
+            true => css.insert("filter", value.into()),
+            false => css.insert("box-shadow", value.into()),
+        }
+        css
+    }
 }

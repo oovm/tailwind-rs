@@ -1,17 +1,14 @@
-use std::{
-    collections::HashMap,
-    fmt::{Debug, Display, Formatter},
-};
-
-use crate::*;
-
 mod breakpoints;
 mod builder;
 mod colors;
 mod css_global;
-mod fonts;
+mod font_system;
 mod instruction;
 mod preflight;
+mod effect_system;
 mod units;
 
-pub use self::{breakpoints::*, builder::*, colors::*, css_global::*, fonts::*, instruction::*, preflight::*, units::*};
+pub use self::{
+    breakpoints::*, builder::*, colors::*, css_global::*, font_system::*, instruction::*, preflight::*, effect_system::*,
+    units::*,
+};

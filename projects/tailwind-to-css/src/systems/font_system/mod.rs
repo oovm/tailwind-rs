@@ -1,15 +1,15 @@
-use super::*;
-
 pub use self::font_size::FontSize;
+use crate::{css_attributes, CssAttributes, LengthUnit};
+use std::collections::BTreeMap;
 
 mod builtin;
 mod font_size;
 
 #[derive(Clone, Debug, Default)]
 pub struct FontSystem {
-    size: HashMap<String, FontSize>,
-    family: HashMap<String, Vec<String>>,
-    tracking: HashMap<String, f32>,
+    size: BTreeMap<String, FontSize>,
+    family: BTreeMap<String, Vec<String>>,
+    tracking: BTreeMap<String, f32>,
 }
 
 impl FontSystem {

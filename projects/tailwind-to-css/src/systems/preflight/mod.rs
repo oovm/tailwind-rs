@@ -1,4 +1,4 @@
-use super::*;
+use std::fmt::{Display, Formatter};
 
 /// <https://tailwindcss.com/docs/preflight>
 #[derive(Clone, Debug)]

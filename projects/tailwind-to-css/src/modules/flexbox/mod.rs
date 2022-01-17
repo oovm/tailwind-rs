@@ -1,3 +1,15 @@
+use std::{
+    collections::BTreeSet,
+    fmt::{Display, Formatter},
+};
+
+use tailwind_ast::parse_integer;
+
+use crate::{
+    css_attributes, syntax_error, CssAttributes, LengthUnit, Negative, NumericValue, Result, StandardValue, TailwindArbitrary,
+    TailwindBuilder, TailwindDisplay, TailwindInstance,
+};
+
 pub use self::{
     basis::TailwindBasis,
     content::{content_align::TailwindContentAlign, TailwindContent},
@@ -18,15 +30,6 @@ pub use self::{
     span::{TailwindColumn, TailwindRow},
     zelf::TailwindSelf,
 };
-use crate::{
-    css_attributes, syntax_error, CssAttributes, LengthUnit, Negative, Result, StandardValue, TailwindArbitrary,
-    TailwindBuilder, TailwindInstance,
-};
-use std::{
-    collections::BTreeSet,
-    fmt::{Display, Formatter},
-};
-use tailwind_ast::parse_integer;
 
 mod basis;
 mod content;

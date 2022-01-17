@@ -1,9 +1,10 @@
+use std::collections::BTreeMap;
+
 mod traits;
-use super::*;
 
 #[derive(Clone, Debug, Default)]
 pub struct BreakPointSystem {
-    inner: HashMap<String, BreakPoint>,
+    inner: BTreeMap<String, BreakPoint>,
 }
 
 impl BreakPointSystem {
