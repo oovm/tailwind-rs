@@ -23,7 +23,7 @@ impl Display for TailwindFlexWrap {
 }
 
 impl TailwindFlexWrap {
-    /// https://tailwindcss.com/docs/flex-wrap
+    /// <https://tailwindcss.com/docs/flex-wrap>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         let kind = match pattern {
             [] if arbitrary.is_none() => StandardValue::from("wrap"),
@@ -38,7 +38,7 @@ impl TailwindFlexWrap {
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         StandardValue::parse_arbitrary(arbitrary).map(|kind| Self { kind })
     }
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/flex-wrap#syntax
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/flex-wrap#syntax>
     pub fn check_valid(mode: &str) -> bool {
         let set = BTreeSet::from_iter(vec!["inherit", "initial", "nowrap", "revert", "unset", "wrap", "wrap-reverse"]);
         set.contains(mode)

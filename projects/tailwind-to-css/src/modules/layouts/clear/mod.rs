@@ -3,8 +3,10 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindClear {
-    kind: String,
+    kind: StandardValue,
 }
+
+crate::macros::sealed::keyword_instance!(TailwindClear => "clear");
 
 impl Display for TailwindClear {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -12,35 +14,24 @@ impl Display for TailwindClear {
     }
 }
 
-impl TailwindInstance for TailwindClear {
-    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        css_attributes! {
-            "float" => self.kind
-        }
-    }
-}
-
 impl TailwindClear {
-    /// https://tailwindcss.com/docs/clear
+    /// <https://tailwindcss.com/docs/clear>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let kind = pattern.join("-");
-        debug_assert!(Self::check_valid(&kind));
+        let kind = StandardValue::parser("clear", &Self::check_valid)(pattern, arbitrary)?;
         Ok(Self { kind })
     }
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/clear#syntax
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/clear#syntax>
     pub fn check_valid(mode: &str) -> bool {
         let set = BTreeSet::from_iter(vec![
-            // Keyword values
-            "left",
-            "right",
-            "none",
             "both",
-            "inline-start",
-            "inline-end",
-            // Global values
             "inherit",
             "initial",
+            "inline-end",
+            "inline-start",
+            "left",
+            "none",
             "revert",
+            "right",
             "unset",
         ]);
         set.contains(mode)

@@ -1,18 +1,15 @@
 (* ::Package:: *)
 
 values = "
-/* Keyword values */
-grid-auto-flow: row;
-grid-auto-flow: column;
-grid-auto-flow: dense;
-grid-auto-flow: row dense;
-grid-auto-flow: column dense;
+/* <number> values */
+flex-shrink: 2.0;
+flex-shrink: 0.6;
 
 /* Global values */
-grid-auto-flow: inherit;
-grid-auto-flow: initial;
-grid-auto-flow: revert;
-grid-auto-flow: unset;
+flex-shrink: inherit;
+flex-shrink: initial;
+flex-shrink: revert;
+flex-shrink: unset;
 ";
 
 all = Sort@StringCases[

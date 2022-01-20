@@ -17,7 +17,8 @@ impl Display for TailwindTextAlignment {
 impl TailwindTextAlignment {
     /// <https://tailwindcss.com/docs/will-change>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: StandardValue::parser("font-align", &Self::check_valid)(pattern, arbitrary)? })
+        let kind = StandardValue::parser("font-align", &Self::check_valid)(pattern, arbitrary)?;
+        Ok(Self { kind })
     }
     /// dispatch to [text-align](https://developer.mozilla.org/en-US/docs/Web/CSS/text-align)
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {

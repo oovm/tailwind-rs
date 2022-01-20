@@ -3,17 +3,10 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindItems {
-    kind: String,
+    kind: StandardValue,
 }
 
-impl<T> From<T> for TailwindItems
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: kind.into() }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindItems => "align-items");
 
 impl Display for TailwindItems {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -21,27 +14,10 @@ impl Display for TailwindItems {
     }
 }
 
-impl TailwindInstance for TailwindItems {
-    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        let s = self.kind.as_str();
-        let align = match s {
-            "first-baseline" => "first baseline",
-            "last-baseline" => "last baseline",
-            "safe-center" => "safe center",
-            "unsafe-items" => "unsafe center",
-            _ => s,
-        };
-        css_attributes! {
-            "align-content" => align
-        }
-    }
-}
-
 impl TailwindItems {
     /// <https://tailwindcss.com/docs/align-items>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let kind = pattern.join("-");
-        debug_assert!(Self::check_valid(&kind));
+        let kind = StandardValue::parser("items", &Self::check_valid)(pattern, arbitrary)?;
         Ok(Self { kind })
     }
     /// <https://developer.mozilla.org/en-US/docs/Web/CSS/align-items#syntax>

@@ -1,7 +1,6 @@
 use super::*;
 
 impl PaletteSystem {
-
     /// Builtin palettes
     /// <https://tailwindcss.com/docs/customizing-colors>
     pub fn builtin() -> Self {

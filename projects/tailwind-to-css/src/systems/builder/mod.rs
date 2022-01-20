@@ -25,7 +25,7 @@ pub struct TailwindBuilder {
     /// Only determined when packing
     pub fonts: FontSystem,
     /// All dynamically registered effect properties
-    /// 
+    ///
     /// Only determined when packing
     pub effects: EffectSystem,
     pub(crate) objects: BTreeSet<CssInstance>,

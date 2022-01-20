@@ -3,58 +3,36 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindGridFlow {
-    kind: String,
+    kind: StandardValue,
 }
 
-impl<T> From<T> for TailwindGridFlow
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: kind.into() }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindGridFlow => "grid-auto-flow");
 
 impl Display for TailwindGridFlow {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.write_str("grid-flow-")?;
-        let s = self.kind.as_str();
-        match s {
+        self.kind.write_class(f, "grid-flow-", |f, s| match s {
             "column" => write!(f, "col"),
             "row dense" => write!(f, "row-dense"),
             "column dense" => write!(f, "col-dense"),
-            _ => write!(f, "grid-flow-{}", s),
-        }
-    }
-}
-
-impl TailwindInstance for TailwindGridFlow {
-    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        css_attributes! {
-            "grid-auto-flow" => self.kind
-        }
+            _ => Err(std::fmt::Error),
+        })
     }
 }
 
 impl TailwindGridFlow {
-    /// https://tailwindcss.com/docs/grid-auto-flow
+    /// <https://tailwindcss.com/docs/grid-auto-flow>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
         let kind = match pattern {
-            ["col"] => Self::from("column"),
-            ["col", "dense"] => Self::from("column dense"),
-            ["row", "dense"] => Self::from("row dense"),
-            _ => {
-                let kind = pattern.join(" ");
-                debug_assert!(Self::check_valid(&kind));
-                Self { kind }
-            },
+            ["col"] => StandardValue::from("column"),
+            ["col", "dense"] => StandardValue::from("column dense"),
+            ["row", "dense"] => StandardValue::from("row dense"),
+            _ => StandardValue::parser("grid-auto", &Self::check_valid)(pattern, arbitrary)?,
         };
-        Ok(kind)
+        Ok(Self { kind })
     }
-    /// https://developer.mozilla.org/zh-CN/docs/Web/CSS/grid-auto-flow
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/grid-auto-flow#syntax>
     pub fn check_valid(mode: &str) -> bool {
-        let set =
-            BTreeSet::from_iter(vec!["column", "column dense", "dense", "inherit", "initial", "row", "row dense", "unset"]);
+        let set = BTreeSet::from_iter(vec!["column", "dense", "inherit", "initial", "revert", "row", "unset"]);
         set.contains(mode)
     }
 }

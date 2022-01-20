@@ -17,13 +17,13 @@ align-self: flex-end; /* Put the flex item at the end */
 
 /* Baseline alignment */
 align-self: baseline;
-align-self: first-baseline;
-align-self: last-baseline;
+align-self: first baseline;
+align-self: last baseline;
 align-self: stretch; /* Stretch 'auto'-sized items to fit the container */
 
 /* Overflow alignment */
-align-self: safe-center;
-align-self: unsafe-center;
+align-self: safe center;
+align-self: unsafe center;
 
 /* Global values */
 align-self: inherit;

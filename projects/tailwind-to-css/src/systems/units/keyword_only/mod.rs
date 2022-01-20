@@ -35,4 +35,31 @@ impl StandardValue {
             Self::Arbitrary(s) => s.as_str(),
         }
     }
+    pub fn get_value(&self) -> &str {
+        match self {
+            Self::Keyword(s) => s.as_str(),
+            Self::Arbitrary(s) => s.as_str(),
+        }
+    }
+    pub fn write_class(
+        &self,
+        fmt: &mut Formatter,
+        class: &str,
+        special: fn(&mut Formatter, &str) -> std::fmt::Result,
+    ) -> std::fmt::Result {
+        match self {
+            StandardValue::Keyword(s) => match special(fmt, s) {
+                Ok(o) => Ok(o),
+                Err(_) => write!(fmt, "{}", class),
+            },
+            StandardValue::Arbitrary(s) => s.write_class(fmt, class),
+        }
+    }
+    fn test(fmt: &mut Formatter<'_>, s: &str) -> std::fmt::Result {
+        match s {
+            "visible" => write!(fmt, "visible"),
+            "hidden" => write!(fmt, "invisible"),
+            _ => Err(std::fmt::Error),
+        }
+    }
 }
