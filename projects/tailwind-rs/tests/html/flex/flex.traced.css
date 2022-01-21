@@ -74,6 +74,14 @@
   flex-basis: min-content;
 }
 
+.col {
+  grid-auto-flow: column;
+}
+
+.col-dense {
+  grid-auto-flow: column dense;
+}
+
 .col-span-auto {
   grid-column: auto;
 }
@@ -174,20 +182,8 @@
   grid-template-columns: none;
 }
 
-.grid-flow-col {
-  grid-auto-flow: column;
-}
-
-.grid-flow-col-dense {
-  grid-auto-flow: column dense;
-}
-
-.grid-flow-grid-flow-row {
+.grid-flow- {
   grid-auto-flow: row;
-}
-
-.grid-flow-row-dense {
-  grid-auto-flow: row dense;
 }
 
 .grid-rows-1 {
@@ -200,6 +196,10 @@
 
 .grow-1 {
   flex-grow: 1;
+}
+
+.grow-100 {
+  flex-grow: 100;
 }
 
 .grow-2 {
@@ -246,6 +246,10 @@
   place-self: start;
 }
 
+.row-dense {
+  grid-auto-flow: row dense;
+}
+
 .row-span-auto {
   grid-row: auto;
 }
@@ -259,9 +263,13 @@
 }
 
 .shrink-1 {
+  flex-shrink: .01;
+}
+
+.shrink-100 {
   flex-shrink: 1;
 }
 
 .shrink-2 {
-  flex-shrink: 2;
+  flex-shrink: .02;
 }

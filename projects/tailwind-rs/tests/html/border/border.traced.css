@@ -60,10 +60,14 @@
 }
 
 .outline-offset-0 {
-  outline-offset: 0px;
+  outline-offset: -0px;
 }
 
-.outline-offset-1, .outline-offset-1px {
+.outline-offset-1 {
+  outline-offset: -1px;
+}
+
+.outline-offset-1px {
   outline-offset: 1px;
 }
 

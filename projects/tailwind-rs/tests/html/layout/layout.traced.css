@@ -142,7 +142,7 @@
   float: none;
 }
 
-.inset-\[0rem\] {
+.inset-0 {
   inset: 0;
 }
 
@@ -154,7 +154,7 @@
   isolation: isolate;
 }
 
-.isolation-auto {
+.isolation- {
   isolation: auto;
 }
 
