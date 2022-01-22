@@ -221,7 +221,6 @@ impl TailwindInstruction {
             // https://tailwindcss.com/docs/border-color
             ["black"] => color(TailwindColor::Black),
             ["white"] => color(TailwindColor::White),
-            [] => todo!(),
             _ => return syntax_error!("Unknown border instructions: {}", pattern.join("-")),
         };
         Ok(out)

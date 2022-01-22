@@ -36,11 +36,7 @@ impl TailwindInstance for TailwindTranslate {
 impl TailwindTranslate {
     /// <https://tailwindcss.com/docs/translate>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: Negative) -> Result<Self> {
-        let (rest, axis) = match pattern {
-            ["x", rest @ ..] => (rest, AxisXY::X),
-            ["y", rest @ ..] => (rest, AxisXY::Y),
-            [..] => (pattern, AxisXY::N),
-        };
+        let (axis, rest) = AxisXY::split_xyn(pattern);
         let kind = match rest {
             ["px"] => UnitValue::px(1.0),
             ["full"] => UnitValue::radio(1, 1),

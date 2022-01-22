@@ -1,40 +1,42 @@
+use crate::AxisXY;
+
 use super::*;
 
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindInset {
-    negative: Negative,
-    axis: Option<bool>,
-    kind: PlacementSize,
+    axis: AxisXY,
+    kind: UnitValue,
 }
 
 impl Display for TailwindInset {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        self.negative.write(f)?;
+        self.kind.write_negative(f)?;
         match self.axis {
-            None => write!(f, "inset-{}", self.kind),
-            Some(true) => write!(f, "inset-x-{}", self.kind),
-            Some(false) => write!(f, "inset-y-{}", self.kind),
+            AxisXY::X => write!(f, "inset-x-{}", self.kind),
+            AxisXY::Y => write!(f, "inset-y-{}", self.kind),
+            AxisXY::N => write!(f, "inset-{}", self.kind),
         }
     }
 }
 
 impl TailwindInstance for TailwindInset {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
+        let size = self.kind.get_properties_rem();
         match self.axis {
-            None => css_attributes! {
-                "top" => self.kind.get_properties(),
-                "right" => self.kind.get_properties(),
-                "bottom" => self.kind.get_properties(),
-                "left" => self.kind.get_properties(),
+            AxisXY::X => css_attributes! {
+                "right" => &size,
+                "left" => &size,
             },
-            Some(true) => css_attributes! {
-                "right" => self.kind.get_properties(),
-                "left" => self.kind.get_properties(),
+            AxisXY::Y => css_attributes! {
+                "top" => &size,
+                "bottom" => &size,
             },
-            Some(false) => css_attributes! {
-                "top" => self.kind.get_properties(),
-                "bottom" => self.kind.get_properties(),
+            AxisXY::N => css_attributes! {
+                "top" => &size,
+                "right" => &size,
+                "bottom" => &size,
+                "left" => &size,
             },
         }
     }
@@ -42,18 +44,12 @@ impl TailwindInstance for TailwindInset {
 
 impl TailwindInset {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: Negative) -> Result<Self> {
-        let (axis, rest) = match pattern {
-            ["x", rest @ ..] => (Some(true), rest),
-            ["y", rest @ ..] => (Some(false), rest),
-            _ => (None, pattern),
-        };
-        match arbitrary.is_some() {
-            true => Self::parse_arbitrary(arbitrary, axis, negative),
-            false => Ok(Self { negative, axis, kind: PlacementSize::parse(rest, arbitrary)? }),
-        }
+        let (axis, rest) = AxisXY::split_xyn(pattern);
+        let kind = UnitValue::negative_parser("left", Self::check_valid, true, false, true)(rest, arbitrary, negative)?;
+        Ok(Self { axis, kind })
     }
-
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: Option<bool>, negative: Negative) -> Result<Self> {
-        Ok(Self { negative, axis, kind: PlacementSize::parse_arbitrary(arbitrary)? })
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/inset#syntax>
+    pub fn check_valid(mode: &str) -> bool {
+        ["auto", "inherit", "initial", "revert", "unset"].contains(&mode)
     }
 }

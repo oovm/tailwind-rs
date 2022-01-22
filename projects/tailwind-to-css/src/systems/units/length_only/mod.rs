@@ -4,7 +4,7 @@ mod traits;
 
 #[derive(Clone, Debug)]
 pub enum UnitValue {
-    Number(f32, Option<Negative>),
+    Number { n: f32, is_negative: bool },
     Length(LengthUnit),
     Keyword(String),
     Arbitrary(TailwindArbitrary),
@@ -13,7 +13,7 @@ pub enum UnitValue {
 impl Display for UnitValue {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::Number(n, _) => write!(f, "{}", n.abs()),
+            Self::Number { n, .. } => write!(f, "{}", n.abs()),
             Self::Length(n) => write!(f, "{}", n),
             Self::Keyword(s) => write!(f, "{}", s),
             Self::Arbitrary(s) => write!(f, "{}", s),
@@ -31,11 +31,14 @@ impl UnitValue {
     }
     pub fn get_properties(&self, number: impl FnOnce(&f32) -> String) -> String {
         match self {
-            Self::Number(n, _) => number(n),
+            Self::Number { n, .. } => number(n),
             Self::Length(n) => n.get_properties(),
             Self::Keyword(s) => s.to_string(),
             Self::Arbitrary(s) => s.get_properties(),
         }
+    }
+    pub fn get_properties_rem(&self) -> String {
+        self.get_properties(|f| format!("{}rem", f / 4.0))
     }
     pub fn write_negative(&self, f: &mut Formatter) -> std::fmt::Result {
         match is_negative(self) {
@@ -49,11 +52,8 @@ impl UnitValue {
 }
 
 pub fn is_negative(value: &UnitValue) -> bool {
-    match value {
-        UnitValue::Number(n, neg) => match neg {
-            Some(s) if s.eq(&true) => n <= &0.0,
-            _ => false,
-        },
+    match *value {
+        UnitValue::Number { n, is_negative } if is_negative => n < 0.0,
         _ => false,
     }
 }
@@ -70,7 +70,7 @@ impl UnitValue {
             let kind = match pattern {
                 [] => Self::parse_arbitrary(arbitrary)?,
                 [s] if check_valid(s) => Self::Keyword(s.to_string()),
-                [n] => Self::parse_number(n, negative, is_length, is_integer, allow_fraction, true)?,
+                [n] => Self::parse_number(n, negative, is_length, is_integer, allow_fraction)?,
                 _ => {
                     let msg = format!("Unknown {} instructions: {}", id, pattern.join("-"));
                     return Err(TailwindError::syntax_error(msg));
@@ -90,7 +90,7 @@ impl UnitValue {
             let kind = match pattern {
                 [] => Self::parse_arbitrary(arbitrary)?,
                 [s] if check_valid(s) => Self::Keyword(s.to_string()),
-                [n] => Self::parse_number(n, Negative::from(true), is_length, is_integer, allow_fraction, false)?,
+                [n] => Self::parse_number(n, Negative::from(true), is_length, is_integer, allow_fraction)?,
                 _ => {
                     let msg = format!("Unknown {} instructions: {}", id, pattern.join("-"));
                     return Err(TailwindError::syntax_error(msg));
@@ -102,41 +102,23 @@ impl UnitValue {
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self::Arbitrary(TailwindArbitrary::new(arbitrary)?))
     }
-    pub fn parse_number(
-        n: &str,
-        negative: Negative,
-        is_length: bool,
-        is_integer: bool,
-        can_be_fraction: bool,
-        can_be_negative: bool,
-    ) -> Result<Self> {
+    pub fn parse_number(n: &str, negative: Negative, is_length: bool, is_integer: bool, can_be_fraction: bool) -> Result<Self> {
         let a = TailwindArbitrary::from(n);
         match is_length {
             true => Self::maybe_length(&a, can_be_fraction),
             false => Self::maybe_angle(&a),
         }
-        .or_else(|_| Self::maybe_number(&a, negative, is_integer, can_be_negative))
+        .or_else(|_| Self::maybe_number(&a, negative, is_integer))
     }
-    fn maybe_number(
-        arbitrary: &TailwindArbitrary,
-        negative: Negative,
-        is_integer: bool,
-        can_be_negative: bool,
-    ) -> Result<Self> {
-        let mut i = match is_integer {
+    fn maybe_number(arbitrary: &TailwindArbitrary, negative: Negative, is_integer: bool) -> Result<Self> {
+        let mut n = match is_integer {
             true => arbitrary.as_integer()? as f32,
             false => arbitrary.as_float()?,
         };
-        let negative = if can_be_negative {
-            if negative.0 {
-                i = -i
-            }
-            Some(negative)
-        }
-        else {
-            None
+        if negative.0 {
+            n = -n
         };
-        Ok(Self::Number(i, negative))
+        Ok(Self::Number { n, is_negative: negative.0 })
     }
     fn maybe_length(arbitrary: &TailwindArbitrary, allow_fraction: bool) -> Result<Self> {
         let n = match allow_fraction {

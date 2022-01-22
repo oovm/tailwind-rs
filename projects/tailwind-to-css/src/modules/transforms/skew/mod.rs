@@ -10,11 +10,7 @@ pub struct TailwindSkew {
 impl Display for TailwindSkew {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         self.kind.write_negative(f)?;
-        match self.axis {
-            AxisXY::X => write!(f, "skew-x-{}", self.kind),
-            AxisXY::Y => write!(f, "skew-y-{}", self.kind),
-            AxisXY::N => write!(f, "skew-{}", self.kind),
-        }
+        self.axis.write_xyn(f, "skew-", &self.kind)
     }
 }
 
@@ -35,11 +31,7 @@ impl TailwindInstance for TailwindSkew {
 impl TailwindSkew {
     // <https://tailwindcss.com/docs/skew>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: Negative) -> Result<Self> {
-        let (axis, rest) = match pattern {
-            ["x", rest @ ..] => (AxisXY::X, rest),
-            ["y", rest @ ..] => (AxisXY::Y, rest),
-            _ => (AxisXY::X, pattern),
-        };
+        let (axis, rest) = AxisXY::split_xyn(pattern);
         let kind = UnitValue::negative_parser("skew", |_| false, false, false, false)(rest, arbitrary, negative)?;
         Ok(Self { kind, axis })
     }

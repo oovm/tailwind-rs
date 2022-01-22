@@ -18,7 +18,7 @@ pub use self::{
 };
 use crate::{
     css_attributes, syntax_error, AnchorPoint, CssAttributes, LengthUnit, Negative, Result, StandardValue, TailwindArbitrary,
-    TailwindBuilder, TailwindInstance,
+    TailwindBuilder, TailwindInstance, UnitValue,
 };
 use std::{
     collections::BTreeSet,

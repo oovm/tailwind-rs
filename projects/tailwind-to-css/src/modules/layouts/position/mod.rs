@@ -3,38 +3,21 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindPosition {
-    kind: String,
+    kind: StandardValue,
 }
 
-impl<T> From<T> for TailwindPosition
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: kind.into() }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindPosition => "position");
 
 impl Display for TailwindPosition {
-    #[inline]
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        Display::fmt(&self.kind, f)
-    }
-}
-
-impl TailwindInstance for TailwindPosition {
-    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        css_attributes! {
-            "position" => self.kind
-        }
+        write!(f, "{}", self.kind)
     }
 }
 
 impl TailwindPosition {
     /// https://tailwindcss.com/docs/position
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let kind = pattern.join("-");
-        debug_assert!(Self::check_valid(&kind));
+        let kind = StandardValue::parser("position", &Self::check_valid)(pattern, arbitrary)?;
         Ok(Self { kind })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/position#syntax

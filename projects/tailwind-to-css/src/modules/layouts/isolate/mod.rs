@@ -3,41 +3,24 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindIsolation {
-    kind: String,
+    kind: StandardValue,
 }
 
-impl<T> From<T> for TailwindIsolation
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: kind.into() }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindIsolation => "isolation");
 
 impl Display for TailwindIsolation {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        let s = self.kind.as_str();
-        match self.kind.as_str() {
+        self.kind.write_class(f, "isolation-", |f, s| match s {
             "isolate" => write!(f, "isolate"),
-            _ => write!(f, "isolation-{}", s),
-        }
-    }
-}
-
-impl TailwindInstance for TailwindIsolation {
-    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        css_attributes! {
-            "isolation" => self.kind
-        }
+            _ => Err(std::fmt::Error),
+        })
     }
 }
 
 impl TailwindIsolation {
     /// https://tailwindcss.com/docs/isolation
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let kind = pattern.join("-");
-        debug_assert!(Self::check_valid(&kind));
+        let kind = StandardValue::parser("isolate", &Self::check_valid)(pattern, arbitrary)?;
         Ok(Self { kind })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/isolation#syntax

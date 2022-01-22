@@ -1,3 +1,7 @@
+use std::fmt::{Display, Formatter};
+
+mod traits;
+
 #[derive(Copy, Clone, Debug)]
 pub enum AxisXY {
     X,
@@ -5,21 +9,41 @@ pub enum AxisXY {
     N,
 }
 
-impl From<bool> for AxisXY {
-    fn from(s: bool) -> Self {
-        match s {
-            true => Self::X,
-            false => Self::Y,
+impl AxisXY {
+    pub fn split_xy<'a, 'b>(pattern: &'a [&'b str]) -> (Self, &'a [&'b str]) {
+        match pattern {
+            ["x", rest @ ..] => (AxisXY::X, rest),
+            ["y", rest @ ..] => (AxisXY::Y, rest),
+            _ => unreachable!(),
         }
     }
-}
-
-impl From<Option<bool>> for AxisXY {
-    fn from(s: Option<bool>) -> Self {
-        match s {
-            Some(true) => Self::X,
-            Some(false) => Self::Y,
-            None => Self::N,
+    pub(crate) fn write_xy<A, B>(&self, f: &mut Formatter<'_>, before: B, after: A) -> std::fmt::Result
+    where
+        A: Display,
+        B: Display,
+    {
+        match self {
+            AxisXY::X => write!(f, "{}-x-{}", before, after),
+            AxisXY::Y => write!(f, "{}-y-{}", before, after),
+            AxisXY::N => unreachable!(),
+        }
+    }
+    pub fn split_xyn<'a, 'b>(pattern: &'a [&'b str]) -> (Self, &'a [&'b str]) {
+        match pattern {
+            ["x", rest @ ..] => (AxisXY::X, rest),
+            ["y", rest @ ..] => (AxisXY::Y, rest),
+            _ => (AxisXY::N, pattern),
+        }
+    }
+    pub(crate) fn write_xyn<A, B>(&self, f: &mut Formatter<'_>, before: B, after: A) -> std::fmt::Result
+    where
+        A: Display,
+        B: Display,
+    {
+        match self {
+            AxisXY::X => write!(f, "{}-x-{}", before, after),
+            AxisXY::Y => write!(f, "{}-y-{}", before, after),
+            AxisXY::N => write!(f, "{}-{}", before, after),
         }
     }
 }
