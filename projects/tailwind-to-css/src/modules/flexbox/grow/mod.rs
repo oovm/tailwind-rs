@@ -1,9 +1,9 @@
 use super::*;
 
 #[doc=include_str!("readme.md")]
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Clone)]
 pub struct TailWindGrow {
-    grow: usize,
+    grow: NumericValue,
 }
 
 impl Display for TailWindGrow {
@@ -21,11 +21,17 @@ impl TailwindInstance for TailWindGrow {
 }
 
 impl TailWindGrow {
+    /// https://tailwindcss.com/docs/flex-grow
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        match pattern {
-            [] => Ok(Self { grow: 0 }),
-            [n] => Ok(Self { grow: parse_integer(n)?.1 }),
-            _ => syntax_error!("Unknown grow instructions: {}", pattern.join("-")),
-        }
+        let grow = match pattern {
+            [] if arbitrary.is_none() => 100u32.into(),
+            _ => NumericValue::positive_parser("grow", Self::check_valid)(pattern, arbitrary)?,
+        };
+        Ok(Self { grow })
+    }
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/flex-grow#syntax>
+    pub fn check_valid(mode: &str) -> bool {
+        let set = BTreeSet::from_iter(vec!["inherit", "initial", "revert", "unset"]);
+        set.contains(mode)
     }
 }

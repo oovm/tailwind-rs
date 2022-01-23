@@ -72,7 +72,7 @@ impl GridKind {
         };
         Ok(kind)
     }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse_arbitrary(_arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self::Span(GridSize::Full))
     }
     pub fn get_properties(&self) -> String {

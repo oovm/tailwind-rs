@@ -1,32 +1,32 @@
+use crate::NumericValue;
+
 use super::*;
 
 #[doc=include_str!("readme.md")]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Debug)]
 pub struct TailwindDivideWidth {
-    axis: bool,
-    width: i32,
+    axis: AxisXY,
+    kind: NumericValue,
 }
 
 impl Display for TailwindDivideWidth {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self.axis {
-            true => write!(f, "divide-x-{}", self.width),
-            false => write!(f, "divide-y-{}", self.width),
-        }
+        self.axis.write_xy(f, "divide-", &self.kind)
     }
 }
 
 impl TailwindInstance for TailwindDivideWidth {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         match self.axis {
-            true => css_attributes! {
-                "border-right-width" => format!("{}px", self.width),
+            AxisXY::X => css_attributes! {
+                "border-right-width" => format!("{}px", self.kind),
                 "border-left-width" => "0"
             },
-            false => css_attributes! {
+            AxisXY::Y => css_attributes! {
                 "border-top-width" => "0",
-                "border-bottom-width" => format!("{}px", self.width)
+                "border-bottom-width" => format!("{}px", self.kind)
             },
+            AxisXY::N => unreachable!(),
         }
     }
 }
@@ -34,14 +34,15 @@ impl TailwindInstance for TailwindDivideWidth {
 impl TailwindDivideWidth {
     /// https://tailwindcss.com/docs/divide-width
     pub fn parse(input: &[&str], arbitrary: &TailwindArbitrary, axis: bool) -> Result<Self> {
-        let out = match input {
-            [] => Self { axis, width: 1 },
-            [n] => {
-                let a = TailwindArbitrary::from(*n);
-                Self { axis, width: a.as_integer()? }
-            },
-            _ => return syntax_error!("Unknown divide-width instructions"),
-        };
-        Ok(out)
+        let kind = NumericValue::positive_parser("divide-width", Self::check_valid)(input, arbitrary)?;
+        Ok(Self { axis: AxisXY::from(axis), kind })
+    }
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/border-style#syntax>
+    pub fn check_valid(mode: &str) -> bool {
+        [
+            "none", "hidden", "dotted", "dashed", "solid", "double", "groove", "ridge", "ridge", "inset", "outset", "inherit",
+            "initial", "revert", "unset",
+        ]
+        .contains(&mode)
     }
 }

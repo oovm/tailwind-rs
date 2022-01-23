@@ -1,17 +1,18 @@
 use super::*;
+use crate::StandardValue;
 
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindDivideStyle {
-    kind: String,
+    kind: StandardValue,
 }
 
 impl<T> From<T> for TailwindDivideStyle
 where
     T: Into<String>,
 {
-    fn from(kind: T) -> Self {
-        Self { kind: kind.into() }
+    fn from(input: T) -> Self {
+        Self { kind: StandardValue::from(input.into()) }
     }
 }
 
@@ -31,7 +32,7 @@ impl TailwindInstance for TailwindDivideStyle {
     }
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         css_attributes! {
-            "border-style" => self.kind
+            "divide-style" => self.kind
         }
     }
 }
@@ -39,8 +40,7 @@ impl TailwindInstance for TailwindDivideStyle {
 impl TailwindDivideStyle {
     /// https://tailwindcss.com/docs/divide-style
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let kind = pattern.join("-");
-        debug_assert!(Self::check_valid(&kind));
+        let kind = StandardValue::parser("divide-style", &Self::check_valid)(pattern, arbitrary)?;
         Ok(Self { kind })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/border-style#syntax

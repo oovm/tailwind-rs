@@ -18,7 +18,7 @@ where
 impl Display for TailwindOutlineWidth {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match &self.kind {
-            UnitValue::Number(s, _) => write!(f, "outline-{}", s),
+            UnitValue::Number { n, .. } => write!(f, "outline-{}", n),
             UnitValue::Length(s) => write!(f, "outline-{}", s),
             UnitValue::Keyword(s) => write!(f, "outline-width-{}", s),
             UnitValue::Arbitrary(s) => write!(f, "outline-width-{}", s),
@@ -44,8 +44,8 @@ impl TailwindOutlineWidth {
         let kind = UnitValue::positive_parser("outline-width", Self::check_valid, true, false, false)(pattern, arbitrary)?;
         Ok(Self { kind })
     }
+    ///
     pub fn check_valid(mode: &str) -> bool {
-        let set = BTreeSet::from_iter(vec!["inherit", "initial", "medium", "revert", "thick", "thin", "unset"]);
-        set.contains(mode)
+        ["inherit", "initial", "medium", "revert", "thick", "thin", "unset"].contains(&mode)
     }
 }

@@ -3,17 +3,10 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindTorch {
-    kind: String,
+    kind: StandardValue,
 }
 
-impl<T> From<T> for TailwindTorch
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: kind.into() }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindTorch => "user-select");
 
 impl Display for TailwindTorch {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -21,19 +14,10 @@ impl Display for TailwindTorch {
     }
 }
 
-impl TailwindInstance for TailwindTorch {
-    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        css_attributes! {
-            "user-select" => self.kind
-        }
-    }
-}
-
 impl TailwindTorch {
     /// https://tailwindcss.com/docs/touch-action
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let kind = pattern.join("-");
-        debug_assert!(Self::check_valid(&kind));
+        let kind = StandardValue::parser("torch", &Self::check_valid)(pattern, arbitrary)?;
         Ok(Self { kind })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action#syntax

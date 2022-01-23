@@ -3,17 +3,10 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindContentAlign {
-    kind: String,
+    kind: StandardValue,
 }
 
-impl<T> From<T> for TailwindContentAlign
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: kind.into() }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindContentAlign => "align-content");
 
 impl Display for TailwindContentAlign {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -21,27 +14,10 @@ impl Display for TailwindContentAlign {
     }
 }
 
-impl TailwindInstance for TailwindContentAlign {
-    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        let s = self.kind.as_str();
-        let align = match s {
-            "first-baseline" => "first baseline",
-            "last-baseline" => "last baseline",
-            "safe-center" => "safe center",
-            "unsafe-center" => "unsafe center",
-            _ => s,
-        };
-        css_attributes! {
-            "align-content" => align
-        }
-    }
-}
-
 impl TailwindContentAlign {
     /// https://tailwindcss.com/docs/align-content
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let kind = pattern.join("-");
-        debug_assert!(Self::check_valid(&kind));
+        let kind = StandardValue::parser("content-align", &Self::check_valid)(pattern, arbitrary)?;
         Ok(Self { kind })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/align-content#syntax

@@ -73,7 +73,7 @@ impl TailwindBreak {
 }
 
 impl WordBreak {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse(pattern: &[&str], _arbitrary: &TailwindArbitrary) -> Result<Self> {
         let kind = match pattern {
             ["normal"] => Self::Normal,
             ["words"] => Self::Words,

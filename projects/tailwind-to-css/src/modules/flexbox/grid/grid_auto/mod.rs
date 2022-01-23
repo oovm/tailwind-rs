@@ -1,4 +1,4 @@
-use crate::modules::flexbox::*;
+use crate::{modules::flexbox::*, AxisXY};
 
 #[derive(Debug, Clone)]
 enum GridAutoKind {
@@ -15,7 +15,7 @@ pub struct TailwindGridAuto {
     kind: GridAutoKind,
     // - ture: rows
     // - false: cols
-    axis: bool,
+    axis: AxisXY,
 }
 
 impl Display for GridAutoKind {
@@ -33,8 +33,9 @@ impl Display for GridAutoKind {
 impl Display for TailwindGridAuto {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self.axis {
-            true => write!(f, "auto-rows-{}", self.kind),
-            false => write!(f, "auto-cols-{}", self.kind),
+            AxisXY::X => write!(f, "auto-rows-{}", self.kind),
+            AxisXY::Y => write!(f, "auto-cols-{}", self.kind),
+            _ => unreachable!(),
         }
     }
 }
@@ -42,8 +43,9 @@ impl Display for TailwindGridAuto {
 impl TailwindInstance for TailwindGridAuto {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let class = match self.axis {
-            true => "grid-auto-rows",
-            false => "grid-auto-columns",
+            AxisXY::X => "grid-auto-rows",
+            AxisXY::Y => "grid-auto-columns",
+            _ => unreachable!(),
         };
         let auto = match &self.kind {
             GridAutoKind::Auto => "auto".to_string(),
@@ -52,7 +54,6 @@ impl TailwindInstance for TailwindGridAuto {
             GridAutoKind::Fr => "minmax(0,1fr)".to_string(),
             GridAutoKind::Arbitrary(a) => a.get_properties(),
         };
-
         css_attributes! {
             class => auto
         }
@@ -78,16 +79,12 @@ impl GridAutoKind {
 
 impl TailwindGridAuto {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        match pattern {
-            ["rows", rest @ ..] => Self::parse_axis(rest, arbitrary, true),
-            ["cols", rest @ ..] => Self::parse_axis(rest, arbitrary, false),
-            _ => syntax_error!("Unknown auto instructions: {}", pattern.join("-")),
-        }
-    }
-    fn parse_axis(pattern: &[&str], arbitrary: &TailwindArbitrary, axis: bool) -> Result<Self> {
-        Ok(Self { kind: GridAutoKind::parse(pattern, arbitrary)?, axis })
-    }
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: bool) -> Result<Self> {
-        Ok(Self { kind: GridAutoKind::parse_arbitrary(arbitrary)?, axis })
+        let (axis, rest) = match pattern {
+            ["rows", rest @ ..] => (AxisXY::X, rest),
+            ["cols", rest @ ..] => (AxisXY::Y, rest),
+            _ => return syntax_error!("Unknown auto instructions: {}", pattern.join("-")),
+        };
+        let kind = GridAutoKind::parse(rest, arbitrary)?;
+        Ok(Self { kind, axis })
     }
 }

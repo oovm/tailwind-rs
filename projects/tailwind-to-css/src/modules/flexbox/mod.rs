@@ -3,8 +3,6 @@ use std::{
     fmt::{Display, Formatter},
 };
 
-use tailwind_ast::parse_integer;
-
 use crate::{
     css_attributes, syntax_error, CssAttributes, LengthUnit, Negative, NumericValue, Result, StandardValue, TailwindArbitrary,
     TailwindBuilder, TailwindDisplay, TailwindInstance,

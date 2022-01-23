@@ -3,17 +3,10 @@ use super::*;
 #[doc=include_str!("readme.md")]
 #[derive(Debug, Clone)]
 pub struct TailwindAppearance {
-    kind: String,
+    kind: StandardValue,
 }
 
-impl<T> From<T> for TailwindAppearance
-where
-    T: Into<String>,
-{
-    fn from(kind: T) -> Self {
-        Self { kind: kind.into() }
-    }
-}
+crate::macros::sealed::keyword_instance!(TailwindAppearance => "appearance");
 
 impl Display for TailwindAppearance {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -21,19 +14,10 @@ impl Display for TailwindAppearance {
     }
 }
 
-impl TailwindInstance for TailwindAppearance {
-    fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        css_attributes! {
-            "appearance" => self.kind
-        }
-    }
-}
-
 impl TailwindAppearance {
-    /// https://tailwindcss.com/docs/appearance
+    /// <https://tailwindcss.com/docs/appearance>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let kind = pattern.join("-");
-        debug_assert!(Self::check_valid(&kind));
+        let kind = StandardValue::parser("appearance", &Self::check_valid)(pattern, arbitrary)?;
         Ok(Self { kind })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/appearance#syntax
