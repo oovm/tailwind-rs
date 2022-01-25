@@ -19,7 +19,7 @@ pub use self::{
     },
     grow::TailWindGrow,
     items::TailwindItems,
-    justify::{justify_content::TailwindJustifyContent, justify_item::TailwindJustifyItems, justify_self::TailwindJustifySelf},
+    justify::*,
     order::TailWindOrder,
     place::{
         place_content::TailwindPlaceContent, place_item::TailwindPlaceItems, place_self::TailwindPlaceSelf, TailwindPlace,

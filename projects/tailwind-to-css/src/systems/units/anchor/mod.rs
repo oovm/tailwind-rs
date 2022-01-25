@@ -26,17 +26,18 @@ pub enum AnchorPoint {
 }
 
 impl AnchorPoint {
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, allow_center: bool) -> Result<Self> {
         let out = match pattern {
-            ["7"] | ["left", "top"] | ["top", "left"] => Self::LeftTop,
-            ["8"] | ["top"] => Self::Top,
-            ["9"] | ["right", "top"] | ["top", "right"] => Self::RightTop,
-            ["4"] | ["left"] => Self::Left,
-            ["5"] | ["center"] => Self::Center,
-            ["6"] | ["right"] => Self::Right,
-            ["1"] | ["left", "bottom"] | ["bottom", "left"] => Self::LeftBottom,
-            ["2"] | ["bottom"] => Self::Bottom,
-            ["3"] | ["right", "bottom"] | ["bottom", "right"] => Self::RightBottom,
+            ["7" | "tl" | "lt"] | ["left", "top"] | ["top", "left"] => Self::LeftTop,
+            ["8" | "t"] | ["top"] => Self::Top,
+            ["9" | "rt" | "tr"] | ["right", "top"] | ["top", "right"] => Self::RightTop,
+            ["4" | "l"] | ["left"] => Self::Left,
+            ["5" | "c"] | ["center"] if allow_center => Self::Center,
+            ["6" | "r"] | ["right"] => Self::Right,
+            ["1" | "lb" | "bl"] | ["left", "bottom"] | ["bottom", "left"] => Self::LeftBottom,
+            ["2" | "b"] | ["bottom"] => Self::Bottom,
+            ["3" | "rb" | "br"] | ["right", "bottom"] | ["bottom", "right"] => Self::RightBottom,
+            [n] if Self::check_valid(n) => Self::Standard(n.to_string()),
             [] => Self::parse_arbitrary(arbitrary)?,
             _ => return syntax_error!("Unknown anchor-point instructions: {}", pattern.join("-")),
         };
@@ -76,5 +77,8 @@ impl AnchorPoint {
             Self::Standard(s) => s.to_string(),
             Self::Arbitrary(s) => s.get_properties(),
         }
+    }
+    pub fn check_valid(mode: &str) -> bool {
+        ["inherit", "initial", "revert", "unset"].contains(&mode)
     }
 }

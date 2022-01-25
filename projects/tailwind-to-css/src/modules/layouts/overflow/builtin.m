@@ -1,22 +1,23 @@
 (* ::Package:: *)
 
-pointer = "
+values = "
 /* Keyword values */
-font-style: normal;
-font-style: italic;
-font-style: oblique;
-
-font-style: oblique 10deg;
+overflow: visible;
+overflow: hidden;
+overflow: clip;
+overflow: scroll;
+overflow: auto;
+overflow: hidden visible;
 
 /* Global values */
-font-style: inherit;
-font-style: initial;
-font-style: revert;
-font-style: unset;
+overflow: inherit;
+overflow: initial;
+overflow: revert;
+overflow: unset;
 ";
 
 all = Sort@StringCases[
-    pointer,
+    values,
     RegularExpression[":\\s*([a-zA-Z0-9-]+);"] :> "$1"
 ];
 "[\"" <> StringRiffle[all, "\",\""] <> "\"].contains(&mode)" // CopyToClipboard

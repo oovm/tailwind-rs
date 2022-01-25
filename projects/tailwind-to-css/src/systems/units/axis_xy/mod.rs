@@ -46,4 +46,14 @@ impl AxisXY {
             AxisXY::N => write!(f, "{}-{}", before, after),
         }
     }
+    pub fn format_xyn<B>(&self, before: B) -> String
+    where
+        B: Display,
+    {
+        match self {
+            AxisXY::X => format!("{}-x", before),
+            AxisXY::Y => format!("{}-y", before),
+            AxisXY::N => format!("{}", before),
+        }
+    }
 }

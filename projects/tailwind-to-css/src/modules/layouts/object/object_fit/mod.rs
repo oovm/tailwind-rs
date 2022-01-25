@@ -22,17 +22,6 @@ impl TailwindObjectFit {
     }
     /// <https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit#syntax>
     pub fn check_valid(mode: &str) -> bool {
-        let set = BTreeSet::from_iter(vec![
-            "contain",
-            "cover",
-            "fill",
-            "none",
-            "scale-down",
-            "inherit",
-            "initial",
-            "revert",
-            "unset",
-        ]);
-        set.contains(mode)
+        ["contain", "cover", "fill", "inherit", "initial", "none", "revert", "scale-down", "unset"].contains(&mode)
     }
 }

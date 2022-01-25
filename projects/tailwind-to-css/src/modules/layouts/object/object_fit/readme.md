@@ -1,4 +1,2 @@
-Utilities for controlling the stack order of an element.
-
-
+Utilities for controlling how a replaced element's content should be resized.
 

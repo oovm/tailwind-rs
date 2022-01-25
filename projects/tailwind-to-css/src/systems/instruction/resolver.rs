@@ -33,11 +33,12 @@ impl TailwindInstruction {
             ["clear", rest @ ..] => TailwindClear::parse(rest, arbitrary)?.boxed(),
             ["isolate"] => TailwindIsolation::from("isolate").boxed(),
             ["isolation", rest @ ..] => TailwindIsolation::parse(rest, arbitrary)?.boxed(),
-            ["object", rest @ ..] => Self::object_adaptor(rest, arbitrary)?,
-            ["overflow", rest @ ..] => Self::overflow_adaptor(rest, arbitrary)?,
-            ["overscroll", rest @ ..] => Self::overscroll_adaptor(rest, arbitrary)?,
+            ["object", rest @ ..] => object_adaptor(rest, arbitrary)?,
+            ["overflow", rest @ ..] => TailwindOverflow::parse(rest, arbitrary)?.boxed(),
+            ["overscroll", rest @ ..] => TailwindOverscroll::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/position#header
             [s @ ("static" | "fixed" | "absolute" | "relative" | "sticky")] => TailwindPosition::from(*s).boxed(),
+            ["position", rest @ ..] => TailwindPosition::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/top-right-bottom-left
             ["inset", rest @ ..] => TailwindInset::parse(rest, arbitrary, neg)?.boxed(),
             ["top", rest @ ..] => TailwindTop::parse(rest, arbitrary, neg)?.boxed(),
@@ -61,7 +62,7 @@ impl TailwindInstruction {
             ["row", rest @ ..] => TailwindRow::parse(rest, arbitrary)?.boxed(),
             ["auto", rest @ ..] => TailwindGridAuto::parse(rest, arbitrary)?.boxed(),
             ["gap", rest @ ..] => TailwindGap::parse(rest, arbitrary)?.boxed(),
-            ["justify", rest @ ..] => Self::justify_adaptor(rest, arbitrary)?,
+            ["justify", rest @ ..] => justify_adaptor(rest, arbitrary)?,
             ["content", rest @ ..] => TailwindContent::adapt(rest, arbitrary)?,
             ["items", rest @ ..] => TailwindItems::parse(rest, arbitrary)?.boxed(),
             ["self", rest @ ..] => TailwindSelf::parse(rest, arbitrary)?.boxed(),
@@ -251,18 +252,6 @@ impl TailwindInstruction {
         };
         Ok(out)
     }
-    #[inline]
-    fn justify_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        let out = match str {
-            // https://tailwindcss.com/docs/justify-items
-            ["items", rest @ ..] => TailwindJustifyItems::parse(rest, arbitrary)?.boxed(),
-            // https://tailwindcss.com/docs/justify-self
-            ["self", rest @ ..] => TailwindJustifySelf::parse(rest, arbitrary)?.boxed(),
-            // https://tailwindcss.com/docs/justify-content
-            _ => TailwindJustifyContent::parse(str, arbitrary)?.boxed(),
-        };
-        Ok(out)
-    }
 
     #[inline]
     fn backdrop_adaptor(str: &[&str], arbitrary: &TailwindArbitrary, negative: Negative) -> Result<Box<dyn TailwindInstance>> {
@@ -304,37 +293,6 @@ impl TailwindInstruction {
             ["row"] => TailwindDisplay::from("table-row").boxed(),
             // https://tailwindcss.com/docs/table-layout
             _ => TailwindTableLayout::parse(pattern, arbitrary)?.boxed(),
-        };
-        Ok(out)
-    }
-    #[inline]
-    fn object_adaptor(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        let out = match pattern {
-            // https://tailwindcss.com/docs/object-fit
-            [s @ ("contain" | "cover" | "fill" | "none")] => TailwindObjectFit::from(*s).boxed(),
-            ["scale", "down"] => TailwindObjectFit::from("scale-down").boxed(),
-            // https://tailwindcss.com/docs/object-position
-            _ => TailwindObjectPosition::parse(pattern, arbitrary)?.boxed(),
-        };
-        Ok(out)
-    }
-    #[inline]
-    fn overflow_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        let out = match str {
-            // https://tailwindcss.com/docs/overflow
-            ["x", pattern @ ..] => TailwindOverflow::parse(pattern, arbitrary, Some(true))?.boxed(),
-            ["y", pattern @ ..] => TailwindOverflow::parse(pattern, arbitrary, Some(false))?.boxed(),
-            _ => TailwindOverflow::parse(str, arbitrary, None)?.boxed(),
-        };
-        Ok(out)
-    }
-    #[inline]
-    fn overscroll_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        let out = match str {
-            // https://tailwindcss.com/docs/overscroll-behavior
-            ["x", pattern @ ..] => TailwindOverscroll::parse(pattern, arbitrary, Some(true))?.boxed(),
-            ["y", pattern @ ..] => TailwindOverscroll::parse(pattern, arbitrary, Some(true))?.boxed(),
-            _ => TailwindOverscroll::parse(str, arbitrary, None)?.boxed(),
         };
         Ok(out)
     }

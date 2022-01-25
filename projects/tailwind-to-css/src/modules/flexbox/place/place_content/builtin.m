@@ -94,4 +94,4 @@ justify = Sort@StringCases[
 
 
 all = Sort@Intersection[align,justify];
-"let set = BTreeSet::from_iter(vec![\"" <> StringRiffle[all, "\",\""] <> "\"]);" // CopyToClipboard
+"[\"" <> StringRiffle[all, "\",\""] <> "\"].contains(&mode)" // CopyToClipboard

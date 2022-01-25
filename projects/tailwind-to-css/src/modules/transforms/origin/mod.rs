@@ -21,6 +21,6 @@ impl TailwindInstance for TailwindOrigin {
 
 impl TailwindOrigin {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: AnchorPoint::parse(pattern, arbitrary)? })
+        Ok(Self { kind: AnchorPoint::parse(pattern, arbitrary, true)? })
     }
 }

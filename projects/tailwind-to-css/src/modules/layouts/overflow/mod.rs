@@ -1,52 +1,38 @@
+use crate::{AxisXY, StandardValue};
+
 use super::*;
-use crate::StandardValue;
 
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug)]
 pub struct TailwindOverflow {
     kind: StandardValue,
-    axis: Option<bool>,
+    axis: AxisXY,
 }
 
 impl Display for TailwindOverflow {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self.axis {
-            None => write!(f, "overflow-{}", self.kind),
-            Some(true) => write!(f, "overflow-x-{}", self.kind),
-            Some(false) => write!(f, "overflow-y-{}", self.kind),
-        }
+        self.axis.write_xyn(f, "overflow", &self.kind)
     }
 }
 
 impl TailwindInstance for TailwindOverflow {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        let class = match self.axis {
-            None => "overflow",
-            Some(true) => "overflow-x",
-            Some(false) => "overflow-y",
-        };
+        let class = self.axis.format_xyn("overflow");
         css_attributes! {
-            class => self.kind
+            class => self.kind.get_properties()
         }
     }
 }
 
 impl TailwindOverflow {
-    /// https://tailwindcss.com/docs/overflow#header
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, axis: Option<bool>) -> Result<Self> {
-        Ok(Self { kind: StandardValue::parser("overflow", &Self::check_valid)(pattern, arbitrary)?, axis })
+    /// <https://tailwindcss.com/docs/overflow>
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        let (axis, rest) = AxisXY::split_xyn(pattern);
+        let kind = StandardValue::parser("overflow", &Self::check_valid)(rest, arbitrary)?;
+        Ok(Self { kind, axis })
     }
-    /// https://tailwindcss.com/docs/font-variant-numeric#arbitrary-values
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: Option<bool>) -> Result<Self> {
-        Ok(Self { kind: StandardValue::parse_arbitrary(arbitrary)?, axis })
-    }
-    /// https://developer.mozilla.org/en-US/docs/Web/CSS/overflow#syntax
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/overflow#syntax>
     pub fn check_valid(mode: &str) -> bool {
-        let set = BTreeSet::from_iter(vec![
-            // Keyword values
-            "visible", "hidden", "clip", "scroll", "auto", // Global  values
-            "inherit", "initial", "revert", "unset",
-        ]);
-        set.contains(mode)
+        ["auto", "clip", "hidden", "inherit", "initial", "revert", "scroll", "unset", "visible"].contains(&mode)
     }
 }

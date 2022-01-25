@@ -17,8 +17,8 @@ pub use self::{
     z_index::TailwindZIndex,
 };
 use crate::{
-    css_attributes, syntax_error, AnchorPoint, CssAttributes, LengthUnit, Negative, Result, StandardValue, TailwindArbitrary,
-    TailwindBuilder, TailwindInstance, UnitValue,
+    css_attributes, syntax_error, AnchorPoint, AxisXY, CssAttributes, LengthUnit, Negative, Result, StandardValue,
+    TailwindArbitrary, TailwindBuilder, TailwindInstance, UnitValue,
 };
 use std::{
     collections::BTreeSet,

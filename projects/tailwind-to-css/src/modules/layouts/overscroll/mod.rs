@@ -6,44 +6,33 @@ use super::*;
 #[derive(Clone, Debug)]
 pub struct TailwindOverscroll {
     kind: StandardValue,
-    axis: Option<bool>,
+    axis: AxisXY,
 }
 
 impl Display for TailwindOverscroll {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        match self.axis {
-            None => write!(f, "overscroll-{}", self.kind),
-            Some(true) => write!(f, "overscroll-x-{}", self.kind),
-            Some(false) => write!(f, "overscroll-y-{}", self.kind),
-        }
+        self.axis.write_xyn(f, "overscroll", &self.kind)
     }
 }
 
 impl TailwindInstance for TailwindOverscroll {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        let class = match self.axis {
-            None => "overscroll-behavior",
-            Some(true) => "overscroll-behavior-x",
-            Some(false) => "overscroll-behavior-y",
-        };
+        let class = self.axis.format_xyn("overscroll-behavior");
         css_attributes! {
-            class => self.kind
+            class => self.kind.get_properties()
         }
     }
 }
 
 impl TailwindOverscroll {
-    /// https://tailwindcss.com/docs/overscroll-behavior
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, axis: Option<bool>) -> Result<Self> {
-        Ok(Self { kind: StandardValue::parser("overscroll", &Self::check_valid)(pattern, arbitrary)?, axis })
-    }
-    /// https://tailwindcss.com/docs/overscroll-behavior#arbitrary-values
-    pub fn parse_arbitrary(arbitrary: &TailwindArbitrary, axis: Option<bool>) -> Result<Self> {
-        Ok(Self { kind: StandardValue::parse_arbitrary(arbitrary)?, axis })
+    /// <https://tailwindcss.com/docs/overscroll-behavior>
+    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
+        let (axis, rest) = AxisXY::split_xyn(pattern);
+        let kind = StandardValue::parser("overscroll", &Self::check_valid)(rest, arbitrary)?;
+        Ok(Self { kind, axis })
     }
     /// https://developer.mozilla.org/en-US/docs/Web/CSS/overscroll-behavior#syntax
     pub fn check_valid(mode: &str) -> bool {
-        let set = BTreeSet::from_iter(vec!["auto", "contain", "inherit", "initial", "none", "revert", "unset"]);
-        set.contains(mode)
+        ["auto", "contain", "inherit", "initial", "none", "revert", "unset"].contains(&mode)
     }
 }
