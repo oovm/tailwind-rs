@@ -16,10 +16,10 @@ impl TailwindInstruction {
             ["break", rest @ ..] => TailwindBreak::parse(rest, arbitrary)?,
             ["box", rest @ ..] => Self::box_adaptor(rest, arbitrary)?,
             // begin https://tailwindcss.com/docs/display
+            // skip [flex, table]
             ["block"] => TailwindDisplay::from("block").boxed(),
             ["inline", "block"] => TailwindDisplay::from("inline-block").boxed(),
             ["inline"] => TailwindDisplay::from("inline").boxed(),
-            // skip ["flex]
             ["inline", "flex"] => TailwindDisplay::from("inline-flex").boxed(),
             ["inline", "table"] => TailwindDisplay::from("inline-table").boxed(),
             ["flow", "root"] => TailwindDisplay::from("flow-root").boxed(),
@@ -47,7 +47,7 @@ impl TailwindInstruction {
             ["left", rest @ ..] => TailwindLeft::parse(rest, arbitrary, neg)?.boxed(),
             // https://tailwindcss.com/docs/visibility
             ["invisible"] => TailwindVisibility::from("hidden").boxed(),
-            ["visible", rest @ ..] => TailwindVisibility::parse(rest, arbitrary)?.boxed(),
+            ["visible" | "visibility", rest @ ..] => TailwindVisibility::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/z-index
             ["z", rest @ ..] => TailwindZIndex::parse(rest, arbitrary, neg)?.boxed(),
             // Flexbox & Grid

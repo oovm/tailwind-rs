@@ -11,7 +11,7 @@ pub use self::{
     object::*,
     overflow::TailwindOverflow,
     overscroll::TailwindOverscroll,
-    placement::{bottom::TailwindBottom, inset::TailwindInset, left::TailwindLeft, right::TailwindRight, top::TailwindTop},
+    placement::*,
     position::TailwindPosition,
     visible::TailwindVisibility,
     z_index::TailwindZIndex,

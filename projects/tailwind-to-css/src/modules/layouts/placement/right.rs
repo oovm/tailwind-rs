@@ -24,11 +24,11 @@ impl TailwindInstance for TailwindRight {
 impl TailwindRight {
     /// <https://tailwindcss.com/docs/top-right-bottom-left>
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary, negative: Negative) -> Result<Self> {
-        let kind = UnitValue::negative_parser("right", Self::check_valid, true, false, true)(pattern, arbitrary, negative)?;
+        let kind = get_kind_px_full_auto_fact("right", pattern, arbitrary, negative)?;
         Ok(Self { kind })
     }
     /// <https://developer.mozilla.org/en-US/docs/Web/CSS/right#syntax>
     pub fn check_valid(mode: &str) -> bool {
-        ["auto", "inherit", "initial", "revert", "unset"].contains(&mode)
+        check_valid_auto(mode)
     }
 }
