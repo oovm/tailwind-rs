@@ -14,10 +14,10 @@ pub(crate) struct CssInstance {
 
 // noinspection DuplicatedCode
 impl CssInstance {
-    pub fn new(item: &dyn TailwindInstance, ctx: &TailwindBuilder) -> Self {
+    pub fn new(item: &dyn TailwindInstance, ctx: &TailwindBuilder, obfuscate: bool) -> Self {
         Self {
+            obfuscate,
             inlineable: item.inlineable(),
-            obfuscate: ctx.obfuscate,
             selector: item.id(),
             attribute: item.attributes(ctx),
             addition: item.additional(ctx),

@@ -2,7 +2,7 @@ use std::path::PathBuf;
 
 use clap::Subcommand;
 
-use tailwind_rs::{Result, TailwindState};
+use tailwind_rs::{CLIConfig, Result};
 
 #[derive(Subcommand)]
 pub enum TailwindCommands {
@@ -13,7 +13,7 @@ pub enum TailwindCommands {
 }
 
 impl TailwindCommands {
-    pub fn run(&self, config: &TailwindState) -> Result<()> {
+    pub fn run(&self, config: &CLIConfig) -> Result<()> {
         let _ = config;
         println!("?");
         match self {

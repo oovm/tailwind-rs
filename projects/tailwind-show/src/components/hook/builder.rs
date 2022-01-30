@@ -16,7 +16,7 @@ impl UseTailwindBuilder {
 
 impl UseTailwind {
     fn new(cx: &ScopeState, _: &UseTailwindBuilder) -> Self {
-        let mut cfg = TailwindState::default();
+        let mut cfg = CLIConfig::default();
         cfg.builder.preflight.disable = true;
         Self { state: Rc::new(RefCell::new(cfg)), updater: cx.schedule_update() }
     }

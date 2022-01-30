@@ -5,7 +5,7 @@ pub use self::builder::*;
 mod builder;
 
 pub struct UseTailwind {
-    state: Rc<RefCell<TailwindState>>,
+    state: Rc<RefCell<CLIConfig>>,
     updater: Rc<dyn Fn() + 'static>,
 }
 

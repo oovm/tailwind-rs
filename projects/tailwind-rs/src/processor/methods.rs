@@ -1,7 +1,8 @@
 use super::*;
+use crate::CLIConfig;
 
-impl CssProcessor {
-    pub fn compile(&self, css: &str) -> Result<String> {
+impl CLIConfig {
+    pub fn compile_css(&self, css: &str) -> Result<String> {
         const PARSER: ParserOptions = ParserOptions {
             //
             nesting: true,

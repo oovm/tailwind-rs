@@ -10,13 +10,13 @@ use clap::ArgEnum;
 use glob::glob;
 use tailwind_error::TailwindError;
 
-use tailwind_rs::{CssInlineMode, Result, TailwindBuilder, TailwindState};
+use tailwind_rs::{CLIConfig, CssInlineMode, Result, TailwindBuilder};
 
 use crate::TailwindApp;
 
 impl TailwindApp {
-    pub fn build_config(&self) -> (TailwindState, TailwindBuilder) {
-        let mut config = TailwindState::default();
+    pub fn build_config(&self) -> (CLIConfig, TailwindBuilder) {
+        let mut config = CLIConfig::default();
         config.css.mode = match self.mode {
             Some(Mode::Inline) => CssInlineMode::Inline,
             Some(Mode::Scope) => CssInlineMode::Scoped,
@@ -46,7 +46,7 @@ impl TailwindApp {
 }
 
 impl TailwindApp {
-    pub fn run(&self, config: &TailwindState, builder: &mut TailwindBuilder) -> Result<()> {
+    pub fn run(&self, config: &CLIConfig, builder: &mut TailwindBuilder) -> Result<()> {
         if let Some(c) = &self.command {
             return c.run(config);
         };
@@ -57,7 +57,7 @@ impl TailwindApp {
             let ext = get_extension(&file).ok_or_else(|| TailwindError::runtime_error("no extension"))?;
             match ext {
                 "html" => {
-                    let (html, css) = match config.compile_html(&input, builder, &config.css.mode) {
+                    let (html, css) = match config.compile_html(&input, builder) {
                         Ok(o) => o,
                         Err(e) => {
                             println!("{}", file.display());

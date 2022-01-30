@@ -1,21 +1,15 @@
 use std::collections::HashSet;
-use tailwind_css::{CssInlineMode, TailwindBuilder};
+use tailwind_css::CssInlineMode;
 
 /// The `Tailwind` configuration.
 #[derive(Debug, Default)]
-pub struct TailwindState {
+pub struct CLIConfig {
     pub dry_run: bool,
-    pub css: CssProcessor,
-    pub html: HtmlConfig,
-    pub builder: TailwindBuilder,
-}
-
-/// The `css` configuration.
-#[derive(Clone, Debug, Default)]
-pub struct CssProcessor {
     pub minify: bool,
+    pub obfuscate: bool,
     pub mode: CssInlineMode,
     pub unused_symbols: HashSet<String>,
+    pub html: HtmlConfig,
 }
 
 /// The `html` configuration.
@@ -29,11 +23,5 @@ impl Default for HtmlConfig {
         let mut include_attributes = HashSet::default();
         include_attributes.insert("class".to_string());
         Self { include_attributes }
-    }
-}
-
-impl TailwindState {
-    pub fn clear(&mut self) {
-        self.builder.clear();
     }
 }

@@ -9,8 +9,6 @@ mod setter;
 #[derive(Debug)]
 pub struct TailwindBuilder {
     ///
-    pub obfuscate: bool,
-    ///
     pub preflight: PreflightSystem,
     /// All dynamic color properties
     ///
@@ -52,8 +50,8 @@ impl TailwindBuilder {
     /// <style> {} </style>
     /// ```
     #[inline]
-    pub fn trace(&mut self, style: &str) -> Result<String> {
-        let out = try_trace(self, style)?;
+    pub fn trace(&mut self, style: &str, obfuscate: bool) -> Result<String> {
+        let out = try_trace(self, style, obfuscate)?;
         Ok(out.as_traced())
     }
     /// ## Inline mode
@@ -169,11 +167,11 @@ fn parse_tailwind(input: &str) -> Result<Vec<TailwindInstruction>> {
     Ok(styles.into_iter().map(TailwindInstruction::from).collect())
 }
 
-fn try_trace(tw: &mut TailwindBuilder, style: &str) -> Result<CssBundle> {
+fn try_trace(tw: &mut TailwindBuilder, style: &str, obfuscate: bool) -> Result<CssBundle> {
     let parsed = parse_tailwind(style)?;
     let mut out = CssBundle::default();
     for item in parsed {
-        let i = CssInstance::new(&*item.get_instance()?, tw);
+        let i = CssInstance::new(&*item.get_instance()?, tw, obfuscate);
         out.add_trace(&i);
         tw.objects.insert(i);
     }
@@ -184,7 +182,7 @@ fn try_inline(tw: &mut TailwindBuilder, style: &str, mode: CssInlineMode) -> Res
     let parsed = parse_tailwind(style)?;
     let mut out = CssBundle::default();
     for item in parsed {
-        let i = CssInstance::new(&*item.get_instance()?, tw);
+        let i = CssInstance::new(&*item.get_instance()?, tw, true);
         match &i.inlineable {
             true => out.add_inline(i),
             false => {

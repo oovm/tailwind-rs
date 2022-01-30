@@ -3,7 +3,7 @@
 use std::{cell::RefCell, rc::Rc};
 
 use dioxus::{events::FormEvent, prelude::*};
-use tailwind_rs::{CssInlineMode, TailwindState};
+use tailwind_rs::{CLIConfig, CssInlineMode};
 
 use crate::components::code_render::CodeRenderer;
 

@@ -10,7 +10,7 @@ license = "MPL-2.0"
 edition = "2018"
 
 [dependencies]
-tailwind-rs = { version = "0.1.*", path = "../tailwind-rs" }
+tailwind-rs = { version = "0.2.*", path = "../tailwind-rs" }
 dioxus = { version = "0.1.8", features = ["web"] }
 wasm-logger = "0.2.0"
 log = "0.4.14"

@@ -1,35 +1,33 @@
 use log::error;
+use tailwind_css::{CssInlineMode, TailwindBuilder};
 use tl::{parse, Bytes, Node, ParserOptions};
 
-use tailwind_css::{CssInlineMode, TailwindBuilder};
+use crate::{config::HtmlConfig, CLIConfig, Result};
 
-use crate::{config::HtmlConfig, Result, TailwindState};
-
-impl TailwindState {
+impl CLIConfig {
     pub fn builder(&self) -> TailwindBuilder {
         TailwindBuilder::default()
     }
-    pub fn compile_html(&mut self, input: &str) -> Result<(String, String)> {
-        let tw = &mut self.builder;
-        let html = match self.css.mode {
-            CssInlineMode::None => HtmlConfig::trace_all_class(input, tw)?,
+    pub fn compile_html(&self, input: &str, tw: &mut TailwindBuilder) -> Result<(String, String)> {
+        let html = match self.mode {
+            CssInlineMode::None => HtmlConfig::trace_all_class(input, tw, self.obfuscate)?,
             CssInlineMode::Inline => HtmlConfig::inline_all_class(input, tw)?,
             CssInlineMode::Scoped => HtmlConfig::scope_all_class(input, tw)?,
             CssInlineMode::DataKey => HtmlConfig::keyed_all_class(input, tw)?,
             CssInlineMode::DataValue => HtmlConfig::value_all_class(input, tw)?,
         };
         let bundle = tw.bundle()?;
-        let css = self.css.compile(&bundle)?;
+        let css = self.compile_css(&bundle)?;
         Ok((html, css))
     }
 }
 
 impl HtmlConfig {
-    pub fn trace_all_class(input: &str, tw: &mut TailwindBuilder) -> Result<String> {
+    pub fn trace_all_class(input: &str, tw: &mut TailwindBuilder, obfuscate: bool) -> Result<String> {
         let mut dom = parse(input, ParserOptions::default())?;
         for node in dom.nodes_mut() {
             // ignore if any problem
-            trace_class(node, tw);
+            trace_class(node, tw, obfuscate);
         }
         Ok(dom.inner_html())
     }
@@ -67,10 +65,10 @@ impl HtmlConfig {
     }
 }
 
-fn trace_class(node: &mut Node, tw: &mut TailwindBuilder) -> Option<()> {
+fn trace_class(node: &mut Node, tw: &mut TailwindBuilder, obfuscate: bool) -> Option<()> {
     let attributes = node.as_tag_mut()?.attributes_mut();
     let class = attributes.get_mut("class")??;
-    match tw.trace(class.try_as_utf8_str()?) {
+    match tw.trace(class.try_as_utf8_str()?, obfuscate) {
         Ok(c) => {
             class.set(c).ok()?;
         },
