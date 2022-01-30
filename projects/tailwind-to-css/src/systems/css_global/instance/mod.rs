@@ -1,4 +1,5 @@
 use super::*;
+use crate::Base62;
 
 mod traits;
 
@@ -28,7 +29,7 @@ impl CssInstance {
         let mut hasher = Xxh3::new();
         css.attribute.hash(&mut hasher);
         css.addition.hash(&mut hasher);
-        base64(hasher.finish())
+        hasher.finish().base62()
     }
     pub fn get_class(&self) -> String {
         match self.obfuscate {

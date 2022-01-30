@@ -2,6 +2,9 @@ use std::{collections::BTreeSet, fmt::Debug};
 
 use crate::{systems::instruction::TailwindInstruction, *};
 
+pub use self::base62::{Base62, BASE62};
+
+mod base62;
 mod methods;
 mod setter;
 

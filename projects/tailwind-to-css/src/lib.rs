@@ -1,5 +1,3 @@
-// #![feature(type_alias_impl_trait)]
-// #![feature(box_syntax)]
 #![forbid(missing_debug_implementations)]
 #![forbid(rustdoc::missing_crate_level_docs)]
 #![doc = include_str!("../Readme.md")]

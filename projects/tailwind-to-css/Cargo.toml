@@ -1,6 +1,6 @@
 [package]
 name = "tailwind-css"
-version = "0.12.0"
+version = "0.12.1"
 authors = ["Aster <192607617@qq.com>"]
 description = "Compile tailwind short instructions to css"
 repository = "https://github.com/oovm/tailwind-rs"
@@ -14,7 +14,6 @@ css-color = "0.2.4"
 log = "0.4.14"
 tailwind-ast = { version = "0.4.0", path = "../tailwind-ast" }
 nom = "7.1.0"
-base64 = "0.13.0"
 xxhash-rust = { version = "0.8.3", features = ["xxh3"] }
 itertools = "0.10.3"
 

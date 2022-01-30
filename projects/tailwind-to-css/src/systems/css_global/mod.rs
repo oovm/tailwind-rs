@@ -6,7 +6,6 @@ use std::{
     ops::{Add, AddAssign},
 };
 
-use base64::{encode_config, URL_SAFE_NO_PAD};
 use itertools::Itertools;
 use xxhash_rust::xxh3::Xxh3;
 
@@ -30,8 +29,4 @@ fn normalize_class_name(f: &mut (dyn Write), name: &str) -> Result<()> {
         }?
     }
     Ok(())
-}
-
-fn base64(hash: u64) -> String {
-    format!("_{}", encode_config(hash.to_be_bytes(), URL_SAFE_NO_PAD))
 }
