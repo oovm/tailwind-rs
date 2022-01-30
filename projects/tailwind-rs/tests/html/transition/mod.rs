@@ -2,9 +2,9 @@ use super::*;
 
 #[test]
 fn test_transition_trace() {
-    let (config, mut builder) = pre_config();
-    let mode = CssInlineMode::None;
-    let (html, css) = config.compile_html(include_str!("transition.html"), &mut builder, &mode).unwrap();
+    let (mut config, mut builder) = pre_config();
+    config.mode = CssInlineMode::None;
+    let (html, css) = config.compile_html(include_str!("transition.html"), &mut builder).unwrap();
     std::fs::write("tests/html/transition/transition.traced.html", html.as_bytes()).unwrap();
     std::fs::write("tests/html/transition/transition.traced.css", css.as_bytes()).unwrap();
     assert_eq!(html, include_str!("transition.traced.html"));
@@ -13,9 +13,9 @@ fn test_transition_trace() {
 
 #[test]
 fn test_transition_inline() {
-    let (config, mut builder) = pre_config();
-    let mode = CssInlineMode::Inline;
-    let (html, css) = config.compile_html(include_str!("transition.html"), &mut builder, &mode).unwrap();
+    let (mut config, mut builder) = pre_config();
+    config.mode = CssInlineMode::Inline;
+    let (html, css) = config.compile_html(include_str!("transition.html"), &mut builder).unwrap();
     std::fs::write("tests/html/transition/transition.inline.html", html.as_bytes()).unwrap();
     std::fs::write("tests/html/transition/transition.inline.css", css.as_bytes()).unwrap();
     assert_eq!(html, include_str!("transition.inline.html"));

@@ -1,3 +1,7 @@
+.-inset-1 {
+  inset: -.25rem;
+}
+
 .absolute {
   position: absolute;
 }
@@ -18,8 +22,8 @@
   aspect-ratio: 16 / 9;
 }
 
-.aspect-\[var\(--aspect\)\] {
-  aspect-ratio: var(--aspect);
+.aspect-\[unset\] {
+  aspect-ratio: unset;
 }
 
 .aspect-auto {
@@ -30,8 +34,16 @@
   aspect-ratio: unset;
 }
 
+.bottom-1px {
+  bottom: 1px;
+}
+
 .box-border {
   box-sizing: border-box;
+}
+
+.box-break-\[unset\], .box-break-unset {
+  box-decoration-break: unset;
 }
 
 .box-clone {
@@ -42,20 +54,48 @@
   box-sizing: content-box;
 }
 
+.box-sizing-\[unset\], .box-sizing-unset {
+  box-sizing: unset;
+}
+
 .box-slice {
   box-decoration-break: slice;
+}
+
+.break-after-\[unset\] {
+  break-after: unset;
 }
 
 .break-after-auto {
   break-after: auto;
 }
 
+.break-after-unset {
+  break-after: unset;
+}
+
+.break-before-\[unset\] {
+  break-before: unset;
+}
+
 .break-before-auto {
   break-before: auto;
 }
 
+.break-before-unset {
+  break-before: unset;
+}
+
+.break-inside-\[unset\] {
+  break-inside: unset;
+}
+
 .break-inside-auto {
   break-inside: auto;
+}
+
+.break-inside-unset {
+  break-inside: unset;
 }
 
 .columns-1 {
@@ -122,8 +162,16 @@
   display: block;
 }
 
+.display-contents {
+  display: contents;
+}
+
 .display-flex {
   display: flex;
+}
+
+.display-hidden {
+  display: hidden;
 }
 
 .display-inline {
@@ -138,12 +186,66 @@
   position: fixed;
 }
 
+.float-\[unset\] {
+  float: unset;
+}
+
+.float-both {
+  clear: both;
+}
+
+.float-left {
+  float: left;
+}
+
 .float-none {
   float: none;
 }
 
+.float-right {
+  float: right;
+}
+
+.float-unset {
+  float: unset;
+}
+
 .inset-0 {
   inset: 0;
+}
+
+.inset-1 {
+  inset: .25rem;
+}
+
+.inset-1\/1 {
+  inset: 100%;
+}
+
+.inset-1px {
+  inset: 1px;
+}
+
+.inset-1rem {
+  inset: 1rem;
+}
+
+.inset-\[unset\] {
+  bottom: unset;
+  left: unset;
+  right: unset;
+  top: unset;
+}
+
+.inset-auto {
+  inset: auto;
+}
+
+.inset-unset {
+  bottom: unset;
+  left: unset;
+  right: unset;
+  top: unset;
 }
 
 .invisible {
@@ -158,16 +260,100 @@
   isolation: auto;
 }
 
+.isolation-\[unset\] {
+  isolation: unset;
+}
+
+.left-1px {
+  left: 1px;
+}
+
+.object-1 {
+  object-position: 0% 100%;
+}
+
+.object-2 {
+  object-position: 50% 100%;
+}
+
+.object-3 {
+  object-position: 100% 100%;
+}
+
+.object-4 {
+  object-position: 0% 50%;
+}
+
+.object-5 {
+  object-position: 50% 50%;
+}
+
+.object-6 {
+  object-position: 100% 50%;
+}
+
+.object-7 {
+  object-position: 0% 0%;
+}
+
 .object-8 {
   object-position: 50% 0%;
+}
+
+.object-9 {
+  object-position: 100% 0%;
+}
+
+.object-\[50px_50\%\] {
+  object-position: 50px 50%;
+}
+
+.object-\[center_top\] {
+  object-position: center top;
+}
+
+.object-\[unset\] {
+  object-fit: unset;
+}
+
+.object-contain {
+  object-fit: contain;
+}
+
+.object-cover {
+  object-fit: cover;
+}
+
+.object-fill {
+  object-fit: fill;
 }
 
 .object-none {
   object-fit: none;
 }
 
+.object-scale-down {
+  object-fit: scale-down;
+}
+
+.object-unset {
+  object-fit: unset;
+}
+
+.overflow-\[hidden_visible\] {
+  overflow: hidden visible;
+}
+
+.overflow-\[unset\] {
+  overflow: unset;
+}
+
 .overflow-auto {
   overflow: auto;
+}
+
+.overflow-unset {
+  overflow: unset;
 }
 
 .overflow-x-auto {
@@ -178,16 +364,40 @@
   overflow-y: auto;
 }
 
+.overscroll-\[auto_contain\] {
+  overscroll-behavior: auto contain;
+}
+
+.overscroll-\[unset\] {
+  overscroll-behavior: unset;
+}
+
 .overscroll-auto {
   overscroll-behavior: auto;
+}
+
+.overscroll-unset {
+  overscroll-behavior: unset;
 }
 
 .overscroll-x-auto {
   overscroll-behavior-x: auto;
 }
 
+.overscroll-y-auto {
+  overscroll-behavior-y: auto;
+}
+
+.position-, .position-\[unset\] {
+  position: unset;
+}
+
 .relative {
   position: relative;
+}
+
+.right-1px {
+  right: 1px;
 }
 
 .static {
@@ -198,18 +408,30 @@
   position: sticky;
 }
 
+.top-1px {
+  top: 1px;
+}
+
 .visible {
   visibility: visible;
+}
+
+.visible-\[unset\], .visible-unset {
+  visibility: unset;
 }
 
 .z-2333 {
   z-index: 2333;
 }
 
-.z-\[var\(--depth\)\] {
-  z-index: var(--depth);
+.z-\[unset\] {
+  z-index: unset;
 }
 
 .z-auto {
   z-index: auto;
+}
+
+.z-unset {
+  z-index: unset;
 }

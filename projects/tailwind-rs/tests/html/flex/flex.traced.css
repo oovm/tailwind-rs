@@ -58,6 +58,10 @@
   flex-basis: calc(20% - 30px);
 }
 
+.basis-\[unset\] {
+  flex-basis: unset;
+}
+
 .basis-auto {
   flex-basis: auto;
 }
@@ -72,6 +76,10 @@
 
 .basis-min {
   flex-basis: min-content;
+}
+
+.basis-unset {
+  flex-basis: unset;
 }
 
 .col {
@@ -178,6 +186,10 @@
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 
+.grid-cols-\[unset\] {
+  grid-template-columns: unset;
+}
+
 .grid-cols-none {
   grid-template-columns: none;
 }
@@ -202,8 +214,12 @@
   flex-grow: 100;
 }
 
-.grow-2 {
-  flex-grow: 2;
+.grow-\[unset\] {
+  flex-grow: [unset];
+}
+
+.grow-unset {
+  flex-grow: unset;
 }
 
 .justify-content-start {
@@ -228,6 +244,10 @@
 
 .order-9999 {
   order: 9999;
+}
+
+.order-\[unset\] {
+  order: [unset];
 }
 
 .order-unset {
@@ -270,6 +290,6 @@
   flex-shrink: 1;
 }
 
-.shrink-2 {
-  flex-shrink: .02;
+.shrink-\[unset\], .shrink-unset {
+  flex-shrink: unset;
 }
