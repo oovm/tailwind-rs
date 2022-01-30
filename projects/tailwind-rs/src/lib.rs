@@ -1,4 +1,4 @@
-pub use self::config::{CssProcessor, GlobalConfig};
+pub use self::config::{CssProcessor, TailwindState};
 pub use tailwind_error::{Result, TailwindError};
 
 mod config;

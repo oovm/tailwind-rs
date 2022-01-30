@@ -3,14 +3,15 @@ use tl::{parse, Bytes, Node, ParserOptions};
 
 use tailwind_css::{CssInlineMode, TailwindBuilder};
 
-use crate::{config::HtmlConfig, GlobalConfig, Result};
+use crate::{config::HtmlConfig, Result, TailwindState};
 
-impl GlobalConfig {
+impl TailwindState {
     pub fn builder(&self) -> TailwindBuilder {
         TailwindBuilder::default()
     }
-    pub fn compile_html(&self, input: &str, tw: &mut TailwindBuilder, mode: &CssInlineMode) -> Result<(String, String)> {
-        let html = match mode {
+    pub fn compile_html(&mut self, input: &str) -> Result<(String, String)> {
+        let tw = &mut self.builder;
+        let html = match self.css.mode {
             CssInlineMode::None => HtmlConfig::trace_all_class(input, tw)?,
             CssInlineMode::Inline => HtmlConfig::inline_all_class(input, tw)?,
             CssInlineMode::Scoped => HtmlConfig::scope_all_class(input, tw)?,

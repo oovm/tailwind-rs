@@ -1,5 +1,5 @@
 use tailwind_css::{CssInlineMode, TailwindBuilder};
-use tailwind_rs::GlobalConfig;
+use tailwind_rs::TailwindState;
 
 mod accessibility;
 mod arbitrary;
@@ -19,8 +19,8 @@ mod transform;
 mod transition;
 mod typography;
 
-fn pre_config() -> (GlobalConfig, TailwindBuilder) {
-    let mut config = GlobalConfig::default();
+fn pre_config() -> (TailwindState, TailwindBuilder) {
+    let mut config = TailwindState::default();
     let mut builder = config.builder();
     config.css.minify = false;
     builder.preflight.disable = true;

@@ -10,7 +10,7 @@ pub struct TailwindInset {
 impl Display for TailwindInset {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         self.kind.write_negative(f)?;
-        self.axis.write_xyn(f, "inset-", &self.kind)
+        self.axis.write_xyn(f, "inset", &self.kind)
     }
 }
 

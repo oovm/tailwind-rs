@@ -2,7 +2,7 @@ use std::path::PathBuf;
 
 use clap::Subcommand;
 
-use tailwind_rs::{GlobalConfig, Result};
+use tailwind_rs::{Result, TailwindState};
 
 #[derive(Subcommand)]
 pub enum TailwindCommands {
@@ -13,7 +13,7 @@ pub enum TailwindCommands {
 }
 
 impl TailwindCommands {
-    pub fn run(&self, config: &GlobalConfig) -> Result<()> {
+    pub fn run(&self, config: &TailwindState) -> Result<()> {
         let _ = config;
         println!("?");
         match self {

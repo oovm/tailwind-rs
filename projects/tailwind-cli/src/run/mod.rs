@@ -10,13 +10,13 @@ use clap::ArgEnum;
 use glob::glob;
 use tailwind_error::TailwindError;
 
-use tailwind_rs::{CssInlineMode, GlobalConfig, Result, TailwindBuilder};
+use tailwind_rs::{CssInlineMode, Result, TailwindBuilder, TailwindState};
 
 use crate::TailwindApp;
 
 impl TailwindApp {
-    pub fn build_config(&self) -> (GlobalConfig, TailwindBuilder) {
-        let mut config = GlobalConfig::default();
+    pub fn build_config(&self) -> (TailwindState, TailwindBuilder) {
+        let mut config = TailwindState::default();
         config.css.mode = match self.mode {
             Some(Mode::Inline) => CssInlineMode::Inline,
             Some(Mode::Scope) => CssInlineMode::Scoped,
@@ -46,7 +46,7 @@ impl TailwindApp {
 }
 
 impl TailwindApp {
-    pub fn run(&self, config: &GlobalConfig, builder: &mut TailwindBuilder) -> Result<()> {
+    pub fn run(&self, config: &TailwindState, builder: &mut TailwindBuilder) -> Result<()> {
         if let Some(c) = &self.command {
             return c.run(config);
         };
