@@ -83,7 +83,12 @@ fn inline_class(node: &mut Node, tw: &mut TailwindBuilder) -> Option<()> {
     let mut style = Bytes::new();
     match tw.inline(class.try_as_utf8_str()?) {
         Ok((c, s)) => {
-            class.set(c).ok()?;
+            if c.is_empty() {
+                attributes.remove("class");
+            }
+            else {
+                class.set(c).ok()?;
+            }
             style.set(s).ok()?;
         },
         Err(e) => {
@@ -115,9 +120,13 @@ fn key_class(node: &mut Node, tw: &mut TailwindBuilder) -> Option<()> {
     let mut key = Bytes::new();
     match tw.data_key(class.try_as_utf8_str()?) {
         Ok((c, k)) => {
-            class.set(c).ok()?;
-            debug_assert!(k.len() == 12);
-            key.set(format!("data-tw-{}", &k[1..12])).ok()?;
+            if c.is_empty() {
+                attributes.remove("class");
+            }
+            else {
+                class.set(c).ok()?;
+            }
+            key.set(format!("data-tw-{}", k)).ok()?;
         },
         Err(e) => {
             error!("{}", e);
@@ -133,9 +142,13 @@ fn value_class(node: &mut Node, tw: &mut TailwindBuilder) -> Option<()> {
     let mut value = Bytes::new();
     match tw.data_value(class.try_as_utf8_str()?) {
         Ok((c, v)) => {
-            class.set(c).ok()?;
-            debug_assert!(v.len() == 12);
-            value.set(&v[1..12]).ok()?;
+            if c.is_empty() {
+                attributes.remove("class");
+            }
+            else {
+                class.set(c).ok()?;
+            }
+            value.set(v).ok()?;
         },
         Err(e) => {
             error!("{}", e);

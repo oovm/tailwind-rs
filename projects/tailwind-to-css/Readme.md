@@ -11,7 +11,7 @@ fn build() {
     // Inline style will not be tracked
     let inline = tailwind.inline("py-2 px-4 bg-green-500");
     // The compiler will expand into a `class`, and record the style class used
-    tailwind.trace("py-2 px-4 bg-green-500");
+    tailwind.trace("py-2 px-4 bg-green-500", false);
     // Compile all traced classes into bundle
     let bundle = tailwind.bundle();
 }

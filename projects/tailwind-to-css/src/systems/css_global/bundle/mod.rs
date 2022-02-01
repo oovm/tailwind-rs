@@ -61,8 +61,8 @@ impl CssBundle {
             CssInlineMode::None => unreachable!(),
             CssInlineMode::Inline => return Ok(()),
             CssInlineMode::Scoped => write!(f, ".{}", id)?,
-            CssInlineMode::DataKey => write!(f, "[data-tw-{}]", &id[1..12])?,
-            CssInlineMode::DataValue => write!(f, "[data-tw=\"{}\"]", &id[1..12])?,
+            CssInlineMode::DataKey => write!(f, "[data-tw-{}]", id)?,
+            CssInlineMode::DataValue => write!(f, "[data-tw=\"{}\"]", id)?,
         }
         f.write_char('{')?;
         write!(f, "{}", self.attribute)?;

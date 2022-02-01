@@ -10,7 +10,7 @@ license = "MPL-2.0"
 edition = "2018"
 
 [dependencies]
-clap = { version = "3.1.5", features = ["derive"] }
+clap = { version = "3.1.6", features = ["derive"] }
 tailwind-rs = { version = "0.2.0", path = "../tailwind-rs" }
 itertools = "0.10.3"
 log = "0.4.14"

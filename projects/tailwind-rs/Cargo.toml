@@ -10,9 +10,9 @@ license = "MPL-2.0"
 edition = "2018"
 
 [dependencies]
-tl = { version = "0.7.1", optional = true }
+tl = { version = "0.7.2", optional = true }
 parcel_css = "1.0.0-alpha.18"
-tailwind-css = { version = "0.12.2", features = ["compile_time"] }
+tailwind-css = { version = "0.12.3", features = ["compile_time"] }
 itertools = "0.10.3"
 log = "0.4.14"
 xxhash-rust = "0.8.3"

@@ -1,17 +1,6 @@
 Utilities for controlling the font smoothing of an element.
 
-## Example
 
-```rust
-use tailwind_css::TailwindBuilder;
-
-#[test]
-fn build_aspect() {
-    let builder = crate::TailwindBuilder::default();
-    let out = format!("{:?}", builder.inline("aspect-square"));
-    assert_eq!(out, "{aspect-ratio: 1 / 1;}")
-}
-```
 
 <p style="text-decoration-line:underline;text-decoration-thickness:auto;">The quick brown fox jumps over the lazy dog.</p>
 <p style="text-decoration-line:underline;text-decoration-thickness:from-font;">The quick brown fox jumps over the lazy dog.</p>
