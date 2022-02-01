@@ -1,11 +1,13 @@
-mod error_std;
 use std::{
+    borrow::Cow,
     convert::Infallible,
     error::Error,
     fmt::{self, Debug, Display, Formatter},
     ops::Range,
+    path::PathBuf,
 };
-use url::Url;
+
+mod error_std;
 
 /// All result about tailwind
 pub type Result<T> = std::result::Result<T, TailwindError>;
@@ -17,7 +19,7 @@ pub struct TailwindError {
     /// Actual error kind
     pub kind: Box<TailwindErrorKind>,
     /// File name where error occurred
-    pub file: Option<Url>,
+    pub file: Option<PathBuf>,
     /// Range offset where error occurred
     pub range: Option<Range<usize>>,
 }
@@ -50,16 +52,10 @@ pub enum TailwindErrorKind {
 }
 
 impl TailwindError {
-    /// Set a new url for the error
-    #[inline]
-    pub fn set_url(&mut self, url: Url) {
-        self.file = Some(url);
-    }
     /// Set a local path for the error
     #[inline]
-    #[cfg(any(unix, windows, target_os = "redox"))]
     pub fn set_path(&mut self, url: &std::path::Path) -> Result<()> {
-        self.file = Some(Url::from_file_path(url)?);
+        self.file = Some(PathBuf::from(url));
         Ok(())
     }
     /// Set a new range for the error
@@ -124,8 +120,8 @@ impl Error for TailwindError {}
 impl Display for TailwindError {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         let path = match &self.file {
-            Some(s) => s.path(),
-            None => "<Anonymous>",
+            Some(s) => s.to_string_lossy(),
+            None => Cow::from("<Anonymous>"),
         };
         match &self.range {
             Some(s) => writeln!(f, "at ({}, {}) of {}", s.start, s.end, path)?,

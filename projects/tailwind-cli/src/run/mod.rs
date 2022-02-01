@@ -16,21 +16,23 @@ use crate::TailwindApp;
 
 impl TailwindApp {
     pub fn build_config(&self) -> (CLIConfig, TailwindBuilder) {
-        let mut config = CLIConfig::default();
-        config.css.mode = match self.mode {
-            Some(Mode::Inline) => CssInlineMode::Inline,
-            Some(Mode::Scope) => CssInlineMode::Scoped,
-            Some(Mode::Key) => CssInlineMode::DataKey,
-            Some(Mode::Value) => CssInlineMode::DataValue,
-            _ => CssInlineMode::None,
+        let mut config = CLIConfig {
+            mode: match self.mode {
+                Some(Mode::Inline) => CssInlineMode::Inline,
+                Some(Mode::Scope) => CssInlineMode::Scoped,
+                Some(Mode::Key) => CssInlineMode::DataKey,
+                Some(Mode::Value) => CssInlineMode::DataValue,
+                _ => CssInlineMode::None,
+            },
+            ..Default::default()
         };
         if let Some(s) = self.minify {
-            config.css.minify = s;
+            config.minify = s;
         }
         config.dry_run = self.dry_run;
-        let mut builder = config.builder();
+        let builder = config.builder();
         if let Some(s) = self.obfuscate {
-            builder.obfuscate = s;
+            config.obfuscate = s;
         }
         self.set_workspace().ok();
         // set_current_dir()
