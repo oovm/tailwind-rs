@@ -1,6 +1,7 @@
 use super::*;
 
 mod methods;
+mod traits;
 
 /// The `css-global-attribute` system.
 #[derive(Debug, Clone, Default, Ord, PartialOrd, Eq, PartialEq, Hash)]

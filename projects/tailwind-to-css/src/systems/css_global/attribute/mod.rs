@@ -7,10 +7,10 @@ mod traits;
 /// In principle, each css property will only appear once, and the one set later will override the previous one.
 #[derive(Debug, Clone, Default, Ord, PartialOrd, Eq, PartialEq, Hash)]
 pub struct CssAttributes {
-    normal: ImportantMap<String, String>,
-    transforms: BTreeSet<String>,
-    backdrop_filter: BTreeSet<String>,
-    filter: BTreeSet<String>,
+    normal: ImportantMap,
+    transforms: ImportantSet,
+    backdrop_filter: ImportantSet,
+    filter: ImportantSet,
 }
 
 impl CssAttributes {
@@ -31,7 +31,7 @@ impl CssAttributes {
             "transform" => self.transforms.insert(value.into()),
             "backdrop-filter" => self.backdrop_filter.insert(value.into()),
             "filter" => self.filter.insert(value.into()),
-            _ => self.normal.insert(key, value.into()).is_some(),
+            _ => self.normal.insert(key, value.into()),
         };
     }
 

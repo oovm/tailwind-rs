@@ -21,7 +21,7 @@ glob = { version = "0.3.0", optional = true }
 globset = { version = "0.4.8", optional = true }
 lsp-types = { version = "0.92.0", optional = true }
 chrono = { version = "0.4.19", optional = true }
-parcel_css = { version = "1.0.0-alpha.18", optional = true }
+parcel_css = { version = "1.0.0-alpha.19", optional = true }
 css-color = { version = "0.2.4", optional = true }
 
 [dev-dependencies]

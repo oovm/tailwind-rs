@@ -13,9 +13,9 @@ edition = "2018"
 proc-macro = true
 
 [dependencies]
-tailwind-css = "0.12.3"
+tailwind-css = "0.12.4"
 quote = "1.0.15"
-syn = { version = "1.0.86", features = ["full", "extra-traits"] }
+syn = { version = "1.0.87", features = ["full", "extra-traits"] }
 
 [package.metadata.wee]
 t = "cargo test"

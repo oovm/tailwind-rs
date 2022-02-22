@@ -2,17 +2,15 @@ use super::*;
 
 impl Display for CssAttributes {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        for (k, v) in &self.normal {
-            write!(f, "{}:{};", k, v)?
-        }
+        write!(f, "{}", self.normal)?;
         if !self.transforms.is_empty() {
-            write!(f, "transform:{};", self.transforms.iter().join(" "))?
+            write!(f, "transform:{}", self.transforms)?
         }
         if !self.filter.is_empty() {
-            write!(f, "filter:{};", self.filter.iter().join(" "))?
+            write!(f, "filter:{}", self.filter)?
         }
         if !self.backdrop_filter.is_empty() {
-            write!(f, "backdrop-filter:{};", self.backdrop_filter.iter().join(" "))?
+            write!(f, "backdrop-filter:{}", self.backdrop_filter)?
         }
         Ok(())
     }
@@ -30,9 +28,9 @@ impl Add<Self> for CssAttributes {
 
 impl AddAssign<Self> for CssAttributes {
     fn add_assign(&mut self, rhs: Self) {
-        self.normal.extend(rhs.normal.into_iter());
-        self.transforms.extend(rhs.transforms.into_iter());
-        self.filter.extend(rhs.filter.into_iter());
-        self.backdrop_filter.extend(rhs.backdrop_filter.into_iter());
+        self.normal += rhs.normal;
+        self.transforms += rhs.transforms;
+        self.filter += rhs.filter;
+        self.backdrop_filter += rhs.backdrop_filter;
     }
 }
