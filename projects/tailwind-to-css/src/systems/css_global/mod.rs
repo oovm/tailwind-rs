@@ -11,11 +11,16 @@ use xxhash_rust::xxh3::Xxh3;
 
 use crate::{Result, TailwindBuilder, TailwindInstance};
 
-pub use self::{attribute::CssAttributes, mode::CssInlineMode};
+pub use self::{
+    attribute::CssAttributes,
+    important::{ImportantMap, ImportantSet},
+    mode::CssInlineMode,
+};
 pub(crate) use self::{bundle::CssBundle, instance::CssInstance};
 
 mod attribute;
 mod bundle;
+mod important;
 mod instance;
 mod mode;
 

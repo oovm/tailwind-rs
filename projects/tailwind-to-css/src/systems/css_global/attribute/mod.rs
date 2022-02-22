@@ -7,7 +7,7 @@ mod traits;
 /// In principle, each css property will only appear once, and the one set later will override the previous one.
 #[derive(Debug, Clone, Default, Ord, PartialOrd, Eq, PartialEq, Hash)]
 pub struct CssAttributes {
-    normal: BTreeMap<String, String>,
+    normal: ImportantMap<String, String>,
     transforms: BTreeSet<String>,
     backdrop_filter: BTreeSet<String>,
     filter: BTreeSet<String>,
