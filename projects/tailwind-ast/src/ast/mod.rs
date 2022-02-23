@@ -19,7 +19,7 @@ use std::{
     ops::{Add, AddAssign},
 };
 
-///
+/// Decompose a string into tailwind instructions
 pub fn parse_tailwind(input: &str) -> Result<Vec<AstStyle>, Err<Error<&str>>> {
     let rest = many0(tuple((multispace1, AstGroupItem::parse)));
     let (head, groups) = match tuple((AstGroupItem::parse, rest))(input.trim()) {
@@ -37,39 +37,42 @@ pub fn parse_tailwind(input: &str) -> Result<Vec<AstStyle>, Err<Error<&str>>> {
 /// `variant:ast-style(grouped)`
 #[derive(Clone, Debug, PartialEq)]
 pub struct AstGroup<'a> {
+    /// Is a `!important` group
+    pub important: bool,
     ///
     pub head: AstStyle<'a>,
     ///
     pub children: Vec<AstGroupItem<'a>>,
 }
 
-/// one of [`AstGroup`] and [`AstStyle`]
+/// One of [`AstGroup`] and [`AstStyle`]
 #[derive(Clone, Debug, PartialEq)]
 pub enum AstGroupItem<'a> {
-    ///
+    /// Is grouped node can be expand
     Grouped(AstGroup<'a>),
-    ///
+    /// Is standalone ast node
     Styled(AstStyle<'a>),
-    // SelfReference(AstReference),
 }
 
 /// `not-variant:pseudo::-ast-element-[arbitrary]`
 #[derive(Clone, Debug, PartialEq)]
 pub struct AstStyle<'a> {
-    ///
+    /// Is a `!important` style
+    pub important: bool,
+    /// Is a negative style
     pub negative: bool,
     ///
     pub variants: Vec<ASTVariant<'a>>,
     ///
     pub elements: Vec<&'a str>,
-    ///
+    /// Is a arbitrary value
     pub arbitrary: Option<&'a str>,
 }
 
 /// `-[.+]`
 #[derive(Clone, Debug, PartialEq)]
 pub struct AstArbitrary<'a> {
-    /// `[.]`
+    /// The arbitrary value text
     pub arbitrary: &'a str,
 }
 
@@ -83,6 +86,10 @@ pub struct AstElements<'a> {
 /// `&`
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub struct AstReference {}
+
+/// `!`
+#[derive(Copy, Clone, Debug, PartialEq)]
+pub struct AstImportant {}
 
 /// `(not-)?variant:pseudo::`
 #[derive(Clone, Debug, PartialEq)]

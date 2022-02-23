@@ -3,11 +3,12 @@ use nom::error::{ErrorKind, ParseError};
 use super::*;
 
 impl<'a> AstGroup<'a> {
-    /// `v:a?(a(a b))`
+    /// `v:a?(a(a b))[!]?`
     #[inline]
     pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
-        let (rest, (head, children)) = tuple((AstStyle::parse, Self::parse_pair))(input)?;
-        Ok((rest, Self { head, children }))
+        let (rest, (head, children, important)) =
+            tuple((AstStyle::parse, Self::parse_pair, opt(char('!'))))(input)?;
+        Ok((rest, Self { important: important.is_some(), head, children }))
     }
     #[inline]
     fn parse_pair(input: &'a str) -> IResult<&'a str, Vec<AstGroupItem>> {
@@ -20,12 +21,7 @@ impl<'a> AstGroupItem<'a> {
     /// [`AstGroup`] or [`AstStyle`]
     #[inline]
     pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
-        let (rest, (head, group)) = tuple((AstStyle::parse, opt(AstGroup::parse_pair)))(input)?;
-        let out = match group {
-            None => Self::Styled(head),
-            Some(children) => Self::Grouped(AstGroup { head, children }),
-        };
-        Ok((rest, out))
+        alt((Self::maybe_group, Self::maybe_style))(input)
     }
     #[inline]
     fn parse_many(input: &'a str) -> IResult<&'a str, Vec<Self>> {
@@ -36,22 +32,32 @@ impl<'a> AstGroupItem<'a> {
         out.extend(other.into_iter().map(|s| s.1));
         Ok((rest, out))
     }
+    fn maybe_group(input: &'a str) -> IResult<&'a str, Self> {
+        let (rest, o) = AstGroup::parse(input)?;
+        Ok((rest, Self::Grouped(o)))
+    }
+    fn maybe_style(input: &'a str) -> IResult<&'a str, Self> {
+        let (rest, o) = AstStyle::parse(input)?;
+        Ok((rest, Self::Styled(o)))
+    }
 }
 
 impl<'a> AstStyle<'a> {
     /// `v:v::-?a-a-a-[A]`
     #[inline]
     pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
-        let (rest, (variants, negative, elements, arbitrary)) = tuple((
+        let (rest, (variants, negative, elements, arbitrary, important)) = tuple((
             many0(ASTVariant::parse),
             opt(char('-')),
             opt(AstElements::parse),
             opt(AstArbitrary::parse),
+            opt(char('!')),
         ))(input)?;
 
         Ok((
             rest,
             Self {
+                important: important.is_some(),
                 negative: negative.is_some(),
                 variants,
                 elements: elements.unwrap_or_default().elements,
@@ -62,7 +68,7 @@ impl<'a> AstStyle<'a> {
 }
 
 impl<'a> AstElements<'a> {
-    /// a(-a)*
+    /// `a(-a)*`
     #[inline]
     pub fn parse(input: &'a str) -> IResult<&'a str, Self> {
         let (rest, (first, other)) = tuple((Self::parse_head, many0(Self::parse_rest)))(input)?;

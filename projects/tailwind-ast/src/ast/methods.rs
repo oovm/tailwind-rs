@@ -25,7 +25,7 @@ impl<'a> Add<AstGroup<'a>> for AstStyle<'a> {
     fn add(self, rhs: AstGroup<'a>) -> Self::Output {
         let mut head = self;
         head.add_assign(&rhs.head);
-        AstGroup { head, children: rhs.children }
+        AstGroup { important: false, head, children: rhs.children }
     }
 }
 
