@@ -7,8 +7,12 @@ default-members = [
 ]
 exclude = [
     "projects/.DS_Store",
-    "projects/tailwind-show",
 ]
+
+
+[profile.dev]
+opt-level = 1
+incremental = true
 
 [profile.release]
 lto = true

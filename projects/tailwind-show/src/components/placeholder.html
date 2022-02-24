@@ -1,0 +1,26 @@
+There are five modes below to choose from.
+If an instruction doesn't know how to interpret it, it is left as-is.
+<div class="inset-unknown"></div>
+For some instructions, units can be added directly
+<div class="inset-1px"></div>
+<div class="inset-[1px]"></div>
+Fractions will be reduced to the simplest
+<div class="inset-1/1"></div>
+<div class="inset-1/2"></div>
+<div class="inset-2/2"></div>
+<div class="inset-full"></div>
+Arbitrary values are never reduced, so two classes are generated.
+But turn on `obfuscate` can reduce redundant classes.
+<div class="inset-unset"></div>
+<div class="inset-[unset]"></div>
+
+Note that not all directives can be inlined.
+<div class="container divide-solid"></div>
+
+The positioning follows the keypad positioning method, top=8, down=2, left=4, right=6
+You can write redundant instructions together, the latter will overwrite the former
+<div class="object-7 object-top-left object-left-top object-lt object-tl"></div>
+
+`( )` indicates a command group, the first command will broadcast to the following commands
+<div class="-(blur brightness contrast grayscale hue-rotate invert opacity saturate sepia)"></div>
+<div class="-backdrop(blur brightness contrast grayscale hue-rotate invert opacity saturate sepia)"></div>
