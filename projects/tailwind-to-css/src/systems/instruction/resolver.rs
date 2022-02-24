@@ -188,8 +188,8 @@ impl TailwindInstruction {
         Ok(instance)
     }
     #[inline]
-    fn bg_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        let out = match str {
+    fn bg_adaptor(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+        let out = match pattern {
             // https://tailwindcss.com/docs/background-attachment
             [s @ ("fixed" | "local" | "scroll")] => TailwindBackgroundAttachment::from(*s).boxed(),
             ["attach", rest @ ..] => TailwindBackgroundAttachment::parse(rest, arbitrary)?.boxed(),
@@ -205,7 +205,7 @@ impl TailwindInstruction {
             ["size", rest @ ..] => TailwindBackgroundSize::parse(rest, arbitrary)?.boxed(),
             // https://tailwindcss.com/docs/background-blend-mode
             ["blend", rest @ ..] => TailwindBackgroundBlend::parse(rest, arbitrary)?.boxed(),
-            _ => return syntax_error!("Unknown bg instructions: {}", str.join("-")),
+            _ => TailwindBackgroundColor::parse(pattern, arbitrary)?.boxed(),
         };
         Ok(out)
     }
@@ -222,7 +222,7 @@ impl TailwindInstruction {
             // https://tailwindcss.com/docs/border-color
             ["black"] => color(TailwindColor::Black),
             ["white"] => color(TailwindColor::White),
-            _ => return syntax_error!("Unknown border instructions: {}", pattern.join("-")),
+            _ => TailwindBorderColor::parse(pattern, arbitrary)?.boxed(),
         };
         Ok(out)
     }
