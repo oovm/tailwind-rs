@@ -183,8 +183,9 @@ fn take_until_unbalanced(
                     // Skip the escape char `\`.
                     index += '\\'.len_utf8();
                     // Skip also the following char.
-                    let c = it.next().unwrap_or_default();
-                    index += c.len_utf8();
+                    if let Some(c) = it.next() {
+                        index += c.len_utf8();
+                    }
                 }
                 c if c == opening_bracket => {
                     bracket_counter += 1;
