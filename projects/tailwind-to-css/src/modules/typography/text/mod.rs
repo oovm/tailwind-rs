@@ -15,6 +15,10 @@ pub fn text_adaptor(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<B
         ["overflow", rest @ ..] => TailwindTextAlignment::parse(rest, arbitrary)?.boxed(),
         // https://tailwindcss.com/docs/text-transform
         ["transform", rest @ ..] => TailwindTextTransform::parse(rest, arbitrary)?.boxed(),
+        // https://tailwindcss.com/docs/font-size
+        [s @ ("xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "6xl" | "7xl" | "8xl" | "9xl")] => {
+            TailwindFontSize::new(s).boxed()
+        },
         // https://tailwindcss.com/docs/text-color
         _ => {
             let color = TailwindColor::parse(pattern, arbitrary)?;

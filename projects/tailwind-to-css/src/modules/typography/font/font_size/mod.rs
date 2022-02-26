@@ -17,3 +17,10 @@ impl TailwindInstance for TailwindFontSize {
         ctx.fonts.get_size(&self.name).get_properties()
     }
 }
+
+impl TailwindFontSize {
+    #[inline]
+    pub fn new(name: &str) -> Self {
+        Self { name: name.to_string() }
+    }
+}
