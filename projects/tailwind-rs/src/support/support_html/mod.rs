@@ -29,7 +29,7 @@ impl HtmlConfig {
             // ignore if any problem
             trace_class(node, tw, obfuscate);
         }
-        Ok(dom.inner_html())
+        Ok(dom.outer_html())
     }
     pub fn inline_all_class(input: &str, tw: &mut TailwindBuilder) -> Result<String> {
         let mut dom = parse(input, ParserOptions::default())?;
@@ -37,7 +37,7 @@ impl HtmlConfig {
             // ignore if any problem
             inline_class(node, tw);
         }
-        Ok(dom.inner_html())
+        Ok(dom.outer_html())
     }
     pub fn scope_all_class(input: &str, tw: &mut TailwindBuilder) -> Result<String> {
         let mut dom = parse(input, ParserOptions::default())?;
@@ -45,7 +45,7 @@ impl HtmlConfig {
             // ignore if any problem
             scope_class(node, tw);
         }
-        Ok(dom.inner_html())
+        Ok(dom.outer_html())
     }
     pub fn keyed_all_class(input: &str, tw: &mut TailwindBuilder) -> Result<String> {
         let mut dom = parse(input, ParserOptions::default())?;
@@ -53,7 +53,7 @@ impl HtmlConfig {
             // ignore if any problem
             key_class(node, tw);
         }
-        Ok(dom.inner_html())
+        Ok(dom.outer_html())
     }
     pub fn value_all_class(input: &str, tw: &mut TailwindBuilder) -> Result<String> {
         let mut dom = parse(input, ParserOptions::default())?;
@@ -61,7 +61,7 @@ impl HtmlConfig {
             // ignore if any problem
             value_class(node, tw);
         }
-        Ok(dom.inner_html())
+        Ok(dom.outer_html())
     }
 }
 

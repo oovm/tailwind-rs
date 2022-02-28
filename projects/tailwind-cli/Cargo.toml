@@ -10,12 +10,12 @@ license = "MPL-2.0"
 edition = "2018"
 
 [dependencies]
-clap = { version = "3.1.6", features = ["derive"] }
+clap = { version = "4.0.4", features = ["derive"] }
 tailwind-rs = { version = "0.2.0", path = "../tailwind-rs" }
-itertools = "0.10.3"
-log = "0.4.14"
+itertools = "0.10.5"
+log = "0.4.17"
 glob = "0.3.0"
-globset = "0.4.8"
+globset = "0.4.9"
 byte-unit = "4.0.14"
 
 [dependencies.tailwind-error]

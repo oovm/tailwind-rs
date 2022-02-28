@@ -11,10 +11,10 @@ edition = "2018"
 
 [dependencies]
 tailwind-rs = { version = "0.2.*", path = "../tailwind-rs" }
-dioxus = { version = "0.2.3", features = ["web"] }
+dioxus = { version = "0.2.4", features = ["web"] }
 wasm-logger = "0.2.0"
-log = "0.4.14"
-wasm-bindgen = "0.2.79"
+log = "0.4.17"
+wasm-bindgen = "0.2.83"
 
 [dependencies.tailwind-error]
 version = "1.3.0"

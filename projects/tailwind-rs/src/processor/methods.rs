@@ -3,14 +3,17 @@ use crate::CLIConfig;
 
 impl CLIConfig {
     pub fn compile_css(&self, css: &str) -> Result<String> {
-        const PARSER: ParserOptions = ParserOptions {
+        let parser: ParserOptions = ParserOptions {
             //
+            filename: "".to_string(),
             nesting: true,
             custom_media: true,
-            css_modules: false,
+            css_modules: None,
             source_index: 0,
+            error_recovery: false,
+            warnings: None,
         };
-        let mut stylesheet = StyleSheet::parse(String::new(), css, PARSER)?;
+        let mut stylesheet = StyleSheet::parse(css, parser)?;
         let minify = MinifyOptions { targets: None, unused_symbols: self.unused_symbols.to_owned() };
         stylesheet.minify(minify)?;
         let printer = PrinterOptions {
