@@ -82,8 +82,40 @@
   flex-basis: var(--basis);
 }
 
+.bg-\[\#0000FFCC\] {
+  background-color: #00fc;
+}
+
+.bg-\[\#00FF00FF\] {
+  background-color: #0f0;
+}
+
+.bg-\[\#7B7B7B7F\] {
+  background-color: #7b7b7b80;
+}
+
+.bg-\[\#7B7B7BFF\] {
+  background-color: #7b7b7b;
+}
+
+.bg-\[\#7BFFFFFF\] {
+  background-color: #7bffff;
+}
+
+.bg-\[\#FF00004C\] {
+  background-color: #ff00004d;
+}
+
+.bg-\[\#FF0000FF\] {
+  background-color: red;
+}
+
 .blur-\[15px\] {
   filter: blur(15px);
+}
+
+.border-\[\#FF0000FF\] {
+  border-color: red;
 }
 
 .bottom-\[11px\] {
@@ -123,11 +155,11 @@
 }
 
 .cursor-\[url\(\'\.\/path_to_hand\.cur\'\)_2_2\,pointer\] {
-  cursor: url(./path\20 to\20 hand.cur) 2 2, pointer;
+  cursor: url("./path to hand.cur") 2 2, pointer;
 }
 
 .cursor-\[url\(hand\.cur\)_2_2\,pointer\] {
-  cursor: url(hand.cur) 2 2, pointer;
+  cursor: url("hand.cur") 2 2, pointer;
 }
 
 .cursor-\[var\(--value\)\] {
@@ -200,7 +232,7 @@
 
 .from-\[\#DA5B66FF\] {
   --tw-gradient-from: #da5b66;
-  --tw-gradient-stops: var(--tw-gradient-from) , var(--tw-gradient-to, #da5b66);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, #da5b66);
 }
 
 .gap-\[20px\] {
@@ -220,11 +252,11 @@
 }
 
 .grid-cols-\[200px\,repeat\(auto-fill\,minmax\(15\%\,100px\)\)\,300px\] {
-  grid-template-columns: 200px, repeat(auto-fill, minmax(15%, 100px) ) , 300px;
+  grid-template-columns: 200px, repeat(auto-fill, minmax(15%, 100px) ), 300px;
 }
 
 .grid-rows-\[200px\,repeat\(auto-fill\,minmax\(15\%\,100px\)\)\,300px\] {
-  grid-template-rows: 200px, repeat(auto-fill, minmax(15%, 100px) ) , 300px;
+  grid-template-rows: 200px, repeat(auto-fill, minmax(15%, 100px) ), 300px;
 }
 
 .grow-\[var\(--grow\)\] {
@@ -418,7 +450,7 @@
 
 .ring-offset-3 {
   --tw-ring-offset-width: 3;
-  box-shadow: 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color) , var(--tw-ring-shadow);
+  box-shadow: 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color), var(--tw-ring-shadow);
 }
 
 .rotate-\[1\.5turn\] {
@@ -454,7 +486,7 @@
 }
 
 .scale-\[var\(--value\)\] {
-  transform: scale(var(--value) );
+  transform: scale(var(--value));
 }
 
 .scale-x-\[0\.7\] {
@@ -462,7 +494,7 @@
 }
 
 .scale-x-\[var\(--value\)\] {
-  transform: scaleX(var(--value) );
+  transform: scaleX(var(--value));
 }
 
 .scale-y-\[0\.7\] {
@@ -470,7 +502,7 @@
 }
 
 .scale-y-\[var\(--value\)\] {
-  transform: scaleY(var(--value) );
+  transform: scaleY(var(--value));
 }
 
 .scroll-m-\[7px\] {
@@ -560,7 +592,7 @@
 }
 
 .skew--x-\[var\(--value\)\] {
-  transform: skewX(var(--value) );
+  transform: skewX(var(--value));
 }
 
 .skew--y-\[3px\] {
@@ -568,7 +600,7 @@
 }
 
 .skew--y-\[var\(--value\)\] {
-  transform: skewY(var(--value) );
+  transform: skewY(var(--value));
 }
 
 .space-x-\[20cm\] {
@@ -611,15 +643,12 @@
   letter-spacing: var(--tracking);
 }
 
-.transition\[-\[\[opacity\,width\]\]\] {
-}
-
 .translate-x-\[12\%\] {
   transform: translateX(12%);
 }
 
 .translate-x-\[var\(--value\)\] {
-  transform: translateX(var(--value) );
+  transform: translateX(var(--value));
 }
 
 .translate-y-\[12\%\] {
@@ -627,7 +656,7 @@
 }
 
 .translate-y-\[var\(--value\)\] {
-  transform: translateY(var(--value) );
+  transform: translateY(var(--value));
 }
 
 .underline-offset-\[10px\] {
@@ -635,7 +664,7 @@
 }
 
 .via-\[\#DA5B66FF\] {
-  --tw-gradient-stops: var(--tw-gradient-from) , #da5b66, var(--tw-gradient-to, #da5b66);
+  --tw-gradient-stops: var(--tw-gradient-from), #da5b66, var(--tw-gradient-to, #da5b66);
 }
 
 .w-\[0em\] {
