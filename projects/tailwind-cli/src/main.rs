@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use clap::Parser;
+use clap::{ArgAction, Parser};
 
 pub use self::{commands::TailwindCommands, run::Mode};
 
@@ -12,10 +12,10 @@ mod run;
 #[clap(propagate_version = true)]
 pub struct TailwindApp {
     /// Sets a custom config file
-    #[clap(parse(from_os_str), value_name = "DIR")]
+    #[clap(value_parser, value_name = "DIR")]
     workspace: Option<PathBuf>,
     /// Sets a custom config file
-    #[clap(short, long, parse(from_os_str), value_name = "FILE")]
+    #[clap(short, long, value_parser, value_name = "FILE")]
     config: Option<PathBuf>,
     #[clap(short, long, value_name = "GLOB")]
     pattern: Option<String>,
@@ -25,9 +25,9 @@ pub struct TailwindApp {
     obfuscate: Option<bool>,
     #[clap(long)]
     dry_run: bool,
-    #[clap(short, parse(from_occurrences))]
+    #[clap(short, action = ArgAction::Count)]
     details: usize,
-    #[clap(long, arg_enum)]
+    #[clap(long, value_enum)]
     mode: Option<Mode>,
     #[clap(subcommand)]
     command: Option<TailwindCommands>,

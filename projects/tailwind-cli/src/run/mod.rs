@@ -6,7 +6,7 @@ use std::{
     path::Path,
 };
 
-use clap::ArgEnum;
+use clap::ValueEnum;
 use glob::glob;
 use tailwind_error::TailwindError;
 
@@ -88,7 +88,7 @@ fn get_extension(path: &Path) -> Option<&str> {
     path.extension()?.to_str()
 }
 
-#[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ArgEnum)]
+#[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ValueEnum)]
 pub enum Mode {
     Normal,
     Inline,

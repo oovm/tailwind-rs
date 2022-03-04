@@ -7,7 +7,7 @@ use tailwind_rs::{CLIConfig, Result};
 #[derive(Subcommand)]
 pub enum TailwindCommands {
     Init {
-        #[clap(parse(from_os_str), value_name = "DIR")]
+        #[clap(value_parser, value_name = "DIR")]
         workspace: Option<PathBuf>,
     },
 }
