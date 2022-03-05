@@ -1,5 +1,5 @@
 use crate::TailwindError;
-use parcel_css::error::{Error, MinifyErrorKind, ParserError, PrinterErrorKind};
+use lightningcss::error::{Error, MinifyErrorKind, ParserError, PrinterErrorKind};
 
 impl From<Error<ParserError<'_>>> for TailwindError {
     fn from(e: Error<ParserError<'_>>) -> Self {
