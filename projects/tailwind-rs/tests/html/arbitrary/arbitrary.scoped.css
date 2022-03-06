@@ -146,7 +146,7 @@
 }
 
 .LwwSkfkwCDA {
-  animation: pong 1s cubic-bezier(0, 0, .2, 1) infinite;
+  animation: 1s cubic-bezier(0, 0, .2, 1) infinite pong;
 }
 
 .PTuXVbwcnmO {
@@ -331,11 +331,11 @@
 }
 
 .TiM78ZmkCuY {
-  grid-template-columns: 200px, repeat(auto-fill, minmax(15%, 100px) ), 300px;
+  grid-template-columns: 200px, repeat(auto-fill, minmax(15%, 100px)), 300px;
 }
 
 .QZfTUEWqboD {
-  grid-template-rows: 200px, repeat(auto-fill, minmax(15%, 100px) ), 300px;
+  grid-template-rows: 200px, repeat(auto-fill, minmax(15%, 100px)), 300px;
 }
 
 .qg2I13unFsC {
@@ -394,6 +394,11 @@
 }
 
 .SZF7RMbl99V {
+  margin-right: 7px;
+}
+
+.zMEV82uM0ZO {
+  margin-top: 7px;
   margin-right: 7px;
 }
 

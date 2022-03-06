@@ -19,7 +19,7 @@
 }
 
 .animate-\[pong_1s_cubic-bezier\(0\,0\,0\.2\,1\)_infinite\] {
-  animation: pong 1s cubic-bezier(0, 0, .2, 1) infinite;
+  animation: 1s cubic-bezier(0, 0, .2, 1) infinite pong;
 }
 
 .animate-\[var\(--value\)\] {
@@ -252,11 +252,11 @@
 }
 
 .grid-cols-\[200px\,repeat\(auto-fill\,minmax\(15\%\,100px\)\)\,300px\] {
-  grid-template-columns: 200px, repeat(auto-fill, minmax(15%, 100px) ), 300px;
+  grid-template-columns: 200px, repeat(auto-fill, minmax(15%, 100px)), 300px;
 }
 
 .grid-rows-\[200px\,repeat\(auto-fill\,minmax\(15\%\,100px\)\)\,300px\] {
-  grid-template-rows: 200px, repeat(auto-fill, minmax(15%, 100px) ), 300px;
+  grid-template-rows: 200px, repeat(auto-fill, minmax(15%, 100px)), 300px;
 }
 
 .grow-\[var\(--grow\)\] {
@@ -364,7 +364,8 @@
 }
 
 .my-\[7px\] {
-  margin: 7px;
+  margin-top: 7px;
+  margin-right: 7px;
 }
 
 .object-\[50\%\,50\%\] {

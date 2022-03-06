@@ -7,7 +7,7 @@
 }
 
 .rotate-0 {
-  transform: rotate(-0deg);
+  transform: rotate(0);
 }
 
 .rotate-180 {
@@ -55,11 +55,11 @@
 }
 
 .skew--x-0 {
-  transform: skewX(0deg);
+  transform: skewX(0);
 }
 
 .skew--y-0 {
-  transform: skewY(0deg);
+  transform: skewY(0);
 }
 
 .translate-0 {

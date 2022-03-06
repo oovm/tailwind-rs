@@ -1,8 +1,8 @@
 .not-sr-only {
   clip: auto;
-  height: auto;
   white-space: normal;
   width: auto;
+  height: auto;
   margin: 0;
   padding: 0;
   position: static;
@@ -11,10 +11,10 @@
 
 .sr-only {
   clip: rect(0, 0, 0, 0);
-  height: 1px;
   white-space: nowrap;
-  width: 1px;
   border-width: 0;
+  width: 1px;
+  height: 1px;
   margin: -1px;
   padding: 0;
   position: absolute;
