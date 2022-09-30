@@ -127,7 +127,7 @@ impl Display for TailwindError {
             Some(s) => writeln!(f, "at ({}, {}) of {}", s.start, s.end, path)?,
             None => writeln!(f, "at {}", path)?,
         }
-        write!(f, "{:indent$}{}", self.kind, indent = 4)
+        write!(f, "{:indent$}{}", "", self.kind, indent = 4)
     }
 }
 
