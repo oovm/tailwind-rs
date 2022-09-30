@@ -19,11 +19,11 @@ impl FontSystem {
         self.insert_size("2xl", FontSize::new(1.5, 2.0));
         self.insert_size("3xl", FontSize::new(1.875, 2.25));
         self.insert_size("4xl", FontSize::new(2.25, 2.5));
-        self.insert_size("5xl", FontSize::new(3.0, -1.0));
-        self.insert_size("6xl", FontSize::new(3.75, -1.0));
-        self.insert_size("7xl", FontSize::new(4.5, -1.0));
-        self.insert_size("8xl", FontSize::new(6.0, -1.0));
-        self.insert_size("9xl", FontSize::new(8.0, -1.0));
+        self.insert_size("5xl", FontSize::new(3.0, -100.));
+        self.insert_size("6xl", FontSize::new(3.75, -100.));
+        self.insert_size("7xl", FontSize::new(4.5, -100.));
+        self.insert_size("8xl", FontSize::new(6.0, -100.));
+        self.insert_size("9xl", FontSize::new(8.0, -100.));
     }
     fn insert_builtin_family(&mut self) {
         self.insert_family("sans", r#"ui-sans-serif"#);
