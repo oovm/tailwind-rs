@@ -1,6 +1,6 @@
 use super::*;
 use crate::traits::TailwindProcessor;
-use std::sync::Arc;
+use std::{fmt::Debug, sync::Arc};
 
 pub use self::{justify_content::TailwindJustifyContent, justify_item::TailwindJustifyItems, justify_self::TailwindJustifySelf};
 
@@ -17,14 +17,11 @@ pub struct JustifyAdaptor {
 }
 
 impl TailwindProcessor for JustifyAdaptor {
-    fn get_processor(&self) -> &[Arc<dyn TailwindProcessor>] {
+    fn post_processor(&self) -> &[Arc<dyn TailwindProcessor>] {
         &self.post
     }
 
-    fn on_catch<'a, 'i>(&'a self, pattern: &'i [&'i str]) -> Option<&'i [&'i str]> {
-        match pattern {
-            ["justify", rest @ ..] => Some(rest),
-            _ => None,
-        }
+    fn on_catch(&self) -> &'static [&'static str] {
+        &["justify"]
     }
 }

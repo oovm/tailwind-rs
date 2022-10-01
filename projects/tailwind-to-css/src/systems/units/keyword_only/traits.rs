@@ -29,14 +29,14 @@ impl Display for StandardValue {
 
 impl Display for KeywordInstance {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}-{}", self.pattern, self.kind)
+        write!(f, "{}-{}", self.pattern, self.value)
     }
 }
 
 impl TailwindInstance for KeywordInstance {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let mut css = CssAttributes::default();
-        css.insert(self.pattern.to_string(), (self.kind.get_properties()).to_string());
+        css.insert(self.pattern.to_string(), (self.value.get_properties()).to_string());
         css
     }
 }

@@ -1,21 +1,20 @@
 use super::*;
 use crate::KeywordInstance;
+use std::ops::ControlFlow;
 
 #[doc=include_str!("readme.md")]
 #[derive(Clone, Debug, Default)]
 pub struct TailwindJustifyItems {}
 
 impl TailwindProcessor for TailwindJustifyItems {
-    fn on_catch<'a, 'i>(&'a self, pattern: &'i [&'i str]) -> Option<&'i [&'i str]> {
-        match pattern {
-            ["items", rest @ ..] => Some(rest),
-            _ => None,
-        }
+    fn on_catch(&self) -> &'static [&'static str] {
+        &["items"]
     }
     /// <https://tailwindcss.com/docs/justify-items>
-    fn on_progress(&self, pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        let kw = KeywordInstance { pattern: Self::PREFIX, kind: StandardValue::parser(Self::PREFIX, &Self::check_valid)(pattern, arbitrary)? };
-        Ok(kw.boxed())
+    fn on_progress(&self, pattern: &[&str], arbitrary: &TailwindArbitrary) -> ControlFlow<Result<Box<dyn TailwindInstance>>, ()> {
+        let kw = KeywordInstance::parse(Self::PREFIX, pattern, 0, arbitrary);
+
+        ControlFlow::Break()
     }
 }
 

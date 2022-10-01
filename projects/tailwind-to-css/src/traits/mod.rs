@@ -1,8 +1,8 @@
 use std::{
     cmp::Ordering,
-    collections::BTreeMap,
     fmt::{Debug, Display, Formatter},
     hash::{Hash, Hasher},
+    ops::ControlFlow,
     sync::Arc,
 };
 
@@ -12,25 +12,41 @@ pub mod instance;
 ///
 pub trait TailwindProcessor {
     ///
-    fn get_processor(&self) -> &[Arc<dyn TailwindProcessor>] {
+    fn post_processor(&self) -> &[Arc<dyn TailwindProcessor>] {
         &[]
     }
-    fn on_catch<'a, 'i>(&'a self, pattern: &'i [&'i str]) -> Option<&'i [&'i str]>;
+    fn on_catch(&self) -> &'static [&'static str];
     fn on_final(&self, pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        UnimplementedReporter {}.on_progress(pattern, arbitrary)
+        UnimplementedReporter {}.on_report(pattern, arbitrary)
     }
-    fn on_progress(&self, pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        for progress in self.get_processor() {
-            match progress.on_catch(pattern) {
-                None => continue,
-                Some(s) => return progress.on_progress(s, arbitrary),
+    #[allow(unused_variables)]
+    fn on_progress(&self, pattern: &[&str], arbitrary: &TailwindArbitrary) -> ControlFlow<Result<Box<dyn TailwindInstance>>, ()> {
+        ControlFlow::Continue(())
+    }
+    fn run_progress(&self, pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+        for progress in self.post_processor() {
+            let prefix = progress.on_catch();
+            if pattern.starts_with(prefix) {
+                let rest = &pattern[prefix.len()..pattern.len()];
+                return progress.run_progress(rest, arbitrary);
+            }
+            else {
+                continue;
             }
         }
-        self.on_final(pattern, arbitrary)
+        match self.on_progress() {
+            ControlFlow::Break(e) => e,
+            ControlFlow::Continue(_) => self.on_final(pattern, arbitrary),
+        }
     }
 }
 
-#[allow(unused_variables)]
+impl Debug for dyn TailwindProcessor {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.on_catch().join("-"))
+    }
+}
+
 pub trait TailwindInstance: Display {
     /// Used to deduplication and marking
     #[inline]
@@ -50,12 +66,14 @@ pub trait TailwindInstance: Display {
         Box::new(self)
     }
     /// Custom selector name
+    #[allow(unused_variables)]
     fn selectors(&self, ctx: &TailwindBuilder) -> String {
         format!(".{}", self.id())
     }
     /// Attributes in css
     fn attributes(&self, ctx: &TailwindBuilder) -> CssAttributes;
     /// Additional css in bundle
+    #[allow(unused_variables)]
     fn additional(&self, ctx: &TailwindBuilder) -> String {
         String::new()
     }

@@ -1,5 +1,6 @@
 use super::*;
 use crate::{TailwindBuilder, TailwindInstance};
+use std::collections::BTreeSet;
 
 mod traits;
 
@@ -13,7 +14,31 @@ pub enum StandardValue {
 #[derive(Debug, Clone)]
 pub struct KeywordInstance {
     pub pattern: &'static str,
-    pub kind: StandardValue,
+    pub value: StandardValue,
+}
+
+impl KeywordInstance {
+    pub fn parse<'i>(
+        id: &'static str,
+        pattern: &'i [&'i str],
+        valid: &'static [&'static str],
+        arbitrary: &'i TailwindArbitrary,
+    ) -> Result<Self> {
+        match pattern {
+            [] => {
+                let value = StandardValue::Arbitrary(TailwindArbitrary::new(arbitrary)?);
+                Ok(Self { pattern: id, value })
+            },
+            _ => {
+                let keyword = pattern.join("-");
+                let checker = BTreeSet::from_iter(valid);
+                if cfg!(compile_time) && !checker.contains(&&*keyword) {
+                    return syntax_error!("{} does not a valid value of {}", keyword, id);
+                }
+                Ok(Self { pattern: id, value: StandardValue::Keyword(keyword) })
+            },
+        }
+    }
 }
 
 impl StandardValue {
