@@ -2,7 +2,6 @@ use std::{
     cmp::Ordering,
     fmt::{Debug, Display, Formatter},
     hash::{Hash, Hasher},
-    ops::ControlFlow,
     sync::Arc,
 };
 
@@ -19,25 +18,18 @@ pub trait TailwindProcessor {
     fn on_final(&self, pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         UnimplementedReporter {}.on_report(pattern, arbitrary)
     }
-    #[allow(unused_variables)]
-    fn on_progress(&self, pattern: &[&str], arbitrary: &TailwindArbitrary) -> ControlFlow<Result<Box<dyn TailwindInstance>>, ()> {
-        ControlFlow::Continue(())
-    }
-    fn run_progress(&self, pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+    fn on_progress(&self, pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         for progress in self.post_processor() {
             let prefix = progress.on_catch();
             if pattern.starts_with(prefix) {
                 let rest = &pattern[prefix.len()..pattern.len()];
-                return progress.run_progress(rest, arbitrary);
+                return progress.on_progress(rest, arbitrary);
             }
             else {
                 continue;
             }
         }
-        match self.on_progress() {
-            ControlFlow::Break(e) => e,
-            ControlFlow::Continue(_) => self.on_final(pattern, arbitrary),
-        }
+        self.on_final(pattern, arbitrary)
     }
 }
 

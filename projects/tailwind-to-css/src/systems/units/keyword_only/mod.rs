@@ -11,33 +11,42 @@ pub enum StandardValue {
     Arbitrary(TailwindArbitrary),
 }
 
-#[derive(Debug, Clone)]
+pub type KeywordMap = &'static [(&'static str, Some(&'static str))];
+
+#[derive(Default, Debug, Clone)]
 pub struct KeywordInstance {
-    pub pattern: &'static str,
-    pub value: StandardValue,
+    pub pattern: String,
+    pub display: String,
+    pub value: String,
+    pub arbitrary: TailwindArbitrary,
 }
 
 impl KeywordInstance {
     pub fn parse<'i>(
+        mut self,
         id: &'static str,
         pattern: &'i [&'i str],
-        valid: &'static [&'static str],
+        keyword_map: KeywordMap,
         arbitrary: &'i TailwindArbitrary,
-    ) -> Result<Self> {
-        match pattern {
-            [] => {
-                let value = StandardValue::Arbitrary(TailwindArbitrary::new(arbitrary)?);
-                Ok(Self { pattern: id, value })
-            },
+    ) -> Result<()> {
+        let value = match pattern {
+            [] => StandardValue::Arbitrary(TailwindArbitrary::new(arbitrary)?),
             _ => {
                 let keyword = pattern.join("-");
-                let checker = BTreeSet::from_iter(valid);
-                if cfg!(compile_time) && !checker.contains(&&*keyword) {
+
+                if cfg!(compile_time) {
+                    for (name, display) in keyword_map {
+                        if keyword == name {
+                            self.display
+                        }
+                    }
                     return syntax_error!("{} does not a valid value of {}", keyword, id);
                 }
-                Ok(Self { pattern: id, value: StandardValue::Keyword(keyword) })
+                StandardValue::Keyword(keyword)
             },
-        }
+        };
+
+        Ok(Box::new(self))
     }
 }
 

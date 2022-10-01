@@ -1,8 +1,7 @@
-use super::*;
-use crate::traits::TailwindProcessor;
-use std::{fmt::Debug, sync::Arc};
-
 pub use self::{justify_content::TailwindJustifyContent, justify_item::TailwindJustifyItems, justify_self::TailwindJustifySelf};
+use super::*;
+use crate::{traits::TailwindProcessor, KeywordInstance, KeywordMap};
+use std::{fmt::Debug, sync::Arc};
 
 mod justify_content;
 mod justify_item;

@@ -10,7 +10,7 @@ pub use self::{
     axis::SpacingAxis,
     axis_xy::AxisXY,
     integer_only::NumericValue,
-    keyword_only::{KeywordInstance, StandardValue},
+    keyword_only::{KeywordInstance, KeywordMap, StandardValue},
     length::LengthUnit,
     length_only::UnitValue,
     negative::Negative,

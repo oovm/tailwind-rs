@@ -11,7 +11,7 @@ impl TailwindInstruction {
         let arbitrary = self.view_arbitrary();
         let neg = self.negative;
 
-        let justify = JustifyAdaptor { post: vec![Arc::new(TailwindJustifyItems::default())] };
+        let justify = JustifyAdaptor { post: vec![Arc::new(TailwindJustifyItems::default(), TailwindJustifySelf::default())] };
 
         let instance = match pattern {
             // Layout System
@@ -67,7 +67,7 @@ impl TailwindInstruction {
             ["row", rest @ ..] => TailwindRow::parse(rest, arbitrary)?.boxed(),
             ["auto", rest @ ..] => TailwindGridAuto::parse(rest, arbitrary)?.boxed(),
             ["gap", rest @ ..] => TailwindGap::parse(rest, arbitrary)?.boxed(),
-            ["justify", rest @ ..] => justify.run_progress(rest, arbitrary)?,
+            ["justify", rest @ ..] => justify.on_progress(rest, arbitrary)?,
             ["content", rest @ ..] => TailwindContent::adapt(rest, arbitrary)?,
             ["items", rest @ ..] => TailwindItems::parse(rest, arbitrary)?.boxed(),
             ["self", rest @ ..] => TailwindSelf::parse(rest, arbitrary)?.boxed(),
