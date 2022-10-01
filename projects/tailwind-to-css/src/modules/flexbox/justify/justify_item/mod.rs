@@ -14,11 +14,18 @@ impl Display for TailwindJustifyItems {
     }
 }
 
-impl TailwindJustifyItems {
-    /// <https://tailwindcss.com/docs/justify-items>
-    pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self { kind: StandardValue::parser("justify-items", &Self::check_valid)(pattern, arbitrary)? })
+impl TailwindProcessor for TailwindJustifyItems {
+    fn is_registered_word(&self, word: &str) -> bool {
+        ["items"].contains(word)
     }
+    /// <https://tailwindcss.com/docs/justify-items>
+    fn on_process(&self, pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+        let this = Self { kind: StandardValue::parser("justify-items", &Self::check_valid)(pattern, arbitrary)? };
+        Ok(this.boxed())
+    }
+}
+
+impl TailwindJustifyItems {
     /// dispatch to [justify-items](https://developer.mozilla.org/en-US/docs/Web/CSS/justify-items)
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
         StandardValue::parse_arbitrary(arbitrary).map(|kind| Self { kind })

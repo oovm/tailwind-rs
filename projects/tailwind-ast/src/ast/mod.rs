@@ -55,7 +55,7 @@ pub enum AstGroupItem<'a> {
 }
 
 /// `not-variant:pseudo::-ast-element-[arbitrary]`
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct AstStyle<'a> {
     /// Is a `!important` style
     pub important: bool,
@@ -70,29 +70,29 @@ pub struct AstStyle<'a> {
 }
 
 /// `-[.+]`
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct AstArbitrary<'a> {
     /// The arbitrary value text
     pub arbitrary: &'a str,
 }
 
 /// `ast-elements`
-#[derive(Clone, Debug, PartialEq, Default)]
+#[derive(Clone, Debug, PartialEq, Eq, Default)]
 pub struct AstElements<'a> {
     /// `name-space`
     pub elements: Vec<&'a str>,
 }
 
 /// `&`
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub struct AstReference {}
 
 /// `!`
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub struct AstImportant {}
 
 /// `(not-)?variant:pseudo::`
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ASTVariant<'a> {
     /// `not-`
     pub not: bool,

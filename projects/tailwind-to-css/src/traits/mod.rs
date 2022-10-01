@@ -2,20 +2,32 @@ use std::{
     cmp::Ordering,
     fmt::{Debug, Display, Formatter},
     hash::{Hash, Hasher},
+    sync::Arc,
 };
 
-use crate::{CssAttributes, TailwindBuilder};
-
+use crate::{CssAttributes, Result, TailwindArbitrary, TailwindBuilder};
 pub mod instance;
+
+///
+pub trait TailwindProcessor {
+    fn id(&self) -> String;
+    fn new() -> Arc<dyn TailwindProcessor>;
+    /// Whether to capture the required prefix
+    fn is_registered_word(&self, word: &str) -> bool;
+
+    fn on_catch(&self) {}
+    ///
+    fn on_process(&self, pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>>;
+}
 
 #[allow(unused_variables)]
 pub trait TailwindInstance: Display {
-    /// used to deduplication and marking
+    /// Used to deduplication and marking
     #[inline]
     fn id(&self) -> String {
         self.to_string()
     }
-    /// used to deduplication and marking
+    /// Is the instance inlineable
     fn inlineable(&self) -> bool {
         true
     }
