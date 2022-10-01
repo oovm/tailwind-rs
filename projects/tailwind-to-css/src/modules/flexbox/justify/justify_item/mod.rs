@@ -15,11 +15,14 @@ impl Display for TailwindJustifyItems {
 }
 
 impl TailwindProcessor for TailwindJustifyItems {
-    fn is_registered_word(&self, word: &str) -> bool {
-        ["items"].contains(word)
+    fn on_catch(&self, word: &[&str]) -> Option<&[&str]> {
+        match word {
+            ["items", rest @ ..] => Some(rest),
+            _ => None,
+        }
     }
     /// <https://tailwindcss.com/docs/justify-items>
-    fn on_process(&self, pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
+    fn on_progress(&self, pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         let this = Self { kind: StandardValue::parser("justify-items", &Self::check_valid)(pattern, arbitrary)? };
         Ok(this.boxed())
     }

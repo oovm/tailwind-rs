@@ -3,6 +3,7 @@
 mod accessibility;
 mod background;
 mod borders;
+mod custom;
 mod effects;
 mod filters;
 mod flexbox;
@@ -17,8 +18,8 @@ mod transition;
 mod typography;
 
 pub use self::{
-    accessibility::*, background::*, borders::*, effects::*, filters::*, flexbox::*, interactivity::*, layouts::*, sizing::*,
-    spacing::*, svg::*, tables::*, transforms::*, transition::*, typography::*,
+    accessibility::*, background::*, borders::*, custom::*, effects::*, filters::*, flexbox::*, interactivity::*, layouts::*,
+    sizing::*, spacing::*, svg::*, tables::*, transforms::*, transition::*, typography::*,
 };
 
 use crate::*;

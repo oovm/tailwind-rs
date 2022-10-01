@@ -14,18 +14,6 @@ pub struct JustifyAdaptor {
     pub post: Vec<Arc<dyn TailwindProcessor>>,
 }
 
-pub struct UnimplementedReport {}
-
-impl TailwindProcessor for UnimplementedReport {
-    fn is_registered_word(&self, _: &str) -> bool {
-        true
-    }
-
-    fn on_process(&self, pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        todo!()
-    }
-}
-
 pub(crate) fn justify_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
     let out = match str {
         // https://tailwindcss.com/docs/justify-items
@@ -38,21 +26,18 @@ pub(crate) fn justify_adaptor(str: &[&str], arbitrary: &TailwindArbitrary) -> Re
     Ok(out)
 }
 
-impl TailwindProcessor for JustifyAdaptor {
-    fn is_registered_word(&self, word: &str) -> bool {
-        ["justify"].contains(word)
-    }
-
-    fn on_process(&self, pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
-        let out = match str {
-            // https://tailwindcss.com/docs/justify-items
-            ["items", rest @ ..] => TailwindJustifyItems::parse(rest, arbitrary)?.boxed(),
-            // https://tailwindcss.com/docs/justify-self
-            ["self", rest @ ..] => TailwindJustifySelf::parse(rest, arbitrary)?.boxed(),
-            // https://tailwindcss.com/docs/justify-content
-            _ => TailwindJustifyContent::parse(str, arbitrary)?.boxed(),
-        };
-        Ok(out)
-    }
+fn build() {
+    TailwindJustifyItems { kind: () }
 }
 
+impl TailwindProcessor for JustifyAdaptor {
+    fn get_processor(&self) -> &[Arc<dyn TailwindProcessor>] {
+        &self.post
+    }
+    fn on_catch(&self, pattern: &[&str]) -> Option<&[&str]> {
+        match pattern {
+            ["justify", rest @ ..] => Some(rest),
+            _ => None,
+        }
+    }
+}
