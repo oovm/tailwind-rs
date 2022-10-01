@@ -1,4 +1,5 @@
 use super::*;
+use crate::{TailwindBuilder, TailwindInstance};
 
 mod traits;
 
@@ -9,11 +10,14 @@ pub enum StandardValue {
     Arbitrary(TailwindArbitrary),
 }
 
+#[derive(Debug, Clone)]
+pub struct KeywordInstance {
+    pub pattern: &'static str,
+    pub kind: StandardValue,
+}
+
 impl StandardValue {
-    pub fn parser(
-        id: &'static str,
-        check_valid: &'static impl Fn(&str) -> bool,
-    ) -> impl Fn(&[&str], &TailwindArbitrary) -> Result<Self> {
+    pub fn parser(id: &'static str, check_valid: &'static impl Fn(&str) -> bool) -> impl Fn(&[&str], &TailwindArbitrary) -> Result<Self> {
         move |pattern: &[&str], arbitrary: &TailwindArbitrary| match pattern {
             [] => Self::parse_arbitrary(arbitrary),
             _ => Self::parse_keyword(pattern, id, check_valid),
@@ -41,12 +45,7 @@ impl StandardValue {
             Self::Arbitrary(s) => s.as_str(),
         }
     }
-    pub fn write_class(
-        &self,
-        fmt: &mut Formatter,
-        class: &str,
-        special: fn(&mut Formatter, &str) -> std::fmt::Result,
-    ) -> std::fmt::Result {
+    pub fn write_class(&self, fmt: &mut Formatter, class: &str, special: fn(&mut Formatter, &str) -> std::fmt::Result) -> std::fmt::Result {
         match self {
             StandardValue::Keyword(s) => match special(fmt, s) {
                 Ok(o) => Ok(o),

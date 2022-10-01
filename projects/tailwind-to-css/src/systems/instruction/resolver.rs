@@ -1,4 +1,6 @@
 use super::*;
+use crate::traits::TailwindProcessor;
+use std::sync::Arc;
 
 // noinspection SpellCheckingInspection
 impl TailwindInstruction {
@@ -8,6 +10,9 @@ impl TailwindInstruction {
         let pattern = element.as_slice();
         let arbitrary = self.view_arbitrary();
         let neg = self.negative;
+
+        let justify = JustifyAdaptor { post: vec![Arc::new(TailwindJustifyItems::default())] };
+
         let instance = match pattern {
             // Layout System
             ["aspect", rest @ ..] => TailwindAspect::parse(rest, arbitrary)?.boxed(),
@@ -62,7 +67,7 @@ impl TailwindInstruction {
             ["row", rest @ ..] => TailwindRow::parse(rest, arbitrary)?.boxed(),
             ["auto", rest @ ..] => TailwindGridAuto::parse(rest, arbitrary)?.boxed(),
             ["gap", rest @ ..] => TailwindGap::parse(rest, arbitrary)?.boxed(),
-            ["justify", rest @ ..] => justify_adaptor(rest, arbitrary)?,
+            ["justify", rest @ ..] => justify.on_progress(rest, arbitrary)?,
             ["content", rest @ ..] => TailwindContent::adapt(rest, arbitrary)?,
             ["items", rest @ ..] => TailwindItems::parse(rest, arbitrary)?.boxed(),
             ["self", rest @ ..] => TailwindSelf::parse(rest, arbitrary)?.boxed(),

@@ -1,19 +1,17 @@
 use crate::{traits::TailwindProcessor, Result, TailwindArbitrary, TailwindInstance};
+use std::sync::Arc;
 use tailwind_error::{TailwindError, TailwindErrorKind};
 
-pub struct UnimplementedReport {}
+/// UnimplementedReport
+#[derive(Debug)]
+pub struct UnimplementedReporter {}
 
-impl TailwindProcessor for UnimplementedReport {
-    fn get_processor<T, R, P>(&self) -> T
-    where
-        T: Iterator<Item = R>,
-        R: AsRef<P>,
-        P: TailwindProcessor,
-    {
-        unreachable!()
+impl TailwindProcessor for UnimplementedReporter {
+    fn get_processor(&self) -> &[Arc<dyn TailwindProcessor>] {
+        &[]
     }
-    fn on_catch(&self, word: &[&str]) -> Option<&[&str]> {
-        Some(word)
+    fn on_catch<'a, 'i>(&'a self, pattern: &'i [&'i str]) -> Option<&'i [&'i str]> {
+        Some(pattern)
     }
     fn on_final(&self, _: &[&str], _: &TailwindArbitrary) -> Result<Box<dyn TailwindInstance>> {
         unreachable!()

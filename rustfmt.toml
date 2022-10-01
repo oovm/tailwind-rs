@@ -1,6 +1,6 @@
 version = "Two"
 edition = "2018"
-max_width = 128
+max_width = 144
 
 imports_granularity = "Crate"
 use_small_heuristics = "Max"
