@@ -224,6 +224,10 @@ impl TailwindInstruction {
             ["separate"] => TailwindBorderCollapse::from("separate").boxed(),
             ["collapse"] if arbitrary.is_none() => TailwindBorderCollapse::from("collapse").boxed(),
             ["collapse", rest @ ..] => TailwindBorderCollapse::parse(rest, arbitrary)?.boxed(),
+            // https://tailwindcss.com/docs/border-width
+            [] => TailwindBorderWidth::parse(pattern, arbitrary)?.boxed(), // e.g. border-[3px]
+            ["0" | "2" | "4" | "8", ..] if arbitrary.is_none() => TailwindBorderWidth::parse(pattern, arbitrary)?.boxed(), // e.g. border-4
+            ["x" | "y" | "t" | "r" | "b" | "l", ..] => TailwindBorderWidth::parse(pattern, arbitrary)?.boxed(), // e.g. border-x-2
             // https://tailwindcss.com/docs/border-color
             ["black"] => color(TailwindColor::Black),
             ["white"] => color(TailwindColor::White),
