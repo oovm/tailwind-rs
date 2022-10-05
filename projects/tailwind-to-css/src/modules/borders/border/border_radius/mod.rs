@@ -44,7 +44,7 @@ impl Display for TailwindRounded {
 
 impl TailwindInstance for TailwindRounded {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
-        let size = format!("{:?}", self.size);
+        let size = self.size.get_properties();
         match self.kind {
             RoundedKind::Rounded => css_attributes! {
                 "border-radius" => &size
