@@ -1,3 +1,101 @@
+.border-\[\#000000FF\] {
+  border-color: #000;
+}
+
+.border-\[\#FFFFFFFF\] {
+  border-color: #fff;
+}
+
+.border-\[0px\] {
+  border-width: 0;
+}
+
+.border-\[1px\] {
+  border-width: 1px;
+}
+
+.border-\[2px\] {
+  border-width: 2px;
+}
+
+.border-\[4px\] {
+  border-width: 4px;
+}
+
+.border-\[8px\] {
+  border-width: 8px;
+}
+
+.border-\[9px\] {
+  border-width: 9px;
+}
+
+.border-b-\[1px\] {
+  border-bottom-width: 1px;
+}
+
+.border-current {
+  border-color: currentColor;
+}
+
+.border-inherit {
+  border-color: inherit;
+}
+
+.border-l-\[1px\] {
+  border-left-width: 1px;
+}
+
+.border-r-\[1px\] {
+  border-right-width: 1px;
+}
+
+.border-red-100 {
+  border-color: #fee2e2;
+}
+
+.border-t-\[1px\] {
+  border-top-width: 1px;
+}
+
+.border-t-\[2px\] {
+  border-top-width: 2px;
+}
+
+.border-transparent {
+  border-color: #0000;
+}
+
+.border-x-\[0px\] {
+  border-left-width: 0;
+  border-right-width: 0;
+}
+
+.border-x-\[1px\] {
+  border-left-width: 1px;
+  border-right-width: 1px;
+}
+
+.border-x-\[3px\] {
+  border-left-width: 3px;
+  border-right-width: 3px;
+}
+
+.border-y-\[1px\] {
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+}
+
+.border-y-\[2px\] {
+  border-top-width: 2px;
+  border-bottom-width: 2px;
+}
+
+.border-y-\[5px\] {
+  border-top-width: 5px;
+  border-bottom-width: 5px;
+}
+
 .outline {
   outline-style: solid;
 }
@@ -88,9 +186,9 @@
 }
 
 .rounded-\[0px\] {
-  border-radius: Unit(0, "px");
+  border-radius: 0;
 }
 
 .rounded-\[0rem\] {
-  border-radius: Unit(.25, "rem");
+  border-radius: .25rem;
 }
