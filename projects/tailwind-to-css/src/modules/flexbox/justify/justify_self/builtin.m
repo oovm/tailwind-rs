@@ -1,5 +1,6 @@
 (* ::Package:: *)
 
+name = "justify-self";
 values = "
 /* Basic keywords */
 justify-self: auto;
@@ -38,3 +39,32 @@ all = Sort@StringCases[
     RegularExpression[":\\s*([a-zA-Z0-9-]+);"] :> "$1"
 ];
 "[\"" <> StringRiffle[all, "\",\""] <> "\"].contains(&mode)" // CopyToClipboard
+
+
+TemplateApply[
+"
+    /// <https://developer.mozilla.org/en-US/docs/Web/CSS/`name`#syntax>
+    pub const KEYWORDS: KeywordMap = &[
+        \"auto\",
+        \"baseline\",
+        \"center\",
+        \"end\",
+        \"flex-end\",
+        \"flex-start\",
+        \"inherit\",
+        \"initial\",
+        \"left\",
+        \"normal\",
+        \"revert\",
+        \"right\",
+        \"self-end\",
+        \"self-start\",
+        \"start\",
+        \"stretch\",
+        \"unset\",
+    ];
+", <|"name"->name|>
+]
+
+
+
