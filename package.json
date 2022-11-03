@@ -6,6 +6,7 @@
         "fmt": "cargo fmt --all",
         "push": "wee test && git push",
         "reset": "git reset Head~ --soft",
-        "u": "cargo upgrade --workspace"
+        "u": "cargo upgrade --workspace",
+        "bump": "cargo release patch --workspace --no-publish --no-tags --execute"
     }
 }
