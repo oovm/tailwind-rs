@@ -173,6 +173,10 @@
   background-color: #ff00004d;
 }
 
+.yYgA5SAdMbN {
+  border-bottom-width: 2.5px;
+}
+
 .Mi5B8mQJ4FA {
   border-bottom-width: [20cm] px;
   border-top-width: 0;
@@ -181,10 +185,6 @@
 .pMtYjsDGCPO {
   border-bottom-width: [calc(20%-1cm) ] px;
   border-top-width: 0;
-}
-
-.Vjymd4LLywM {
-  border-color: red;
 }
 
 .rVvcWAi6rtH {
@@ -197,8 +197,24 @@
   border-right-width: [calc(20%-1cm) ] px;
 }
 
-.MZRXXgXcCcH {
-  border-radius: Unit(11, "px");
+.ZzNxyqiZDXR {
+  border-left-width: 2.5px;
+}
+
+.VBpOON9tPxI {
+  border-radius: 11px;
+}
+
+.S9MBNPSZ4lW {
+  border-right-width: 2.5px;
+}
+
+.xc5Im4WzyWI {
+  border-top-width: 2.5px;
+}
+
+.Kekx0wEUTOD {
+  border-width: 2.5px;
 }
 
 .qzCgKZuilcF {
@@ -537,6 +553,11 @@
 }
 
 .f0wDnIAUqRI {
+  scroll-padding-bottom: 7px;
+}
+
+.nv4NPab02rQ {
+  scroll-padding-top: 7px;
   scroll-padding-bottom: 7px;
 }
 

@@ -36,7 +36,7 @@ impl TailwindScrollPadding {
             ["pt", rest @ ..] => (SpacingAxis::new("scroll-pt", &["scroll-padding-top"]), rest),
             ["pb", rest @ ..] => (SpacingAxis::new("scroll-pb", &["scroll-padding-bottom"]), rest),
             ["px", rest @ ..] => (SpacingAxis::new("scroll-px", &["scroll-padding-left", "scroll-padding-right"]), rest),
-            ["py", rest @ ..] => (SpacingAxis::new("scroll-py", &["scroll-padding"]), rest),
+            ["py", rest @ ..] => (SpacingAxis::new("scroll-py", &["scroll-padding-top", "scroll-padding-bottom"]), rest),
             _ => return syntax_error!("Unknown scroll-padding axis"),
         };
         let size = SpacingSize::parse(rest, arbitrary, &Self::check_valid)?;

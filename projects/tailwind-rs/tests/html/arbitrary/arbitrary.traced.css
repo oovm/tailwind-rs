@@ -114,8 +114,24 @@
   filter: blur(15px);
 }
 
-.border-\[\#FF0000FF\] {
-  border-color: red;
+.border-\[2px\] {
+  border-width: 2.5px;
+}
+
+.border-b-\[2px\] {
+  border-bottom-width: 2.5px;
+}
+
+.border-l-\[2px\] {
+  border-left-width: 2.5px;
+}
+
+.border-r-\[2px\] {
+  border-right-width: 2.5px;
+}
+
+.border-t-\[2px\] {
+  border-top-width: 2.5px;
 }
 
 .bottom-\[11px\] {
@@ -471,7 +487,7 @@
 }
 
 .rounded-\[11px\] {
-  border-radius: Unit(11, "px");
+  border-radius: 11px;
 }
 
 .row-span-full {
@@ -569,7 +585,8 @@
 }
 
 .scroll-py-\[7px\] {
-  scroll-padding: 7px;
+  scroll-padding-top: 7px;
+  scroll-padding-bottom: 7px;
 }
 
 .sepia-\[0\.2\] {
