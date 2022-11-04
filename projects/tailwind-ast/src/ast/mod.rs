@@ -1,7 +1,12 @@
 mod display;
 // mod from_str;
 mod methods;
-use std::fmt::{Display, Formatter};
+
+use std::{
+    cmp::Ordering,
+    collections::BTreeSet,
+    fmt::{Display, Formatter},
+};
 
 /// `variant:ast-style(grouped!)!`
 /// `not-variant:pseudo::-ast-element-[arbitrary]`
@@ -12,7 +17,7 @@ pub struct AstStyle {
     /// Is a negative style
     pub negative: bool,
     ///
-    pub variants: Vec<ASTVariant>,
+    pub variants: BTreeSet<ASTVariant>,
     ///
     pub elements: AstElements,
     /// Is a arbitrary value
@@ -44,4 +49,16 @@ pub struct ASTVariant {
     pub pseudo: bool,
     /// `name-space`
     pub names: Vec<String>,
+}
+
+impl PartialOrd for ASTVariant {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        self.names.partial_cmp(&other.names)
+    }
+}
+
+impl Ord for ASTVariant {
+    fn cmp(&self, other: &Self) -> Ordering {
+        self.names.cmp(&other.names)
+    }
 }

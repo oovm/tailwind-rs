@@ -13,9 +13,9 @@ InstructNode = [variant:VariantNode] element:ElementNode [important:Important];
 
 VariantNode = {items:VariantItemNode};
 
-VariantItemNode = [not:Not Hyphen] identifiers:IdentifierNode pseudo:Pseudo;
+VariantItemNode = [not:Not Hyphen] element:ElementNode pseudo:Pseudo;
 
-ElementNode = identifiers:IdentifierNode {Hyphen identifiers:IdentifierNode};
+ElementNode = [negative:Hyphen] identifiers:IdentifierNode {Hyphen identifiers:IdentifierNode};
 
 @string
 Pseudo = ':' | '::';

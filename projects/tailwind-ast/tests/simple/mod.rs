@@ -11,6 +11,7 @@ text(blue(bold!)!)!
 
 hover:text
 not-hover:text
+sm:not-hover:text
 "#;
 
 pub const OUTPUT1: &str = r#"
@@ -20,8 +21,8 @@ text-red!
 text-bold!
 text-red-bold!
 text-blue-bold!
-text
-text
+hover:text
+not-hover:text
 "#;
 
 #[test]

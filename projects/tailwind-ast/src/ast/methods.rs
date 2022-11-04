@@ -14,7 +14,7 @@ impl AstStyle {
         AstStyle {
             important: merge_important(self.important, parent.important),
             negative: merge_negative(self.negative, parent.negative),
-            variants: vec![],
+            variants: self.variants.clone(),
             elements,
             arbitrary: self.arbitrary.clone(),
             children: self.children.clone(),
