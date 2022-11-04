@@ -1,6 +1,8 @@
 use std::collections::BTreeSet;
 
-use peginator::{ParseError, PegParser};
+use peginator::PegParser;
+
+use tailwind_error::TailwindError;
 
 use crate::{
     parser::tw::{
@@ -13,7 +15,7 @@ use crate::{
 mod tw;
 
 /// Parse tailwind text to groups
-pub fn parse(input: &str) -> Result<Vec<AstStyle>, ParseError> {
+pub fn parse(input: &str) -> Result<Vec<AstStyle>, TailwindError> {
     let raw = TwParser::parse(input)?.statements;
     Ok(raw.into_iter().map(|s| s.as_ast()).collect())
 }

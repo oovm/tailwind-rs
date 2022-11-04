@@ -18,6 +18,8 @@ mod for_nom;
 mod for_num;
 #[cfg(feature = "parcel_css")]
 mod for_parcel_css;
+#[cfg(feature = "peginator")]
+mod for_peg;
 #[cfg(feature = "pest")]
 mod for_pest;
 #[cfg(feature = "rsass")]

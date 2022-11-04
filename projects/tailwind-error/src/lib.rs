@@ -3,6 +3,7 @@
 #![allow(clippy::needless_return)]
 
 mod error;
+/// Third party error handler
 pub mod error_3rd;
 
-pub use self::error::{MaybeRanged, Result, TailwindError, TailwindErrorKind};
+pub use self::error::{Result, TailwindError, TailwindErrorKind};
