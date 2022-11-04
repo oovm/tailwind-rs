@@ -2,6 +2,7 @@ mod display;
 // mod from_str;
 mod methods;
 
+use serde::{Deserialize, Serialize};
 use std::{
     cmp::Ordering,
     collections::BTreeSet,
@@ -10,7 +11,7 @@ use std::{
 
 /// `variant:ast-style(grouped!)!`
 /// `not-variant:pseudo::-ast-element-[arbitrary]`
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct AstStyle {
     /// Is this `!important` style, end with `!`
     pub important: bool,
@@ -25,14 +26,14 @@ pub struct AstStyle {
 }
 
 /// `-[.+]`
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct AstArbitrary {
     /// The arbitrary value text
     pub item: String,
 }
 
 ///
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct AstElements {
     /// Is this negative style, start with `-`
     pub negative: bool,
@@ -41,7 +42,7 @@ pub struct AstElements {
 }
 
 /// `(not-)?variant:pseudo::`
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct ASTVariant {
     /// `not-`
     pub not: bool,
@@ -49,16 +50,4 @@ pub struct ASTVariant {
     pub pseudo: bool,
     /// `name-space`
     pub names: Vec<String>,
-}
-
-impl PartialOrd for ASTVariant {
-    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        self.names.partial_cmp(&other.names)
-    }
-}
-
-impl Ord for ASTVariant {
-    fn cmp(&self, other: &Self) -> Ordering {
-        self.names.cmp(&other.names)
-    }
 }

@@ -61,3 +61,15 @@ fn merge_negative(lhs: bool, rhs: bool) -> bool {
         _ => true,
     }
 }
+
+impl PartialOrd for ASTVariant {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        self.names.partial_cmp(&other.names)
+    }
+}
+
+impl Ord for ASTVariant {
+    fn cmp(&self, other: &Self) -> Ordering {
+        self.names.cmp(&other.names)
+    }
+}

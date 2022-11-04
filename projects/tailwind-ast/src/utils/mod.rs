@@ -20,12 +20,15 @@ pub fn eat_arbitrary(s: &str) -> Result<(&str, usize), &'static str> {
     let mut offset = 0;
     let mut depth = 1;
     for char in s.chars() {
+        offset += char.len_utf8();
         match char {
             '[' => depth += 1,
             ']' => depth -= 1,
-            _ => offset += char.len_utf8(),
+            _ => {}
         }
         if depth == 0 {
+            // do not catch last `]`
+            offset -= 1;
             return Ok((&s[0..offset], offset));
         }
     }

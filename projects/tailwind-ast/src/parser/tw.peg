@@ -2,7 +2,7 @@
 TwParser = {statements:TwStatementNode} $;
 
 
-TwStatementNode     =
+TwStatementNode =
 	@:GroupNode     |
 	@:ArbitraryNode |
 	@:InstructNode  ;
@@ -18,7 +18,7 @@ VariantItemNode = [not:Not Hyphen] element:ElementNode pseudo:Pseudo;
 
 ElementNode = [negative:Hyphen] identifiers:IdentifierNode {Hyphen identifiers:IdentifierNode};
 
-ArbitraryItem          =
+ArbitraryItem =
 	@:StringNode       |
 	@:ArbitraryBalance ;
 

@@ -115,6 +115,7 @@ impl ArbitraryNode {
         }
     }
 }
+
 impl ArbitraryItem {
     pub fn as_ast(&self) -> AstArbitrary {
         let item = match self {
