@@ -1,10 +1,11 @@
-use peginator::{ParseError, PegParser};
 use std::collections::BTreeSet;
+
+use peginator::{ParseError, PegParser};
 
 use crate::{
     parser::tw::{
-        ElementNode, GroupNode, InstructNode, TwParser, TwStatementNode, VariantItemNode,
-        VariantNode,
+        ElementNode, GroupNode, InstructNode, StringItem, StringNode, TwParser, TwStatementNode,
+        VariantItemNode, VariantNode,
     },
     ASTVariant, AstArbitrary, AstElements, AstStyle,
 };
@@ -34,7 +35,6 @@ impl GroupNode {
         };
         AstStyle {
             important: self.important.is_some(),
-            negative: false,
             variants,
             elements: self.element.as_ast(),
             arbitrary: AstArbitrary { item: "".to_string() },
@@ -51,7 +51,6 @@ impl InstructNode {
         };
         AstStyle {
             important: self.important.is_some(),
-            negative: false,
             variants,
             elements: self.element.as_ast(),
             arbitrary: AstArbitrary { item: "".to_string() },
@@ -62,7 +61,10 @@ impl InstructNode {
 
 impl ElementNode {
     pub fn as_ast(&self) -> AstElements {
-        AstElements { items: self.identifiers.iter().map(|f| f.to_string()).collect() }
+        AstElements {
+            negative: self.negative.is_some(),
+            items: self.identifiers.iter().map(|f| f.to_string()).collect(),
+        }
     }
 }
 
@@ -74,10 +76,56 @@ impl VariantNode {
 
 impl VariantItemNode {
     pub fn as_ast(&self) -> ASTVariant {
-        ASTVariant {
+        let mut out = ASTVariant {
             not: self.not.is_some(),
-            pseudo: self.pseudo.is_empty(),
+            pseudo: false,
             names: self.element.as_ast().items,
+        };
+        out.pseudo = match self.pseudo.as_str() {
+            "::" => true,
+            _ => check_pseudo(&out.as_view()),
+        };
+        out
+    }
+}
+
+/// https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements#index
+#[inline]
+#[rustfmt::skip]
+fn check_pseudo(names: &[&str]) -> bool {
+    matches!(names
+            , ["after"]
+            | ["before"]
+            | ["backdrop"]
+            | ["marker"]
+            | ["placeholder"]
+            | ["selection"]
+            | ["first", "line"]
+            | ["first", "litter"]
+            | ["first", "selector", "button"]
+            | ["target", "text"]
+        )
+}
+
+impl StringNode {
+    pub fn as_ast(&self) -> String {
+        let mut out = String::new();
+        for x in &self.item {
+            out.push(x.as_ast())
+        }
+        out
+    }
+}
+
+impl StringItem {
+    pub fn as_ast(&self) -> char {
+        match self {
+            StringItem::Any(c) => *c,
+            StringItem::Escaped(c) => match c.any {
+                'r' => '\r',
+                'n' => '\n',
+                _ => c.any,
+            },
         }
     }
 }

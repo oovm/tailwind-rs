@@ -1,12 +1,10 @@
 use super::*;
+use std::fmt::Write;
 
 impl Display for AstStyle {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         for v in &self.variants {
             write!(f, "{}", v)?
-        }
-        if self.negative {
-            write!(f, "-")?
         }
         write!(f, "{}", self.elements)?;
         write!(f, "{}", self.arbitrary)?;
@@ -41,6 +39,9 @@ impl Display for AstArbitrary {
 
 impl Display for AstElements {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        if self.negative {
+            f.write_char('-')?
+        }
         write!(f, "{}", self.items.join("-"))
     }
 }

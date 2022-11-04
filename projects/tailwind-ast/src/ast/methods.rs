@@ -11,9 +11,9 @@ impl AstStyle {
     pub(crate) fn expand_visit(self, parent: &AstStyle) -> AstStyle {
         let mut elements = parent.elements.clone();
         elements.items.extend_from_slice(&self.elements.items);
+        elements.negative = merge_negative(elements.negative, self.elements.negative);
         AstStyle {
             important: merge_important(self.important, parent.important),
-            negative: merge_negative(self.negative, parent.negative),
             variants: self.variants.clone(),
             elements,
             arbitrary: self.arbitrary.clone(),
@@ -40,16 +40,24 @@ impl AstArbitrary {
     }
 }
 
+impl ASTVariant {
+    /// TODO: `&[&str]]`
+    pub fn as_view(&self) -> Vec<&str> {
+        self.names.iter().map(AsRef::as_ref).collect()
+    }
+}
+
 #[inline]
 fn merge_important(lhs: bool, rhs: bool) -> bool {
     lhs || rhs
 }
 
 #[inline]
+#[allow(clippy::match_like_matches_macro)]
 fn merge_negative(lhs: bool, rhs: bool) -> bool {
     match (lhs, rhs) {
-        (true, true) => true,
-        (true, false) | (false, true) => true,
+        (true, true) => false,
         (false, false) => false,
+        _ => true,
     }
 }

@@ -17,6 +17,22 @@ VariantItemNode = [not:Not Hyphen] element:ElementNode pseudo:Pseudo;
 
 ElementNode = [negative:Hyphen] identifiers:IdentifierNode {Hyphen identifiers:IdentifierNode};
 
+ArbitraryNode = '[' StringNode ']';
+
+
+StringNode =
+	"'" {!"'" item:StringItem} "'" |
+	'"' {!'"' item:StringItem} '"' ;
+
+StringItem =
+	@:Escaped |
+	@:Any ;
+
+Escaped = '\\' any:char;
+
+@char
+Any = char;
+
 @string
 Pseudo = ':' | '::';
 

@@ -9,9 +9,9 @@ text(red bold)!
 text-(red-bold!)!
 text(blue(bold!)!)!
 
-hover:text
-not-hover:text
-sm:not-hover:text
+first-line:text
+last-child:text
+not-first-line:not-last-child:text
 "#;
 
 pub const OUTPUT1: &str = r#"
@@ -21,8 +21,9 @@ text-red!
 text-bold!
 text-red-bold!
 text-blue-bold!
-hover:text
-not-hover:text
+first-line::text
+last-child:text
+not-first-line::not-last-child:text
 "#;
 
 #[test]

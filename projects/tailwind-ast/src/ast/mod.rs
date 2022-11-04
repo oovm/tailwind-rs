@@ -12,17 +12,15 @@ use std::{
 /// `not-variant:pseudo::-ast-element-[arbitrary]`
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct AstStyle {
-    /// Is a `!important` style
+    /// Is this `!important` style, end with `!`
     pub important: bool,
-    /// Is a negative style
-    pub negative: bool,
-    ///
+    /// Variants for the style, end with `:` or `::`
     pub variants: BTreeSet<ASTVariant>,
-    ///
+    /// Elements for the style, connect with `-`
     pub elements: AstElements,
-    /// Is a arbitrary value
+    /// Is this a arbitrary value, paired with `[` and `]`
     pub arbitrary: AstArbitrary,
-    ///
+    /// Is this a group, paired with `(` and `)`
     pub children: Vec<AstStyle>,
 }
 
@@ -36,7 +34,9 @@ pub struct AstArbitrary {
 ///
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct AstElements {
-    ///
+    /// Is this negative style, start with `-`
+    pub negative: bool,
+    /// `e1-e2-e3`
     pub items: Vec<String>,
 }
 
