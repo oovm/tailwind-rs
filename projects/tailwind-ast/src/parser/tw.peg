@@ -3,13 +3,20 @@ TwParser = {statements:TwStatementNode} $;
 
 
 TwStatementNode =
-	  @:GroupNode
-	| @:InstructNode
-	;
+	@:GroupNode |
+	@:InstructNode ;
 
-GroupNode = head:InstructNode [Hyphen] '(' {statements:TwStatementNode} ')' [important:Important];
 
-InstructNode = [pseudo:IdentifierNode Pseudo] instructs:IdentifierNode {Hyphen instructs:IdentifierNode} [important:Important];
+GroupNode = [variant:VariantNode] element:ElementNode [Hyphen] '(' {statements:TwStatementNode} ')' [important:Important];
+
+InstructNode = [variant:VariantNode] element:ElementNode [important:Important];
+
+VariantNode = {items:VariantItemNode};
+
+VariantItemNode = identifiers:IdentifierNode pseudo:Pseudo;
+
+ElementNode = identifiers:IdentifierNode {Hyphen identifiers:IdentifierNode};
+
 
 @string
 Pseudo = ':' | '::';

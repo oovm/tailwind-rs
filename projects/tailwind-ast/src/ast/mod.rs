@@ -7,25 +7,6 @@ use std::{
 };
 
 /// `variant:ast-style(grouped!)!`
-#[derive(Clone, Debug, PartialEq)]
-pub struct AstGroup {
-    /// Is a `!important` group
-    pub important: bool,
-    ///
-    pub head: AstStyle,
-    ///
-    pub children: Vec<AstGroupItem>,
-}
-
-/// One of [`AstGroup`] and [`AstStyle`]
-#[derive(Clone, Debug, PartialEq)]
-pub enum AstGroupItem {
-    /// Is grouped node can be expand
-    Grouped(AstGroup),
-    /// Is standalone ast node
-    Styled(AstStyle),
-}
-
 /// `not-variant:pseudo::-ast-element-[arbitrary]`
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct AstStyle {
@@ -38,7 +19,9 @@ pub struct AstStyle {
     ///
     pub elements: Vec<String>,
     /// Is a arbitrary value
-    pub arbitrary: String,
+    pub arbitrary: AstArbitrary,
+    ///
+    pub children: Vec<AstStyle>,
 }
 
 /// `-[.+]`
