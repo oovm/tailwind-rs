@@ -1,22 +1,11 @@
 use peginator::{ParseError, PegParser};
 
 use crate::{
-    expand, expand_hint,
     parser::tw::{ElementNode, GroupNode, InstructNode, TwParser, TwStatementNode},
     AstArbitrary, AstElements, AstStyle,
 };
 
 mod tw;
-
-#[test]
-fn test() {
-    let ast = parse("text(red bold)!\ntext-(red-bold!)!").unwrap();
-    // println!("{:#?}", test);
-    let hint = ast.iter().map(expand_hint).sum();
-    for x in expand(ast, hint).0 {
-        println!("{}", x);
-    }
-}
 
 /// Parse tailwind text to groups
 pub fn parse(input: &str) -> Result<Vec<AstStyle>, ParseError> {

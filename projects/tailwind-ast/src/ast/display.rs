@@ -10,6 +10,9 @@ impl Display for AstStyle {
         }
         write!(f, "{}", self.elements)?;
         write!(f, "{}", self.arbitrary)?;
+        if self.important {
+            write!(f, "!")?
+        }
         Ok(())
     }
 }

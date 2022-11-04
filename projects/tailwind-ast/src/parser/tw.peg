@@ -13,10 +13,9 @@ InstructNode = [variant:VariantNode] element:ElementNode [important:Important];
 
 VariantNode = {items:VariantItemNode};
 
-VariantItemNode = identifiers:IdentifierNode pseudo:Pseudo;
+VariantItemNode = [not:Not Hyphen] identifiers:IdentifierNode pseudo:Pseudo;
 
 ElementNode = identifiers:IdentifierNode {Hyphen identifiers:IdentifierNode};
-
 
 @string
 Pseudo = ':' | '::';
@@ -24,6 +23,8 @@ Pseudo = ':' | '::';
 Hyphen = '-';
 
 Important = '!';
+
+Not = 'not';
 
 @extern(crate::eat_css_class)
 IdentifierNode;

@@ -28,8 +28,10 @@ pub struct AstArbitrary {
     pub item: String,
 }
 
+///
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct AstElements {
+    ///
     pub items: Vec<String>,
 }
 
