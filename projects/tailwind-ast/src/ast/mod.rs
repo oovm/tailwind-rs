@@ -1,10 +1,7 @@
 mod display;
 // mod from_str;
 mod methods;
-use std::{
-    fmt::{Display, Formatter},
-    ops::{Add, AddAssign},
-};
+use std::fmt::{Display, Formatter};
 
 /// `variant:ast-style(grouped!)!`
 /// `not-variant:pseudo::-ast-element-[arbitrary]`
@@ -17,7 +14,7 @@ pub struct AstStyle {
     ///
     pub variants: Vec<ASTVariant>,
     ///
-    pub elements: Vec<String>,
+    pub elements: AstElements,
     /// Is a arbitrary value
     pub arbitrary: AstArbitrary,
     ///
@@ -28,7 +25,12 @@ pub struct AstStyle {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct AstArbitrary {
     /// The arbitrary value text
-    pub arbitrary: String,
+    pub item: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct AstElements {
+    pub items: Vec<String>,
 }
 
 /// `(not-)?variant:pseudo::`

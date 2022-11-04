@@ -1,25 +1,27 @@
-use peginator::PegParser;
+use peginator::{ParseError, PegParser};
 
 use crate::{
-    parser::tw::{GroupNode, InstructNode, TwParser, TwStatementNode},
-    AstArbitrary, AstStyle,
+    expand, expand_hint,
+    parser::tw::{ElementNode, GroupNode, InstructNode, TwParser, TwStatementNode},
+    AstArbitrary, AstElements, AstStyle,
 };
 
 mod tw;
 
 #[test]
 fn test() {
-    let test = TwParser::parse("text(red bold)!\ntext-(red-bold!)!").unwrap();
-    println!("{:#?}", test);
-    for x in test.as_ast() {
+    let ast = parse("text(red bold)!\ntext-(red-bold!)!").unwrap();
+    // println!("{:#?}", test);
+    let hint = ast.iter().map(expand_hint).sum();
+    for x in expand(ast, hint).0 {
         println!("{}", x);
     }
 }
 
-impl TwParser {
-    pub fn as_ast(&self) -> Vec<AstStyle> {
-        self.statements.iter().map(|s| s.as_ast()).collect()
-    }
+/// Parse tailwind text to groups
+pub fn parse(input: &str) -> Result<Vec<AstStyle>, ParseError> {
+    let raw = TwParser::parse(input)?.statements;
+    Ok(raw.into_iter().map(|s| s.as_ast()).collect())
 }
 
 impl TwStatementNode {
@@ -37,9 +39,9 @@ impl GroupNode {
             important: self.important.is_some(),
             negative: false,
             variants: vec![],
-            elements: vec![],
-            arbitrary: AstArbitrary { arbitrary: "".to_string() },
-            children: vec![],
+            elements: self.element.as_ast(),
+            arbitrary: AstArbitrary { item: "".to_string() },
+            children: self.statements.iter().map(|s| s.as_ast()).collect(),
         }
     }
 }
@@ -50,9 +52,15 @@ impl InstructNode {
             important: self.important.is_some(),
             negative: false,
             variants: vec![],
-            elements: vec![],
-            arbitrary: AstArbitrary { arbitrary: "".to_string() },
+            elements: self.element.as_ast(),
+            arbitrary: AstArbitrary { item: "".to_string() },
             children: vec![],
         }
+    }
+}
+
+impl ElementNode {
+    pub fn as_ast(&self) -> AstElements {
+        AstElements { items: self.identifiers.iter().map(|f| f.to_string()).collect() }
     }
 }

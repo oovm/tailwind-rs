@@ -12,4 +12,4 @@ mod ast;
 mod parser;
 mod utils;
 
-pub use self::{ast::*, utils::*};
+pub use self::{ast::*, parser::parse, utils::*};

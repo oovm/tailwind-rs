@@ -8,38 +8,41 @@ impl AstStyle {
     ///   - text-red
     ///   - text-blue
     /// ```
-    pub fn expand(&self) -> Vec<AstStyle> {
-        let mut out = vec![];
-        if self.children.is_empty() {
-            out.push(self.clone());
-            return out;
+    pub(crate) fn expand_visit(self, parent: &AstStyle) -> AstStyle {
+        let mut elements = parent.elements.clone();
+        elements.items.extend_from_slice(&self.elements.items);
+        AstStyle {
+            important: merge_important(self.important, parent.important),
+            negative: merge_negative(self.negative, parent.negative),
+            variants: vec![],
+            elements,
+            arbitrary: self.arbitrary.clone(),
+            children: self.children.clone(),
         }
-        for x in &self.children {
-            out.push(AstStyle {
-                important: merge_important(x.important, self.important),
-                negative: false,
-                variants: vec![],
-                elements: vec![],
-                arbitrary: AstArbitrary { arbitrary: "".to_string() },
-                children: vec![],
-            })
-        }
-        out
     }
 }
 
 impl AstArbitrary {
-    pub fn as_str(&self) -> &str {
-        self.arbitrary.as_str()
+    ///
+    #[inline]
+    pub fn as_class(&self) -> String {
+        self.item.to_string()
     }
+    ///
+    #[inline]
+    pub fn as_str(&self) -> &str {
+        self.item.as_str()
+    }
+    /// Check if the arbitrary is empty
+    #[inline]
     pub fn is_empty(&self) -> bool {
-        self.arbitrary.is_empty()
+        self.item.is_empty()
     }
 }
 
 #[inline]
 fn merge_important(lhs: bool, rhs: bool) -> bool {
-    lhs == true || rhs == true
+    lhs || rhs
 }
 
 #[inline]
