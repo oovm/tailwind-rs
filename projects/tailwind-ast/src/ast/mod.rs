@@ -1,5 +1,5 @@
 mod display;
-mod from_str;
+// mod from_str;
 mod methods;
 use std::{
     fmt::{Display, Formatter},
@@ -38,7 +38,7 @@ pub struct AstStyle {
     ///
     pub elements: Vec<String>,
     /// Is a arbitrary value
-    pub arbitrary: Option<String>,
+    pub arbitrary: String,
 }
 
 /// `-[.+]`
@@ -47,21 +47,6 @@ pub struct AstArbitrary {
     /// The arbitrary value text
     pub arbitrary: String,
 }
-
-/// `ast-elements`
-#[derive(Clone, Debug, PartialEq, Eq, Default)]
-pub struct AstElements {
-    /// `name-space`
-    pub elements: Vec<String>,
-}
-
-/// `&`
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
-pub struct AstReference {}
-
-/// `!`
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
-pub struct AstImportant {}
 
 /// `(not-)?variant:pseudo::`
 #[derive(Clone, Debug, PartialEq, Eq)]

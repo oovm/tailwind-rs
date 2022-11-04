@@ -9,19 +9,20 @@ TwStatementNode =
 
 GroupNode = head:InstructNode [Hyphen] '(' {statements:TwStatementNode} ')' [important:Important];
 
-InstructNode = instructs:IdentifierNode {Hyphen instructs:IdentifierNode} [important:Important];
+InstructNode = [pseudo:IdentifierNode Pseudo] instructs:IdentifierNode {Hyphen instructs:IdentifierNode} [important:Important];
 
-@char
+@string
+Pseudo = ':' | '::';
+
 Hyphen = '-';
 
-@char
-Important = '-';
+Important = '!';
 
 @extern(crate::eat_css_class)
 IdentifierNode;
 
-@char
+
 Dot = '.' | '。';
 
-@char
+
 Split = ';' | ',' | '，';
