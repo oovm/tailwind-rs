@@ -4,7 +4,7 @@ use std::{
     fmt::{Debug, Display, Formatter},
 };
 
-use diagnostic::{DiagnosticLevel, ErrorWithFile, ErrorWithFileSpan};
+use diagnostic::{Diagnostic, DiagnosticLevel, ErrorWithFile, ErrorWithFileSpan};
 
 mod error_std;
 
@@ -48,11 +48,21 @@ pub enum TailwindErrorKind {
 
 impl TailwindError {
     /// Get error kind of this error
-    pub fn kind(&self) -> &TailwindErrorKind {
+    pub fn get_kind(&self) -> &TailwindErrorKind {
         &*self.kind
     }
-    pub fn level(&self) -> DiagnosticLevel {
+    /// Get level
+    pub fn get_level(&self) -> DiagnosticLevel {
         self.level
+    }
+    /// Set
+    pub fn set_level(&mut self, level: DiagnosticLevel) {
+        self.level = level;
+    }
+    /// Build
+    pub fn with_level(mut self, level: DiagnosticLevel) -> Self {
+        self.set_level(level);
+        self
     }
     /// Constructor of [`TailwindErrorKind::Incomplete`]
     #[inline]
@@ -89,19 +99,19 @@ impl TailwindError {
 
 impl TailwindError {
     /// Constructor of [`NoteErrorKind::SyntaxError`]
-    pub fn syntax_error(msg: impl Into<String>) -> TailwindError {
-        let kind = TailwindErrorKind::SyntaxError(msg.into());
+    pub fn syntax_error(error: ErrorWithFileSpan<String>) -> TailwindError {
+        let kind = TailwindErrorKind::SyntaxError(error);
         Self { kind: Box::new(kind), level: Default::default() }
     }
     /// Constructor of [`NoteErrorKind::$t`]
     pub fn type_mismatch(msg: impl Into<String>) -> TailwindError {
         let kind = TailwindErrorKind::TypeMismatch(msg.into());
-        Self { kind: Box::new(kind) }
+        Self { kind: Box::new(kind), level: Default::default() }
     }
     /// Constructor of [`NoteErrorKind::$t`]
     pub fn runtime_error(msg: impl Into<String>) -> TailwindError {
         let kind = TailwindErrorKind::RuntimeError(msg.into());
-        Self { kind: Box::new(kind) }
+        Self { kind: Box::new(kind), level: Default::default() }
     }
 }
 
@@ -113,37 +123,37 @@ impl Display for TailwindError {
     }
 }
 
-impl Display for TailwindErrorKind {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+impl TailwindError {
+    /// Pretty print
+    pub fn as_report(&self) -> Diagnostic {
+        self.kind.as_report(self.level)
+    }
+}
+impl TailwindErrorKind {
+    /// Pretty print
+    pub fn as_report(&self, level: DiagnosticLevel) -> Diagnostic {
         match self {
-            Self::IOError(e) => {
-                write!(f, "{}", e)
+            TailwindErrorKind::IOError(_) => {
+                todo!()
             },
-            Self::FormatError(e) => {
-                write!(f, "{}", e)
+            TailwindErrorKind::FormatError(_) => {
+                todo!()
             },
-            Self::SyntaxError(msg) => {
-                f.write_str("SyntaxError: ")?;
-                f.write_str(msg)
+            TailwindErrorKind::SyntaxError(s) => s.as_report(level, "Syntax Error"),
+            TailwindErrorKind::TypeMismatch(_) => {
+                todo!()
             },
-            Self::TypeMismatch(msg) => {
-                f.write_str("TypeError: ")?;
-                f.write_str(msg)
+            TailwindErrorKind::RuntimeError(_) => {
+                todo!()
             },
-            Self::RuntimeError(msg) => {
-                f.write_str("RuntimeError: ")?;
-                f.write_str(msg)
+            TailwindErrorKind::UndefinedVariable { .. } => {
+                todo!()
             },
-            Self::UndefinedVariable { name } => {
-                write!(f, "RuntimeError: Variable {} not found in scope", name)
+            TailwindErrorKind::Incomplete => {
+                todo!()
             },
-            Self::Incomplete => {
-                f.write_str("InternalError: ")?;
-                f.write_str("Parsing incomplete!")
-            },
-            Self::Unreachable => {
-                f.write_str("InternalError: ")?;
-                f.write_str("Entered unreachable code!")
+            TailwindErrorKind::Unreachable => {
+                todo!()
             },
         }
     }

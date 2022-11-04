@@ -27,13 +27,15 @@ impl From<()> for TailwindError {
 }
 
 impl From<ParseIntError> for TailwindError {
-    fn from(e: ParseIntError) -> Self {
-        Self::syntax_error(e.to_string())
+    fn from(error: ParseIntError) -> Self {
+        let e = ErrorWithFileSpan { error: error.to_string(), file: Default::default(), span: Default::default() };
+        Self::syntax_error(e)
     }
 }
 
 impl From<ParseFloatError> for TailwindError {
-    fn from(e: ParseFloatError) -> Self {
-        Self::syntax_error(e.to_string())
+    fn from(error: ParseFloatError) -> Self {
+        let e = ErrorWithFileSpan { error: error.to_string(), file: Default::default(), span: Default::default() };
+        Self::syntax_error(e)
     }
 }

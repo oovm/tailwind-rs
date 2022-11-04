@@ -1,8 +1,10 @@
 use crate::TailwindError;
 use css_color::ParseColorError;
+use diagnostic::ErrorWithFileSpan;
 
 impl From<ParseColorError> for TailwindError {
     fn from(_: ParseColorError) -> Self {
-        TailwindError::syntax_error("color parse failed")
+        let e = ErrorWithFileSpan::new("color parse failed");
+        TailwindError::syntax_error(e)
     }
 }

@@ -1,8 +1,15 @@
-use crate::TailwindError;
+use diagnostic::{ErrorWithFileSpan, Span};
 use peginator::ParseError;
 
+use crate::TailwindError;
+
 impl From<ParseError> for TailwindError {
-    fn from(e: ParseError) -> Self {
-        TailwindError::syntax_error(e.to_string())
+    fn from(error: ParseError) -> Self {
+        let e = ErrorWithFileSpan {
+            error: error.specifics.to_string(),
+            file: Default::default(),
+            span: Span { start: error.position, end: error.position },
+        };
+        TailwindError::syntax_error(e)
     }
 }
