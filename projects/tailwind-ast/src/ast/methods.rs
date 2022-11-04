@@ -1,6 +1,6 @@
 use super::*;
 
-impl<'a> AstStyle<'a> {
+impl AstStyle {
     ///
     #[inline]
     pub fn is_self_reference(&self) -> bool {
@@ -8,10 +8,10 @@ impl<'a> AstStyle<'a> {
     }
 }
 
-impl<'a> AstGroup<'a> {
+impl AstGroup {
     ///
     #[inline]
-    pub fn expand(self, styles: &mut Vec<AstStyle<'a>>) {
+    pub fn expand(self, styles: &mut Vec<AstStyle>) {
         let head = &self.head;
         for item in self.children {
             item.expand_with_head(styles, head)
@@ -19,20 +19,20 @@ impl<'a> AstGroup<'a> {
     }
 }
 
-impl<'a> Add<AstGroup<'a>> for AstStyle<'a> {
-    type Output = AstGroup<'a>;
+impl Add<AstGroup> for AstStyle {
+    type Output = AstGroup;
     #[inline]
-    fn add(self, rhs: AstGroup<'a>) -> Self::Output {
+    fn add(self, rhs: AstGroup) -> Self::Output {
         let mut head = self;
         head.add_assign(&rhs.head);
         AstGroup { important: false, head, children: rhs.children }
     }
 }
 
-impl<'a> AstGroupItem<'a> {
+impl AstGroupItem {
     ///
     #[inline]
-    pub fn expand(self, styles: &mut Vec<AstStyle<'a>>) {
+    pub fn expand(self, styles: &mut Vec<AstStyle>) {
         match self {
             Self::Grouped(g) => g.expand(styles),
             Self::Styled(rhs) => styles.push(rhs),
@@ -41,7 +41,7 @@ impl<'a> AstGroupItem<'a> {
 
     ///
     #[inline]
-    pub fn expand_with_head(self, styles: &mut Vec<AstStyle<'a>>, head: &AstStyle<'a>) {
+    pub fn expand_with_head(self, styles: &mut Vec<AstStyle>, head: &AstStyle) {
         match self {
             Self::Grouped(g) => {
                 let new = head.clone().add(g);
@@ -56,9 +56,9 @@ impl<'a> AstGroupItem<'a> {
     }
 }
 
-impl<'a> AddAssign<&AstStyle<'a>> for AstStyle<'a> {
+impl<'a> AddAssign<&AstStyle> for AstStyle {
     #[inline]
-    fn add_assign(&mut self, rhs: &AstStyle<'a>) {
+    fn add_assign(&mut self, rhs: &AstStyle) {
         self.negative = merge_negative(self.negative, rhs.negative);
         self.variants.extend(rhs.variants.iter().cloned());
         self.arbitrary = self.arbitrary.or(self.arbitrary);

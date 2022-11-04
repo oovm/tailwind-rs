@@ -1,8 +1,21 @@
-use nom::error::{ErrorKind, ParseError};
-
 use super::*;
 
-impl<'a> AstGroup<'a> {
+/// Decompose a string into tailwind instructions
+pub fn parse_tailwind(input: &str) -> Result<Vec<AstStyle>, Err<Error<&str>>> {
+    let rest = many0(tuple((multispace1, AstGroupItem::parse)));
+    let (head, groups) = match tuple((AstGroupItem::parse, rest))(input.trim()) {
+        Ok(o) => o.1,
+        Err(e) => return Err(e),
+    };
+    let mut out = vec![];
+    head.expand(&mut out);
+    for (_, g) in groups {
+        g.expand(&mut out)
+    }
+    Ok(out)
+}
+
+impl AstGroup<'a> {
     /// `v:a?(a(a b))[!]?`
     #[inline]
     pub fn parse(input: &'a str) -> IResult<&'a str, Self> {

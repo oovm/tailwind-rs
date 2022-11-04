@@ -1,40 +1,14 @@
 mod display;
 mod from_str;
 mod methods;
-mod parse;
 #[cfg(test)]
 mod tests;
-use nom::{
-    branch::alt,
-    bytes::complete::{tag, take_till1},
-    character::complete::{alphanumeric1, char, multispace1},
-    combinator::opt,
-    error::Error,
-    multi::{many0, separated_list0},
-    sequence::{delimited, tuple},
-    Err, IResult,
-};
 use std::{
     fmt::{Display, Formatter},
     ops::{Add, AddAssign},
 };
 
-/// Decompose a string into tailwind instructions
-pub fn parse_tailwind(input: &str) -> Result<Vec<AstStyle>, Err<Error<&str>>> {
-    let rest = many0(tuple((multispace1, AstGroupItem::parse)));
-    let (head, groups) = match tuple((AstGroupItem::parse, rest))(input.trim()) {
-        Ok(o) => o.1,
-        Err(e) => return Err(e),
-    };
-    let mut out = vec![];
-    head.expand(&mut out);
-    for (_, g) in groups {
-        g.expand(&mut out)
-    }
-    Ok(out)
-}
-
-/// `variant:ast-style(grouped)`
+/// `variant:ast-style(grouped!)!`
 #[derive(Clone, Debug, PartialEq)]
 pub struct AstGroup {
     /// Is a `!important` group

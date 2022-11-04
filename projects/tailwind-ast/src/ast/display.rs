@@ -1,13 +1,13 @@
 use super::*;
 
-impl<'a> Display for AstGroup<'a> {
+impl Display for AstGroup {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let children: Vec<_> = self.children.iter().map(|s| s.to_string()).collect();
         write!(f, "{}({})", self.head, children.join(" "))
     }
 }
 
-impl<'a> Display for AstGroupItem<'a> {
+impl Display for AstGroupItem {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::Grouped(g) => Display::fmt(g, f),
@@ -16,7 +16,7 @@ impl<'a> Display for AstGroupItem<'a> {
     }
 }
 
-impl<'a> Display for AstStyle<'a> {
+impl Display for AstStyle {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         for v in &self.variants {
             write!(f, "{}", v)?
@@ -25,7 +25,7 @@ impl<'a> Display for AstStyle<'a> {
             write!(f, "-")?
         }
         write!(f, "{}", self.elements.join("-"))?;
-        match self.arbitrary {
+        match &self.arbitrary {
             None => {}
             Some(s) => write!(f, "-[{}]", s)?,
         }
@@ -33,7 +33,7 @@ impl<'a> Display for AstStyle<'a> {
     }
 }
 
-impl<'a> Display for ASTVariant<'a> {
+impl Display for ASTVariant {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         if self.not {
             write!(f, "not-")?

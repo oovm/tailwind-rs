@@ -1,10 +1,3 @@
-use nom::{
-    bytes::complete::tag,
-    character::complete::{char, digit1},
-    combinator::{map_res, opt, recognize},
-    sequence::tuple,
-    IResult,
-};
 use std::str::FromStr;
 #[cfg(test)]
 mod tests;

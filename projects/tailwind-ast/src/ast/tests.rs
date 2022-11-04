@@ -83,6 +83,7 @@ fn test_style() {
 fn test_group() {
     let input = AstGroup::parse("w(full sm:auto)").unwrap().1;
     let output = AstGroup {
+        important: false,
         head: AstStyle { negative: false, variants: vec![], elements: vec!["w"], arbitrary: None },
         children: vec![
             Styled(AstStyle {
