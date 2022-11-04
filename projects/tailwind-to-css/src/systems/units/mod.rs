@@ -1,9 +1,9 @@
 use std::fmt::{Display, Formatter};
 
+use crate::{TailwindBuilder, TailwindInstance};
 use nom::{branch::alt, bytes::complete::tag, sequence::tuple, IResult};
-use tailwind_error::TailwindError;
-
 use tailwind_ast::parse_f32;
+use tailwind_error::TailwindError;
 
 pub use self::{
     anchor::AnchorPoint,

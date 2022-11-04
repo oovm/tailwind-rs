@@ -1,6 +1,4 @@
 use super::*;
-use crate::{TailwindBuilder, TailwindInstance};
-use std::collections::BTreeSet;
 
 mod traits;
 
@@ -11,7 +9,7 @@ pub enum StandardValue {
     Arbitrary(TailwindArbitrary),
 }
 
-pub type KeywordMap = &'static [(&'static str, Some(&'static str))];
+pub type KeywordMap = &'static [(&'static str, Option<&'static str>)];
 
 #[derive(Default, Debug, Clone)]
 pub struct KeywordInstance {

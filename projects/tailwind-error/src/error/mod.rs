@@ -2,7 +2,7 @@ use std::{
     borrow::Cow,
     convert::Infallible,
     error::Error,
-    fmt::{self, Debug, Display, Formatter},
+    fmt::{Debug, Display, Formatter},
     ops::Range,
     path::PathBuf,
 };

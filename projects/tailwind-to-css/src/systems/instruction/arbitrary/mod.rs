@@ -8,6 +8,12 @@ pub struct TailwindArbitrary {
     inner: Box<str>,
 }
 
+impl Default for TailwindArbitrary {
+    fn default() -> Self {
+        Self { inner: Box::from("") }
+    }
+}
+
 impl Display for TailwindArbitrary {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.write_char('[')?;
