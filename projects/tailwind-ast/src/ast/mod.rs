@@ -1,8 +1,6 @@
 mod display;
 mod from_str;
 mod methods;
-#[cfg(test)]
-mod tests;
 use std::{
     fmt::{Display, Formatter},
     ops::{Add, AddAssign},

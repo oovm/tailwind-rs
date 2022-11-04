@@ -4,7 +4,10 @@ impl AstStyle {
     ///
     #[inline]
     pub fn is_self_reference(&self) -> bool {
-        matches!(self.elements.as_slice(), ["&"])
+        match self.elements.as_slice().first() {
+            Some(s) => s.as_str() == "&",
+            None => false,
+        }
     }
 }
 
@@ -56,12 +59,12 @@ impl AstGroupItem {
     }
 }
 
-impl<'a> AddAssign<&AstStyle> for AstStyle {
+impl AddAssign<&AstStyle> for AstStyle {
     #[inline]
     fn add_assign(&mut self, rhs: &AstStyle) {
         self.negative = merge_negative(self.negative, rhs.negative);
         self.variants.extend(rhs.variants.iter().cloned());
-        self.arbitrary = self.arbitrary.or(self.arbitrary);
+        self.arbitrary = self.arbitrary.clone().or_else(|| self.arbitrary.clone());
         match rhs.is_self_reference() {
             true => {}
             false => self.elements.extend(rhs.elements.iter().cloned()),

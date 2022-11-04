@@ -1,36 +1,24 @@
 @export
 TwParser = {statements:TwStatementNode} $;
 
+
 TwStatementNode =
-	| @:InstructNode
+	  @:GroupNode
 	| @:InstructNode
 	;
 
-@string
-@position
-@no_skip_ws
-InstructNode = instructs:IdentifierNode {Hyphen instructs:IdentifierNode};
+GroupNode = head:InstructNode [Hyphen] '(' {statements:TwStatementNode} ')' [important:Important];
+
+InstructNode = instructs:IdentifierNode {Hyphen instructs:IdentifierNode} [important:Important];
 
 @char
 Hyphen = '-';
 
-@string
-@position
-@no_skip_ws
-IdentifierNode = (XID_START | '_') {XID_CONTINUE};
-
-@string
-@position
-SpecialNode = 'null' | 'default' | 'true' | 'false';
-
-
 @char
-@check(unicode_ident::is_xid_start)
-XID_START = char;
+Important = '-';
 
-@char
-@check(unicode_ident::is_xid_continue)
-XID_CONTINUE = char;
+@extern(crate::eat_css_class)
+IdentifierNode;
 
 @char
 Dot = '.' | '。';
