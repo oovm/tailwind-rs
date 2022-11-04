@@ -15,6 +15,23 @@ pub fn eat_css_class(s: &str) -> Result<(&str, usize), &'static str> {
     }
 }
 
+/// Catch any valid css class
+pub fn eat_arbitrary(s: &str) -> Result<(&str, usize), &'static str> {
+    let mut offset = 0;
+    let mut depth = 1;
+    for char in s.chars() {
+        match char {
+            '[' => depth += 1,
+            ']' => depth -= 1,
+            _ => offset += char.len_utf8(),
+        }
+        if depth == 0 {
+            return Ok((&s[0..offset], offset));
+        }
+    }
+    Err("arbitrary unbalance")
+}
+
 /// Expand ast group to single elements
 pub fn expand(groups: &mut Vec<AstStyle>, hint_size: usize) -> usize {
     let mut count = 0;

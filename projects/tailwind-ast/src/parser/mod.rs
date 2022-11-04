@@ -4,8 +4,8 @@ use peginator::{ParseError, PegParser};
 
 use crate::{
     parser::tw::{
-        ElementNode, GroupNode, InstructNode, StringItem, StringNode, TwParser, TwStatementNode,
-        VariantItemNode, VariantNode,
+        ArbitraryItem, ArbitraryNode, ElementNode, GroupNode, InstructNode, StringItem, StringNode,
+        TwParser, TwStatementNode, VariantItemNode, VariantNode,
     },
     ASTVariant, AstArbitrary, AstElements, AstStyle,
 };
@@ -23,19 +23,16 @@ impl TwStatementNode {
         match self {
             TwStatementNode::GroupNode(v) => v.as_ast(),
             TwStatementNode::InstructNode(v) => v.as_ast(),
+            TwStatementNode::ArbitraryNode(v) => v.as_ast(),
         }
     }
 }
 
 impl GroupNode {
     pub fn as_ast(&self) -> AstStyle {
-        let variants = match &self.variant {
-            Some(s) => s.as_ast(),
-            None => Default::default(),
-        };
         AstStyle {
             important: self.important.is_some(),
-            variants,
+            variants: eat_variant(&self.variant),
             elements: self.element.as_ast(),
             arbitrary: AstArbitrary { item: "".to_string() },
             children: self.statements.iter().map(|s| s.as_ast()).collect(),
@@ -107,6 +104,27 @@ fn check_pseudo(names: &[&str]) -> bool {
         )
 }
 
+impl ArbitraryNode {
+    pub fn as_ast(&self) -> AstStyle {
+        AstStyle {
+            important: self.important.is_some(),
+            variants: eat_variant(&self.variant),
+            elements: self.element.as_ast(),
+            arbitrary: self.item.as_ast(),
+            children: vec![],
+        }
+    }
+}
+impl ArbitraryItem {
+    pub fn as_ast(&self) -> AstArbitrary {
+        let item = match self {
+            ArbitraryItem::ArbitraryBalance(v) => v.to_string(),
+            ArbitraryItem::StringNode(v) => v.as_ast(),
+        };
+        AstArbitrary { item }
+    }
+}
+
 impl StringNode {
     pub fn as_ast(&self) -> String {
         let mut out = String::new();
@@ -127,5 +145,12 @@ impl StringItem {
                 _ => c.any,
             },
         }
+    }
+}
+
+fn eat_variant(variant: &Option<VariantNode>) -> BTreeSet<ASTVariant> {
+    match variant {
+        Some(s) => s.as_ast(),
+        None => Default::default(),
     }
 }

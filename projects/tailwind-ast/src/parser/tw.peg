@@ -2,14 +2,15 @@
 TwParser = {statements:TwStatementNode} $;
 
 
-TwStatementNode =
-	@:GroupNode |
-	@:InstructNode ;
+TwStatementNode     =
+	@:GroupNode     |
+	@:ArbitraryNode |
+	@:InstructNode  ;
 
+GroupNode     = [variant:VariantNode] element:ElementNode [Hyphen] '(' {statements:TwStatementNode} ')' [important:Important];
+ArbitraryNode = [variant:VariantNode] element:ElementNode [Hyphen] '[' item:ArbitraryItem ']' [important:Important];
+InstructNode  = [variant:VariantNode] element:ElementNode [important:Important];
 
-GroupNode = [variant:VariantNode] element:ElementNode [Hyphen] '(' {statements:TwStatementNode} ')' [important:Important];
-
-InstructNode = [variant:VariantNode] element:ElementNode [important:Important];
 
 VariantNode = {items:VariantItemNode};
 
@@ -17,9 +18,14 @@ VariantItemNode = [not:Not Hyphen] element:ElementNode pseudo:Pseudo;
 
 ElementNode = [negative:Hyphen] identifiers:IdentifierNode {Hyphen identifiers:IdentifierNode};
 
-ArbitraryNode = '[' StringNode ']';
+ArbitraryItem          =
+	@:StringNode       |
+	@:ArbitraryBalance ;
 
+@extern(crate::eat_arbitrary)
+ArbitraryBalance;
 
+@no_skip_ws
 StringNode =
 	"'" {!"'" item:StringItem} "'" |
 	'"' {!'"' item:StringItem} '"' ;
