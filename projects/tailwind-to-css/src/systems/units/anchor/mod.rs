@@ -44,7 +44,7 @@ impl AnchorPoint {
         Ok(out)
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self::Arbitrary(TailwindArbitrary::new(arbitrary)?))
+        Ok(Self::Arbitrary(TailwindArbitrary::from(arbitrary)))
     }
 
     pub fn get_class(&self) -> String {

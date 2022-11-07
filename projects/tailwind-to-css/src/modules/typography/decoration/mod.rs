@@ -28,7 +28,7 @@ impl TailwindDecoration {
                 TailwindDecorationColor::from(color).boxed()
             },
             // https://tailwindcss.com/docs/text-decoration-thickness
-            [] => TailwindDecoration { arbitrary: TailwindArbitrary::new(arbitrary)? }.boxed(),
+            [] => TailwindDecoration { arbitrary: TailwindArbitrary::from(arbitrary) }.boxed(),
             [n] => resolve1(n)?,
             _ => TailwindDecorationColor::parse(pattern, arbitrary)?.boxed(),
         };

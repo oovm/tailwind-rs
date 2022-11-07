@@ -1,0 +1,4 @@
+not-hover:sm:text-red-[200/50]
+w(full sm:auto)
+rotate(-3 hover:6 md:(3 hover:-6))
+bg-blue-500(hover:& focus:& active:&)

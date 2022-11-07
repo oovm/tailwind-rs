@@ -1,0 +1,1 @@
+not-hover:sm:text-red-[200/50]

@@ -28,7 +28,7 @@ impl KeywordInstance {
         arbitrary: &'i TailwindArbitrary,
     ) -> Result<()> {
         let value = match pattern {
-            [] => StandardValue::Arbitrary(TailwindArbitrary::new(arbitrary)?),
+            [] => StandardValue::Arbitrary(TailwindArbitrary::from(arbitrary)),
             _ => {
                 let keyword = pattern.join("-");
 
@@ -56,7 +56,7 @@ impl StandardValue {
         }
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self::Arbitrary(TailwindArbitrary::new(arbitrary)?))
+        Ok(Self::Arbitrary(TailwindArbitrary::from(arbitrary)))
     }
     pub fn parse_keyword(pattern: &[&str], id: &str, checker: &'static impl Fn(&str) -> bool) -> Result<Self> {
         let keyword = pattern.join("-");

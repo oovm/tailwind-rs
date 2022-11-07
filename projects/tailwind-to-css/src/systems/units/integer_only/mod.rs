@@ -30,10 +30,7 @@ impl NumericValue {
 }
 
 impl NumericValue {
-    pub fn negative_parser(
-        id: &'static str,
-        checker: impl Fn(&str) -> bool,
-    ) -> impl Fn(&[&str], &TailwindArbitrary, Negative) -> Result<Self> {
+    pub fn negative_parser(id: &'static str, checker: impl Fn(&str) -> bool) -> impl Fn(&[&str], &TailwindArbitrary, Negative) -> Result<Self> {
         move |pattern: &[&str], arbitrary: &TailwindArbitrary, negative: Negative| {
             let joined = pattern.join("-");
             match pattern {
@@ -44,10 +41,7 @@ impl NumericValue {
             }
         }
     }
-    pub fn positive_parser(
-        id: &'static str,
-        checker: impl Fn(&str) -> bool,
-    ) -> impl Fn(&[&str], &TailwindArbitrary) -> Result<Self> {
+    pub fn positive_parser(id: &'static str, checker: impl Fn(&str) -> bool) -> impl Fn(&[&str], &TailwindArbitrary) -> Result<Self> {
         move |pattern: &[&str], arbitrary: &TailwindArbitrary| {
             let joined = pattern.join("-");
             match pattern {
@@ -62,7 +56,7 @@ impl NumericValue {
         }
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self::Arbitrary(TailwindArbitrary::new(arbitrary)?))
+        Ok(Self::Arbitrary(TailwindArbitrary::from(arbitrary)))
     }
     pub fn parse_number(n: &str, negative: Negative) -> Result<Self> {
         let mut n = TailwindArbitrary::from(n).as_float()?;

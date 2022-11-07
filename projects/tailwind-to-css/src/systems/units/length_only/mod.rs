@@ -100,7 +100,7 @@ impl UnitValue {
         }
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self::Arbitrary(TailwindArbitrary::new(arbitrary)?))
+        Ok(Self::Arbitrary(TailwindArbitrary::from(arbitrary)))
     }
     pub fn parse_number(n: &str, negative: Negative, is_length: bool, is_integer: bool, can_be_fraction: bool) -> Result<Self> {
         let a = TailwindArbitrary::from(n);

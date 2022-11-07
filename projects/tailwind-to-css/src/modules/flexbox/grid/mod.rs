@@ -50,7 +50,7 @@ impl GridTemplate {
         Ok(kind)
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self::Arbitrary(TailwindArbitrary::new(arbitrary)?))
+        Ok(Self::Arbitrary(TailwindArbitrary::from(arbitrary)))
     }
     pub fn get_properties(&self) -> String {
         match self {

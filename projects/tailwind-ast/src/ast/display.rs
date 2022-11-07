@@ -1,5 +1,4 @@
 use super::*;
-use std::fmt::Write;
 
 impl Display for AstStyle {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -29,4 +28,3 @@ impl Display for TailwindVariant {
         }
     }
 }
-

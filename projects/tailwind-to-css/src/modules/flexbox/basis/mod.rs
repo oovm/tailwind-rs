@@ -79,7 +79,7 @@ impl Basis {
         Ok(out)
     }
     pub fn parse_arbitrary(arbitrary: &TailwindArbitrary) -> Result<Self> {
-        Ok(Self::Arbitrary(TailwindArbitrary::new(arbitrary)?))
+        Ok(Self::Arbitrary(TailwindArbitrary::from(arbitrary)))
     }
     fn maybe_float(arbitrary: &TailwindArbitrary) -> Result<Self> {
         Ok(Self::Number(arbitrary.as_float()?))
