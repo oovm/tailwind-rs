@@ -1,10 +1,11 @@
-use super::*;
 use std::fmt::Write;
-use tailwind_error::TailwindError;
 
+use tailwind_error::{error_3rd::Srgb, Result};
+
+use super::*;
+
+mod from;
 mod methods;
-
-
 
 impl Default for TailwindArbitrary {
     fn default() -> Self {
@@ -25,36 +26,8 @@ impl Display for TailwindArbitrary {
     }
 }
 
-impl From<&str> for TailwindArbitrary {
-    fn from(s: &str) -> Self {
-        Self { inner: Box::from(s) }
-    }
-}
-
-impl From<&Self> for TailwindArbitrary {
-    fn from(s: &Self) -> Self {
-        Self { inner: s.inner.clone() }
-    }
-}
-
 impl TailwindArbitrary {
-    pub fn new<T>(s: T) -> Result<Self>
-    where
-        T: Into<Self>,
-    {
-        let out = s.into();
-        if cfg!(compile_time) {
-            if out.inner.is_empty() {
-                return Err(TailwindError::syntax_error("Arbitrary value cannot be empty"));
-            }
-            // TODO: Check unbalanced quotes
-            if out.inner.contains('\n') {
-                return Err(TailwindError::syntax_error("Arbitrary value does balance quotes"));
-            }
-        }
-        Ok(out)
-    }
-
+    /// Get class name of arbitrary
     pub fn get_class(&self) -> String {
         let mut class = String::with_capacity(self.inner.len() + 2);
         class.push('[');
@@ -67,12 +40,15 @@ impl TailwindArbitrary {
         class.push(']');
         class
     }
+    /// Write arbitrary into formatter
     pub fn write(&self, f: &mut Formatter) -> std::fmt::Result {
         self.write_class(f, "")
     }
+    /// Write class name into formatter
     pub fn write_class(&self, f: &mut Formatter, before: &str) -> std::fmt::Result {
         write!(f, "{}{}", before, self.get_class())
     }
+    /// Get properties of arbitrary
     pub fn get_properties(&self) -> String {
         self.inner.to_string()
     }

@@ -1,6 +1,9 @@
 @export
 TwParser = {statements:TwStatementNode} $;
 
+@export
+TwFraction = lhs:IntegerNode '/' rhs:IntegerNode $;
+
 
 TwStatementNode =
 	@:GroupNode     |
@@ -47,6 +50,10 @@ Hyphen = '-';
 Important = '!';
 
 Not = 'not';
+
+@string
+@no_skip_ws
+IntegerNode = {'0'..'9'};
 
 @extern(crate::eat_css_class)
 IdentifierNode;

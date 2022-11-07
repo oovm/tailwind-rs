@@ -1,11 +1,12 @@
 use super::*;
+use tailwind_ast::TailwindElements;
 
-impl<'a> From<AstStyle<'a>> for TailwindInstruction {
-    fn from(node: AstStyle<'a>) -> Self {
+impl From<AstStyle> for TailwindInstruction {
+    fn from(node: AstStyle) -> Self {
         Self {
             negative: Negative::from(node.negative),
             variants: node.variants.into_iter().map(|s| s.into()).collect(),
-            elements: TailwindElements { inner: node.elements.into_iter().map(|s| s.to_string()).collect() },
+            elements: TailwindElements { items: node.elements.into_iter().map(|s| s.to_string()).collect() },
             arbitrary: TailwindArbitrary::from(node.arbitrary.unwrap_or_default()),
         }
     }
@@ -14,7 +15,7 @@ impl<'a> From<AstStyle<'a>> for TailwindInstruction {
 impl TailwindInstruction {
     #[inline]
     pub fn view_elements(&self) -> Vec<&str> {
-        self.elements.inner.iter().map(|s| s.as_str()).collect()
+        self.elements.items.iter().map(|s| s.as_str()).collect()
     }
     #[inline]
     pub fn view_arbitrary(&self) -> &TailwindArbitrary {

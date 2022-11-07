@@ -1,7 +1,5 @@
 use std::ops::Rem;
 
-use tailwind_ast::parse_fraction;
-
 use super::*;
 
 #[derive(Debug, Copy, Clone)]

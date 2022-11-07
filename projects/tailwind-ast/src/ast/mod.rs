@@ -1,7 +1,7 @@
 use std::{
     cmp::Ordering,
     collections::BTreeSet,
-    fmt::{Display, Formatter},
+    fmt::{Display, Formatter, Write},
 };
 
 use serde::{Deserialize, Serialize};
@@ -9,6 +9,7 @@ use serde::{Deserialize, Serialize};
 mod display;
 // mod from_str;
 mod arbitrary;
+mod elements;
 mod methods;
 
 /// `variant:ast-style(grouped!)!`
@@ -20,7 +21,7 @@ pub struct AstStyle {
     /// Variants for the style, end with `:` or `::`
     pub variants: BTreeSet<TailwindVariant>,
     /// Elements for the style, connect with `-`
-    pub elements: AstElements,
+    pub elements: TailwindElements,
     /// Is this a arbitrary value, paired with `[` and `]`
     pub arbitrary: TailwindArbitrary,
     /// Is this a group, paired with `(` and `)`
@@ -29,7 +30,7 @@ pub struct AstStyle {
 
 ///
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
-pub struct AstElements {
+pub struct TailwindElements {
     /// Is this negative style, start with `-`
     pub negative: bool,
     /// `e1-e2-e3`

@@ -10,8 +10,7 @@ pub use self::{
     size::TailwindBackgroundSize,
 };
 use crate::{
-    css_attributes, AnchorPoint, CssAttributes, Result, StandardValue, TailwindArbitrary, TailwindBuilder, TailwindColor,
-    TailwindInstance,
+    css_attributes, AnchorPoint, CssAttributes, Result, StandardValue, TailwindArbitrary, TailwindBuilder, TailwindColor, TailwindInstance,
 };
 use std::{
     collections::BTreeSet,

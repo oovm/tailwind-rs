@@ -7,7 +7,9 @@ impl Display for AstStyle {
             write!(f, "{}", v)?
         }
         write!(f, "{}", self.elements)?;
-        write!(f, "{}", self.arbitrary)?;
+        if self.arbitrary.is_some() {
+            write!(f, "-{}", self.arbitrary)?;
+        }
         if self.important {
             write!(f, "!")?
         }
@@ -28,20 +30,3 @@ impl Display for TailwindVariant {
     }
 }
 
-impl Display for TailwindArbitrary {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        if !self.item.is_empty() {
-            write!(f, "-[{}]", self.item.as_str())?
-        }
-        Ok(())
-    }
-}
-
-impl Display for AstElements {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        if self.negative {
-            f.write_char('-')?
-        }
-        write!(f, "{}", self.items.join("-"))
-    }
-}

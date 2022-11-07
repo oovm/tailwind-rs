@@ -22,24 +22,6 @@ impl AstStyle {
     }
 }
 
-impl TailwindArbitrary {
-    ///
-    #[inline]
-    pub fn as_class(&self) -> String {
-        self.item.to_string()
-    }
-    ///
-    #[inline]
-    pub fn as_str(&self) -> &str {
-        self.item.as_str()
-    }
-    /// Check if the arbitrary is empty
-    #[inline]
-    pub fn is_empty(&self) -> bool {
-        self.item.is_empty()
-    }
-}
-
 impl TailwindVariant {
     /// TODO: `&[&str]]`
     pub fn as_view(&self) -> Vec<&str> {

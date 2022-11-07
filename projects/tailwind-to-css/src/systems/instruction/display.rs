@@ -27,26 +27,3 @@ impl TailwindInstance for TailwindInstruction {
         out
     }
 }
-
-impl Display for TailwindVariant {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        if self.not {
-            write!(f, "not-")?
-        }
-        write!(f, "{}", self.names.join("-"))?;
-        match self.pseudo {
-            true => {
-                write!(f, "::")
-            },
-            false => {
-                write!(f, ":")
-            },
-        }
-    }
-}
-
-impl Display for TailwindElements {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.inner.join("-"))
-    }
-}

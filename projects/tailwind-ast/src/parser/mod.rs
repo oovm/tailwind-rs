@@ -1,4 +1,4 @@
-use std::collections::BTreeSet;
+use std::{collections::BTreeSet, str::FromStr};
 
 use peginator::PegParser;
 
@@ -7,9 +7,9 @@ use tailwind_error::TailwindError;
 use crate::{
     parser::tw::{
         ArbitraryItem, ArbitraryNode, ElementNode, GroupNode, InstructNode, StringItem, StringNode,
-        TwParser, TwStatementNode, VariantItemNode, VariantNode,
+        TwFraction, TwParser, TwStatementNode, VariantItemNode, VariantNode,
     },
-    TailwindArbitrary, AstElements, AstStyle, TailwindVariant,
+    AstStyle, TailwindArbitrary, TailwindElements, TailwindVariant,
 };
 
 #[allow(clippy::enum_variant_names)]
@@ -37,7 +37,8 @@ impl GroupNode {
             important: self.important.is_some(),
             variants: eat_variant(&self.variant),
             elements: self.element.as_ast(),
-            arbitrary: TailwindArbitrary { item: "".to_string() },
+            // group has no arbitrary
+            arbitrary: TailwindArbitrary::default(),
             children: self.statements.iter().map(|s| s.as_ast()).collect(),
         }
     }
@@ -53,15 +54,17 @@ impl InstructNode {
             important: self.important.is_some(),
             variants,
             elements: self.element.as_ast(),
-            arbitrary: TailwindArbitrary { item: "".to_string() },
+            // instruct has no arbitrary
+            arbitrary: TailwindArbitrary::default(),
+            // instruct has no group
             children: vec![],
         }
     }
 }
 
 impl ElementNode {
-    pub fn as_ast(&self) -> AstElements {
-        AstElements {
+    pub fn as_ast(&self) -> TailwindElements {
+        TailwindElements {
             negative: self.negative.is_some(),
             items: self.identifiers.iter().map(|f| f.to_string()).collect(),
         }
@@ -125,7 +128,7 @@ impl ArbitraryItem {
             ArbitraryItem::ArbitraryBalance(v) => v.to_string(),
             ArbitraryItem::StringNode(v) => v.as_ast(),
         };
-        TailwindArbitrary { item }
+        TailwindArbitrary::from(item)
     }
 }
 
@@ -156,5 +159,16 @@ fn eat_variant(variant: &Option<VariantNode>) -> BTreeSet<TailwindVariant> {
     match variant {
         Some(s) => s.as_ast(),
         None => Default::default(),
+    }
+}
+
+impl TailwindArbitrary {
+    /// Turn Arbitrary into fraction
+    #[inline]
+    pub fn as_fraction(&self) -> Option<(usize, usize)> {
+        let frac = TwFraction::parse(self.as_str()).ok()?;
+        let lhs = usize::from_str(&frac.lhs).ok()?;
+        let rhs = usize::from_str(&frac.rhs).ok()?;
+        Some((lhs, rhs))
     }
 }
