@@ -1,0 +1,1 @@
+outer::text-(inner:blue-[50%] red[])

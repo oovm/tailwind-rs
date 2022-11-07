@@ -7,3 +7,4 @@ mod error;
 pub mod error_3rd;
 
 pub use self::error::{Result, TailwindError, TailwindErrorKind};
+pub use diagnostic::TextStorage;

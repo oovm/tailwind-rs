@@ -28,7 +28,7 @@ peginator = { version = "0.3.0", optional = true }
 [dependencies.diagnostic]
 #version = "0.3.6"
 git = "https://github.com/oovm/diagnostic-rs"
-rev = "2fc36ed5"
+rev = "b2bc260a"
 
 [dev-dependencies]
 

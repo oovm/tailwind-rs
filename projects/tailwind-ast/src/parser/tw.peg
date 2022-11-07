@@ -40,7 +40,7 @@ Escaped = '\\' any:char;
 Any = char;
 
 @string
-Pseudo = ':' | '::';
+Pseudo = '::' | ':';
 
 Hyphen = '-';
 

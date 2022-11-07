@@ -4,9 +4,17 @@ use std::{
     fmt::{Debug, Display, Formatter},
 };
 
-use diagnostic::{Diagnostic, DiagnosticLevel, ErrorWithFile, ErrorWithFileSpan};
+use diagnostic::{
+    term::{
+        emit,
+        termcolor::{ColorChoice, StandardStream},
+        TerminalConfig,
+    },
+    Diagnostic, DiagnosticLevel, ErrorWithFile, ErrorWithFileSpan, FileID, TextStorage,
+};
 
 mod error_std;
+mod for_diagnostic;
 
 /// All result about tailwind
 pub type Result<T> = std::result::Result<T, TailwindError>;
@@ -48,14 +56,22 @@ pub enum TailwindErrorKind {
 
 impl TailwindError {
     /// Get error kind of this error
+    #[inline]
     pub fn get_kind(&self) -> &TailwindErrorKind {
         &*self.kind
     }
+    /// Get error kind of this error
+    #[inline]
+    pub fn get_kind_mut(&mut self) -> &mut TailwindErrorKind {
+        &mut *self.kind
+    }
     /// Get level
+    #[inline]
     pub fn get_level(&self) -> DiagnosticLevel {
         self.level
     }
     /// Set
+    #[inline]
     pub fn set_level(&mut self, level: DiagnosticLevel) {
         self.level = level;
     }
@@ -64,6 +80,27 @@ impl TailwindError {
         self.set_level(level);
         self
     }
+    ///
+    pub fn set_file(&mut self, file: &FileID) {
+        match self.get_kind_mut() {
+            TailwindErrorKind::IOError(_) => {},
+            TailwindErrorKind::FormatError(_) => {},
+            TailwindErrorKind::SyntaxError(e) => {
+                e.file = file.clone();
+            },
+            TailwindErrorKind::TypeMismatch(_) => {},
+            TailwindErrorKind::RuntimeError(_) => {},
+            TailwindErrorKind::UndefinedVariable { .. } => {},
+            TailwindErrorKind::Incomplete => {},
+            TailwindErrorKind::Unreachable => {},
+        }
+    }
+    ///
+    pub fn with_file(mut self, file: &FileID) -> Self {
+        self.set_file(file);
+        self
+    }
+
     /// Constructor of [`TailwindErrorKind::Incomplete`]
     #[inline]
     pub fn incomplete() -> Self {
@@ -83,6 +120,15 @@ impl TailwindError {
 }
 
 impl TailwindError {
+    /// Emit diagnostic to std out
+    pub fn emit(store: &TextStorage, diagnostics: &[Diagnostic]) -> Result<()> {
+        let writer = StandardStream::stderr(ColorChoice::Always);
+        let config = TerminalConfig::default();
+        for diagnostic in diagnostics {
+            emit(&mut writer.lock(), &config, &store, diagnostic)?;
+        }
+        Ok(())
+    }
     /// Deprecated or obsolete code.
     /// Clients are allowed to rendered diagnostics with this tag strike
     /// through.

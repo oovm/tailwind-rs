@@ -1,0 +1,10 @@
+text
+text!
+text-red!
+text-bold!
+text-red-bold!
+text-blue-bold!
+first-line::text
+last-child:text
+not-first-line::not-last-child:text
+text-[red]
