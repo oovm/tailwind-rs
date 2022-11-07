@@ -8,8 +8,8 @@
     html_favicon_url = "https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg"
 )]
 
+pub use self::{ast::*, parser::parse, utils::*};
+
 mod ast;
 mod parser;
 mod utils;
-
-pub use self::{ast::*, parser::parse, utils::*};

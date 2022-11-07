@@ -22,7 +22,7 @@ impl AstStyle {
     }
 }
 
-impl AstArbitrary {
+impl TailwindArbitrary {
     ///
     #[inline]
     pub fn as_class(&self) -> String {
@@ -40,7 +40,7 @@ impl AstArbitrary {
     }
 }
 
-impl ASTVariant {
+impl TailwindVariant {
     /// TODO: `&[&str]]`
     pub fn as_view(&self) -> Vec<&str> {
         self.names.iter().map(AsRef::as_ref).collect()
@@ -62,13 +62,13 @@ fn merge_negative(lhs: bool, rhs: bool) -> bool {
     }
 }
 
-impl PartialOrd for ASTVariant {
+impl PartialOrd for TailwindVariant {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         self.names.partial_cmp(&other.names)
     }
 }
 
-impl Ord for ASTVariant {
+impl Ord for TailwindVariant {
     fn cmp(&self, other: &Self) -> Ordering {
         self.names.cmp(&other.names)
     }

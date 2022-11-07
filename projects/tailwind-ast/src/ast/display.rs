@@ -15,7 +15,7 @@ impl Display for AstStyle {
     }
 }
 
-impl Display for ASTVariant {
+impl Display for TailwindVariant {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         if self.not {
             write!(f, "not-")?
@@ -28,7 +28,7 @@ impl Display for ASTVariant {
     }
 }
 
-impl Display for AstArbitrary {
+impl Display for TailwindArbitrary {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         if !self.item.is_empty() {
             write!(f, "-[{}]", self.item.as_str())?

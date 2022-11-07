@@ -58,12 +58,12 @@ impl TailwindError {
     /// Get error kind of this error
     #[inline]
     pub fn get_kind(&self) -> &TailwindErrorKind {
-        &*self.kind
+        &self.kind
     }
     /// Get error kind of this error
     #[inline]
     pub fn get_kind_mut(&mut self) -> &mut TailwindErrorKind {
-        &mut *self.kind
+        &mut self.kind
     }
     /// Get level
     #[inline]
@@ -125,7 +125,7 @@ impl TailwindError {
         let writer = StandardStream::stderr(ColorChoice::Always);
         let config = TerminalConfig::default();
         for diagnostic in diagnostics {
-            emit(&mut writer.lock(), &config, &store, diagnostic)?;
+            emit(&mut writer.lock(), &config, store, diagnostic)?;
         }
         Ok(())
     }

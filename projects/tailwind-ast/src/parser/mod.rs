@@ -9,9 +9,10 @@ use crate::{
         ArbitraryItem, ArbitraryNode, ElementNode, GroupNode, InstructNode, StringItem, StringNode,
         TwParser, TwStatementNode, VariantItemNode, VariantNode,
     },
-    ASTVariant, AstArbitrary, AstElements, AstStyle,
+    TailwindArbitrary, AstElements, AstStyle, TailwindVariant,
 };
 
+#[allow(clippy::enum_variant_names)]
 mod tw;
 
 /// Parse tailwind text to groups
@@ -36,7 +37,7 @@ impl GroupNode {
             important: self.important.is_some(),
             variants: eat_variant(&self.variant),
             elements: self.element.as_ast(),
-            arbitrary: AstArbitrary { item: "".to_string() },
+            arbitrary: TailwindArbitrary { item: "".to_string() },
             children: self.statements.iter().map(|s| s.as_ast()).collect(),
         }
     }
@@ -52,7 +53,7 @@ impl InstructNode {
             important: self.important.is_some(),
             variants,
             elements: self.element.as_ast(),
-            arbitrary: AstArbitrary { item: "".to_string() },
+            arbitrary: TailwindArbitrary { item: "".to_string() },
             children: vec![],
         }
     }
@@ -68,14 +69,14 @@ impl ElementNode {
 }
 
 impl VariantNode {
-    pub fn as_ast(&self) -> BTreeSet<ASTVariant> {
+    pub fn as_ast(&self) -> BTreeSet<TailwindVariant> {
         self.items.iter().map(|f| f.as_ast()).collect()
     }
 }
 
 impl VariantItemNode {
-    pub fn as_ast(&self) -> ASTVariant {
-        let mut out = ASTVariant {
+    pub fn as_ast(&self) -> TailwindVariant {
+        let mut out = TailwindVariant {
             not: self.not.is_some(),
             pseudo: false,
             names: self.element.as_ast().items,
@@ -119,12 +120,12 @@ impl ArbitraryNode {
 }
 
 impl ArbitraryItem {
-    pub fn as_ast(&self) -> AstArbitrary {
+    pub fn as_ast(&self) -> TailwindArbitrary {
         let item = match self {
             ArbitraryItem::ArbitraryBalance(v) => v.to_string(),
             ArbitraryItem::StringNode(v) => v.as_ast(),
         };
-        AstArbitrary { item }
+        TailwindArbitrary { item }
     }
 }
 
@@ -151,7 +152,7 @@ impl StringItem {
     }
 }
 
-fn eat_variant(variant: &Option<VariantNode>) -> BTreeSet<ASTVariant> {
+fn eat_variant(variant: &Option<VariantNode>) -> BTreeSet<TailwindVariant> {
     match variant {
         Some(s) => s.as_ast(),
         None => Default::default(),

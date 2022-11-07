@@ -1,12 +1,10 @@
 use super::*;
 use std::fmt::Write;
+use tailwind_error::TailwindError;
 
 mod methods;
 
-#[derive(Debug, Clone)]
-pub struct TailwindArbitrary {
-    inner: Box<str>,
-}
+
 
 impl Default for TailwindArbitrary {
     fn default() -> Self {

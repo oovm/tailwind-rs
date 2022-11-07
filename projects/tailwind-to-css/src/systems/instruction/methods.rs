@@ -11,12 +11,6 @@ impl<'a> From<AstStyle<'a>> for TailwindInstruction {
     }
 }
 
-impl<'a> From<ASTVariant<'a>> for TailwindVariant {
-    fn from(node: ASTVariant<'a>) -> Self {
-        Self { not: node.not, pseudo: node.pseudo, names: node.names.into_iter().map(|s| s.to_string()).collect() }
-    }
-}
-
 impl TailwindInstruction {
     #[inline]
     pub fn view_elements(&self) -> Vec<&str> {

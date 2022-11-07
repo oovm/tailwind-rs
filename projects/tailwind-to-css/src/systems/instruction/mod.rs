@@ -1,4 +1,3 @@
-mod arbitrary;
 mod display;
 mod methods;
 mod resolver;
@@ -9,7 +8,7 @@ use std::{
     fmt::{Debug, Display, Formatter},
     str::FromStr,
 };
-use tailwind_ast::{parse_fraction, ASTVariant, AstStyle};
+use tailwind_ast::{AstStyle, TailwindVariant};
 
 /// `v:v:-a-a-[A]`
 #[derive(Debug, Clone)]
@@ -18,13 +17,6 @@ pub struct TailwindInstruction {
     variants: Vec<TailwindVariant>,
     elements: TailwindElements,
     arbitrary: TailwindArbitrary,
-}
-
-#[derive(Debug, Clone)]
-pub struct TailwindVariant {
-    not: bool,
-    pseudo: bool,
-    names: Vec<String>,
 }
 
 #[derive(Debug, Clone)]
