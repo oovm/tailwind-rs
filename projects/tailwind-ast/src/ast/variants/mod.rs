@@ -1,5 +1,8 @@
 use super::*;
-use std::fmt::{Display, Formatter};
+use std::{
+    cmp::Ordering,
+    fmt::{Display, Formatter},
+};
 
 impl Display for TailwindVariant {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -15,5 +18,16 @@ impl Display for TailwindVariant {
                 write!(f, ":")
             }
         }
+    }
+}
+impl PartialOrd for TailwindVariant {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        self.names.partial_cmp(&other.names)
+    }
+}
+
+impl Ord for TailwindVariant {
+    fn cmp(&self, other: &Self) -> Ordering {
+        self.names.cmp(&other.names)
     }
 }

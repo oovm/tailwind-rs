@@ -43,15 +43,3 @@ fn merge_negative(lhs: bool, rhs: bool) -> bool {
         _ => true,
     }
 }
-
-impl PartialOrd for TailwindVariant {
-    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        self.names.partial_cmp(&other.names)
-    }
-}
-
-impl Ord for TailwindVariant {
-    fn cmp(&self, other: &Self) -> Ordering {
-        self.names.cmp(&other.names)
-    }
-}
