@@ -7,18 +7,19 @@ union Statement {
     | Arbitrary
     | Instruct
 }
-
+///
 class Group {
     Variant? Element Hyphen? '(' Statements* ')' Important?
 }
+///
 class Arbitrary {
     Variant? Element Hyphen? '[' ArbitraryItem ']' Important?
 }
-
+///
 class Instruct {
     Variant? Element Important?
 }
-
+// === variant === -----------------------------------------------------------------------------------------------------
 class Variant {
     VariantItem*
 }
