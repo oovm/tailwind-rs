@@ -9,6 +9,7 @@
 )]
 
 mod ast;
+mod codegen;
 mod utils;
 
 pub use self::{ast::*, utils::*};

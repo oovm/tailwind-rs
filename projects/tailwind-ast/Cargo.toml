@@ -10,6 +10,7 @@ license = "MPL-2.0"
 edition = "2021"
 
 [dependencies]
+yggdrasil-rt = "0.0.13"
 nom = "7.1.3"
 
 [dev-dependencies]
