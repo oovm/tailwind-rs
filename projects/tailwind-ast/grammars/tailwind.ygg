@@ -1,0 +1,89 @@
+atomic class Root {
+    IGNORED (Statement IGNORED)*
+}
+
+union Statement {
+    | Group
+    | Arbitrary
+    | Instruct
+}
+
+class Group {
+    Variant? Element Hyphen? '(' Statements* ')' Important?
+}
+class Arbitrary {
+    Variant? Element Hyphen? '[' ArbitraryItem ']' Important?
+}
+
+class Instruct {
+    Variant? Element Important?
+}
+
+class Variant {
+    VariantItem*
+}
+
+class VariantItem {
+    Not? Hyphen? Element Pseudo?
+}
+
+class Element {
+    Hyphen? Identifier+ Hyphen?
+}
+
+union ArbitraryItem {
+    | String
+    | ArbitraryBalance
+}
+
+class ArbitraryBalance {
+    '{' ArbitraryItem* '}'
+}
+
+class String {
+    "'" StringItem* "'" |
+    '"' StringItem* '"'
+}
+
+union StringItem {
+    | Escaped
+    | Any
+}
+
+class Escaped {
+    '\\' Any
+}
+
+class Any {
+    char
+}
+
+class Pseudo {
+    '::' | ':'
+}
+
+class Hyphen {
+    '-'
+}
+
+class Important {
+    '!'
+}
+
+class Not {
+    'not'
+}
+
+class Identifier {
+    @extern(crate::eat_css_class)
+    IdentifierNode
+}
+
+class Dot {
+    '.' | '。'
+}
+
+class Split {
+    ';' | ',' | '，'
+}
+
