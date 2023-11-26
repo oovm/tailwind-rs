@@ -36,7 +36,7 @@ impl TailwindPadding {
             ["pt", rest @ ..] => (SpacingAxis::new("pt", &["padding-top"]), rest),
             ["pb", rest @ ..] => (SpacingAxis::new("pb", &["padding-bottom"]), rest),
             ["px", rest @ ..] => (SpacingAxis::new("px", &["padding-left", "padding-right"]), rest),
-            ["py", rest @ ..] => (SpacingAxis::new("py", &["padding"]), rest),
+            ["py", rest @ ..] => (SpacingAxis::new("py", &["padding-top", "padding-bottom"]), rest),
             _ => return syntax_error!("Unknown padding axis"),
         };
         let size = SpacingSize::parse(rest, arbitrary, &Self::check_valid)?;

@@ -76,9 +76,9 @@ impl TailwindInstruction {
             ["w", rest @ ..] => TailwindSizing::parse_width(rest, arbitrary)?.boxed(),
             ["min", "w", rest @ ..] => TailwindSizing::parse_width_min(rest, arbitrary)?.boxed(),
             ["max", "w", rest @ ..] => TailwindSizing::parse_width_max(rest, arbitrary)?.boxed(),
-            ["h", rest @ ..] => TailwindSizing::parse_width(rest, arbitrary)?.boxed(),
-            ["min", "h", rest @ ..] => TailwindSizing::parse_width_min(rest, arbitrary)?.boxed(),
-            ["max", "h", rest @ ..] => TailwindSizing::parse_width_max(rest, arbitrary)?.boxed(),
+            ["h", rest @ ..] => TailwindSizing::parse_height(rest, arbitrary)?.boxed(),
+            ["min", "h", rest @ ..] => TailwindSizing::parse_height_min(rest, arbitrary)?.boxed(),
+            ["max", "h", rest @ ..] => TailwindSizing::parse_height_max(rest, arbitrary)?.boxed(),
             // Typography System
             ["font", rest @ ..] => font_adaptor(rest, arbitrary)?,
             ["text", rest @ ..] => text_adaptor(rest, arbitrary)?,
