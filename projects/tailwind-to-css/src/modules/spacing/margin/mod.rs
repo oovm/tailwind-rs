@@ -36,7 +36,7 @@ impl TailwindMargin {
             ["mt", rest @ ..] => (SpacingAxis::new("mt", &["margin-top"]), rest),
             ["mb", rest @ ..] => (SpacingAxis::new("mb", &["margin-bottom"]), rest),
             ["mx", rest @ ..] => (SpacingAxis::new("mx", &["margin-left", "margin-right"]), rest),
-            ["my", rest @ ..] => (SpacingAxis::new("my", &["margin-top", "margin-right"]), rest),
+            ["my", rest @ ..] => (SpacingAxis::new("my", &["margin-top", "margin-bottom"]), rest),
             _ => return syntax_error!("Unknown margin axis"),
         };
         let size = SpacingSize::parse(rest, arbitrary, &Self::check_valid)?;

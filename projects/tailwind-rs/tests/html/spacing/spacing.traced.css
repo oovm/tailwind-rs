@@ -50,16 +50,16 @@
 
 .my-0 {
   margin-top: 0;
-  margin-right: 0;
+  margin-bottom: 0;
 }
 
 .my-\[5px_5px\] {
-  margin-right: 5px 5px;
+  margin-bottom: 5px 5px;
   margin-top: 5px 5px;
 }
 
 .my-unset {
-  margin-right: unset;
+  margin-bottom: unset;
   margin-top: unset;
 }
 
@@ -122,15 +122,18 @@
 }
 
 .py-0 {
-  padding: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .py-\[5px_5px\] {
-  padding: 5px;
+  padding-bottom: 5px 5px;
+  padding-top: 5px 5px;
 }
 
 .py-unset {
-  padding: unset;
+  padding-bottom: unset;
+  padding-top: unset;
 }
 
 .space-x-0 {

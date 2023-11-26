@@ -34,15 +34,21 @@ impl SizingUnit {
     }
 }
 
+impl TailwindSizingKind {
+    fn is_width(self) -> bool {
+        matches!(self, Self::Width | Self::MinWidth | Self::MaxWidth)
+    }
+}
+
 impl Display for TailwindSizingKind {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::Width => f.write_str("w"),
-            Self::MinWidth => f.write_str("min-w"),
-            Self::MaxWidth => f.write_str("max-w"),
-            Self::Height => f.write_str("h"),
-            Self::MinHeight => f.write_str("min-h"),
-            Self::MaxHeight => f.write_str("max-h"),
+            Self::Width => f.write_str("width"),
+            Self::MinWidth => f.write_str("min-width"),
+            Self::MaxWidth => f.write_str("max-width"),
+            Self::Height => f.write_str("height"),
+            Self::MinHeight => f.write_str("min-height"),
+            Self::MaxHeight => f.write_str("max-height"),
         }
     }
 }
@@ -56,7 +62,7 @@ impl Display for TailwindSizing {
 impl TailwindInstance for TailwindSizing {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let class = self.kind.to_string();
-        let width = self.size.get_attribute(true);
+        let width = self.size.get_attribute(self.kind.is_width());
         css_attributes! {
             class => width
         }
