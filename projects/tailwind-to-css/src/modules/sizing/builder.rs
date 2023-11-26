@@ -2,7 +2,7 @@ use super::*;
 
 impl SizingUnit {
     pub fn parse(pattern: &[&str], arbitrary: &TailwindArbitrary) -> Result<Self> {
-        let px = |x| Ok(Self::Length(LengthUnit::em(x)));
+        let px = |x| Ok(Self::Length(LengthUnit::px(x)));
         match pattern {
             ["min"] => Ok(Self::Min),
             ["max"] => Ok(Self::Max),
