@@ -20,10 +20,10 @@ impl TailwindInstance for TailwindAnimate {
     fn attributes(&self, _: &TailwindBuilder) -> CssAttributes {
         let animation = match &self.kind {
             Animation::None => "none".to_string(),
-            Animation::Spin => "animation: spin 1s linear infinite;".to_string(),
-            Animation::Ping => "animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;".to_string(),
-            Animation::Pulse => "animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;".to_string(),
-            Animation::Bounce => "animation: bounce 1s infinite;".to_string(),
+            Animation::Spin => "spin 1s linear infinite;".to_string(),
+            Animation::Ping => "ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;".to_string(),
+            Animation::Pulse => "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;".to_string(),
+            Animation::Bounce => "bounce 1s infinite;".to_string(),
             Animation::Arbitrary(s) => s.get_properties(),
         };
         css_attributes! {
