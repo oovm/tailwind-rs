@@ -8,6 +8,7 @@ impl CLIConfig {
     pub fn builder(&self) -> TailwindBuilder {
         TailwindBuilder::default()
     }
+    /// Compile html and css
     pub fn compile_html(&self, input: &str, tw: &mut TailwindBuilder) -> Result<(String, String)> {
         let html = match self.mode {
             CssInlineMode::None => HtmlConfig::trace_all_class(input, tw, self.obfuscate)?,
