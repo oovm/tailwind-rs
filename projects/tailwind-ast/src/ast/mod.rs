@@ -35,7 +35,7 @@ pub fn parse_tailwind(input: &str) -> Result<Vec<AstStyle>, Err<Error<&str>>> {
 }
 
 /// `variant:ast-style(grouped)`
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Default)]
 pub struct AstGroup<'a> {
     /// Is a `!important` group
     pub important: bool,
@@ -55,7 +55,7 @@ pub enum AstGroupItem<'a> {
 }
 
 /// `not-variant:pseudo::-ast-element-[arbitrary]`
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Default)]
 pub struct AstStyle<'a> {
     /// Is a `!important` style
     pub important: bool,
