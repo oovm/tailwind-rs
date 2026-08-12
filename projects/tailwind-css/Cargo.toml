@@ -1,0 +1,13 @@
+[package]
+name = "tailwind-css"
+version = "0.1.0"
+edition = "2021"
+description = "Reference CSS serializer for Canonical Style Module (not part of Engine::compile)"
+license = "MPL-2.0"
+publish = false
+
+[dependencies]
+tailwind-types = { path = "../tailwind-types" }
+
+[dev-dependencies]
+tailwind = { path = "../tailwind" }

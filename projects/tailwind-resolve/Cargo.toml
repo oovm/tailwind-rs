@@ -1,0 +1,14 @@
+[package]
+name = "tailwind-resolve"
+version = "0.1.0"
+edition = "2021"
+description = "Tailwind resolve kernel: ThemeSnapshot, RuleRegistry, VariantRegistry, typed values"
+license = "MPL-2.0"
+publish = false
+
+[dependencies]
+tailwind-types = { path = "../tailwind-types" }
+tailwind-ast = { path = "../tailwind-ast" }
+
+[dev-dependencies]
+tailwind-parser = { path = "../tailwind-parser" }

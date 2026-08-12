@@ -1,1 +1,0 @@
-Utilities for controlling the repetition of an element's background image.

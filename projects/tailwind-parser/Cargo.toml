@@ -1,0 +1,15 @@
+[package]
+name = "tailwind-parser"
+version = "0.1.0"
+edition = "2021"
+description = "Built-in Tailwind lexer + parser (no nom); miette diagnostics"
+license = "MPL-2.0"
+publish = false
+
+[dependencies]
+miette = { version = "7", default-features = false, features = ["derive"] }
+thiserror = "2"
+tailwind-types = { path = "../tailwind-types" }
+tailwind-ast = { path = "../tailwind-ast" }
+
+[dev-dependencies]

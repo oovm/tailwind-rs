@@ -1,28 +1,37 @@
 Tailwind RS
 ===========
 
-**Tailwind style tracer in rust, JIT + AOT interpreter!**
+Neutral Tailwind **engine**. Host scanning / CSS file IO are out of core scope.
 
-## Projects
+## Public API
 
-- **[Tailwind AST](projects/tailwind-ast)**: Parser and syntax tree
-- **[Tailwind CSS](projects/tailwind-to-css)**: Core library, interpreter and validator
-  - Does not contain any IO and configuration parser
-  - If you're going to do a framework, you should start here
-- **[Tailwind CLI](projects/tailwind-to-css)**: `Tailwind CSS` based post processor, supports html
-  - Ready to use with zero configuration
-  - Can also be freely configured and combined with CI
-- **[CSS2TW](projects/tailwind-from-html)**: Reverse css to tailwind
-- **[Tailwind Web](projects/tailwind-show)**: Online showcase
+```rust
+use tailwind::*;
 
-## Syntax Reference
+let out = Engine::new().compile(CompileRequest { /* candidates, theme, … */ });
+// out.module — structured Canonical Style Module (not a stylesheet)
 
-- [ACSS](https://acss.io/)
-- [Bootstrap Utilities](https://getbootstrap.com/docs/5.1/utilities/flex/)
-- [Chakra UI Style Props](https://chakra-ui.com/docs/features/style-props)
-- [Semantic UI](https://semantic-ui.com/)
-- [Tachyons](https://tachyons.io/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Twind](https://github.com/tw-in-js/twind)
-- [UnoCSS](https://github.com/unocss/unocss)
-- [Windi CSS](http://windicss.org/)
+// Optional reference CSS lowering (separate crate — not part of compile):
+use tailwind_css::serialize_module;
+let css = serialize_module(&out.module);
+```
+
+Facade crate: **`tailwind`**. CSS text: **`tailwind-css`**.
+
+## Crate layout
+
+| Crate | Role |
+|-------|------|
+| **[tailwind](projects/tailwind)** | User-facing facade (`tailwind::*`) — Parse → Resolve → Canonicalize |
+| **[tailwind-types](projects/tailwind-types)** | Compile contract, Canonical Style Module, miette diagnostics |
+| **[tailwind-ast](projects/tailwind-ast)** | Candidate syntax tree |
+| **[tailwind-parser](projects/tailwind-parser)** | Built-in lexer + parser (no nom) |
+| **[tailwind-resolve](projects/tailwind-resolve)** | ThemeSnapshot, RuleRegistry, VariantRegistry, typed values, canonicalize |
+| **[tailwind-css](projects/tailwind-css)** | Reference CSS serializer (consumes module only; not wired into `Engine::compile`) |
+
+**C6 status:** independent CSS serializer exists; **not** production-ready / not Tailwind-complete.
+See honest status in `规划设计/vmz/18-TW引擎内核重构路线.md` §12.
+
+Historical old-engine samples (frozen JSON only): **[conformance/legacy](conformance/legacy)**.
+
+Kernel redesign: `规划设计/vmz/18-TW引擎内核重构路线.md`

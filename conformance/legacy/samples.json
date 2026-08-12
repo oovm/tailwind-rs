@@ -1,0 +1,206 @@
+{
+  "engine": "tailwind-css-legacy",
+  "note": "Read-only C0 behavior samples. Not Canonical Style Module conformance.",
+  "samples": [
+    {
+      "token": "p-4",
+      "family": "spacing",
+      "ok": true,
+      "class": "p-4",
+      "css": ".p-4{padding:1rem;}",
+      "error": ""
+    },
+    {
+      "token": "px-2",
+      "family": "spacing",
+      "ok": true,
+      "class": "px-2",
+      "css": ".px-2{padding-left:0.5rem;padding-right:0.5rem;}",
+      "error": ""
+    },
+    {
+      "token": "py-1",
+      "family": "spacing",
+      "ok": true,
+      "class": "py-1",
+      "css": ".py-1{padding-bottom:0.25rem;padding-top:0.25rem;}",
+      "error": ""
+    },
+    {
+      "token": "pt-8",
+      "family": "spacing",
+      "ok": true,
+      "class": "pt-8",
+      "css": ".pt-8{padding-top:2rem;}",
+      "error": ""
+    },
+    {
+      "token": "-m-4",
+      "family": "spacing",
+      "ok": true,
+      "class": "-m-4",
+      "css": ".-m-4{margin:1rem;}",
+      "error": ""
+    },
+    {
+      "token": "mx-auto",
+      "family": "spacing",
+      "ok": true,
+      "class": "mx-auto",
+      "css": ".mx-auto{margin-left:auto;margin-right:auto;}",
+      "error": ""
+    },
+    {
+      "token": "p-[1.5rem]",
+      "family": "spacing",
+      "ok": true,
+      "class": "p-[1.5rem]",
+      "css": ".p-\\[1\\.5rem\\]{padding:1.5rem;}",
+      "error": ""
+    },
+    {
+      "token": "block",
+      "family": "display",
+      "ok": true,
+      "class": "display-block",
+      "css": ".display-block{display:block;}",
+      "error": ""
+    },
+    {
+      "token": "inline-block",
+      "family": "display",
+      "ok": true,
+      "class": "display-inline-block",
+      "css": ".display-inline-block{display:inline-block;}",
+      "error": ""
+    },
+    {
+      "token": "inline",
+      "family": "display",
+      "ok": true,
+      "class": "display-inline",
+      "css": ".display-inline{display:inline;}",
+      "error": ""
+    },
+    {
+      "token": "flex",
+      "family": "display",
+      "ok": true,
+      "class": "display-flex",
+      "css": ".display-flex{display:flex;}",
+      "error": ""
+    },
+    {
+      "token": "inline-flex",
+      "family": "display",
+      "ok": true,
+      "class": "display-inline-flex",
+      "css": ".display-inline-flex{display:inline-flex;}",
+      "error": ""
+    },
+    {
+      "token": "grid",
+      "family": "display",
+      "ok": true,
+      "class": "display-grid",
+      "css": ".display-grid{display:grid;}",
+      "error": ""
+    },
+    {
+      "token": "hidden",
+      "family": "display",
+      "ok": true,
+      "class": "display-hidden",
+      "css": ".display-hidden{display:hidden;}",
+      "error": ""
+    },
+    {
+      "token": "contents",
+      "family": "display",
+      "ok": true,
+      "class": "display-contents",
+      "css": ".display-contents{display:contents;}",
+      "error": ""
+    },
+    {
+      "token": "bg-red-500",
+      "family": "color",
+      "ok": true,
+      "class": "bg-red-500",
+      "css": ".bg-red-500{background-color:rgba(239, 68, 68, 1);}",
+      "error": ""
+    },
+    {
+      "token": "text-blue-600",
+      "family": "color",
+      "ok": true,
+      "class": "text-blue-600",
+      "css": ".text-blue-600{color:rgba(37, 99, 235, 1);}",
+      "error": ""
+    },
+    {
+      "token": "bg-black",
+      "family": "color",
+      "ok": true,
+      "class": "bg-[#000000FF]",
+      "css": ".bg-\\[\\#000000FF\\]{background-color:rgba(0, 0, 0, 1);}",
+      "error": ""
+    },
+    {
+      "token": "text-white",
+      "family": "color",
+      "ok": true,
+      "class": "text-[#FFFFFFFF]",
+      "css": ".text-\\[\\#FFFFFFFF\\]{color:rgba(255, 255, 255, 1);}",
+      "error": ""
+    },
+    {
+      "token": "bg-[#ff0000]",
+      "family": "color",
+      "ok": true,
+      "class": "bg-[#FF0000FF]",
+      "css": ".bg-\\[\\#FF0000FF\\]{background-color:rgba(255, 0, 0, 1);}",
+      "error": ""
+    },
+    {
+      "token": "hover:bg-red-500",
+      "family": "variant",
+      "ok": true,
+      "class": "bg-red-500",
+      "css": ".bg-red-500{background-color:rgba(239, 68, 68, 1);}",
+      "error": ""
+    },
+    {
+      "token": "md:p-4",
+      "family": "variant",
+      "ok": true,
+      "class": "p-4",
+      "css": ".p-4{padding:1rem;}",
+      "error": ""
+    },
+    {
+      "token": "hover:md:block",
+      "family": "variant",
+      "ok": true,
+      "class": "display-block",
+      "css": ".display-block{display:block;}",
+      "error": ""
+    },
+    {
+      "token": "!p-4",
+      "family": "important",
+      "ok": false,
+      "class": "",
+      "css": "",
+      "error": "at <Anonymous>\n    SyntaxError: Unknown instructions: !p-4 + []"
+    },
+    {
+      "token": "dark:text-white",
+      "family": "variant",
+      "ok": true,
+      "class": "text-[#FFFFFFFF]",
+      "css": ".text-\\[\\#FFFFFFFF\\]{color:rgba(255, 255, 255, 1);}",
+      "error": ""
+    }
+  ]
+}

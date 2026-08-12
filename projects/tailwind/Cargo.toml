@@ -1,0 +1,17 @@
+[package]
+name = "tailwind"
+version = "0.1.0"
+edition = "2021"
+description = "User-facing Tailwind engine facade (tailwind::*)"
+license = "MPL-2.0"
+publish = false
+
+[dependencies]
+tailwind-types = { path = "../tailwind-types" }
+tailwind-ast = { path = "../tailwind-ast" }
+tailwind-parser = { path = "../tailwind-parser" }
+tailwind-resolve = { path = "../tailwind-resolve" }
+rayon = "1.10"
+
+[dev-dependencies]
+serde_json = "1.0"

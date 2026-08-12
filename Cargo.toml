@@ -2,9 +2,12 @@
 resolver = "2"
 members = ["projects/*"]
 default-members = [
-    "projects/tailwind-to-css",
-    "projects/tailwind-cli",
-    "projects/tailwind-rs",
+    "projects/tailwind",
+    "projects/tailwind-types",
+    "projects/tailwind-ast",
+    "projects/tailwind-parser",
+    "projects/tailwind-resolve",
+    "projects/tailwind-css",
 ]
 exclude = [
     "projects/.DS_Store",
